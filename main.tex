@@ -1,0 +1,237 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{tabularx}
+\usepackage{times}
+\usepackage{todonotes}
+\usepackage[numbers]{natbib}
+\usepackage{multicol}
+\usepackage{graphics,graphicx,caption,float,subcaption,booktabs,xcolor,multirow,array,color,ifthen,tabu,colortbl,dblfloatfix,url,xparse,mathtools,patchcmd,algorithm,algorithmic,amssymb,xspace,nicefrac,microtype,amsmath,amsfonts,bm,ragged2e,tikz,stackengine,etoolbox,xpatch,enumerate,xstring,setspace,tabularx,makecell,changepage,cuted,titlesec,wrapfig,tcolorbox, sidecap,comment, placeins}
+\usepackage{gensymb,comment}
+\usepackage[pagebackref=true,breaklinks=true,colorlinks=true,bookmarks=false,citecolor=blue]{hyperref}
+
+\hypersetup{
+colorlinks=true,
+linkcolor=blue,
+filecolor=magenta,      
+citecolor=blue
+}
+
+\usepackage{siunitx}
+\sisetup{output-exponent-marker=\ensuremath{\mathrm{e}}}
+\newcommand{\e}[1]{\times 10^{#1}}
+
+% comments
+\newcommand{\lzhang}[1]{\textcolor{magenta}{#1}}
+% \newcommand{\lzhang}[1]{\textcolor{black}{#1}}
+
+\IEEEoverridecommandlockouts                              % This command is only needed if 
+                                                          % you want to use the \thanks command
+
+\overrideIEEEmargins                                      % Needed to meet printer requirements.
+
+%In case you encounter the following error:
+%Error 1010 The PDF file may be corrupt (unable to open PDF file) OR
+%Error 1000 An error occurred while parsing a contents stream. Unable to analyze the PDF file.
+%This is a known problem with pdfLaTeX conversion filter. The file cannot be opened with acrobat reader
+%Please use one of the alternatives below to circumvent this error by uncommenting one or the other
+%\pdfobjcompresslevel=0
+%\pdfminorversion=4
+
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+% The following packages can be found on http:\\www.ctan.org
+%\usepackage{graphics} % for pdf, bitmapped graphics files
+%\usepackage{epsfig} % for postscript graphics files
+%\usepackage{mathptmx} % assumes new font selection scheme installed
+%\usepackage{times} % assumes new font selection scheme installed
+%\usepackage{amsmath} % assumes amsmath package installed
+%\usepackage{amssymb}  % assumes amsmath package installed
+
+\title{\LARGE \bf
+DexSafeDagger: Safer Policy Distillation from RGB Observations Using Q-Value Failure Prediction–Guided Teacher Intervention
+}
+
+ \newcommand{\isanonymous}{}  % 
+% IEEE not suppoer Minted，use lstlisting during submission
+
+% \author{Anonymous CVPR submission \\ Paper ID 000}
+\ifdefined\isanonymous
+    \author{%
+        Anonymous Authors
+        % \textit{Affiliations withheld for double-blind review}
+    % \thanks{\dag Equal contribution. }
+    % \thanks{* Corresponding authors.}
+    \thanks{Affiliations withheld for double-blind review.
+    }\\
+    \thanks{
+    }\\
+    \thanks{
+    }
+    }
+\else
+    \author{Chi Zhang$^{1}$, Lei Zhang, Zhenshan Bing, Zhaopeng Chen, Jianwei Zhang and Alois Knoll$^{2}$% <-this % stops a space
+    \thanks{*This work was not supported by }% <-this % stops a space
+    \thanks{$^{1}$Albert Author is with Faculty of Electrical Engineering, Mathematics and Computer Science,
+            University of Twente, 7500 AE Enschede, The Netherlands
+            {\tt\small albert.author@papercept.net}}%
+    \thanks{$^{2}$Bernard D. Researcheris with the Department of Electrical Engineering, Wright State University,
+            Dayton, OH 45435, USA
+            {\tt\small b.d.researcher@ieee.org}}%
+    }
+\fi
+
+
+% \begin{document}
+% \def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+%     \DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+%     \newcommand{\figref}[1]{Fig\onedot~\ref{#1}}
+%     \def\etal{\emph{et al}\onedot}
+%     \newcommand{\secref}[1]{Sec\onedot~\ref{#1}}
+%     \newcommand{\tabref}[1]{Tab\onedot~\ref{#1}}
+%     \newcommand\ananye[1]{\textcolor{red}{#1}}
+%     \makeatletter
+%     \let\@oldmaketitle\@maketitle
+%     \renewcommand{\@maketitle}{\@oldmaketitle
+%     \includegraphics[width=1.0\linewidth]{figures/fig01_teaser-dexsafedagger.pdf}
+%       \centering
+%       % \vspace{-0.2in}
+%       \captionof{figure}{Title
+%       }
+%       \label{fig:teaser}
+%       \vspace{-0.1in}
+%       \bigskip}
+% \makeatother
+% \maketitle
+
+\makeatletter
+\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\newcommand{\figref}[1]{Fig\onedot~\ref{#1}}
+\newcommand{\secref}[1]{Sec\onedot~\ref{#1}}
+\newcommand{\tabref}[1]{Tab\onedot~\ref{#1}}
+\def\etal{\emph{et al}\onedot}
+\newcommand\ananye[1]{\textcolor{red}{#1}}
+
+\let\@oldmaketitle\@maketitle
+\renewcommand{\@maketitle}{%
+  \@oldmaketitle
+  \begin{center}
+    \includegraphics[width=1.0\linewidth]{figures/fig01_teaser-dexsafedagger.pdf}
+    \captionof{figure}{\textbf{DexSafeDAgger overview.}
+      We propose a teacher-intervened online distillation pipeline that condenses teacher skills into a
+    deployable RGB-based student policy. The unsafe exploration rate is substantially suppressed in the early
+    training phase via a customized
+    intervention mechanism that combines teacher--student action disagreement with a learned risk predictor.}
+    \label{fig:teaser}
+    \vspace{-0.3in}\bigskip
+  \end{center}%
+}
+\makeatother
+
+% --- document body ---
+\begin{document}
+\maketitle
+
+ % \thispagestyle{empty}
+% \pagestyle{empty}
+% \begin{document}
+% \maketitle
+% \thispagestyle{empty}
+% \pagestyle{empty}
+% \maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+\setcounter{figure}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+% Learning dexterous manipulation is challenging due to high-dimensional action spaces and complex contact dynamics.
+% Moreover, safety-unaware learning can hinder real-world deployment by increasing the risk of hardware damage,
+% unstable interactions, and hazardous contact events during exploration.
+% In this work, we propose a safety-aware online distillation framework that distills reinforcement learning (RL)
+% teacher policies into a student policy via mixed rollouts gated by teacher--student action disagreement and a learned
+% Q-value-based risk predictor. Across grasp-and-lift evaluations, the proposed method significantly reduces unsafe
+% episodes (up to 80\% relative reduction early in training) while achieving a comparable lift success rate that is
+% suitable for real-world deployment.
+
+Learning dexterous manipulation is challenging due to high-dimensional action spaces and complex contact dynamics. In addition, safety-unaware exploration during learning can lead to hardware damage, unstable interactions, and hazardous contact events, posing a significant barrier to real-world deployment. 
+To address this challenge, we propose a safety-aware online policy distillation framework that transfers reinforcement learning (RL) teacher policies to a vision-based student policy. Our approach introduces a teacher-intervened mixed rollout mechanism that integrates teacher–student action disagreement with a learned Q-value–based risk predictor to detect high-risk states and proactively trigger teacher takeover. This design enables safer exploration while preserving the benefits of online interactive imitation learning. 
+Experiments on grasp-and-lift tasks show that our method significantly improves training safety, reducing unsafe episodes by up to 80\% during the early stages of training compared with vanilla DAgger-based distillation. Meanwhile, the distilled student policy achieves comparable lift success rates and demonstrates robustness suitable for real-world robotic deployment.
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{INTRODUCTION}
+\label{sec:introduction}
+\input{01_introduction}
+
+\section{Related work}
+\label{sec:related_works}
+\input{02_related_work}
+\section{Problem Statement and Methods}\label{sec:method}
+
+\input{03_methods}
+
+\section{Experiment}
+\label{sec:experiment}
+\input{04_experiments}\label{sec4:expriments}
+
+\section{Conclusion and Future Work}
+\label{sec:conclusion}
+\input{05_conclusion}
+
+\vspace{0.1in}
+% \noindent\textbf{Acknowledgement}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section*{APPENDIX}
+
+% Appendixes should appear before the acknowledgment.
+
+% \section*{ACKNOWLEDGMENT}
+
+% The preferred spelling of the word ÒacknowledgmentÓ in America is without an ÒeÓ after the ÒgÓ. Avoid the stilted expression, ÒOne of us (R. B. G.) thanks . . .Ó  Instead, try ÒR. B. G. thanksÓ. Put sponsor acknowledgments in the unnumbered footnote on the first page.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% References are important to the reader; therefore, each citation must be complete and correct. If at all possible, references should be commonly available publications.
+
+
+% \section{Introduction}
+% \input{01_introduction}
+
+% \section{Related Work}
+% \label{sec:related}
+% \input{02_related_work}
+
+% \section{Problem Statement and Methods}\label{sec:method}
+
+% \input{03_methods}
+
+% \section{Experiment}
+% \label{sec:experiment}
+% \input{04_experiments}\label{sec4:expriments}
+
+% \section{Conclusion and Future Work}
+% \label{sec:conclusion}
+% \input{05_conclusion}
+
+
+% \bibliographystyle{IEEEtranBST/IEEEtran}
+% \bibliography{IEEEtranBST/refs}
+{\small
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,main}
+}
+
+\end{document}

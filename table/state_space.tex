@@ -1,0 +1,29 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Observation spaces used for teacher RL training under the
+asymmetric actor--critic framework.}
+\label{tab:teacher_obs}
+\resizebox{0.38\textwidth}{!}{%
+\begin{tabular}{lcc}
+\hline
+\textbf{Observation Component} & \textbf{Actor} & \textbf{Critic} \\
+\hline
+Robot DOF positions  & 13 (noisy) & 13 \\
+Robot DOF velocities  & 13 (noisy) & 13 \\
+Hand link positions & 18 & 18 \\
+Hand link velocities & 18 & 36 (twist) \\
+Hand contact forces & -- & 3 \\
+Measured joint torque & -- & 19 \\
+Object position & 3 & 3 \\
+Object rotation (quaternion) & 4 & 4 \\
+Object velocity & -- & 6 (twist) \\
+Goal position & 3 & 3 \\
+Object scale & 1 & 1 \\
+Previous actions & 13 & 13 \\
+\hline
+\textbf{Total dimension} & \textbf{86} & \textbf{132} \\
+\hline
+\end{tabular}
+}
+\end{table}

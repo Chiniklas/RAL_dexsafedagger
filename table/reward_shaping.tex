@@ -1,0 +1,39 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Reward components used for teacher policy training.}
+\label{tab:reward_terms}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{0.38\textwidth}{!}{%
+
+\begin{tabularx}{\columnwidth}{c c X}
+\hline
+\textbf{Term} & \textbf{Name} & \textbf{Purpose} \\
+\hline
+$r_{\text{dist}}$ & Hand distance &
+Encourages the hand to approach the object. \\
+
+$r_{\text{curl}}$ & Finger curl &
+Biases fingers toward a grasp-ready configuration. \\
+
+$r_{\text{align}}$ & Palm alignment &
+Aligns palm orientation with the palm-down direction. \\
+
+$r_{\text{contact}}$ & Contact bonus &
+Rewards stable contact involving thumb and fingers. \\
+
+$r_{\text{near}}$ & Stay-close &
+Encourages the hand to remain close after reaching the object. \\
+
+$r_{\text{goal}}$ & Goal tracking &
+Encourages moving the grasped object toward the goal pose. \\
+
+$r_{\text{lift}}$ & Lift &
+Rewards vertical lifting after successful contact. \\
+
+$r_{\text{action}}$ & Action smoothness &
+Penalizes rapid action changes for stable control. \\
+\hline
+\end{tabularx}
+}
+\end{table}

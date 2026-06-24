@@ -1,0 +1,30 @@
+
+\begin{table*}[t]
+\centering
+\caption{\small Task-wise performance of different methods. Each task was evaluated over 50 trials.
+Metrics: success rate (\%) and collision rate (\%).}
+\label{tab:taskwise_extended}
+\resizebox{0.8\linewidth}{!}{
+\begin{tabular}{lcccccccccccc}
+\toprule
+\multirow{2}{*}{\textbf{Task}} 
+& \multicolumn{2}{c}{OMPL baseline} 
+& \multicolumn{2}{c}{DP (single-view)} 
+& \multicolumn{2}{c}{DP (multi-view)} 
+& \multicolumn{2}{c}{DP (multi-view) + ReM-QP} 
+& \multicolumn{2}{c}{HoMeR~\cite{sundaresan2025homer}} 
+& \multicolumn{2}{c}{ \textit{$M^{4}$}Diffuser (ours)} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}
+& Success & Coll. & Success & Coll. & Success & Coll. & Success & Coll. & Success & Coll. & Success & Coll. \\
+\midrule
+Reaching (easy)          & 66.0 & 18.0 & 32.0 & 34.0 & 68.0 & 20.0 & 82.0 & 6.0  & 82.0 & 8.0  & \textbf{90.0} & \textbf{4.0} \\
+Reaching (kitchen)       & 54.0 & 22.0 & 28.0 & 38.0 & 60.0 & 22.0 & 76.0 & 8.0  & 74.0 & 14.0 & \textbf{84.0} & \textbf{6.0} \\
+Pick-and-Place (easy)    & 60.0 & 20.0 & 30.0 & 36.0 & 66.0 & 18.0 & 80.0 & 10.0 & 76.0 & 10.0 & \textbf{86.0} & \textbf{6.0} \\
+Pick-and-Place (kitchen) & 52.0 & 24.0 & 24.0 & 40.0 & 58.0 & 24.0 & 76.0 & 12.0 & 72.0 & 12.0 & \textbf{82.0} & \textbf{8.0} \\
+Open Door (kitchen)      & 38.0 & 26.0 & 20.0 & 42.0 & 44.0 & 20.0 & 62.0 & 12.0 & 58.0 & 16.0 & \textbf{70.0} & \textbf{10.0} \\
+\midrule
+\textbf{Average}         & 54.0 & 22.0 & 26.8 & 38.0 & 59.2 & 20.8 & 75.2 & 9.6  & 72.4 & 12.0 & \textbf{82.4} & \textbf{6.8} \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}

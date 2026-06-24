@@ -1,0 +1,323 @@
+\subsection{Evaluation Metrics}
+We designed the following metrics to evaluate both teacher and student policy performance.
+Let $\tau\in\{1,\dots,N\}$ index evaluation episodes and $t\in\{0,\dots,T_\tau\}$ index timesteps.
+Unless otherwise stated, we run the evaluation episodes with a horizon of 10\,s.
+
+\paragraph{Lift success (ever-lifted with hold).}
+Let $h_t^\tau$ be the object height above the table and $H$ a lift threshold. An episode is considered
+successful if the object remains above $H$ for at least $N_{\mathrm{hold}}$ consecutive steps. We define
+$\mathbb{I}^{\tau}_{\mathrm{lift}}
+=\mathbb{I}\!\left[\exists\, t:\ \forall k\in\{0,\dots,N_{\mathrm{hold}}-1\},\ h_{t+k}^{\tau}\ge H\right]$
+and report:
+$\mathrm{LiftSucc}=\frac{1}{N}\sum_{\tau=1}^{N} \mathbb{I}^{\tau}_{\mathrm{lift}}.$
+
+\paragraph{Unsafe episode rate.}
+As stated above, an episode may terminate early due to one of the following conditions:
+palm flipped ($\mathbb{I}_{\mathrm{flip}}^{\tau}$), harmful collision ($\mathbb{I}_{\mathrm{coll}}^{\tau}$),
+object escape ($\mathbb{I}_{\mathrm{obj}}^{\tau}$), or hand too far ($\mathbb{I}_{\mathrm{hf}}^{\tau}$).
+Let $\mathcal{M}=\{\mathrm{coll},\mathrm{obj},\mathrm{flip},\mathrm{hf}\}$ denote the set of termination modes,
+and let $\mathbb{I}_m^\tau\in\{0,1\}$ indicate whether mode $m\in\mathcal{M}$ occurs in episode $\tau$.
+An episode is unsafe if any termination mode is triggered:
+$\mathbb{I}^{\tau}_{\mathrm{unsafe}}
+=\mathbb{I}\!\left[\bigvee_{m\in\mathcal{M}} \mathbb{I}^{\tau}_{m}=1\right]$. We report:
+$\mathrm{UnsafeRateAvg}=\frac{1}{N}\sum_{\tau=1}^{N} \mathbb{I}^{\tau}_{\mathrm{unsafe}}.$
+
+\paragraph{Failure-mode decomposition.}
+Each episode is assigned a single terminal mode $m^\tau\in\mathcal{M}$ from the
+set of unsafe events (collision, object escape, palm flip, hand-too-far) as well
+as timeout/success where applicable. We define
+$\mathbb{I}^{\tau}_{m}=\mathbb{I}[m^\tau=m]$ and report
+$\mathrm{FailureModeRate}(m)=\frac{1}{N}\sum_{\tau=1}^{N}\mathbb{I}^{\tau}_{m}, m\in\mathcal{M}.$
+
+When multiple unsafe conditions are triggered in the same timestep, we record
+the first triggered termination condition (using a fixed priority order) as the
+episode's failure mode.
+
+\subsection{Simulation Experiment Setup}
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/ablation_comparison.png}
+    \caption{\textbf{Ablation studies.}
+    We compare three distillation variants in terms of (left) student lift success, (middle) teacher intervention rate $\beta$, and (right) unsafe episode rate, all plotted over training iterations.
+    Shaded regions indicate variability across runs (mean $\pm$ std).
+    Curves correspond to the three compared methods (blue: vanilla DAgger, yellow: vanilla SafeDAgger, green: our pipeline).}
+    \label{fig:ablation}
+\end{figure*}
+
+% The simulation experiments are based on single-arm control of a Tiangong~2 Pro
+% humanoid robot equipped with InspireHand RH56DfX dexterous hands. The action
+% space is 13-dimensional, consisting of 7 DoF for the robotic arm and 6 DoF for
+% the dexterous hand.
+
+% The student policy additionally receives image streams from two cameras at a
+% resolution of $320\times240$ pixels and $30$\,fps. The raw stereo images are
+% encoded by a visual encoder into a 64-D embedding, which is appended to the
+% teacher actor observations to form the student observation. Concretely, the
+% visual encoder uses a shared (Siamese) ResNet-18 backbone (last two layers
+% removed) for each view, followed by an MLP projection and a 2-layer
+% cross-attention transformer to fuse the two views; the resulting
+% token is mapped to the 128-dimensional visual feature vector.
+
+% Both teacher policy training and student policy distillation are conducted in Isaac Sim 5.0.0 and
+% Isaac Lab 2.2.1 on a single NVIDIA RTX~5090 GPU.
+
+% Ten objects sourced from the Omniverse Asset Library are tested in total. Each teacher policy is trained for 12{,}000 episodes,
+% requiring approximately 3.5~hours. The teacher policies achieve a lift success rate ranging from 68\% to 
+% 100\% and an unsafe rate ranging from 5\% to 30\%. The results are reported in Table~3.
+
+% During student policy distillation, lighting intensity, direction and background textures are randomized at the
+% beginning of each episode. Furthermore, object material properties, textures, and table appearance are randomized to encourage
+% improved sim-to-real transfer, following a setup similar to DexTrAH-RGB. The distillation phase requires approximately 2.5~hours to complete
+% 100{,}000 episodes.
+
+Simulation experiments use single-arm control on a Tiangong~2 Pro humanoid equipped with InspireHand RH56DfX; the action
+space is 13-D (7 arm DoF + 6 hand DoF). The RGB student additionally receives two $320\times240$ camera streams at
+30\,fps, encoded by a Siamese ResNet-18 visual backbone with view fusion into a 128-D feature appended to the actor
+observation. Teacher training and student distillation are conducted in Isaac Sim 5.0.0 / Isaac Lab 2.2.1 on a single
+RTX~5090 GPU.
+
+We evaluate 10 objects from the Omniverse Asset Library. Each teacher is trained for 12{,}000 episodes (3.5\,h),
+achieving 72--100\% lift success and 5--30\% unsafe rate (Tab.~3). During distillation, we randomize lighting intensity, direction and
+background textures as well as object material and table appearance (DexTrAH-RGB-style domain randomization); the distillation stage
+runs 100{,}000 episodes in 2.5\,h.
+
+\input{table/state_space.tex}
+
+\begin{table}[t]
+\centering
+\small
+\caption{Teacher policy performance across various objects (tested for 200 episodes)}
+\label{tab:teacher_perf_200}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{0.38\textwidth}{!}{%
+
+\begin{tabular}{l|cccc}
+\hline
+Percentage \% & WindCart & Boot & ToolBox & Cow \\
+\hline
+Lift Success         & 93.5 & 100.0 & 88.5 & 87.0 \\
+Unsafe Rate Avg      & 6.5   & 13.5  & 13.5 & 13.5 \\
+Harmful collision    & 0.0   & 0.0   & 6.5  & 0.0  \\
+Object escape        & 6.5   & 6.5   & 6.5  & 13.5 \\
+Palm flipped         & 0.0   & 6.5   & 0.0  & 0.0  \\
+Hand too far         & 0.0   & 0.0   & 0.0  & 0.0  \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\subsection{Ablation Studies}
+
+The following ablation studies are conducted to justify our pipeline design. We distill the teacher policies
+trained during the RL phase to obtain a compact and generalizable student policy. The RL training baseline
+follows the DexTrAH-RGB pipeline, and we compare it against our customized variant. We evaluate three
+distillation variants---Vanilla DAgger, Vanilla SafeDAgger, and our proposed pipeline---in terms of lift-success
+growth, unsafe-episode rate, and intervention rate (defined as the fraction of timesteps in which teacher
+takeover occurs, i.e., $\beta=\frac{1}{T}\sum_{t=0}^{T-1}\mathbb{I}[g_t=1]$, averaged over evaluation episodes)
+during training. Since unsafe-episode rate is our primary metric, we report not only the average rate across
+all test objects but also a per-object, failure-mode decomposition to assess the suitability of our pipeline
+under different failure conditions. We first define the ablation setups below:
+
+% \noindent\textbf{(a) DexTrAH-RGB RL teacher + Vanilla DAgger.}
+% We follow the DexTrAH-RGB teacher training setup and distill the resulting teacher into a student using
+% Vanilla DAgger. Rollouts in simulation are fully controlled by the student policy, while the teacher runs
+% in parallel in the background with the intervention rate $\beta$ fixed to $0$. At each timestep, the
+% executed student action $a_t^{S}$ is relabeled with the corresponding teacher action $a_t^{T}$.
+
+\noindent\textbf{(a) DexTrAH-RGB RL teacher + Vanilla DAgger.}
+The teacher is trained using the DexTrAH-RGB RL recipe, and the student is learned via Vanilla DAgger.
+This is the original DexTrAH-RGB pipeline used for the KUKA--Allegro setup.
+During data collection, the student fully controls the rollout ($\beta=0$), while the teacher runs in parallel
+to provide labels: each executed student action $a_t^{S}$ is relabeled with the corresponding teacher action
+$a_t^{T}$.
+
+% \noindent\textbf{(b) Our RL teacher + Vanilla DAgger.}
+% We replace the DexTrAH-RGB teacher training pipeline with our customized RL recipe and use the same
+% Vanilla DAgger-style online distillation.
+
+\noindent\textbf{(b) Our RL teacher + Vanilla DAgger.}
+This setting matches (a) except that the teacher is trained with our customized RL recipe instead of the
+DexTrAH-RGB pipeline.
+
+% \noindent\textbf{(c) Our RL teacher + Vanilla SafeDAgger.}
+% The teacher policy is trained using our RL pipeline, and we extend Vanilla DAgger to a Vanilla SafeDAgger
+% distillation setup. The student and teacher policies are rolled out in parallel, and the teacher action takes
+% over only when the $\ell_2$ distance between the teacher and student actions exceeds a threshold, indicating
+% a large teacher--student disagreement. The student is trained on teacher-labeled pairs $(o_t^{S}, a_t^{T})$,
+% where $o_t^{S}$ denotes the student observation.
+
+\noindent\textbf{(c) Our RL teacher + Vanilla SafeDAgger.}
+Using the same teacher as in (b), we replace Vanilla DAgger with a disagreement-gated SafeDAgger baseline.
+The teacher intervenes only when $\lVert a_t^{T}-a_t^{S}\rVert_2$ exceeds a threshold, and we train the student
+on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
+
+% \noindent\textbf{(d) DexTrAH-RGB RL teacher + SafeDAgger with disagreement and a risk predictor.}
+% We follow the DexTrAH-RGB teacher training setup but apply our teacher-intervened distillation pipeline for
+% student learning. The teacher and student policies are rolled out in parallel. Teacher intervention is triggered
+% when either (i) the teacher disagrees with the student or (ii) the risk predictor flags the current transition
+% as unlikely to lead to task success. The intervention decision is computed at every timestep. Likewise, the
+% student is trained on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
+
+\noindent\textbf{(d) DexTrAH-RGB RL teacher + SafeDAgger with disagreement and a risk predictor.}
+This setting matches our full distillation pipeline but uses the DexTrAH-RGB-trained teacher (as in (a)).
+Intervention is triggered by either large teacher--student disagreement or a high predicted risk of failure,
+and the student is trained from teacher-labeled pairs $(o_t^{S}, a_t^{T})$ collected under this gate.
+
+% \noindent\textbf{(e) Our RL teacher + SafeDAgger with disagreement and a risk predictor.}
+% We combine our custom RL pipeline with the proposed teacher intervention mechanism, using both teacher--student
+% disagreement and state-risk prediction to trigger teacher takeover.
+
+\noindent\textbf{(e) Our RL teacher + SafeDAgger with disagreement and a risk predictor.}
+This is our full pipeline: the teacher is trained with our customized RL recipe (as in (b)), and distillation
+uses the same intervention gate as in (d), combining teacher--student disagreement and state-risk prediction
+to trigger teacher takeover.
+
+As shown in Table~\ref{tab:ablation_studies}, ablations (a) and (d), which use the DexTrAH-RGB RL recipe,
+exhibit lower lift success and higher unsafe rate under both Vanilla DAgger and our intervention
+mechanism. We attribute this gap to limited transferability of the DexTrAH-RGB teacher training setup: it
+relies heavily on a \textsc{Fabrics} controller and was tuned for the KUKA--Allegro platform. When applied to
+our hardware and task setting, the resulting teacher policies degrade due to mismatched dynamics and
+nontrivial hyperparameter retuning. Consequently, the weaker teacher policy set constrains student
+distillation performance in downstream training.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Ablation performance across various objects (tested over 200 episodes). Each ablation reports lift success and average unsafe rate.}
+\label{tab:ablation_studies}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{0.48\textwidth}{!}{%
+\begin{tabular}{l|cc|cc|cc|cc}
+\hline
+\multirow{2}{*}{Percentage \%} 
+& \multicolumn{2}{c|}{WindCart} 
+& \multicolumn{2}{c|}{Boot} 
+& \multicolumn{2}{c|}{ToolBox} 
+& \multicolumn{2}{c}{Cow} \\
+\cline{2-9}
+& Lift  & Unsafe 
+& Lift  & Unsafe 
+& Lift  & Unsafe 
+& Lift  & Unsafe  \\
+\hline
+\textbf{Ablation (a)} & 75.0 & 24.0 & 76.5 & 28.0 & 72.0 & 26.0 & 70.0 & 27.5 \\
+\textbf{Ablation (b)} & 88.5 & 13.5 & 89.0 & 20.5 & 82.5 & 19.0 & 88.0 & 17.5 \\
+\textbf{Ablation (c)} & 88.0 & 12.0 & 89.5 & 19.5 & 81.5 & 18.5 & 87.0 & 16.0 \\
+\textbf{Ablation (d)} & 74.5 & 23.0 & 75.0 & 27.5 & 70.5 & 26.5 & 69.5 & 27.0 \\
+\textbf{Ablation (e)} & 88.0 & 7.5 & 90.0 & 15.0 & 82.0 & 15.5 & 88.0 & 12.0 \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+As shown in Fig.~\ref{fig:ablation}, ablations (b), (c), and (e), which adopt our RL pipeline, reach
+a comparable final lift success on the training objects (84\%--89\%; left). This is expected because our
+intervention mechanism is designed primarily to suppress unsafe exploration rather than directly optimize
+task success. Vanilla DAgger keeps the student in full control ($\beta=0$), whereas both SafeDAgger variants
+exhibit a decreasing intervention rate as the student improves (middle). Both
+intervention-based methods substantially reduce unsafe episodes (by up to 80\% compared to Vanilla DAgger)
+early in training and maintain a low unsafe rate (below 20\%) throughout distillation, with the proposed
+method achieving the lowest unsafe rate overall (right).
+
+Compared with Vanilla SafeDAgger, our method intervenes more frequently because the risk predictor
+expands the set of transitions deemed unreliable, leading to additional teacher takeovers. This increased
+supervision further reduces the unsafe rate (by about 5\% on average). By the end of training, our method
+converges toward the teacher policy's average unsafe rate ($\approx 12\%$) and reaches a minimum unsafe rate
+($\approx 8\%$) (both averaged over the evaluation objects), which is below the teacher average.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/failure_mode.pdf}
+    \caption{\textbf{Per-object failure-mode decomposition during online distillation ablations.}
+    We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations.
+    Results are shown for two objects (\texttt{windcart} and \texttt{cow}); lower is better in all plots.
+    Curves correspond to the three compared distillation variants (blue: vanilla DAgger\cite{ross2011reduction}, yellow: vanilla SafeDAgger\cite{zhang2016query}, green: our pipeline).}
+    \label{fig:failure_modes}
+            \vspace{-0.3in}\bigskip
+
+\end{figure*}
+
+
+As shown in Fig.~\ref{fig:failure_modes}, the per-object failure-mode decomposition indicates that
+unsafe episodes are dominated by harmful collisions and object escape across most objects. Relative
+to vanilla DAgger, both intervention-based methods substantially reduce the per-object unsafe rate and
+consistently suppress these two dominant failure modes. Moreover, disagreement-based SafeDAgger
+already eliminates many of the large early spikes in collision and escape, suggesting that
+teacher takeovers effectively prevent the student from entering highly unsafe regions of the state
+space during the initial distillation phase. 
+
+The combination of teacher--student disagreement with the risk predictor further improves safety,
+yielding the lowest unsafe rate for most objects. This gain is primarily attributable to additional
+reductions in collision- and escape-induced terminations, especially in cases where disagreement
+alone is insufficient to anticipate downstream failures. Overall, the decomposition supports our
+design choice: augmenting disagreement with a learned risk signal provides a stricter intervention
+criterion that reduces unsafe exploration while maintaining competitive task performance.
+
+\subsection{Real-World Experiments Setup}
+
+The experiments exhibit a lower lift success rate and a higher unsafe episode rate than
+the teacher and student evaluation results in simulation, indicating that the proposed pipeline does
+not fully eliminate the sim-to-real gap. Nevertheless, the resulting policy is sufficiently robust
+for real-world deployment.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/real_setup_1.png}
+    \caption{\textbf{Real-world experimental setup and test objects.}
+    Left: the single-arm manipulation platform used for deployment and evaluation.
+    Right: examples of the physical objects used in the real-world lift experiments.}
+    \label{fig:realworld_exp_setup}
+    % \vspace{-10pt}
+        \vspace{-0.5in}\bigskip
+
+\end{figure}
+
+
+The unseen-object evaluation reveals a clear generalization gap: compared to
+seen objects (WindCart/Boot/ToolBox/Cow), the policy achieves lower lift success
+and higher unsafe rates on unseen objects (Plane/Shoe). This degradation is
+primarily driven by increased harmful collisions (20.0\% and 26.7\% on Plane and
+Shoe), while object escape remains comparable across objects
+($\approx$6.7--13.3\%). No palm-flip or hand-too-far events are observed,
+suggesting that real-world failures are dominated by contact-rich interactions
+rather than gross pose instabilities. Overall, the results indicate that the
+remaining sim-to-real gap on unseen geometries is largely attributable to a
+contact-strategy mismatch, i.e., the policy fails to adapt its contact
+interactions to novel object shapes.
+
+\newcommand{\unseen}[1]{\cellcolor{gray!15}\textbf{#1}}
+\begin{table}[t]
+\centering
+\small
+\caption{Real-world experiments across various objects (tested over 15 episodes). \unseen{Unseen objects} are shaded.}
+\label{tab:real_world_results}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{0.48\textwidth}{!}{%
+
+\begin{tabular}{l|cccccc}
+\hline
+Percentage \% & WindCart & Boot & ToolBox & Cow & \unseen{Plane} & \unseen{Shoe} \\
+\hline
+Lift Success         & 86.7 & 86.7 & 80.0 & 86.7 & \unseen{66.7} & \unseen{60.0} \\
+Unsafe Rate Avg      & 13.3 & 20.0 & 20.0 & 26.7 & \unseen{40.0} & \unseen{40.0} \\
+Harmful collision    & 0.0  & 6.7  & 13.3 & 13.3 & \unseen{20.0} & \unseen{26.7} \\
+Object escape        & 13.3 & 13.3 & 6.7  & 13.3 & \unseen{20.0} & \unseen{13.3} \\
+Palm flipped         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  \\
+Hand too far         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\subsection{Discussion}
+
+While effectively reducing unsafe exploration, the teacher-intervened online distillation process
+appears to reduce sample efficiency. In Fig.~\ref{fig:ablation}, we observe slower performance growth in
+lift-success evaluation under higher intervention rates. The underlying cause remains unclear; we believe
+there is room for improvement in both exploration safety and sample efficiency within the online
+distillation paradigm.
+

@@ -1,0 +1,33 @@
+\begin{algorithm}[t]
+\small
+\caption{Safe Policy Distillation with Risk-Guided Teacher Intervention}
+\label{alg:safe_dagger}
+\begin{algorithmic}[1]
+
+\STATE Train teacher policy $\pi_T$ via reinforcement learning
+\STATE Collect offline dataset $\mathcal{D}_0$ using $\pi_T$
+\STATE Pretrain risk predictor $\hat{Q}(s,a)$ on $\mathcal{D}_0$
+
+\FOR{iteration $k = 1 \dots N$}
+
+    \STATE Observe student observation $o_t$
+    \STATE Compute student action $a^S_t \sim \pi_S(\cdot|o_t)$
+    \STATE Query teacher action $a^T_t \sim \pi_T(\cdot|s_t)$
+    
+    \STATE Compute disagreement $\delta_t = \|a^S_t - a^T_t\|_2$
+    \STATE Evaluate risk score $\hat{Q}(s_t, a^S_t)$
+
+    \IF{$d_t > \tau_D$ \textbf{or} $\hat{Q}(s_t,a^S_t) < \tau_{\text{success}}$}
+        \STATE Execute teacher action $a_t = a^T_t$
+    \ELSE
+        \STATE Execute student action $a_t = a^S_t$
+    \ENDIF
+
+    \STATE Store $(o_t, a^T_t)$ in ring replay buffer $\mathcal{D}$
+    \STATE Update student policy $\pi_S$ via imitation loss
+    \STATE Update risk predictor $\hat{Q}$ using replay buffer
+
+\ENDFOR
+
+\end{algorithmic}
+\end{algorithm}

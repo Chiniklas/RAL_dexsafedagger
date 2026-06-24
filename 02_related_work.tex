@@ -1,0 +1,43 @@
+% \subsection{Reinforcement Learning for Dexterous Grasping}
+% Reinforcement learning (RL) has emerged as a powerful paradigm for acquiring
+% complex manipulation skills in high-degree-of-freedom (DoF) systems such as
+% dexterous robotic hands. Recent research has relied heavily on model-free RL
+% algorithms, including DDPG, SAC, and PPO, which have demonstrated strong
+% performance in learning a variety of skills across a wide range of robotic
+% setups.
+
+% GraspXL reformulates the RL problem as an objective-conditioned
+% motion generation task. The policy is trained to simultaneously
+% produce stable grasps while satisfying user-specified motion
+% objectives, such as graspable regions defined via signed
+% distance fields (SDFs), approach directions, wrist rotations,
+% and target hand poses. This formulation enables multi-objective
+% policy learning within a unified reinforcement learning
+% framework.
+
+% DextrAH-RGB\cite{singh2024dextrah} adopts a geometric fabrics-based reinforcement
+% learning framework, in which the policy operates within a
+% hand-designed fabric-induced action manifold. This structured
+% representation effectively reduces the action-space dimension
+% and significantly simplifies reward design during training.
+
+\subsection{Policy distillation}
+Policy distillation transfers behavior from a high-capacity teacher to a compact student and has been adopted from
+vision to robotics. In robotics, the teacher can leverage privileged state and simulator access during training,
+while the student is distilled to operate from on-board observations (e.g., RGB). DexTrAH-RGB~\cite{singh2024dextrah} 
+distills a privileged RL teacher into an RGB-based policy via DAgger-based imitation learning, while 
+UniGraspTransformer~\cite{wang2025unigrasptransformer} distills offline trajectories from object-specific teachers 
+into a unified Transformer policy.
+
+\subsection{Interactive imitation learning}
+Many imitation learning methods operate offline, using a fixed dataset of expert demonstrations to match the expert
+action distribution~\cite{zhang2025contactdexnet,zhang2025omnidexvlg}. In sequential decision-making, however,
+distributional shift induces covariate shift and compounding errors. Interactive imitation learning\cite{welte2025interactive} mitigates this
+issue by collecting supervision online under the learner-induced state distribution.
+
+DAgger\cite{ross2011reduction} addresses covariate shift by iteratively rolling out the learner and relabeling visited
+states with an expert, thereby aggregating data under the learner-induced state distribution. SafeDAgger\cite{zhang2016query} extends
+DAgger with a teacher-intervened rollout policy that takes over in high-risk states to reduce unsafe exploration.
+Recent variants \cite{hoque2021lazydagger,hoque2021thriftydagger} extend interactive imitation learning to robotic manipulation, yet often rely on human
+supervision. Fully autonomous expert relabeling during online distillation remains rare in robotic manipulation,
+especially for dexterous, contact-rich tasks.
