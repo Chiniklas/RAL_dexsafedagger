@@ -1,8 +1,8 @@
-\documentclass[conference]{IEEEtran}
+\documentclass[letterpaper,10pt,conference]{ieeeconf}
 \usepackage{tabularx}
 \usepackage{times}
 \usepackage{todonotes}
-\usepackage[numbers]{natbib}
+\usepackage{cite}
 \usepackage{multicol}
 \usepackage{graphics,graphicx,caption,float,subcaption,booktabs,xcolor,multirow,array,color,ifthen,tabu,colortbl,dblfloatfix,url,xparse,mathtools,patchcmd,algorithm,algorithmic,amssymb,xspace,nicefrac,microtype,amsmath,amsfonts,bm,ragged2e,tikz,stackengine,etoolbox,xpatch,enumerate,xstring,setspace,tabularx,makecell,changepage,cuted,titlesec,wrapfig,tcolorbox, sidecap,comment, placeins}
 \usepackage{gensymb,comment}
@@ -47,38 +47,18 @@ citecolor=blue
 %\usepackage{amsmath} % assumes amsmath package installed
 %\usepackage{amssymb}  % assumes amsmath package installed
 
-\title{\LARGE \bf
-DexSafeDagger: Safer Policy Distillation from RGB Observations Using Q-Value Failure Prediction–Guided Teacher Intervention
+\title{\LARGE \bfseries
+VC-DexSafeDAgger: Safer Policy Distillation from RGB Observations Using Success-Value-Guided Teacher Intervention
 }
 
- \newcommand{\isanonymous}{}  % 
 % IEEE not suppoer Minted，use lstlisting during submission
 
-% \author{Anonymous CVPR submission \\ Paper ID 000}
-\ifdefined\isanonymous
-    \author{%
-        Anonymous Authors
-        % \textit{Affiliations withheld for double-blind review}
-    % \thanks{\dag Equal contribution. }
-    % \thanks{* Corresponding authors.}
-    \thanks{Affiliations withheld for double-blind review.
-    }\\
-    \thanks{
-    }\\
-    \thanks{
-    }
-    }
-\else
-    \author{Chi Zhang$^{1}$, Lei Zhang, Zhenshan Bing, Zhaopeng Chen, Jianwei Zhang and Alois Knoll$^{2}$% <-this % stops a space
-    \thanks{*This work was not supported by }% <-this % stops a space
-    \thanks{$^{1}$Albert Author is with Faculty of Electrical Engineering, Mathematics and Computer Science,
-            University of Twente, 7500 AE Enschede, The Netherlands
-            {\tt\small albert.author@papercept.net}}%
-    \thanks{$^{2}$Bernard D. Researcheris with the Department of Electrical Engineering, Wright State University,
-            Dayton, OH 45435, USA
-            {\tt\small b.d.researcher@ieee.org}}%
-    }
-\fi
+% RA-L uses double-anonymous review. Keep the author-byline space but do not
+% include names, affiliations, acknowledgments, or funding information.
+\author{%
+  \vphantom{Author Names}\\%
+  \vphantom{Author Affiliations}%
+}
 
 
 % \begin{document}
@@ -121,7 +101,8 @@ DexSafeDagger: Safer Policy Distillation from RGB Observations Using Q-Value Fai
       We propose a teacher-intervened online distillation pipeline that condenses teacher skills into a
     deployable RGB-based student policy. The unsafe exploration rate is substantially suppressed in the early
     training phase via a customized
-    intervention mechanism that combines teacher--student action disagreement with a learned risk predictor.}
+    intervention mechanism that combines teacher--student action disagreement with a
+    success-value critic trained from lift-success labels.}
     \label{fig:teaser}
     \vspace{-0.3in}\bigskip
   \end{center}%
@@ -154,8 +135,8 @@ DexSafeDagger: Safer Policy Distillation from RGB Observations Using Q-Value Fai
 % episodes (up to 80\% relative reduction early in training) while achieving a comparable lift success rate that is
 % suitable for real-world deployment.
 
-Learning dexterous manipulation is challenging due to high-dimensional action spaces and complex contact dynamics. In addition, safety-unaware exploration during learning can lead to hardware damage, unstable interactions, and hazardous contact events, posing a significant barrier to real-world deployment. 
-To address this challenge, we propose a safety-aware online policy distillation framework that transfers reinforcement learning (RL) teacher policies to a vision-based student policy. Our approach introduces a teacher-intervened mixed rollout mechanism that integrates teacher–student action disagreement with a learned Q-value–based risk predictor to detect high-risk states and proactively trigger teacher takeover. This design enables safer exploration while preserving the benefits of online interactive imitation learning. 
+Learning dexterous manipulation is challenging due to high-dimensional action spaces and complex contact dynamics. In addition, safety-unaware exploration during learning can lead to hardware damage, unstable interactions, and hazardous contact events, posing a significant barrier to real-world deployment.
+To address this challenge, we propose a safety-aware online policy distillation framework that transfers reinforcement learning (RL) teacher policies to a vision-based student policy. VC-DexSafeDAgger combines a SafeDAgger teacher--student disagreement gate with a Bellman critic trained from lift-success labels. The critic estimates the future success value of the student action, and low predicted success proactively triggers teacher takeover. A vision-language model calibrates the disagreement and success thresholds without replacing the success critic or directly selecting actions. This design enables safer exploration while preserving the benefits of online interactive imitation learning.
 Experiments on grasp-and-lift tasks show that our method significantly improves training safety, reducing unsafe episodes by up to 80\% during the early stages of training compared with vanilla DAgger-based distillation. Meanwhile, the distilled student policy achieves comparable lift success rates and demonstrates robustness suitable for real-world robotic deployment.
 \end{abstract}
 

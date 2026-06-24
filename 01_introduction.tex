@@ -107,14 +107,15 @@ The contributions of this work are summarized as follows:
 \begin{itemize}
     \item We propose a safety-sensitive framework for distilling RL-acquired teacher policies into a single RGB-based
     student policy. To the best of our knowledge, this is the first attempt in dexterous manipulation to incorporate
-    a mixed intervention mechanism that combines teacher--student action disagreement with a Q-value-based risk
-    predictor for proactive teacher takeover in high-risk regions.
+    a mixed intervention mechanism that combines teacher--student action
+    disagreement with a Bellman success-value critic trained from lift-success
+    labels. Low predicted success triggers proactive teacher takeover.
 
     \item We propose a safety-aware RL reward design that explicitly accounts for risky events in 
     arm--hand control scenarios, including harmful collisions, object escape, palm flipping, and the hand moving 
     too far from the workspace, thereby encouraging safer exploration during teacher training.
     
-    \item We empirically demonstrate that combining disagreement and risk prediction substantially reduces unsafe
+    \item We empirically demonstrate that combining disagreement and success-value prediction substantially reduces unsafe
     exploration compared with vanilla DAgger, achieving a relative reduction of \textbf{80\%} in unsafe exploration
     rate in the early training phase. We also observe a \textbf{5\%} improvement in unsafe exploration rate compared
     with disagreement-only SafeDAgger.

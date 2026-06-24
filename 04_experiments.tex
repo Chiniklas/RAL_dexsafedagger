@@ -160,18 +160,18 @@ on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
 % as unlikely to lead to task success. The intervention decision is computed at every timestep. Likewise, the
 % student is trained on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
 
-\noindent\textbf{(d) DexTrAH-RGB RL teacher + SafeDAgger with disagreement and a risk predictor.}
+\noindent\textbf{(d) DexTrAH-RGB RL teacher + SafeDAgger with disagreement and a success-value critic.}
 This setting matches our full distillation pipeline but uses the DexTrAH-RGB-trained teacher (as in (a)).
-Intervention is triggered by either large teacher--student disagreement or a high predicted risk of failure,
+Intervention is triggered by either large teacher--student disagreement or low predicted lift-success value,
 and the student is trained from teacher-labeled pairs $(o_t^{S}, a_t^{T})$ collected under this gate.
 
 % \noindent\textbf{(e) Our RL teacher + SafeDAgger with disagreement and a risk predictor.}
 % We combine our custom RL pipeline with the proposed teacher intervention mechanism, using both teacher--student
 % disagreement and state-risk prediction to trigger teacher takeover.
 
-\noindent\textbf{(e) Our RL teacher + SafeDAgger with disagreement and a risk predictor.}
+\noindent\textbf{(e) Our RL teacher + SafeDAgger with disagreement and a success-value critic.}
 This is our full pipeline: the teacher is trained with our customized RL recipe (as in (b)), and distillation
-uses the same intervention gate as in (d), combining teacher--student disagreement and state-risk prediction
+uses the same intervention gate as in (d), combining teacher--student disagreement and success-value prediction
 to trigger teacher takeover.
 
 As shown in Table~\ref{tab:ablation_studies}, ablations (a) and (d), which use the DexTrAH-RGB RL recipe,
@@ -222,8 +222,8 @@ intervention-based methods substantially reduce unsafe episodes (by up to 80\% c
 early in training and maintain a low unsafe rate (below 20\%) throughout distillation, with the proposed
 method achieving the lowest unsafe rate overall (right).
 
-Compared with Vanilla SafeDAgger, our method intervenes more frequently because the risk predictor
-expands the set of transitions deemed unreliable, leading to additional teacher takeovers. This increased
+Compared with Vanilla SafeDAgger, our method intervenes more frequently because the success-value critic
+identifies additional transitions with low predicted future success, leading to more teacher takeovers. This increased
 supervision further reduces the unsafe rate (by about 5\% on average). By the end of training, our method
 converges toward the teacher policy's average unsafe rate ($\approx 12\%$) and reaches a minimum unsafe rate
 ($\approx 8\%$) (both averaged over the evaluation objects), which is below the teacher average.
@@ -249,11 +249,11 @@ already eliminates many of the large early spikes in collision and escape, sugge
 teacher takeovers effectively prevent the student from entering highly unsafe regions of the state
 space during the initial distillation phase. 
 
-The combination of teacher--student disagreement with the risk predictor further improves safety,
+The combination of teacher--student disagreement with the success-value critic further improves safety,
 yielding the lowest unsafe rate for most objects. This gain is primarily attributable to additional
 reductions in collision- and escape-induced terminations, especially in cases where disagreement
 alone is insufficient to anticipate downstream failures. Overall, the decomposition supports our
-design choice: augmenting disagreement with a learned risk signal provides a stricter intervention
+design choice: augmenting disagreement with a learned success-value signal provides a stricter intervention
 criterion that reduces unsafe exploration while maintaining competitive task performance.
 
 \subsection{Real-World Experiments Setup}
@@ -320,4 +320,3 @@ appears to reduce sample efficiency. In Fig.~\ref{fig:ablation}, we observe slow
 lift-success evaluation under higher intervention rates. The underlying cause remains unclear; we believe
 there is room for improvement in both exploration safety and sample efficiency within the online
 distillation paradigm.
-
