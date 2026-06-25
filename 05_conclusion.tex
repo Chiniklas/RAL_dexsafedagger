@@ -1,8 +1,8 @@
 In this work, we propose a combined intervention mechanism that integrates teacher--student disagreement
 with a Bellman success-value critic trained from lift-success labels.
 The proposed method effectively improves exploration safety in a multi-teacher distillation process.
-Through extensive evaluation, we validate that the improvement is robust across all test objects and
-all failure modes that we consider important. Our method also appears to approach the teacher policy’s 
+Through extensive evaluation, we validate that the improvement is consistent
+across the evaluated object subsets and failure modes. Our method also appears to approach the teacher policy’s
 performance ceiling in avoiding unsafe regions.
 Successful real-world deployment further shows that the resulting student policy partially bridges the
 sim-to-real gap; however, poor generalization to unseen objects indicates that our pipeline is
@@ -11,4 +11,3 @@ vulnerable to unvisited, complex contact scenarios.
 A clear limitation is that performance during distillation, as well as the final student policy, is
 largely constrained by teacher capability. Developing a safety-aware teacher training pipeline is a
 promising direction for future work to generate stronger teacher policies.
-

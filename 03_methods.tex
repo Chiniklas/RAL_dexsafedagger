@@ -1,6 +1,7 @@
 \begin{figure*}[t]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/fig02_network_structure.pdf}
+    \par\redtodo{TODO: Update Figure 2.}
     \caption{Overview of the proposed teacher--student learning pipeline. A
     privileged reinforcement learning teacher is trained in simulation and
     subsequently distilled into an RGB-based visuomotor policy for real-world
@@ -263,10 +264,9 @@ high-disagreement, low-success, and unsafe states. These visual examples provide
 context about the failure modes encountered by the student, while the scalar
 statistics summarize the global behavior of the current policy.
 
-The VLM is used only as a high-level calibration module. It recommends candidate
+The VLM is used as a high-level calibration module. It recommends candidate
 thresholds
-$(\tilde{\tau}_{\delta}^{(k)},\tilde{\tau}_{Q}^{(k)})$. To avoid abrupt changes and preserve a bounded
-safety envelope, each proposed threshold is constrained around its initial value
+$(\tilde{\tau}_{\delta}^{(k)},\tilde{\tau}_{Q}^{(k)})$. To avoid abrupt changes, each proposed threshold is constrained around its initial value
 and then exponentially smoothed:
 \begin{equation}
 \begin{aligned}
