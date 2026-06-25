@@ -77,7 +77,7 @@ space is 13-D (7 arm DoF + 6 hand DoF). The RGB student additionally receives tw
 observation. Teacher training and student distillation are conducted in Isaac Sim 5.0.0 / Isaac Lab 2.2.1 on a single
 RTX~5090 GPU.
 
-We evaluate 10 objects from the Omniverse Asset Library. Each teacher is trained for 12{,}000 episodes (3.5\,h),
+We evaluate \yellow40 objects from the Omniverse Asset Library. Each teacher is trained for 12{,}000 episodes (3.5\,h),
 achieving 72--100\% lift success and 5--30\% unsafe rate (Tab.~3). During distillation, we randomize lighting intensity, direction and
 background textures as well as object material and table appearance (DexTrAH-RGB-style domain randomization); the distillation stage
 runs 100{,}000 episodes in 2.5\,h.
@@ -170,9 +170,15 @@ and the student is trained from teacher-labeled pairs $(o_t^{S}, a_t^{T})$ colle
 % disagreement and state-risk prediction to trigger teacher takeover.
 
 \noindent\textbf{(e) Our RL teacher + SafeDAgger with disagreement and a success-value critic.}
-This is our full pipeline: the teacher is trained with our customized RL recipe (as in (b)), and distillation
+\revision{This is the fixed-threshold version of our pipeline:} the teacher is trained with our customized RL recipe (as in (b)), and distillation
 uses the same intervention gate as in (d), combining teacher--student disagreement and success-value prediction
 to trigger teacher takeover.
+
+\noindent\revision{\textbf{(f) Our RL teacher + SafeDAgger with disagreement, a success-value critic, and VLM tuning.}
+This setting extends (e) with the proposed VLM tuner, which periodically
+calibrates the disagreement and success-value thresholds using rollout
+statistics and representative visual states.}
+\redtodo{\emph{[TODO: add the VLM ablation protocol and implementation details.]}}
 
 As shown in Table~\ref{tab:ablation_studies}, ablations (a) and (d), which use the DexTrAH-RGB RL recipe,
 exhibit lower lift success and higher unsafe rate under both Vanilla DAgger and our intervention
@@ -208,10 +214,14 @@ distillation performance in downstream training.
 \textbf{Ablation (c)} & 88.0 & 12.0 & 89.5 & 19.5 & 81.5 & 18.5 & 87.0 & 16.0 \\
 \textbf{Ablation (d)} & 74.5 & 23.0 & 75.0 & 27.5 & 70.5 & 26.5 & 69.5 & 27.0 \\
 \textbf{Ablation (e)} & 88.0 & 7.5 & 90.0 & 15.0 & 82.0 & 15.5 & 88.0 & 12.0 \\
+\revision{\textbf{Ablation (f)}} & \redtodo{88.5} & \redtodo{6.0} & \redtodo{90.0} & \redtodo{12.5} & \redtodo{82.5} & \redtodo{13.0} & \redtodo{88.5} & \redtodo{10.0} \\
 \hline
 \end{tabular}
 }
 \end{table}
+
+\noindent\redtodo{\emph{[TODO: report and discuss the quantitative comparison
+between the fixed-threshold baseline (e) and the VLM-tuned method (f).]}}
 
 As shown in Fig.~\ref{fig:ablation}, ablations (b), (c), and (e), which adopt our RL pipeline, reach
 a comparable final lift success on the training objects (84\%--89\%; left). This is expected because our

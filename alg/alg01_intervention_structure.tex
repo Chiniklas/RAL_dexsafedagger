@@ -1,13 +1,13 @@
 \begin{algorithm}[t]
 \small
-\caption{VC-DexSafeDAgger Training Pipeline}
+\caption{Safe Policy Distillation with Risk-Guided Teacher Intervention}
 \label{alg:safe_dagger}
 \begin{algorithmic}[1]
 
 \STATE Train teacher policy $\pi_T$ via reinforcement learning
 \STATE Collect offline dataset $\mathcal{D}_0$ using $\pi_T$
-\STATE Pretrain success critic $\hat Q_{\mathrm{succ}}(s,a)$ on $\mathcal{D}_0$
-\STATE Initialize thresholds $(\tau_\delta^0,\tau_Q^0)$ and VLM visual buffer $\mathcal{B}_V$
+\STATE Pretrain risk predictor $\hat Q_{\mathrm{succ}}(s,a)$ on $\mathcal{D}_0$
+\STATE \revision{Initialize thresholds $(\tau_\delta^0,\tau_Q^0)$ and VLM visual buffer $\mathcal{B}_V$}
 
 \FOR{iteration $k = 1 \dots N$}
 
@@ -15,8 +15,8 @@
     \STATE Compute student action $a^S_t \sim \pi_S(\cdot|o_t)$
     \STATE Query teacher action $a^T_t \sim \pi_T(\cdot|s_t)$
     
-    \STATE Compute weighted disagreement $\delta_t$
-    \STATE Evaluate success value $\hat Q_{\mathrm{succ}}(s_t,a^S_t)$
+    \STATE Compute disagreement $\delta_t=\|a_t^S-a_t^T\|_2$
+    \STATE Evaluate risk score $\hat Q_{\mathrm{succ}}(s_t,a^S_t)$
 
     \IF{$\delta_t>\tau_\delta$ \textbf{or} $\hat Q_{\mathrm{succ}}(s_t,a^S_t)<\tau_Q$}
         \STATE Execute teacher action $a_t = a^T_t$
@@ -24,14 +24,14 @@
         \STATE Execute student action $a_t = a^S_t$
     \ENDIF
 
-    \STATE Update $\pi_S$ from current teacher label $a_t^T$
-    \STATE Append transition to success-critic replay buffer $\mathcal{D}_Q$
-    \STATE Update $\hat Q_{\mathrm{succ}}$ periodically from $\mathcal{D}_Q$
-    \STATE Add representative low-success visual states to $\mathcal{B}_V$
-    \IF{VLM calibration is due}
-        \STATE Summarize rollout statistics and sample $\mathcal{B}_V$
-        \STATE Query VLM for $(\tilde\tau_\delta,\tilde\tau_Q)$
-        \STATE Clamp and smooth thresholds in active mode
+    \STATE Store transition in risk-predictor replay buffer $\mathcal{D}$
+    \STATE Update student policy $\pi_S$ via imitation loss
+    \STATE Update risk predictor $\hat Q_{\mathrm{succ}}$ using replay buffer
+    \STATE \revision{Add representative low-success visual states to $\mathcal{B}_V$}
+    \IF{\revision{VLM calibration is due}}
+        \STATE \revision{Summarize rollout statistics and sample $\mathcal{B}_V$}
+        \STATE \revision{Query VLM for $(\tilde\tau_\delta,\tilde\tau_Q)$}
+        \STATE \revision{Clamp and smooth thresholds in active mode}
     \ENDIF
 
 \ENDFOR

@@ -21,6 +21,8 @@ citecolor=blue
 
 % comments
 \newcommand{\lzhang}[1]{\textcolor{magenta}{#1}}
+\newcommand{\revision}[1]{{\color{yellow!50!black}#1}}
+\newcommand{\redtodo}[1]{{\color{red}#1}}
 % \newcommand{\lzhang}[1]{\textcolor{black}{#1}}
 
 \IEEEoverridecommandlockouts                              % This command is only needed if 
@@ -136,7 +138,7 @@ VC-DexSafeDAgger: Safer Policy Distillation from RGB Observations Using Success-
 % suitable for real-world deployment.
 
 Learning dexterous manipulation is challenging due to high-dimensional action spaces and complex contact dynamics. In addition, safety-unaware exploration during learning can lead to hardware damage, unstable interactions, and hazardous contact events, posing a significant barrier to real-world deployment.
-To address this challenge, we propose a safety-aware online policy distillation framework that transfers reinforcement learning (RL) teacher policies to a vision-based student policy. VC-DexSafeDAgger combines a SafeDAgger teacher--student disagreement gate with a Bellman critic trained from lift-success labels. The critic estimates the future success value of the student action, and low predicted success proactively triggers teacher takeover. A vision-language model calibrates the disagreement and success thresholds without replacing the success critic or directly selecting actions. This design enables safer exploration while preserving the benefits of online interactive imitation learning.
+To address this challenge, we propose a safety-aware online policy distillation framework that transfers reinforcement learning (RL) teacher policies to a vision-based student policy. VC-DexSafeDAgger combines a SafeDAgger teacher--student disagreement gate with a Bellman critic trained from lift-success labels. The critic estimates the future success value of the student action, and low predicted success proactively triggers teacher takeover. \revision{A vision-language model calibrates the disagreement and success thresholds without replacing the success critic or directly selecting actions.} This design enables safer exploration while preserving the benefits of online interactive imitation learning.
 Experiments on grasp-and-lift tasks show that our method significantly improves training safety, reducing unsafe episodes by up to 80\% during the early stages of training compared with vanilla DAgger-based distillation. Meanwhile, the distilled student policy achieves comparable lift success rates and demonstrates robustness suitable for real-world robotic deployment.
 \end{abstract}
 
