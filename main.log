@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.6.24)  27 JUN 2026 16:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.6.24)  27 JUN 2026 21:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1090,29 +1090,26 @@ File: figures/fig02_network_structure.pdf Graphic file (type pdf)
 <use figures/fig02_network_structure.pdf>
 Package pdftex.def Info: figures/fig02_network_structure.pdf  used on input line 3.
 (pdftex.def)             Requested size: 404.71353pt x 199.96657pt.
-LaTeX Font Info:    Trying to load font information for U+euf on input line 34.
+LaTeX Font Info:    Trying to load font information for U+euf on input line 35.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-euf.cfg
 File: mt-euf.cfg 2006/07/03 v1.1 microtype config. file: AMS Euler Fraktur (RS)
 ) [2] (./alg/alg01_intervention_structure.tex
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 3.
-)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [3 <./figures/fig02_network_structure.pdf>] (./table/reward_shaping.tex) [4]) (./04_experiments.tex
-<figures/ablation_comparison.png, id=205, 3527.1775pt x 1195.46625pt>
+) (./table/reward_shaping.tex) [3 <./figures/fig02_network_structure.pdf>] [4]) (./04_experiments.tex
+<figures/ablation_comparison.png, id=208, 3527.1775pt x 1195.46625pt>
 File: figures/ablation_comparison.png Graphic file (type png)
 <use figures/ablation_comparison.png>
 Package pdftex.def Info: figures/ablation_comparison.png  used on input line 40.
 (pdftex.def)             Requested size: 430.00958pt x 145.72992pt.
  (./table/state_space.tex) [5] [6 <./figures/ablation_comparison.png (PNG copy)>]
-<figures/failure_mode.pdf, id=231, 1520.5608pt x 936.37831pt>
+<figures/failure_mode.pdf, id=235, 1520.5608pt x 936.37831pt>
 File: figures/failure_mode.pdf Graphic file (type pdf)
 <use figures/failure_mode.pdf>
-Package pdftex.def Info: figures/failure_mode.pdf  used on input line 262.
+Package pdftex.def Info: figures/failure_mode.pdf  used on input line 260.
 (pdftex.def)             Requested size: 455.2979pt x 280.37271pt.
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 267.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 265.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
@@ -1120,12 +1117,12 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<figures/real_setup_1.png, id=233, 2856.6725pt x 1286.8075pt>
+<figures/real_setup_1.png, id=237, 2856.6725pt x 1286.8075pt>
 File: figures/real_setup_1.png Graphic file (type png)
 <use figures/real_setup_1.png>
-Package pdftex.def Info: figures/real_setup_1.png  used on input line 304.
+Package pdftex.def Info: figures/real_setup_1.png  used on input line 302.
 (pdftex.def)             Requested size: 208.86188pt x 94.07164pt.
-) [7] (./05_conclusion.tex) (./main.bbl (./main.brf)
+) (./05_conclusion.tex [7]) (./main.bbl (./main.brf)
 \tf@brf=\write5
 \openout5 = `main.brf'.
 
@@ -1148,18 +1145,18 @@ Package rerunfilecheck Info: File `main.brf' has not changed.
 (rerunfilecheck)             Checksum: 2AA9BBBFC610756173AA32A9A11E492E;1029.
  ) 
 Here is how much of TeX's memory you used:
- 34563 strings out of 480171
- 688888 string characters out of 5894489
- 962547 words of memory out of 5000000
+ 34572 strings out of 480171
+ 688979 string characters out of 5894489
+ 963666 words of memory out of 5000000
  51469 multiletter control sequences out of 15000+600000
- 527129 words of font info for 325 fonts, out of 8000000 for 9000
+ 527361 words of font info for 329 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  115i,17n,118p,1038b,971s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/euler/eufm7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (9 pages, 5986324 bytes).
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/euler/eufm7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (9 pages, 6002708 bytes).
 PDF statistics:
- 424 PDF objects out of 1000 (max. 8388607)
- 272 compressed objects within 3 object streams
- 91 named destinations out of 1000 (max. 500000)
+ 436 PDF objects out of 1000 (max. 8388607)
+ 280 compressed objects within 3 object streams
+ 94 named destinations out of 1000 (max. 500000)
  54822 words of extra memory for PDF output out of 61914 (max. 10000000)
 

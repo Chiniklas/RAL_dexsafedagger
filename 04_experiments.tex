@@ -121,9 +121,9 @@ Hand too far         & 0.0   & 0.0   & 0.0  & 0.0  \\
 
 The following ablation studies validate the design choices in our pipeline. We distill the teacher policies
 trained during the RL phase into a compact, generalizable student policy. For RL training, we compare the
-standard DexTrAH-RGB pipeline with our customized variant. For policy distillation, we evaluate five
-methods---Vanilla DAgger, Vanilla SafeDAgger, \revision{fixed-threshold DexSafeDAgger, and our proposed
-VLM-calibrated DexSafeDAgger, as well as a direct VLM-intervention variant}---in terms of lift-success growth, unsafe-episode rate, and intervention rate
+standard DexTrAH-RGB pipeline with our customized variant. For policy distillation, we evaluate four
+methods---Vanilla DAgger, Vanilla SafeDAgger, \revision{our proposed method
+VIBS, and its stationary-intervention-boundary variant}---in terms of lift-success growth, unsafe-episode rate, and intervention rate
 throughout training. The intervention rate is defined as the fraction of timesteps at which the teacher takes
 over, i.e., $\beta=\frac{1}{T}\sum_{t=0}^{T-1}\mathbb{I}[g_t=1]$, averaged across evaluation episodes.
 Because the unsafe-episode rate is our primary metric, we report both its average across the four ablation
@@ -136,18 +136,16 @@ under different failure conditions. We define the ablation settings below.
 % in parallel in the background with the intervention rate $\beta$ fixed to $0$. At each timestep, the
 % executed student action $a_t^{S}$ is relabeled with the corresponding teacher action $a_t^{T}$.
 
-\noindent\textbf{(a) DexTrAH-RGB RL teacher + Vanilla DAgger.}
+\noindent\textbf{(a) DexTrAH-RGB RL + Vanilla DAgger.}
 The teacher is trained using the DexTrAH-RGB RL recipe, and the student is learned via Vanilla DAgger.
-This is the original DexTrAH-RGB pipeline used for the KUKA--Allegro setup.
-During data collection, the student fully controls the rollout ($\beta=0$), while the teacher runs in parallel
-to provide labels: each executed student action $a_t^{S}$ is relabeled with the corresponding teacher action
-$a_t^{T}$.
+The student controls the rollout ($\beta=0$), while the parallel teacher policy labels
+each executed student action $a_t^{S}$ with teacher action $a_t^{T}$.
 
 % \noindent\textbf{(b) Our RL teacher + Vanilla DAgger.}
 % We replace the DexTrAH-RGB teacher training pipeline with our customized RL recipe and use the same
 % Vanilla DAgger-style online distillation.
 
-\noindent\textbf{(b) Our RL teacher + Vanilla DAgger.}
+\noindent\textbf{(b) Our RL + Vanilla DAgger.}
 This setting matches (a) except that the teacher is trained with our customized RL recipe instead of the
 DexTrAH-RGB pipeline.
 
@@ -158,9 +156,9 @@ DexTrAH-RGB pipeline.
 % a large teacher--student disagreement. The student is trained on teacher-labeled pairs $(o_t^{S}, a_t^{T})$,
 % where $o_t^{S}$ denotes the student observation.
 
-\noindent\textbf{(c) Our RL teacher + Vanilla SafeDAgger.}
+\noindent\textbf{(c) Our RL + Vanilla SafeDAgger.}
 Using the same teacher as in (b), we replace Vanilla DAgger with a disagreement-gated SafeDAgger baseline.
-The teacher intervenes only when $\lVert a_t^{T}-a_t^{S}\rVert_2$ exceeds a threshold, and we train the student
+The teacher intervenes only when $\lVert a_t^{T}-a_t^{S}\rVert_2$ exceeds a fixed threshold, and we train the student
 on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
 
 % \noindent\textbf{(d) DexTrAH-RGB RL teacher + SafeDAgger with disagreement and a risk predictor.}
@@ -170,7 +168,7 @@ on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
 % as unlikely to lead to task success. The intervention decision is computed at every timestep. Likewise, the
 % student is trained on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
 
-\noindent\textbf{(d) DexTrAH-RGB RL teacher + SafeDAgger with disagreement and a risk predictor.}
+\noindent\textbf{(d) DexTrAH-RGB RL + SafeDAgger with disagreement + risk predictor + stationary intervention boundary.}
 This setting matches our full distillation pipeline but uses the DexTrAH-RGB-trained teacher (as in (a)).
 Intervention is triggered by either large teacher--student disagreement or high predicted risk,
 and the student is trained from teacher-labeled pairs $(o_t^{S}, a_t^{T})$ collected under this gate.
@@ -179,24 +177,20 @@ and the student is trained from teacher-labeled pairs $(o_t^{S}, a_t^{T})$ colle
 % We combine our custom RL pipeline with the proposed teacher intervention mechanism, using both teacher--student
 % disagreement and state-risk prediction to trigger teacher takeover.
 
-\noindent\textbf{(e) Our RL teacher + SafeDAgger with disagreement and a risk predictor.}
+\noindent\textbf{(e) Our RL + SafeDAgger with disagreement + risk predictor + stationary intervention boundary.}
 \revision{This is the fixed-threshold version of our pipeline:} the teacher is trained with our customized RL recipe (as in (b)), and distillation
 uses the same intervention gate as in (d), combining teacher--student disagreement and risk prediction
 to trigger teacher takeover.
 
-\noindent\revision{\textbf{(f) Our RL teacher + SafeDAgger with disagreement, a risk predictor, and VLM tuning.}
+\noindent\revision{\textbf{(f) Our RL + SafeDAgger with disagreement + risk predictor + VIBS calibration.}
 This setting extends (e) with the proposed VLM tuner, which periodically
 calibrates the disagreement and risk thresholds using rollout
 statistics and representative visual states.}
 
-\noindent\revision{\textbf{(g) Our RL teacher + direct VLM intervention.}
-To distinguish threshold calibration from direct VLM arbitration, this variant
-removes the rule-based intervention gate in Eq.~\eqref{eq:adaptive_gate}. Instead
-of serving as a high-level advisor that calibrates the disagreement and risk
-thresholds, the VLM directly outputs the binary intervention decision
-$g_t\in\{0,1\}$ and therefore determines whether the teacher or student action
-is executed. The student is trained on the same teacher-labeled pairs as in the
-other intervention-based variants.}
+\noindent\revision{\textbf{(g) Our RL + direct VLM intervention (ablation).}
+This variant replaces the deterministic gate in Eq.~\eqref{eq:adaptive_gate}
+with a binary VLM decision $g_t\in\{0,1\}$; all other training components match
+the intervention-based variants.}
 
 As shown in Table~\ref{tab:ablation_studies}, ablations (a) and (d), which use the DexTrAH-RGB RL recipe,
 exhibit lower lift success and higher unsafe rate under both Vanilla DAgger and our intervention
@@ -209,7 +203,7 @@ distillation performance in downstream training.
 \begin{table}[t]
 \centering
 \small
-\caption{Ablation performance on four representative objects from the
+\caption{Performance of ablations (a)--(f) on four representative objects from the
 40-object training set (200 evaluation episodes per object). Each ablation
 reports lift success and average unsafe rate.}
 \label{tab:ablation_studies}
@@ -235,7 +229,6 @@ reports lift success and average unsafe rate.}
 \textbf{Ablation (d)} & 74.5 & 23.0 & 75.0 & 27.5 & 70.5 & 26.5 & 69.5 & 27.0 \\
 \textbf{Ablation (e)} & 88.0 & 7.5 & 90.0 & 15.0 & 82.0 & 15.5 & 88.0 & 12.0 \\
 \revision{\textbf{Ablation (f)}} & \redtodo{88.5} & \redtodo{6.0} & \redtodo{90.0} & \redtodo{12.5} & \redtodo{82.5} & \redtodo{13.0} & \redtodo{88.5} & \redtodo{10.0} \\
-\revision{\textbf{Ablation (g)}} & \redtodo{TBD} & \redtodo{TBD} & \redtodo{TBD} & \redtodo{TBD} & \redtodo{TBD} & \redtodo{TBD} & \redtodo{TBD} & \redtodo{TBD} \\
 \hline
 \end{tabular}
 }

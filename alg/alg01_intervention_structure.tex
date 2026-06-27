@@ -1,13 +1,14 @@
 \begin{algorithm}[t]
 \small
-\caption{Safe Policy Distillation with Risk-Guided Teacher Intervention}
+\caption{Safe Policy Distillation with Semantics-Aware Teacher Intervention}
 \label{alg:safe_dagger}
 \begin{algorithmic}[1]
 
 \STATE Train teacher policy $\pi_T$ via reinforcement learning
 \STATE Collect offline dataset $\mathcal{D}_0$ using $\pi_T$
 \STATE Pretrain risk predictor $\hat Q_{\mathrm{succ}}(s,a)$ on $\mathcal{D}_0$
-\STATE \revision{Initialize thresholds $(\tau_\delta^0,\tau_Q^0)$ and VLM visual buffer $\mathcal{B}_V$}
+\STATE \revision{Initialize $\boldsymbol{\tau}^{(0)}=(\tau_\delta^{(0)},\tau_Q^{(0)})$}
+\STATE \revision{Initialize visual buffer $\mathcal{B}_V$}
 
 \FOR{iteration $k = 1 \dots N$}
 
@@ -27,11 +28,12 @@
     \STATE Store transition in risk-predictor replay buffer $\mathcal{D}$
     \STATE Update student policy $\pi_S$ via imitation loss
     \STATE Update risk predictor $\hat Q_{\mathrm{succ}}$ using replay buffer
-    \STATE \revision{Add representative low-success visual states to $\mathcal{B}_V$}
-    \IF{\revision{VLM calibration is due}}
-        \STATE \revision{Summarize rollout statistics and sample $\mathcal{B}_V$}
-        \STATE \revision{Query VLM for $(\tilde\tau_\delta,\tilde\tau_Q)$}
-        \STATE \revision{Clamp and smooth thresholds in active mode}
+    \STATE \revision{Add representative visual states to $\mathcal{B}_V$}
+    \IF{\revision{semantic boundary calibration is due}}
+        \STATE \revision{Summarize rollout statistics and sample $\mathcal{V}_k$}
+        \STATE \revision{Query VLM for shift $\Delta\boldsymbol{\tau}$}
+        \STATE \revision{Form $\tilde{\boldsymbol{\tau}}=\boldsymbol{\tau}+\Delta\boldsymbol{\tau}$}
+        \STATE \revision{Clamp and smooth the candidate operating point}
     \ENDIF
 
 \ENDFOR

@@ -55,24 +55,25 @@
 \@writefile{toc}{\contentsline {section}{\numberline {III}Problem Statement and Methods}{2}{section.3}\protected@file@percent }
 \newlabel{sec:method}{{III}{2}{Problem Statement and Methods}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-A}Problem Formulation}{2}{subsection.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Overview of the proposed teacher--student learning pipeline. A privileged reinforcement learning teacher is trained in simulation and subsequently distilled into an RGB-based visuomotor policy for real-world deployment. {\color  {yellow!50!black}A vision-language model periodically calibrates the intervention thresholds.}\relax }}{3}{figure.caption.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Overview of the proposed teacher--student learning pipeline. A privileged reinforcement learning teacher is trained in simulation and subsequently distilled into an RGB-based visuomotor policy for real-world deployment. {\color  {yellow!50!black}A vision-language model periodically proposes a semantic displacement of the intervention operating point; deterministic clipping and smoothing constrain the resulting boundary update.}\relax }}{3}{figure.caption.1}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:pipeline}{{2}{3}{Overview of the proposed teacher--student learning pipeline. A privileged reinforcement learning teacher is trained in simulation and subsequently distilled into an RGB-based visuomotor policy for real-world deployment. \revision {A vision-language model periodically calibrates the intervention thresholds.}\relax }{figure.caption.1}{}}
+\newlabel{fig:pipeline}{{2}{3}{Overview of the proposed teacher--student learning pipeline. A privileged reinforcement learning teacher is trained in simulation and subsequently distilled into an RGB-based visuomotor policy for real-world deployment. \revision {A vision-language model periodically proposes a semantic displacement of the intervention operating point; deterministic clipping and smoothing constrain the resulting boundary update.}\relax }{figure.caption.1}{}}
 \newlabel{eq:vc_objective}{{1}{3}{Problem Formulation}{equation.3.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-B}Overview of the Distillation Pipeline}{3}{subsection.3.2}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Safe Policy Distillation with Risk-Guided Teacher Intervention\relax }}{3}{algorithm.1}\protected@file@percent }
-\newlabel{alg:safe_dagger}{{1}{3}{Safe Policy Distillation with Risk-Guided Teacher Intervention\relax }{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {III-C}Privileged Teacher Policy Training}{3}{subsection.3.3}\protected@file@percent }
+\newlabel{eq:teacher_rl_objective}{{2}{3}{Privileged Teacher Policy Training}{equation.3.2}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Safe Policy Distillation with Semantics-Aware Teacher Intervention\relax }}{4}{algorithm.1}\protected@file@percent }
+\newlabel{alg:safe_dagger}{{1}{4}{Safe Policy Distillation with Semantics-Aware Teacher Intervention\relax }{algorithm.1}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Reward components used for teacher policy training.\relax }}{4}{table.caption.2}\protected@file@percent }
 \newlabel{tab:reward_terms}{{I}{4}{Reward components used for teacher policy training.\relax }{table.caption.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {III-C}Privileged Teacher Policy Training}{4}{subsection.3.3}\protected@file@percent }
-\newlabel{eq:teacher_rl_objective}{{2}{4}{Privileged Teacher Policy Training}{equation.3.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-D}Risk Predictor}{4}{subsection.3.4}\protected@file@percent }
 \newlabel{eq:success_target}{{4}{4}{Risk Predictor}{equation.3.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {III-E}Semantics-Aware Intervention Mechanism}{4}{subsection.3.5}\protected@file@percent }
-\newlabel{subsec:vlm_threshold_tuner}{{III-E}{4}{Semantics-Aware Intervention Mechanism}{subsection.3.5}{}}
-\newlabel{eq:adaptive_gate}{{5}{4}{Semantics-Aware Intervention Mechanism}{equation.3.5}{}}
-\newlabel{eq:vlm_threshold_update}{{6}{5}{Semantics-Aware Intervention Mechanism}{equation.3.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {III-F}Student Policy Distillation}{5}{subsection.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {III-E}Intervention Mechanism}{4}{subsection.3.5}\protected@file@percent }
+\newlabel{eq:adaptive_gate}{{5}{4}{Intervention Mechanism}{equation.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {III-F}Visual-Semantic Intervention Boundary Calibration}{5}{subsection.3.6}\protected@file@percent }
+\newlabel{subsec:vlm_threshold_tuner}{{III-F}{5}{Visual-Semantic Intervention Boundary Calibration}{subsection.3.6}{}}
+\newlabel{eq:vlm_threshold_update}{{6}{5}{Visual-Semantic Intervention Boundary Calibration}{equation.3.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {III-G}Student Policy Distillation}{5}{subsection.3.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {IV}Experiment}{5}{section.4}\protected@file@percent }
 \newlabel{sec:experiment}{{IV}{5}{Experiment}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-A}Evaluation Metrics}{5}{subsection.4.1}\protected@file@percent }
@@ -97,6 +98,7 @@
 \newlabel{tab:real_world_results}{{V}{7}{Real-world experiments across various objects (tested over 15 episodes). \unseen {Unseen objects} are shaded.\relax }{table.caption.9}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-D}Real-World Experiments Setup}{7}{subsection.4.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-E}Discussion}{7}{subsection.4.5}\protected@file@percent }
+\newlabel{sec4:expriments}{{IV-E}{7}{Discussion}{subsection.4.5}{}}
 \bibstyle{IEEEtran}
 \bibdata{IEEEabrv,main}
 \bibcite{brahmbhatt2019contactgrasp}{1}
@@ -104,18 +106,17 @@
 \bibcite{andrychowicz2020learning}{3}
 \bibcite{luo2025precise}{4}
 \bibcite{rajeswaran2017learning}{5}
+\bibcite{akkaya2019solving}{6}
+\bibcite{petrenko2023dexpbt}{7}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt  {windcart} and \texttt  {cow}); lower is better in all plots. Curves correspond to the three compared distillation variants (blue: vanilla DAgger\cite  {ross2011reduction}, yellow: vanilla SafeDAgger\cite  {zhang2016query}, green: our pipeline).\relax }}{8}{figure.caption.7}\protected@file@percent }
 \@writefile{brf}{\backcite{ross2011reduction}{{8}{4}{figure.caption.7}}}
 \@writefile{brf}{\backcite{zhang2016query}{{8}{4}{figure.caption.7}}}
 \newlabel{fig:failure_modes}{{4}{8}{\textbf {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt {windcart} and \texttt {cow}); lower is better in all plots. Curves correspond to the three compared distillation variants (blue: vanilla DAgger\cite {ross2011reduction}, yellow: vanilla SafeDAgger\cite {zhang2016query}, green: our pipeline).\relax }{figure.caption.7}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }}{8}{figure.caption.8}\protected@file@percent }
 \newlabel{fig:realworld_exp_setup}{{5}{8}{\textbf {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }{figure.caption.8}{}}
-\newlabel{sec4:expriments}{{IV-E}{8}{Discussion}{subsection.4.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion and Future Work}{8}{section.5}\protected@file@percent }
 \newlabel{sec:conclusion}{{V}{8}{Conclusion and Future Work}{section.5}{}}
 \@writefile{toc}{\contentsline {section}{References}{8}{section.5}\protected@file@percent }
-\bibcite{akkaya2019solving}{6}
-\bibcite{petrenko2023dexpbt}{7}
 \bibcite{liu2023safe}{8}
 \bibcite{yu2022dexterous}{9}
 \bibcite{ross2011reduction}{10}
