@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.6.24)  25 JUN 2026 23:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.6.24)  27 JUN 2026 16:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -943,28 +943,28 @@ Package: l3keys2e 2022-01-12 LaTeX2e option processing using LaTeX3 keys
 ))
 ** ATTENTION: Overriding command lockouts (line 28).
 ** ATTENTION: Overriding IEEE standard margins (line 31).
-Package translations Info: No language package found. I am going to use `english' as default language. on input line 116.
+Package translations Info: No language package found. I am going to use `english' as default language. on input line 117.
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 116.
-LaTeX Font Info:    ... okay on input line 116.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 116.
-LaTeX Font Info:    ... okay on input line 116.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 116.
-LaTeX Font Info:    ... okay on input line 116.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 116.
-LaTeX Font Info:    ... okay on input line 116.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 116.
-LaTeX Font Info:    ... okay on input line 116.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 116.
-LaTeX Font Info:    ... okay on input line 116.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 116.
-LaTeX Font Info:    ... okay on input line 116.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 116.
-LaTeX Font Info:    ... okay on input line 116.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 116.
-LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count375
@@ -985,7 +985,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 
-Package todonotes Warning: The length marginparwidth is less than 2cm and will most likely cause issues with the appearance of inserted todonotes. The issue can be solved by adding a line like \setlength {\marginparwidth }{2cm} prior to loading the todonotes package. on input line 116.
+Package todonotes Warning: The length marginparwidth is less than 2cm and will most likely cause issues with the appearance of inserted todonotes. The issue can be solved by adding a line like \setlength {\marginparwidth }{2cm} prior to loading the todonotes package. on input line 117.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: changepage package is loaded.
@@ -996,36 +996,36 @@ Package caption Info: hyperref package is loaded.
 Package caption Info: sidecap package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \microtypecontext on input line 116.
-Package microtype Info: Applying patch `item' on input line 116.
-Package microtype Info: Applying patch `toc' on input line 116.
-Package microtype Info: Applying patch `eqnum' on input line 116.
-Package microtype Info: Applying patch `footnote' on input line 116.
+LaTeX Info: Redefining \microtypecontext on input line 117.
+Package microtype Info: Applying patch `item' on input line 117.
+Package microtype Info: Applying patch `toc' on input line 117.
+Package microtype Info: Applying patch `eqnum' on input line 117.
+Package microtype Info: Applying patch `footnote' on input line 117.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 116.
+LaTeX Info: Redefining \showhyphens on input line 117.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-ptm.cfg
 File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
 )
-LaTeX Info: Redefining \celsius on input line 116.
-Package gensymb Info: Faking symbols for \degree and \celsius on input line 116.
+LaTeX Info: Redefining \celsius on input line 117.
+Package gensymb Info: Faking symbols for \degree and \celsius on input line 117.
 
 
 Package gensymb Warning: Not defining \perthousand.
 
-LaTeX Info: Redefining \ohm on input line 116.
-Package gensymb Info: Using \Omega for \ohm on input line 116.
+LaTeX Info: Redefining \ohm on input line 117.
+Package gensymb Info: Using \Omega for \ohm on input line 117.
 
 Package gensymb Warning: Not defining \micro.
 
-Package hyperref Info: Link coloring ON on input line 116.
+Package hyperref Info: Link coloring ON on input line 117.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
  (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
@@ -1035,34 +1035,34 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count381
 )
-LaTeX Info: Redefining \ref on input line 116.
-LaTeX Info: Redefining \pageref on input line 116.
-LaTeX Info: Redefining \nameref on input line 116.
-Package backref Info: ** backref set up for natbib ** on input line 116.
+LaTeX Info: Redefining \ref on input line 117.
+LaTeX Info: Redefining \pageref on input line 117.
+LaTeX Info: Redefining \nameref on input line 117.
+Package backref Info: ** backref set up for natbib ** on input line 117.
  (/usr/share/texlive/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 116.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 117.
 
 
 pdfTeX warning: pdflatex (file ./figures/fig01_teaser-dexsafedagger.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
 <figures/fig01_teaser-dexsafedagger.pdf, id=7, 734.745pt x 320.19624pt>
 File: figures/fig01_teaser-dexsafedagger.pdf Graphic file (type pdf)
 <use figures/fig01_teaser-dexsafedagger.pdf>
-Package pdftex.def Info: figures/fig01_teaser-dexsafedagger.pdf  used on input line 118.
+Package pdftex.def Info: figures/fig01_teaser-dexsafedagger.pdf  used on input line 119.
 (pdftex.def)             Requested size: 505.89pt x 220.4666pt.
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 118.
+(caption)                particular \caption on input line 119.
 See the caption package documentation for explanation.
 
 File: figures/fig01_teaser-dexsafedagger.pdf Graphic file (type pdf)
 <use figures/fig01_teaser-dexsafedagger.pdf>
-Package pdftex.def Info: figures/fig01_teaser-dexsafedagger.pdf  used on input line 118.
+Package pdftex.def Info: figures/fig01_teaser-dexsafedagger.pdf  used on input line 119.
 (pdftex.def)             Requested size: 505.89pt x 220.4666pt.
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 118.
+(caption)                particular \caption on input line 119.
 See the caption package documentation for explanation.
 
 (./01_introduction.tex [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
@@ -1071,21 +1071,18 @@ See the caption package documentation for explanation.
  <./figures/fig01_teaser-dexsafedagger.pdf>] (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 108.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 112.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 108.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 112.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-)) (./02_related_work.tex
-Underfull \vbox (badness 1968) has occurred while \output is active []
-
-) (./03_methods.tex
+)) (./02_related_work.tex) (./03_methods.tex
 
 pdfTeX warning: pdflatex (file ./figures/fig02_network_structure.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
 <figures/fig02_network_structure.pdf, id=51, 781.80081pt x 386.28314pt>
@@ -1093,7 +1090,7 @@ File: figures/fig02_network_structure.pdf Graphic file (type pdf)
 <use figures/fig02_network_structure.pdf>
 Package pdftex.def Info: figures/fig02_network_structure.pdf  used on input line 3.
 (pdftex.def)             Requested size: 404.71353pt x 199.96657pt.
-LaTeX Font Info:    Trying to load font information for U+euf on input line 33.
+LaTeX Font Info:    Trying to load font information for U+euf on input line 34.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-euf.cfg
@@ -1101,36 +1098,34 @@ File: mt-euf.cfg 2006/07/03 v1.1 microtype config. file: AMS Euler Fraktur (RS)
 ) [2] (./alg/alg01_intervention_structure.tex
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 3.
 )
-Underfull \vbox (badness 3189) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3 <./figures/fig02_network_structure.pdf>] (./table/reward_shaping.tex) [4]) (./04_experiments.tex
-<figures/ablation_comparison.png, id=206, 3527.1775pt x 1195.46625pt>
+<figures/ablation_comparison.png, id=205, 3527.1775pt x 1195.46625pt>
 File: figures/ablation_comparison.png Graphic file (type png)
 <use figures/ablation_comparison.png>
 Package pdftex.def Info: figures/ablation_comparison.png  used on input line 40.
 (pdftex.def)             Requested size: 430.00958pt x 145.72992pt.
  (./table/state_space.tex) [5] [6 <./figures/ablation_comparison.png (PNG copy)>]
-
-pdfTeX warning: pdflatex (file ./figures/failure_mode.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/failure_mode.pdf, id=233, 660.08607pt x 403.2164pt>
+<figures/failure_mode.pdf, id=231, 1520.5608pt x 936.37831pt>
 File: figures/failure_mode.pdf Graphic file (type pdf)
 <use figures/failure_mode.pdf>
-Package pdftex.def Info: figures/failure_mode.pdf  used on input line 249.
-(pdftex.def)             Requested size: 455.2979pt x 278.12732pt.
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 253.
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+Package pdftex.def Info: figures/failure_mode.pdf  used on input line 262.
+(pdftex.def)             Requested size: 455.2979pt x 280.37271pt.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 267.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<figures/real_setup_1.png, id=235, 2856.6725pt x 1286.8075pt>
+<figures/real_setup_1.png, id=233, 2856.6725pt x 1286.8075pt>
 File: figures/real_setup_1.png Graphic file (type png)
 <use figures/real_setup_1.png>
-Package pdftex.def Info: figures/real_setup_1.png  used on input line 286.
+Package pdftex.def Info: figures/real_setup_1.png  used on input line 304.
 (pdftex.def)             Requested size: 208.86188pt x 94.07164pt.
-) (./05_conclusion.tex [7]) (./main.bbl (./main.brf)
+) [7] (./05_conclusion.tex) (./main.bbl (./main.brf)
 \tf@brf=\write5
 \openout5 = `main.brf'.
 
@@ -1153,18 +1148,18 @@ Package rerunfilecheck Info: File `main.brf' has not changed.
 (rerunfilecheck)             Checksum: 2AA9BBBFC610756173AA32A9A11E492E;1029.
  ) 
 Here is how much of TeX's memory you used:
- 34569 strings out of 480171
- 688969 string characters out of 5894489
- 961504 words of memory out of 5000000
- 51470 multiletter control sequences out of 15000+600000
- 527500 words of font info for 327 fonts, out of 8000000 for 9000
+ 34563 strings out of 480171
+ 688888 string characters out of 5894489
+ 962547 words of memory out of 5000000
+ 51469 multiletter control sequences out of 15000+600000
+ 527129 words of font info for 325 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  115i,17n,118p,1038b,971s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/euler/eufm7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (9 pages, 5489088 bytes).
+Output written on main.pdf (9 pages, 5986324 bytes).
 PDF statistics:
- 430 PDF objects out of 1000 (max. 8388607)
- 274 compressed objects within 3 object streams
- 93 named destinations out of 1000 (max. 500000)
+ 424 PDF objects out of 1000 (max. 8388607)
+ 272 compressed objects within 3 object streams
+ 91 named destinations out of 1000 (max. 500000)
  54822 words of extra memory for PDF output out of 61914 (max. 10000000)
 

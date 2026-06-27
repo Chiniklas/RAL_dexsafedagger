@@ -40,9 +40,10 @@ episode's failure mode.
     \includegraphics[width=0.85\linewidth]{figures/ablation_comparison.png}
     \par\redtodo{TODO: Update Figure 3.}
     \caption{\textbf{Ablation studies.}
-    We compare three distillation variants in terms of (left) student lift success, (middle) teacher intervention rate $\beta$, and (right) unsafe episode rate, all plotted over training iterations.
+    We compare four distillation variants in terms of (left) student lift success, (middle) teacher intervention rate $\beta$, and (right) unsafe episode rate, all plotted over training iterations.
     Shaded regions indicate variability across runs (mean $\pm$ std).
-    Curves correspond to the three compared methods (blue: vanilla DAgger, yellow: vanilla SafeDAgger, green: our pipeline).}
+    Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange),
+    DexSafeDAgger (green), and VC-DexSafeDAgger (red).}
     \label{fig:ablation}
 \end{figure*}
 
@@ -240,18 +241,19 @@ reports lift success and average unsafe rate.}
 }
 \end{table}
 
-As shown in Fig.~\ref{fig:ablation}, ablations (b), (c), and (e), which adopt our RL pipeline, reach
-a comparable final lift success on the four ablation objects (84\%--89\%; left). This is expected because our
+As shown in Fig.~\ref{fig:ablation}, ablations (b), (c), (e), and (f), which adopt our RL pipeline, reach
+comparable final lift success on the four ablation objects (left). This is expected because our
 intervention mechanism is designed primarily to suppress unsafe exploration rather than directly optimize
-task success. Vanilla DAgger keeps the student in full control ($\beta=0$), whereas both SafeDAgger variants
-exhibit a decreasing intervention rate as the student improves (middle). Both
-intervention-based methods substantially reduce unsafe episodes (by up to 80\% compared to Vanilla DAgger)
+task success. Vanilla DAgger keeps the student in full control ($\beta=0$),
+whereas the three intervention variants exhibit a decreasing intervention rate
+as the student improves (middle). These methods substantially reduce unsafe
+episodes (by approximately 80\% relative to Vanilla DAgger)
 early in training and maintain a low unsafe rate (below 20\%) throughout distillation, with the proposed
 method achieving the lowest unsafe rate overall (right).
 
 Compared with Vanilla SafeDAgger, our method intervenes more frequently because the risk predictor
 identifies additional high-risk transitions, leading to more teacher takeovers. This increased
-supervision further reduces the unsafe rate (by about 5\% on average). By the end of training, our method
+supervision further reduces the unsafe rate (by about 5 percentage points on average). By the end of training, our method
 converges toward the teacher policy's average unsafe rate ($\approx 12\%$) and reaches a minimum unsafe rate
 ($\approx 8\%$) (both averaged over the four ablation objects), which is below the teacher average.
 

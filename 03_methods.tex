@@ -60,7 +60,7 @@ o_t\sim\Omega(\cdot\mid s_t).
 \endgroup
 where $g_t=1$ indicates teacher takeover and $g_t=0$ denotes student control.
 \revision{The intervention gate $\mathcal{G}$ and its VLM-calibrated thresholds
-are described in Secs.~E--F.}
+are described in Sec.~E.}
 
 We formalize task success via a trajectory-level predicate
 $\mathbb{I}_{\mathrm{succ}}(\tau)\in\{0,1\}$, which is $1$ if the object is
@@ -73,11 +73,10 @@ $\prod_{t=0}^{T-1}\big(1-\mathbb{I}_{\mathrm{unsafe}}(s_t)\big)=1$.
 
 \subsection{Overview of the Distillation Pipeline}
 Fig.~\ref{fig:pipeline} summarizes our teacher--student distillation pipeline,
-which consists of three core components: (i) privileged teacher policy training
+which consists of four core components: (i) privileged teacher policy training
 in simulation (Sec.~C), (ii) risk predictor learning to estimate lift success
-under student actions (Sec.~D), and (iii) online student distillation with
-teacher intervention (Secs.~E and G). \revision{We additionally introduce a VLM
-tuner (Sec.~F) that periodically calibrates the intervention thresholds.} We
+under student actions (Sec.~D), (iii) semantics-driven teacher intervention
+(Sec.~E), and (iv) online student distillation (Sec.~F). We
 warm-start the risk predictor using an offline dataset collected under full
 teacher control and continue updating it periodically during online
 distillation using mini-batches sampled from a ring replay buffer. During
@@ -135,51 +134,40 @@ conditions include palm flip, harmful collision, object escape, and hand-too-far
 subsequent intervention decisions.
 
 \subsection{Risk Predictor}
-Action disagreement alone cannot anticipate downstream failures, particularly
-when the student action is locally similar to the teacher action yet triggers
-unstable contact transitions. To address this limitation, we learn a risk
-predictor that conservatively estimates the probability of \emph{lift success}.
-The predictor is used only during training to guide teacher intervention and is
-not required at deployment time.
+Action disagreement identifies imitation errors but is insufficient in
+contact-rich manipulation: a small deviation can destabilize contact and later
+cause grasp loss and various unsafe events. We
+therefore learn a conservative success-value critic that estimates the future
+probability of safe lift success under the student action to compliment the l2 action disagreement.
 
-The risk predictor is designed to estimate risk from multimodal inputs. It
-takes as input a state--action pair $(s_t,a_t)$, where $s_t$ comprises robot
-proprioceptive features concatenated with image embeddings produced by a visual
-encoder to provide semantic information. The visual encoder is trained
-end-to-end during distillation and regularized via an auxiliary object-position
-prediction loss (Sec.~G). The action $a_t$ is the \emph{executed} action at time
-$t$ (teacher or student, depending on the intervention gate). Following a
-clipped double-critic design, we maintain two critics $Q_1$ and $Q_2$
-implemented as ReLU MLPs with hidden sizes $[256,128]$, each outputting a scalar
-logit $z_i(s,a)\in\mathbb{R}$ mapped to a success probability via a
-temperature-calibrated sigmoid,
+The predictor takes a multimodal state--action pair $(s_t,a_t)$, where $s_t$ is
+formed by concatenating robot proprioception with image embeddings from a visual
+encoder.
+The encoder is trained end-to-end during distillation and regularized via an
+auxiliary object-position prediction loss (Sec.~F). At time $t$, $a_t$ denotes
+the \emph{executed} action selected by the intervention gate. We use two ReLU
+MLP critics, $Q_1$ and $Q_2$, with hidden sizes $[256,128]$. Each critic outputs
+a scalar logit $z_i(s,a)\in\mathbb{R}$, which is mapped to a success probability
+by a temperature-calibrated sigmoid,
 $Q_i(s,a)=\sigma\!\left(z_i(s,a)/T\right)$ for $i\in\{1,2\}$, where $T=4$ is an
-empirically set calibration temperature. We then compute
-\begingroup
-\small
-\begin{equation}
-\hat Q_{\mathrm{succ}}(s,a)=\min\!\left(Q_1(s,a),\,Q_2(s,a)\right),
-\label{eq:success_critic}
-\end{equation}
-\endgroup
-which provides a conservative estimate of lift success (lower values indicate
-higher risk).
+empirically chosen calibration temperature. The conservative success-value
+estimate is $\hat Q_{\mathrm{succ}}(s,a)=
+\min\!\left(Q_1(s,a),\,Q_2(s,a)\right)$, where lower values indicate higher
+prospective risk.
 
 The predictor is pretrained in a warm-start phase using an offline dataset of
 transitions $(s_t,a_t,s_{t+1},a_{t+1},u_t,d_t,h_t)$. Here, $(s_t,a_t)$ and
 $(s_{t+1},a_{t+1})$ provide the current and next state--action pairs required by
 SARSA-style bootstrapping, $d_t\in\{0,1\}$ is the episode termination flag, and
 $h_t\in\{0,1\}$ indicates whether the next action $a_{t+1}$ is defined (valid)
-for bootstrapping. The label $u_t\in\{0,1\}$ encodes \emph{safe lift-event}
-attainment by time $t$: $u_t=1$ if the object has been lifted above a height
-threshold for a consecutive duration (as in $\mathbb{I}_{\mathrm{succ}}$) and no
-unsafe event has occurred up to time $t$; otherwise $u_t=0$.
+for bootstrapping. The label $u_t\in\{0,1\}$ denotes safe lift attainment by
+time $t$: $u_t=1$ if the object remains above the height threshold for the
+required consecutive duration (as in $\mathbb{I}_{\mathrm{succ}}$) and no unsafe
+event has occurred by time $t$; otherwise, $u_t=0$.
 
-During online distillation, newly collected transitions are appended to a ring
-buffer (sized $100k$) at every environment step. The predictor critics are
-updated periodically: every $500$ environment steps, we perform $20$ gradient
-updates using mini-batches sampled from the buffer using Adam with learning
-rate $10^{-3}$.
+During online distillation, each transition is appended to a $100k$ ring buffer.
+Every $500$ environment steps, the critics receive $20$ Adam updates (learning
+rate $10^{-3}$) using mini-batches from this buffer.
 
 Training uses SARSA-style bootstrapped regression with an effective termination
 signal $d_t^{\mathrm{eff}}=\max(d_t,1-h_t)$ and one-step target
@@ -202,24 +190,20 @@ w_t\big(Q_i(s_t,a_t)-y_t\big)^2\right]$, with total loss
 $\mathcal{L}=\mathcal{L}_{Q_1}+\mathcal{L}_{Q_2}$ and target updates
 $\theta'\leftarrow\rho\theta'+(1-\rho)\theta$ ($\rho=0.995$).
 
-During interactive distillation, the predictor estimates the task success
-probability of executing the \emph{student} action: given $s_t$ and
-$a_t^S\sim\pi_S(\cdot\mid o_t)$, we compute
-$\hat Q_{\mathrm{succ}}(s_t,a_t^S)$ and trigger teacher takeover when it falls
-below a threshold (Sec.~E).
+During interactive distillation, the prospective-risk channel evaluates the
+student action $a_t^S\sim\pi_S(\cdot\mid o_t)$ as
+$\hat Q_{\mathrm{succ}}(s_t,a_t^S)$, as described next.
 
-\subsection{Intervention Mechanism}
-At each timestep, we compute (i) a risk score using the learned predictor and
-(ii) a teacher--student disagreement score. Disagreement is defined as
+\subsection{Semantics-Aware Intervention Mechanism}
+\label{subsec:vlm_threshold_tuner}
+We use a deterministic two-channel safety filter for teacher arbitration. The
+disagreement channel measures
 $\delta_t\coloneqq\lVert a_t^S-a_t^T\rVert_2$, where
-$a_t^T\sim\pi_T(\cdot\mid s_t)$ and $a_t^S\sim\pi_S(\cdot\mid o_t)$ are the
-teacher and student action outputs. The risk criterion flags states whose
-predicted success under the student action is low, i.e.,
-$\hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q^{(k)}$.
-
-We instantiate the intervention gate $\mathcal{G}$ as an OR-rule that triggers
-teacher takeover when either the predictor indicates high risk or the student
-deviates substantially from the teacher:
+$a_t^T\sim\pi_T(\cdot\mid s_t)$ and $a_t^S\sim\pi_S(\cdot\mid o_t)$. It captures
+immediate imitation error. The critic channel provides a complementary
+prospective risk estimate under the student action. The gate transfers control
+when the student is either outside the teacher-compatible action manifold or
+predicted to have low future success:
 \begingroup
 \color{yellow!50!black}
 \begingroup
@@ -233,41 +217,38 @@ g_t=
 \label{eq:adaptive_gate}
 \end{equation}
 \endgroup
-where $k$ indexes the latest calibration update. Intuitively, disagreement
-detects distribution shift, while the risk predictor anticipates downstream
-failures even when the instantaneous action discrepancy is small.
+The threshold pair $(\tau_\delta^{(k)},\tau_Q^{(k)})$ parameterizes the gate's
+operating point, and $k$ indexes its latest update. Disagreement flags actions
+outside the teacher-compatible manifold, whereas the critic anticipates
+downstream contact failures even when disagreement is small. Either condition
+is sufficient for teacher intervention.
 \endgroup
 
-\revision{We initialize $\tau_\delta^{(0)}$ to the $90$th percentile of the
-teacher--student disagreement $\delta_t$ measured on the warm-start dataset.
-We initialize $\tau_Q^{(0)}$ to a low percentile (e.g., the $10$th) of
-$\hat Q_{\mathrm{succ}}(s_t,a_t^T)$ computed over successful warm-start
-rollouts. These percentiles provide base thresholds chosen empirically to
-balance intervention frequency and exploration efficiency; the VLM tuner
-subsequently calibrates them during training (Sec.~F).}
+\revision{We initialize the operating point by setting $\tau_\delta^{(0)}$ and
+$\tau_Q^{(0)}$ to the $90$th percentile of warm-start disagreement $\delta_t$
+and the $10$th percentile of $\hat Q_{\mathrm{succ}}(s_t,a_t^T)$ over successful
+warm-start rollouts, respectively. These values balance intervention and
+exploration and anchor subsequent VLM updates.}
 
 \begingroup
 \color{yellow!50!black}
-\subsection{VLM Threshold Tuner}
-\label{subsec:vlm_threshold_tuner}
+Because the student, risk predictor, and visited-state distribution co-evolve,
+a fixed operating point may not maintain a suitable safety--autonomy trade-off.
+Conservative intervention is useful early, but excessive intervention later can
+restrict autonomy and slow learning. We therefore use semantic information from
+a VLM to periodically calibrate the operating point. At iteration $k$, the VLM
+receives rollout statistics $\mathcal{C}_k$, including disagreement
+($\delta_t$), predicted success
+($\hat Q_{\mathrm{succ}}(s_t,a_t^S)$), intervention rate ($\beta$), and
+unsafe-episode rate ($\mathrm{UnsafeRateAvg}$). The VLM also receives
+a representative image batch $\mathcal{V}_k$, sampled from
+the visual buffer $\mathcal{B}_V$ to cover states with high disagreement, low
+predicted success, or unsafe events.
 
-To adapt the arbitration rule to non-stationary learning dynamics, we introduce
-a vision-language-model (VLM) based threshold tuner. The tuner periodically
-calibrates the two thresholds in Eq.~\eqref{eq:adaptive_gate} as both the
-student policy and the visited-state distribution evolve during data
-aggregation. At iteration $k$, the VLM is provided with rollout-level summary
-statistics
-$\mathcal{C}_k$, including the teacher--student disagreement, predicted
-success, intervention frequency, and unsafe-event rate. In addition, it receives
-a small set of representative visual observations corresponding to
-high-disagreement, low-success, and unsafe states. These visual examples provide
-context about the failure modes encountered by the student, while the scalar
-statistics summarize the global behavior of the current policy.
-
-The VLM is used as a high-level calibration module. It recommends candidate
-thresholds
-$(\tilde{\tau}_{\delta}^{(k)},\tilde{\tau}_{Q}^{(k)})$. To avoid abrupt changes, each proposed threshold is constrained around its initial value
-and then exponentially smoothed:
+The VLM proposes a candidate operating point parameterized by
+$(\tilde{\tau}_{\delta}^{(k)},\tilde{\tau}_{Q}^{(k)})$. Each threshold is clipped
+to an admissible interval around its initial value and exponentially smoothed to
+prevent abrupt changes:
 \begin{equation}
 \begin{aligned}
 \tau_{x}^{(k+1)}
@@ -282,7 +263,9 @@ c_{x}^{\max}\tau_{x}^{0}\right),\\[-2pt]
 \end{equation}
 Here, $\alpha$ controls the adaptation rate, while
 $c_{x}^{\min}$ and $c_{x}^{\max}$ define the admissible range relative to the
-initial threshold $\tau_x^0$.  
+initial threshold $\tau_x^0$. Thus, the operating point evolves smoothly within
+a bounded region around its initialization. Per-timestep arbitration remains governed by the
+deterministic gate in Eq.~\eqref{eq:adaptive_gate}.
 \endgroup
 
 
@@ -312,6 +295,6 @@ dataset (e.g., $100$k transitions) under full teacher control ($g_t\equiv 1$)
 to pretrain the risk predictor. (ii) \emph{Online
 distillation:} we perform interactive rollouts under $\pi_{\mathcal{G}}$ and
 query teacher labels on intervened steps. The student is updated online using
-the current-step teacher label only; we do \emph{not} maintain a replay buffer
-or DAgger-style aggregated dataset for student updating. The design reduces the
+the current-step teacher label only, no replay buffer
+or offline dataset is maintained for student updating. The design reduces the
 effect of stale supervision and stabilizes online imitation updates.
