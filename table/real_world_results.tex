@@ -1,0 +1,25 @@
+\newcommand{\unseen}[1]{\cellcolor{gray!15}\textbf{#1}}
+
+\begin{table}[t]
+\centering
+\small
+\caption{Real-world experiments across various objects (tested over 15 episodes). \unseen{Unseen objects} are shaded.}
+\label{tab:real_world_results}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{0.48\textwidth}{!}{%
+
+\begin{tabular}{l|cccccc}
+\hline
+Percentage \% & WindCart & Boot & ToolBox & Cow & \unseen{Plane} & \unseen{Shoe} \\
+\hline
+Lift Success         & 86.7 & 86.7 & 80.0 & 86.7 & \unseen{66.7} & \unseen{60.0} \\
+Unsafe Rate Avg      & 13.3 & 20.0 & 20.0 & 26.7 & \unseen{40.0} & \unseen{40.0} \\
+Harmful collision    & 0.0  & 6.7  & 13.3 & 13.3 & \unseen{20.0} & \unseen{26.7} \\
+Object escape        & 13.3 & 13.3 & 6.7  & 13.3 & \unseen{20.0} & \unseen{13.3} \\
+Palm flipped         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  \\
+Hand too far         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  \\
+\hline
+\end{tabular}
+}
+\end{table}

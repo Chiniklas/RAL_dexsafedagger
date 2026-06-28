@@ -1,0 +1,33 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Performance of ablations (a)--(f) on four representative objects from the
+40-object training set (200 evaluation episodes per object). Each ablation
+reports lift success and average unsafe rate.}
+\label{tab:ablation_studies}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{0.48\textwidth}{!}{%
+\begin{tabular}{l|cc|cc|cc|cc}
+\hline
+\multirow{2}{*}{Percentage \%}
+& \multicolumn{2}{c|}{WindCart}
+& \multicolumn{2}{c|}{Boot}
+& \multicolumn{2}{c|}{ToolBox}
+& \multicolumn{2}{c}{Cow} \\
+\cline{2-9}
+& Lift  & Unsafe
+& Lift  & Unsafe
+& Lift  & Unsafe
+& Lift  & Unsafe  \\
+\hline
+\textbf{Ablation (a)} & 75.0 & 24.0 & 76.5 & 28.0 & 72.0 & 26.0 & 70.0 & 27.5 \\
+\textbf{Ablation (b)} & 88.5 & 13.5 & 89.0 & 20.5 & 82.5 & 19.0 & 88.0 & 17.5 \\
+\textbf{Ablation (c)} & 88.0 & 12.0 & 89.5 & 19.5 & 81.5 & 18.5 & 87.0 & 16.0 \\
+\textbf{Ablation (d)} & 74.5 & 23.0 & 75.0 & 27.5 & 70.5 & 26.5 & 69.5 & 27.0 \\
+\textbf{Ablation (e)} & 88.0 & 7.5 & 90.0 & 15.0 & 82.0 & 15.5 & 88.0 & 12.0 \\
+\revision{\textbf{Ablation (f)}} & \redtodo{88.5} & \redtodo{6.0} & \redtodo{90.0} & \redtodo{12.5} & \redtodo{82.5} & \redtodo{13.0} & \redtodo{88.5} & \redtodo{10.0} \\
+\hline
+\end{tabular}
+}
+\end{table}

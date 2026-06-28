@@ -2,12 +2,12 @@
     \centering
     \includegraphics[width=0.8\linewidth]{figures/fig02_network_structure.pdf}
     \par\redtodo{TODO: Update Figure 2.}
-    \caption{Overview of the proposed teacher--student learning pipeline. A
+    \caption{Overview of the \methodname teacher--student learning pipeline. A
     privileged reinforcement learning teacher is trained in simulation and
     subsequently distilled into an RGB-based visuomotor policy for real-world
     deployment. \revision{A vision-language model periodically proposes a
-    semantic displacement of the intervention operating point; deterministic
-    clipping and smoothing constrain the resulting boundary update.}}
+    displacement of the intervention policy's operating point; deterministic
+    clipping and smoothing constrain the resulting policy update.}}
     \label{fig:pipeline}
 \end{figure*}
 
@@ -60,9 +60,9 @@ o_t\sim\Omega(\cdot\mid s_t).
 \end{equation}
 \endgroup
 where $g_t=1$ indicates teacher takeover and $g_t=0$ denotes student control.
-The intervention boundary $\boldsymbol{\tau}^{(k)}=
-(\tau_\delta^{(k)},\tau_Q^{(k)})$ governs the teacher takeover mechanism in $\mathcal{G}$. Periodically, a VLM proposes a displacement
-$\Delta\boldsymbol{\tau}^{(k)}$, from which the boundary is updated to adjust to distributional shift.
+The intervention policy is parameterized by $\boldsymbol{\tau}^{(k)}=
+(\tau_\delta^{(k)},\tau_Q^{(k)})$, which governs teacher takeover decisions in $\mathcal{G}$. Periodically, a VLM proposes a displacement
+$\Delta\boldsymbol{\tau}^{(k)}$, from which the policy is updated to adjust to distributional shift.
 
 We formalize task success via a trajectory-level predicate
 $\mathbb{I}_{\mathrm{succ}}(\tau)\in\{0,1\}$, which is $1$ if the object is
@@ -74,12 +74,12 @@ at time $t$, the trajectory is safe if
 $\prod_{t=0}^{T-1}\big(1-\mathbb{I}_{\mathrm{unsafe}}(s_t)\big)=1$.
 
 \subsection{Overview of the Distillation Pipeline}
-Fig.~\ref{fig:pipeline} summarizes our teacher--student distillation pipeline,
+Fig.~\ref{fig:pipeline} summarizes \methodname, our teacher--student distillation pipeline,
 which consists of five core components: (i) privileged teacher policy training
 in simulation (Sec.~C), (ii) risk predictor learning to estimate lift success
 under student actions (Sec.~D), (iii) deterministic teacher intervention
-(Sec.~E), (iv) visual-semantic intervention boundary calibration (Sec.~F), and (v) online
-student distillation (Sec.~G).
+(Sec.~E), (iv) VLM-guided intervention policy adaptation (Sec.~F), and (v) online
+student skill distillation (Sec.~G).
 
 The privileged teacher is first trained in simulation, and its rollouts provide
 an offline warm start for the Bellman success-value critic. The critic estimates
@@ -90,8 +90,8 @@ During online distillation, the teacher intervenes when either teacher--student
 action disagreement is high or the critic predicts low success. The student is
 then optimized online from teacher labels collected under the resulting rollout
 policy $\pi_{\mathcal{G}}$. A VLM is periodically queried to propose updates to
-the intervention operating point through a semantic boundary shift. The
-resulting candidate boundary is clipped and smoothed before use. Pseudo-code is
+the intervention policy's operating point. The resulting candidate policy parameters
+are clipped and smoothed before use. Pseudo-code is
 provided in Alg.~\ref{alg:safe_dagger}.
 
 \input{alg/alg01_intervention_structure}
@@ -117,11 +117,11 @@ next state. The objective is to maximize the expected discounted return,
 We use a shaped reward $r_t=\sum_{k=1}^{K_r} r_{t,k}$ to encourage stable grasp
 acquisition, object lifting, and goal reaching (Table~\ref{tab:reward_terms}).
 
-The teacher is trained in simulation using an asymmetric actor--critic setup
-(Table~\ref{tab:teacher_obs}): the actor receives noisy and partial
-proprioceptive observations that approximate realistic sensing, while the
-critic is provided with privileged full state of both robot and object,
-available only in simulation.
+The teacher is trained in simulation using an asymmetric actor--critic setup.
+Details of the actor and critic observation spaces are provided in the Appendix.
+The actor receives noisy and partial proprioceptive observations that approximate
+realistic sensing, while the critic is provided with the privileged full state
+of both the robot and object, available only in simulation.
 
 \input{table/reward_shaping.tex}
 
@@ -139,43 +139,27 @@ conditions include palm flip, harmful collision, object escape, and hand-too-far
 subsequent intervention decisions.
 
 \subsection{Risk Predictor}
-Action disagreement identifies imitation errors but remains insufficient in
-contact-rich manipulation tasks: even a small instantaneous deviation can destabilize
-contact and later cause an unstable grasp, object escape, harmful collision, or
-palm flipping. We therefore learn a success-value critic that
-predicts the future probability of safe lift success under the student action,
-providing a prospective signal complementary to $\ell_2$ action disagreement.
+$\ell_2$ action disagreement alone is insufficient as an intervention signal and may miss small
+action deviations that could cause unstable grasps, collisions, or object escape.
+We therefore learn a success-value critic, trained with lift-success labels, that estimates the
+probability of safe lift success for the current student state--action pair and provides a
+prospective signal complementary to action disagreement.
 
-The predictor takes a multimodal state--action pair $(s_t,a_t)$, where $s_t$ is
-formed by concatenating robot proprioception with image embeddings from a visual
-encoder.
-The encoder is trained end-to-end during distillation and regularized via an
-auxiliary object-position prediction loss (Sec.~G). At time $t$, $a_t$ denotes
-the \emph{executed} action selected by the intervention gate. We use two ReLU
-MLP critics, $Q_1$ and $Q_2$, with hidden sizes $[256,128]$. Each critic outputs
-a scalar logit $z_i(s,a)\in\mathbb{R}$, which is mapped to a success probability
-by a temperature-calibrated sigmoid,
-$Q_i(s,a)=\sigma\!\left(z_i(s,a)/T\right)$ for $i\in\{1,2\}$, where $T=4$ is an
-empirically chosen calibration temperature. The conservative success-value
-estimate is $\hat Q_{\mathrm{succ}}(s,a)=
-\min\!\left(Q_1(s,a),\,Q_2(s,a)\right)$, where lower values indicate higher
-prospective risk.
+The predictor evaluates a multimodal state--action pair $(s_t,a_t^S)$, where
+$s_t$ combines robot proprioception and embeddings from a visual encoder. The
+encoder is trained end-to-end during skill distillation and regularized by the
+auxiliary object-position prediction loss in Sec.~G. The twin critics
+$Q_1$ and $Q_2$ are ReLU MLPs with hidden dimensions $[256,128]$. Each critic's
+logit $z_i(s,a)$ is mapped to a success probability by
+$Q_i(s,a)=\sigma(z_i(s,a)/T)$, with calibration temperature $T=4$.
+We use the conservative estimate
+$\hat Q_{\mathrm{succ}}(s,a)=\min_{i\in\{1,2\}}Q_i(s,a)$; lower values indicate
+higher prospective risk.
 
-The predictor is pretrained in a warm-start phase using an offline dataset of
-transitions $(s_t,a_t,s_{t+1},a_{t+1},u_t,d_t,h_t)$. Here, $(s_t,a_t)$ and
-$(s_{t+1},a_{t+1})$ provide the current and next state--action pairs required by
-SARSA-style bootstrapping, $d_t\in\{0,1\}$ is the episode termination flag, and
-$h_t\in\{0,1\}$ indicates whether the next action $a_{t+1}$ is defined (valid)
-for bootstrapping. The label $u_t\in\{0,1\}$ denotes safe lift attainment by
-time $t$: $u_t=1$ if the object remains above the height threshold for the
-required consecutive duration (as in $\mathbb{I}_{\mathrm{succ}}$) and no unsafe
-event has occurred by time $t$; otherwise, $u_t=0$.
-
-During online distillation, each transition is appended to a $100k$ ring buffer.
-Every $500$ environment steps, the critics receive $20$ Adam updates (learning
-rate $10^{-3}$) using mini-batches from this buffer.
-Training uses SARSA-style bootstrapped regression with an effective termination
-signal $d_t^{\mathrm{eff}}=\max(d_t,1-h_t)$ and one-step target
+The critics are pretrained on teacher transitions and updated online from a ring
+replay buffer. The label $u_t\in\{0,1\}$ indicates safe lift success: it is $1$
+only when the lift criterion is satisfied without an unsafe event. Training
+uses the SARSA-style target
 \begingroup
 \small
 \begin{equation}
@@ -187,21 +171,18 @@ u_t+\gamma(1-d_t^{\mathrm{eff}})
 \label{eq:success_target}
 \end{equation}
 \endgroup
-where $Q_i^{\mathrm{targ}}$ are slowly-updated target networks (Polyak
-averaging) used only to stabilize bootstrapping, and the $\min$ operator
-mitigates overestimation. The critics are optimized with MSE
-$\mathcal{L}_{Q_i}=\mathbb{E}\!\left[
-w_t\big(Q_i(s_t,a_t)-y_t\big)^2\right]$, with total loss
-$\mathcal{L}=\mathcal{L}_{Q_1}+\mathcal{L}_{Q_2}$ and target updates
-$\theta'\leftarrow\rho\theta'+(1-\rho)\theta$ ($\rho=0.995$).
+where $d_t$ is the termination flag, $h_t$ indicates whether $a_{t+1}$ is valid,
+$d_t^{\mathrm{eff}}=\max(d_t,1-h_t)$, and $Q_i^{\mathrm{targ}}$ are slowly
+updated target networks. Both critics minimize the mean-squared error (MSE)
+between their predictions and $y_t$; the minimum across critics reduces overestimation.
 
-\subsection{Intervention Mechanism}
+\subsection{Intervention Policy}
 We use a deterministic two-channel safety filter for teacher arbitration. The
 first channel measures teacher--student disagreement,
 $\delta_t\coloneqq\lVert a_t^S-a_t^T\rVert_2$, where
 $a_t^T\sim\pi_T(\cdot\mid s_t)$ and $a_t^S\sim\pi_S(\cdot\mid o_t)$. The second
 channel evaluates prospective task safety through
-$\hat Q_{\mathrm{succ}}(s_t,a_t^S)$. The intervention operating point is
+$\hat Q_{\mathrm{succ}}(s_t,a_t^S)$. The intervention policy is parameterized by
 $\boldsymbol{\tau}^{(k)}=(\tau_\delta^{(k)},\tau_Q^{(k)})$, where
 $\tau_\delta^{(k)}$ is the maximum admissible disagreement and
 $\tau_Q^{(k)}$ is the minimum acceptable predicted success.
@@ -219,38 +200,33 @@ g_t
 \end{equation}
 \endgroup
 Thus, either large disagreement or low predicted success triggers teacher
-takeover. Decreasing $\tau_\delta$ or increasing $\tau_Q$ makes the boundary
-more conservative; the opposite shift increases student autonomy.
+takeover. Decreasing $\tau_\delta$ or increasing $\tau_Q$ makes the intervention
+policy more conservative; the opposite shift increases student autonomy.
 
 \revision{We initialize $\tau_\delta^{(0)}$ and $\tau_Q^{(0)}$ from the $90$th
 percentile of warm-start disagreement and the $10$th percentile of predicted
 success over successful teacher rollouts, respectively. These values define the
 initial operating point $\boldsymbol{\tau}^{(0)}$.}
 
-\subsection{Visual-Semantic Intervention Boundary Calibration}
+\subsection{VLM-Guided Intervention Policy Adaptation}
 \label{subsec:vlm_threshold_tuner}
 \begingroup
 \color{yellow!50!black}
-During online distillation, the student policy, visited-state distribution, and
-risk-predictor calibration co-evolve, while the dominant failure modes may also
-change. A fixed intervention boundary therefore cannot maintain a stationary
-safety--autonomy trade-off. We leverage a VLM periodically as a visual-semantic
-calibrator that proposes an operating-point displacement.
-
+During online distillation, the student policy, visited-state distribution, and risk-predictor calibration co-evolve, and the dominant failure modes may also change. A stationary intervention mechanism therefore cannot maintain a consistent safety--autonomy trade-off. We periodically query a VLM to guide the displacement of intervention parameters.
 At iteration $k$, the VLM receives rollout statistics $\mathcal{C}_k$,
 including disagreement ($\delta_t$), predicted success
 ($\hat Q_{\mathrm{succ}}(s_t,a_t^S)$), intervention rate ($\beta$), and
 unsafe-episode rate ($\mathrm{UnsafeRateAvg}$). It also receives a
 representative image batch $\mathcal{V}_k$ sampled from the visual buffer
 $\mathcal{B}_V$ to cover high-disagreement, low-success, and unsafe states.
-From this context, it proposes the semantic boundary shift
+From this context, it proposes the policy update
 $\Delta\boldsymbol{\tau}^{(k)}=
 (\Delta\tau_\delta^{(k)},\Delta\tau_Q^{(k)})$, producing the candidate
 operating point
 $\tilde{\boldsymbol{\tau}}^{(k)}=
 \boldsymbol{\tau}^{(k)}+\Delta\boldsymbol{\tau}^{(k)}$.
 
-Each candidate boundary parameter is clipped around its initial value and
+Each candidate policy parameter is clipped around its initial value and
 exponentially smoothed:
 \begin{equation}
 \begin{aligned}
@@ -270,7 +246,7 @@ $\tau_x^{(0)}$.
 \endgroup
 
 
-\subsection{Student Policy Distillation}
+\subsection{Student Skill Distillation}
 Student learning is posed as supervised imitation from teacher-labeled
 transitions collected under the gated rollout policy $\pi_{\mathcal{G}}$. The
 student observes RGB images (two stereo views) together with robot proprioception.

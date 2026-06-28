@@ -21,8 +21,8 @@
 % representation effectively reduces the action-space dimension
 % and significantly simplifies reward design during training.
 
-\subsection{Policy distillation}
-Policy distillation transfers behavior from a high-capacity teacher to a compact student and has been adopted from
+\subsection{Skill Distillation}
+Skill distillation transfers behavior from a high-capacity teacher to a compact student and has been adopted from
 vision to robotics. In robotics, the teacher can leverage privileged state and simulator access during training,
 while the student is distilled to operate from on-board observations (e.g., RGB). DexTrAH-RGB~\cite{singh2024dextrah} 
 distills a privileged RL teacher into an RGB-based policy via DAgger-based imitation learning, while 

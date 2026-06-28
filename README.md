@@ -1,4 +1,4 @@
-# DexSafeDagger Paper
+# VGIP-SafeDAgger Paper
 
 ## Local LaTeX build
 

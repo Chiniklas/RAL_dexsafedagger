@@ -2,7 +2,7 @@
 \backcite {chen2022system,andrychowicz2020learning}{{1}{I}{section.1}}
 \backcite {luo2025precise}{{1}{I}{section.1}}
 \backcite {rajeswaran2017learning,andrychowicz2020learning,akkaya2019solving,petrenko2023dexpbt}{{1}{I}{section.1}}
-\backcite {liu2023safe,yu2022dexterous}{{1}{I}{section.1}}
+\backcite {liu2023safe,yu2022dexterous}{{2}{I}{section.1}}
 \backcite {ross2011reduction,singh2024dextrah}{{2}{I}{section.1}}
 \backcite {zhang2016query}{{2}{I}{section.1}}
 \backcite {singh2024dextrah}{{2}{II-A}{subsection.2.1}}
@@ -12,5 +12,5 @@
 \backcite {ross2011reduction}{{2}{II-B}{subsection.2.2}}
 \backcite {zhang2016query}{{2}{II-B}{subsection.2.2}}
 \backcite {hoque2021lazydagger,hoque2021thriftydagger}{{2}{II-B}{subsection.2.2}}
-\backcite {ross2011reduction}{{8}{4}{figure.caption.7}}
-\backcite {zhang2016query}{{8}{4}{figure.caption.7}}
+\backcite {ross2011reduction}{{7}{4}{figure.caption.6}}
+\backcite {zhang2016query}{{7}{4}{figure.caption.6}}

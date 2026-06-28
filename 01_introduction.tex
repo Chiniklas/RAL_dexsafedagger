@@ -42,20 +42,20 @@ dexterous manipulation.
 % have greatly simplified the reinforcement learning process.
 
 %====================================================
-% To mitigate the performance gap between simulation and real-world deployment, policy distillation has become a widely adopted paradigm in recent years. The core idea is to first train a high-performing expert policy in simulation using privileged state information, and then distill its decision-making behavior into a student policy that relies solely on visual observations or partially observable inputs. This process enables modality transfer from privileged state information to perception-based inputs, facilitating efficient real-world deployment. 
-% Policy distillation reduces reliance on accurate state estimation and allows knowledge integration from multiple teacher policies, thereby significantly improving execution stability and generalization performance in real-world environments. Consequently, it has gained increasing attention in dexterous grasping and complex manipulation tasks. 
+% To mitigate the performance gap between simulation and real-world deployment, skill distillation has become a widely adopted paradigm in recent years. The core idea is to first train a high-performing expert policy in simulation using privileged state information, and then distill its decision-making behavior into a student policy that relies solely on visual observations or partially observable inputs. This process enables modality transfer from privileged state information to perception-based inputs, facilitating efficient real-world deployment.
+% Skill distillation reduces reliance on accurate state estimation and allows knowledge integration from multiple teacher policies, thereby significantly improving execution stability and generalization performance in real-world environments. Consequently, it has gained increasing attention in dexterous grasping and complex manipulation tasks.
 % However, existing distillation methods~\cite{} typically rely on behavior cloning or the standard DAgger framework for data aggregation. Their primary objective is to mitigate performance degradation caused by distribution shift, rather than explicitly enforcing safety constraints during student policy learning. During distillation, the student policy may deviate from the teacher’s state–action distribution and enter regions that are either insufficiently covered by the teacher or inherently high-risk, leading to unsafe behaviors such as severe collisions or unstable hand configurations. 
 % Therefore, introducing explicit safety mechanisms into the distillation process—so that high-risk exploration can be avoided without sacrificing learning efficiency—remains an important and largely underexplored problem. Existing safety-aware distillation approaches~\cite{}, such as SafeDAgger~\cite{}, have primarily focused on autonomous driving scenarios and have not been systematically studied in the context of dexterous manipulation.
 
 To mitigate the performance gap between simulation and real-world deployment,
-policy distillation has become a widely adopted paradigm in recent years. The
+skill distillation has become a widely adopted paradigm in recent years. The
 core idea is to first train a high-performing expert policy in simulation using
 privileged state information, and then distill its decision-making behavior into
 a student policy that relies solely on visual observations or partially
 observable inputs. This process enables modality transfer from privileged state
 information to perception-based inputs, facilitating efficient real-world
 deployment.
-Policy distillation reduces reliance on accurate state estimation and allows
+Skill distillation reduces reliance on accurate state estimation and allows
 knowledge integration from multiple teacher policies, thereby substantially
 improving execution stability and generalization performance in real-world
 environments. Consequently, it has gained increasing attention in dexterous
@@ -83,12 +83,12 @@ manipulation.
 % randomization and domain adaptation have been widely adopted. However,
 % these methods often lack interpretability. In contrast, imitation learning
 % has played a key role in multi-policy compression and efficient knowledge
-% transfer. Among these approaches, policy distillation has attracted
+% transfer. Among these approaches, skill distillation has attracted
 % increasing research attention not only for its ability to consolidate
 % multiple specialized teacher skills, but also for its potential to enable
 % observation modality transfer.
 
-% Most prior work studies policy distillation purely in simulation, where it is
+% Most prior work studies skill distillation purely in simulation, where it is
 % used for behavior replication or policy compression. However, both in simulation
 % and in real-world deployment, student policies are limited by imperfect
 % imitation and are inevitably exposed to distributional shift, visiting states
@@ -109,20 +109,21 @@ manipulation.
 
 The contributions of this work are summarized as follows:
 \begin{itemize}
-    \item We propose a semantics-aware, safety-sensitive framework for
+    \item We propose \methodname (\methodfullname), a VLM-guided,
+    safety-sensitive framework for
     distilling RL-acquired teacher policies into a single RGB-based student
     policy. To the best of our knowledge, this is the first attempt in dexterous manipulation to incorporate
-    a mixed intervention mechanism that combines teacher--student action
+    a mixed intervention policy that combines teacher--student action
     disagreement with a Bellman success-value critic trained from lift-success
     labels. Low predicted success triggers proactive teacher takeover, while
-    semantic information from a VLM calibrates the gate's operating point.
+    VLM guidance calibrates the gate's operating point.
 
     \item We propose a safety-aware RL reward design that explicitly accounts for risky events in 
     arm--hand control scenarios, including harmful collisions, object escape, palm flipping, and the hand moving 
     too far from the workspace, thereby encouraging safer exploration during teacher training.
     
-    \item We empirically demonstrate that our semantics-aware intervention
-    framework, which combines disagreement and success-value prediction,
+    \item We empirically demonstrate that \methodname, which combines
+    disagreement, success-value prediction, and VLM-guided intervention policy adaptation,
     substantially reduces unsafe exploration compared with vanilla DAgger,
     achieving an approximately \textbf{80\%} relative reduction in the
     unsafe-episode rate during early training. It also lowers this rate by about

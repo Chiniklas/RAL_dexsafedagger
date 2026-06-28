@@ -1,41 +1,32 @@
 \begin{algorithm}[t]
 \small
-\caption{Safe Policy Distillation with Semantics-Aware Teacher Intervention}
+\caption{\methodname: \methodfullname for \methodtask}
 \label{alg:safe_dagger}
 \begin{algorithmic}[1]
 
-\STATE Train teacher policy $\pi_T$ via reinforcement learning
-\STATE Collect offline dataset $\mathcal{D}_0$ using $\pi_T$
-\STATE Pretrain risk predictor $\hat Q_{\mathrm{succ}}(s,a)$ on $\mathcal{D}_0$
-\STATE \revision{Initialize $\boldsymbol{\tau}^{(0)}=(\tau_\delta^{(0)},\tau_Q^{(0)})$}
-\STATE \revision{Initialize visual buffer $\mathcal{B}_V$}
+\STATE Train the privileged teacher policy $\pi_T$ via RL
+\STATE Collect a warm-start dataset $\mathcal{D}_0$ under teacher control
+\STATE Pretrain the success-value critic $\hat Q_{\mathrm{succ}}$ on $\mathcal{D}_0$
+\STATE \revision{Initialize the intervention policy parameters $\boldsymbol{\tau}^{(0)}=(\tau_\delta^{(0)},\tau_Q^{(0)})$}
+\STATE \revision{Initialize the visual buffer $\mathcal{B}_V$}
 
 \FOR{iteration $k = 1 \dots N$}
-
-    \STATE Observe student observation $o_t$
-    \STATE Compute student action $a^S_t \sim \pi_S(\cdot|o_t)$
-    \STATE Query teacher action $a^T_t \sim \pi_T(\cdot|s_t)$
-    
-    \STATE Compute disagreement $\delta_t=\|a_t^S-a_t^T\|_2$
-    \STATE Evaluate risk score $\hat Q_{\mathrm{succ}}(s_t,a^S_t)$
-
-    \IF{$\delta_t>\tau_\delta$ \textbf{or} $\hat Q_{\mathrm{succ}}(s_t,a^S_t)<\tau_Q$}
-        \STATE Execute teacher action $a_t = a^T_t$
-    \ELSE
-        \STATE Execute student action $a_t = a^S_t$
-    \ENDIF
-
-    \STATE Store transition in risk-predictor replay buffer $\mathcal{D}$
-    \STATE Update student policy $\pi_S$ via imitation loss
-    \STATE Update risk predictor $\hat Q_{\mathrm{succ}}$ using replay buffer
+    \STATE Observe the teacher state $s_t$ and student observation $o_t$
+    \STATE Compute the actions $a_t^T\sim\pi_T(\cdot|s_t)$ and $a_t^S\sim\pi_S(\cdot|o_t)$
+    \STATE Compute the action disagreement $\delta_t=\|a_t^S-a_t^T\|_2$
+    \STATE Predict the current action's contribution to future lift success using $\hat Q_{\mathrm{succ}}(s_t,a_t^S)$
+    \STATE Evaluate the intervention gate
+    \STATE \hspace{1em}$g_t\gets\mathbb{I}[\delta_t>\tau_\delta\ \lor\ \hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q]$
+    \STATE Execute the gated action $a_t=g_t a_t^T+(1-g_t)a_t^S$
+    \STATE Store the transition in the risk replay buffer $\mathcal{D}$
+    \STATE Update the student policy $\pi_S$ and the success critic $\hat Q_{\mathrm{succ}}$
     \STATE \revision{Add representative visual states to $\mathcal{B}_V$}
-    \IF{\revision{semantic boundary calibration is due}}
-        \STATE \revision{Summarize rollout statistics and sample $\mathcal{V}_k$}
-        \STATE \revision{Query VLM for shift $\Delta\boldsymbol{\tau}$}
-        \STATE \revision{Form $\tilde{\boldsymbol{\tau}}=\boldsymbol{\tau}+\Delta\boldsymbol{\tau}$}
-        \STATE \revision{Clamp and smooth the candidate operating point}
+    \IF{\revision{an intervention policy update is due}}
+        \STATE \revision{Summarize rollout context $\mathcal{C}_k$ and sample images $\mathcal{V}_k$}
+        \STATE \revision{Query the VLM for the shift $\Delta\boldsymbol{\tau}^{(k)}$ given $(\mathcal{C}_k,\mathcal{V}_k)$}
+        \STATE \revision{Form the candidate $\tilde{\boldsymbol{\tau}}^{(k)}=\boldsymbol{\tau}^{(k)}+\Delta\boldsymbol{\tau}^{(k)}$}
+        \STATE \revision{Clip and smooth $\tilde{\boldsymbol{\tau}}^{(k)}$ to obtain $\boldsymbol{\tau}^{(k+1)}$}
     \ENDIF
-
 \ENDFOR
 
 \end{algorithmic}

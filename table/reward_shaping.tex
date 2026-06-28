@@ -1,38 +1,39 @@
 \begin{table}[t]
 \centering
-\small
+\footnotesize
 \caption{Reward components used for teacher policy training.}
 \label{tab:reward_terms}
-\renewcommand{\arraystretch}{1.15}
-\resizebox{0.38\textwidth}{!}{%
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.9}
+\resizebox{0.46\textwidth}{!}{%
 
-\begin{tabularx}{\columnwidth}{c c X}
+\begin{tabularx}{\columnwidth}{@{}c l X@{}}
 \hline
 \textbf{Term} & \textbf{Name} & \textbf{Purpose} \\
 \hline
 $r_{\text{dist}}$ & Hand distance &
-Encourages the hand to approach the object. \\
+Guides the hand toward the object. \\
 
 $r_{\text{curl}}$ & Finger curl &
-Biases fingers toward a grasp-ready configuration. \\
+Encourages a grasp-ready finger posture. \\
 
 $r_{\text{align}}$ & Palm alignment &
-Aligns palm orientation with the palm-down direction. \\
+Aligns the palm to a palm-down pose. \\
 
 $r_{\text{contact}}$ & Contact bonus &
-Rewards stable contact involving thumb and fingers. \\
+Rewards stable thumb--finger contact. \\
 
 $r_{\text{near}}$ & Stay-close &
-Encourages the hand to remain close after reaching the object. \\
+Keeps the hand near the object after reaching. \\
 
 $r_{\text{goal}}$ & Goal tracking &
-Encourages moving the grasped object toward the goal pose. \\
+Guides the grasped object toward the goal. \\
 
 $r_{\text{lift}}$ & Lift &
-Rewards vertical lifting after successful contact. \\
+Rewards lifting after stable contact. \\
 
 $r_{\text{action}}$ & Action smoothness &
-Penalizes rapid action changes for stable control. \\
+Penalizes abrupt action changes. \\
 \hline
 \end{tabularx}
 }
