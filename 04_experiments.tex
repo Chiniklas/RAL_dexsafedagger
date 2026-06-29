@@ -38,7 +38,6 @@ episode's failure mode.
 \begin{figure*}[t]
     \centering
     \includegraphics[width=0.85\linewidth]{figures/ablation_comparison.png}
-    \par\redtodo{TODO: Update Figure 3.}
     \caption{\textbf{Ablation studies.}
     We compare four distillation variants in terms of (left) student lift success, (middle) teacher intervention rate $\beta$, and (right) unsafe episode rate, all plotted over training iterations.
     Shaded regions indicate variability across runs (mean $\pm$ std).
@@ -79,10 +78,10 @@ space is 13-D (7 arm DoF + 6 hand DoF). The RGB student additionally receives tw
 observation. Teacher training and student distillation are conducted in Isaac Sim 5.0.0 / Isaac Lab 2.2.1 on a single
 RTX~5090 GPU.
 
-We evaluate \revision{40} objects from the Omniverse Asset Library and train one
+We evaluate 40 objects from the Omniverse Asset Library and train one
 object-specific teacher for each object. Each teacher is trained for
-12{,}000 episodes (3.5\,h), totaling \revision{480{,}000 teacher-training
-episodes and approximately 140 GPU-hours}. Across the 40 teachers, lift success
+12{,}000 episodes (3.5\,h), totaling 480{,}000 teacher-training
+episodes and approximately 140 GPU-hours. Across the 40 teachers, lift success
 ranges from 72--100\% and unsafe rate from 5--30\%;
 Table~\ref{tab:teacher_perf_200} reports a representative four-object subset.
 During distillation, we randomize lighting intensity, direction, background
@@ -96,15 +95,18 @@ domain randomization. The joint student is distilled across all 40 objects for
 
 \subsection{Ablation Studies}
 
-The following ablation studies validate the design choices in \methodname. We distill the teacher policies
-trained during the RL phase into a compact, generalizable student policy. For RL training, we compare the
-standard DexTrAH-RGB pipeline with our customized variant. For skill distillation, we evaluate four
-methods---Vanilla DAgger, Vanilla SafeDAgger, \revision{stationary intervention policy,
-and \methodname}---in terms of lift-success growth, unsafe-episode rate, and intervention rate
-throughout training. The intervention rate is defined as the fraction of timesteps at which the teacher takes
-over, i.e., $\beta=\frac{1}{T}\sum_{t=0}^{T-1}\mathbb{I}[g_t=1]$, averaged across evaluation episodes.
-As our primary metric, we report the unsafe-episode rate averaged across the four ablation objects and
-decomposed by object and failure mode. The ablation settings are defined below.
+The following ablation studies validate the design choices in \methodname. We distill the
+teacher policies trained during the RL phase into a compact, generalizable student policy.
+For RL training, we compare the standard DexTrAH-RGB pipeline with our customized variant.
+For skill distillation, we evaluate four methods---Vanilla DAgger, Vanilla SafeDAgger,
+SafeDAgger with a bi-channel stationary intervention policy, and
+\methodname---in terms of growth in lift-success rate, unsafe-episode rate, and intervention
+rate throughout training. The intervention rate is defined as the fraction of time steps at
+which the teacher takes over:
+$\beta=\frac{1}{T}\sum_{t=0}^{T-1}\mathbb{I}[g_t=1]$.
+We average this metric across evaluation episodes. As our primary safety metric, we report
+the unsafe-episode rate averaged across the four ablation objects, together with breakdowns
+by object and failure mode. The ablation settings are defined below.
 
 % \noindent\textbf{(a) DexTrAH-RGB RL teacher + Vanilla DAgger.}
 % We follow the DexTrAH-RGB teacher training setup and distill the resulting teacher into a student using
@@ -154,18 +156,18 @@ and the student is trained from teacher-labeled pairs $(o_t^{S}, a_t^{T})$ colle
 % disagreement and state-risk prediction to trigger teacher takeover.
 
 \noindent\textbf{(e) Our RL + SafeDAgger with disagreement and a risk predictor under a stationary intervention policy.}
-\revision{This is the stationary variant of \methodname:} the teacher is trained with our customized RL recipe (as in (b)), and distillation
+This is the stationary variant of \methodname: the teacher is trained with our customized RL recipe (as in (b)), and distillation
 uses the same intervention gate as in (d).
 
-\noindent\revision{\textbf{(f) Our RL + \methodname.}
+\noindent\textbf{(f) Our RL + \methodname.}
 This setting extends (e) with the proposed VLM tuner, which periodically
 calibrates the disagreement and risk thresholds using rollout
-statistics and representative visual states.}
+statistics and representative visual states.
 
-\noindent\revision{\textbf{(g) Our RL + direct VLM intervention (ablation).}
+\noindent\textbf{(g) Our RL + direct VLM intervention (ablation).}
 This variant replaces the deterministic gate in Eq.~\eqref{eq:adaptive_gate}
 with a binary VLM decision $g_t\in\{0,1\}$; all other training components match
-those of the other intervention-based variants.}
+those of the other intervention-based variants.
 
 Table~\ref{tab:ablation_studies} shows that ablations (a) and (d), which use the DexTrAH-RGB RL recipe,
 achieve lower lift success and higher unsafe rates. We attribute this gap to the recipe's reliance on a
@@ -180,14 +182,16 @@ Vanilla DAgger ($\beta=0$), the three intervention variants reduce teacher inter
 improves (middle). They reduce early unsafe episodes by approximately 80\% relative to Vanilla DAgger and
 remain below 20\% throughout distillation, with \methodname achieving the lowest rate overall (right).
 
-Compared with Vanilla SafeDAgger, \methodname's risk predictor triggers more teacher takeovers and lowers
-the unsafe rate by about 5 percentage points on average. By the end of training, its average unsafe rate
-approaches the teacher's average ($\approx 12\%$), reaching a minimum of approximately 8\%.
+Compared with ablation (c), which uses disagreement alone, ablation (e) adds risk prediction
+while retaining the same RL teacher and stationary intervention policy. The combined gate
+intervenes in low-predicted-success states missed by disagreement alone, reducing the average
+unsafe-episode rate by about 5 percentage points and limiting collision and object-escape
+failures without sacrificing task performance. Its unsafe rate approaches the teacher's
+average ($\approx 12\%$) by the end of training and reaches a minimum of approximately 8\%.
 
 \begin{figure*}[t]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/failure_mode.pdf}
-    \par\redtodo{TODO: Update Figure 4.}
     \caption{\textbf{Per-object failure-mode decomposition during online distillation ablations.}
     We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations.
     Results are shown for two objects (\texttt{windcart} and \texttt{cow}); lower is better in all plots.
@@ -205,16 +209,11 @@ Compared with Vanilla DAgger, all three intervention variants suppress both fail
 their early spikes, demonstrating that teacher intervention limits unsafe exploration during the initial
 distillation phase.
 
-Comparing ablation (c), which uses disagreement alone, with ablation (e), which adds risk prediction,
-shows that the combined gate reduces collision and escape failures missed by disagreement alone.
-Ablation (f), the full \methodname configuration, achieves the lowest unsafe rates overall, indicating that VLM-guided
-policy adaptation further improves the intervention gate while preserving competitive task performance.
-
-\redtodo{VLM tuning results blah blah blah; rewrite this ablation discussion later.}
-
-\redtodo{Direct VLM-intervention results blah blah blah; compare ablations (f)
-and (g) to determine whether the VLM should calibrate the gate or directly
-control teacher takeover.}
+Comparing ablations (e) and (f) isolates the contribution of VGIP: both use the same RL
+teacher and disagreement--risk gate, but (e) uses fixed thresholds, whereas (f) adapts them
+using rollout statistics and visual context. Ablation (f) achieves consistently lower unsafe
+rates across all evaluated objects while maintaining comparable lift success, demonstrating
+that VGIP improves safety without sacrificing task performance.
 
 \subsection{Real-World Experiments Setup}
 

@@ -7,8 +7,8 @@
 \STATE Train the privileged teacher policy $\pi_T$ via RL
 \STATE Collect a warm-start dataset $\mathcal{D}_0$ under teacher control
 \STATE Pretrain the success-value critic $\hat Q_{\mathrm{succ}}$ on $\mathcal{D}_0$
-\STATE \revision{Initialize the intervention policy parameters $\boldsymbol{\tau}^{(0)}=(\tau_\delta^{(0)},\tau_Q^{(0)})$}
-\STATE \revision{Initialize the visual buffer $\mathcal{B}_V$}
+\STATE Initialize the intervention policy parameters $\boldsymbol{\tau}^{(0)}=(\tau_\delta^{(0)},\tau_Q^{(0)})$
+\STATE Initialize the visual buffer $\mathcal{B}_V$
 
 \FOR{iteration $k = 1 \dots N$}
     \STATE Observe the teacher state $s_t$ and student observation $o_t$
@@ -20,12 +20,12 @@
     \STATE Execute the gated action $a_t=g_t a_t^T+(1-g_t)a_t^S$
     \STATE Store the transition in the risk replay buffer $\mathcal{D}$
     \STATE Update the student policy $\pi_S$ and the success critic $\hat Q_{\mathrm{succ}}$
-    \STATE \revision{Add representative visual states to $\mathcal{B}_V$}
-    \IF{\revision{an intervention policy update is due}}
-        \STATE \revision{Summarize rollout context $\mathcal{C}_k$ and sample images $\mathcal{V}_k$}
-        \STATE \revision{Query the VLM for the shift $\Delta\boldsymbol{\tau}^{(k)}$ given $(\mathcal{C}_k,\mathcal{V}_k)$}
-        \STATE \revision{Form the candidate $\tilde{\boldsymbol{\tau}}^{(k)}=\boldsymbol{\tau}^{(k)}+\Delta\boldsymbol{\tau}^{(k)}$}
-        \STATE \revision{Clip and smooth $\tilde{\boldsymbol{\tau}}^{(k)}$ to obtain $\boldsymbol{\tau}^{(k+1)}$}
+    \STATE Add representative visual states to $\mathcal{B}_V$
+    \IF{an intervention policy update is due}
+        \STATE Summarize rollout context $\mathcal{C}_k$ and sample images $\mathcal{V}_k$
+        \STATE Query the VLM for the shift $\Delta\boldsymbol{\tau}^{(k)}$ given $(\mathcal{C}_k,\mathcal{V}_k)$
+        \STATE Form the candidate $\tilde{\boldsymbol{\tau}}^{(k)}=\boldsymbol{\tau}^{(k)}+\Delta\boldsymbol{\tau}^{(k)}$
+        \STATE Clip and smooth $\tilde{\boldsymbol{\tau}}^{(k)}$ to obtain $\boldsymbol{\tau}^{(k+1)}$
     \ENDIF
 \ENDFOR
 

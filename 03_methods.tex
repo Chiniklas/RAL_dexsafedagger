@@ -1,13 +1,12 @@
 \begin{figure*}[t]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/fig02_network_structure.pdf}
-    \par\redtodo{TODO: Update Figure 2.}
     \caption{Overview of the \methodname teacher--student learning pipeline. A
     privileged reinforcement learning teacher is trained in simulation and
     subsequently distilled into an RGB-based visuomotor policy for real-world
-    deployment. \revision{A vision-language model periodically proposes a
+    deployment. A vision-language model periodically proposes a
     displacement of the intervention policy's operating point; deterministic
-    clipping and smoothing constrain the resulting policy update.}}
+    clipping and smoothing constrain the resulting policy update.}
     \label{fig:pipeline}
 \end{figure*}
 
@@ -203,15 +202,13 @@ Thus, either large disagreement or low predicted success triggers teacher
 takeover. Decreasing $\tau_\delta$ or increasing $\tau_Q$ makes the intervention
 policy more conservative; the opposite shift increases student autonomy.
 
-\revision{We initialize $\tau_\delta^{(0)}$ and $\tau_Q^{(0)}$ from the $90$th
+We initialize $\tau_\delta^{(0)}$ and $\tau_Q^{(0)}$ from the $90$th
 percentile of warm-start disagreement and the $10$th percentile of predicted
 success over successful teacher rollouts, respectively. These values define the
-initial operating point $\boldsymbol{\tau}^{(0)}$.}
+initial operating point $\boldsymbol{\tau}^{(0)}$.
 
 \subsection{VLM-Guided Intervention Policy Adaptation}
 \label{subsec:vlm_threshold_tuner}
-\begingroup
-\color{yellow!50!black}
 During online distillation, the student policy, visited-state distribution, and risk-predictor calibration co-evolve, and the dominant failure modes may also change. A stationary intervention mechanism therefore cannot maintain a consistent safety--autonomy trade-off. We periodically query a VLM to guide the displacement of intervention parameters.
 At iteration $k$, the VLM receives rollout statistics $\mathcal{C}_k$,
 including disagreement ($\delta_t$), predicted success
@@ -243,9 +240,6 @@ c_{x}^{\max}\tau_{x}^{(0)}\right),\\[-2pt]
 Here, $\alpha$ controls the adaptation rate, and $c_x^{\min}$ and
 $c_x^{\max}$ define the admissible calibration region around
 $\tau_x^{(0)}$.
-\endgroup
-
-
 \subsection{Student Skill Distillation}
 Student learning is posed as supervised imitation from teacher-labeled
 transitions collected under the gated rollout policy $\pi_{\mathcal{G}}$. The

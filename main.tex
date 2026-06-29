@@ -21,8 +21,6 @@ citecolor=blue
 
 % comments
 \newcommand{\lzhang}[1]{\textcolor{magenta}{#1}}
-\newcommand{\revision}[1]{{\color{yellow!50!black}#1}}
-\newcommand{\redtodo}[1]{{\color{red}#1}}
 \newcommand{\methodname}{VGIP-SafeDAgger\xspace}
 \newcommand{\methodfullname}{VLM-Guided Intervention Policy\xspace}
 \newcommand{\methodtask}{Safety-Critical Visuomotor Skill Distillation\xspace}
@@ -74,7 +72,6 @@ citecolor=blue
 %     \def\etal{\emph{et al}\onedot}
 %     \newcommand{\secref}[1]{Sec\onedot~\ref{#1}}
 %     \newcommand{\tabref}[1]{Tab\onedot~\ref{#1}}
-%     \newcommand\ananye[1]{\textcolor{red}{#1}}
 %     \makeatletter
 %     \let\@oldmaketitle\@maketitle
 %     \renewcommand{\@maketitle}{\@oldmaketitle
@@ -96,14 +93,11 @@ citecolor=blue
 \newcommand{\secref}[1]{Sec\onedot~\ref{#1}}
 \newcommand{\tabref}[1]{Tab\onedot~\ref{#1}}
 \def\etal{\emph{et al}\onedot}
-\newcommand\ananye[1]{\textcolor{red}{#1}}
-
 \let\@oldmaketitle\@maketitle
 \renewcommand{\@maketitle}{%
   \@oldmaketitle
   \begin{center}
     \includegraphics[width=1.0\linewidth]{figures/fig01_teaser-dexsafedagger.pdf}
-    \par\redtodo{TODO: Update Figure 1.}
     \captionof{figure}{\textbf{\methodname overview.}
       We propose a teacher-intervened online distillation pipeline that condenses teacher skills into a
     deployable RGB-based student policy. The unsafe exploration rate is substantially suppressed in the early
@@ -143,9 +137,21 @@ citecolor=blue
 % episodes (up to 80\% relative reduction early in training) while achieving a comparable lift success rate that is
 % suitable for real-world deployment.
 
-Learning dexterous manipulation is challenging due to high-dimensional action spaces and complex contact dynamics. In addition, safety-unaware exploration during learning can lead to hardware damage, unstable interactions, and hazardous contact events, posing a significant barrier to real-world deployment.
-To address this challenge, we propose \methodname (\methodfullname), a safety-aware online skill-distillation framework that transfers reinforcement learning (RL) teacher policies to a vision-based student policy. \methodname combines a SafeDAgger teacher--student disagreement gate with a Bellman critic trained from lift-success labels. The critic estimates the future success value of the student action, and low predicted success proactively triggers teacher takeover. \revision{A vision-language model adapts the intervention policy by calibrating the disagreement and success thresholds without replacing the success critic or directly selecting actions.} This design enables safer exploration while preserving the benefits of online interactive imitation learning.
-Experiments on grasp-and-lift tasks show that \methodname significantly improves training safety, reducing unsafe episodes by up to 80\% during the early stages of training compared with vanilla DAgger-based distillation. Meanwhile, the distilled student policy achieves comparable lift success rates and demonstrates robustness suitable for real-world robotic deployment.
+Learning dexterous manipulation is challenging due to high-dimensional action spaces and
+complex contact dynamics. In addition, safety-unaware exploration during learning can lead
+to hardware damage and unstable or even hazardous contact events, posing a significant
+barrier to real-world deployment. To address this challenge, we propose \methodname
+(\methodfullname), a safety-aware online skill-distillation framework that transfers
+reinforcement learning (RL) teacher policies to a vision-based student policy. \methodname
+combines an $\ell_2$ teacher--student disagreement gate with a learned Bellman critic that
+estimates the future success probability of the current student state--action pair.
+A vision-language model periodically adapts the intervention policy by applying displacements to
+the disagreement and success thresholds. This design enables safer exploration during
+online interactive imitation learning by adapting the intervention policy using high-level visual context. Experiments on
+grasp-and-lift tasks show that \methodname significantly improves training safety, reducing
+unsafe episodes by up to 80\% during the early stages of training compared with vanilla
+DAgger-based distillation. Meanwhile, the distilled student policy achieves comparable lift
+success rates and demonstrates sufficient robustness for real-world robotic deployment.
 \end{abstract}
 
 
