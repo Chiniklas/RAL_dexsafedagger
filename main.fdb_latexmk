@@ -1,15 +1,14 @@
 # Fdb version 3
-["bibtex main"] 1782726996 "main.aux" "main.bbl" "main" 1782726997
+["bibtex main"] 1782859105 "main.aux" "main.bbl" "main" 1782859106
   "/usr/share/texlive/texmf-dist/bibtex/bib/ieeetran/IEEEabrv.bib" 1440712899 20898 a5d2167c380db7dfff810b085c77ed63 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1440712899 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "main.aux" 1782726997 14661 c99c77fa5b71c4b32a9c8587d93f2af3 "pdflatex"
+  "main.aux" 1782859105 14661 c99c77fa5b71c4b32a9c8587d93f2af3 "pdflatex"
   "main.bib" 1782294664 7723 5a8f373892b8e987b13dc429ff6e06ff ""
   (generated)
   "main.bbl"
   "main.blg"
-["pdflatex"] 1782726996 "/home/chi/projects/RAL_dexsafedagger/main.tex" "main.pdf" "main" 1782726997
+["pdflatex"] 1782859105 "main.tex" "main.pdf" "main" 1782859106
   "/etc/texmf/web2c/texmf.cnf" 1779288117 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/chi/projects/RAL_dexsafedagger/main.tex" 1782726946 9139 fb245ec1a8268606e14b5722a1549cc6 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -293,16 +292,16 @@
   "04_experiments.tex" 1782726979 16202 ec9ec829bad94db927918f81a648a2af ""
   "05_conclusion.tex" 1782651586 1079 cc5d048dedc664ca8ff1737fd4413edb ""
   "alg/alg01_intervention_structure.tex" 1782726996 1877 cfc65d30c83e201faaa0a27d759d1970 ""
-  "figures/ablation_comparison.png" 1782467047 475658 6ebd129a9117ad6603fe7b01a13f288d ""
-  "figures/failure_mode.pdf" 1782467047 1579117 dc31b9c960a320f374389f3dc4b5bdd3 ""
-  "figures/fig01_teaser-dexsafedagger.pdf" 1782294664 473442 a43e519f64ca970eafa1ad6c78878ba4 ""
-  "figures/fig02_network_structure.pdf" 1782294664 630604 eb2ee6912595fbf47961922ffcde1aa3 ""
+  "figures/ablation_comparison.png" 1782858979 396708 99854a26ca700463c74f2bdc56188b9a ""
+  "figures/failure_mode.pdf" 1782858979 1543575 344ebbc0465fa0790ca6c6c77fbb07cc ""
+  "figures/fig01_teaser-VGIP_SafeDagger.pdf" 1782859034 4199468 877ab7178e435f8a38994fc249829d0a ""
+  "figures/fig02_network_structure.pdf" 1782859034 2268126 1d805d2f6a0fa364d2f5d1b29387c90f ""
   "figures/real_setup_1.png" 1782294664 2425848 e96b7872a4bdb447adfe1e50c6c03c2e ""
   "ieeeconf.cls" 1782294664 197574 c8a8a2004c9762153e255667fc17d954 ""
-  "main.aux" 1782726997 14661 c99c77fa5b71c4b32a9c8587d93f2af3 "pdflatex"
-  "main.bbl" 1782726996 6014 19a4758066c35f6e0c185862b3bc2902 "bibtex main"
-  "main.brf" 1782726997 1029 6436e6a4fe5561d0c5ef8bc0d8447b0c "pdflatex"
-  "main.tex" 1782726946 9139 fb245ec1a8268606e14b5722a1549cc6 ""
+  "main.aux" 1782859105 14661 c99c77fa5b71c4b32a9c8587d93f2af3 "pdflatex"
+  "main.bbl" 1782859105 6014 19a4758066c35f6e0c185862b3bc2902 "bibtex main"
+  "main.brf" 1782859105 1029 6436e6a4fe5561d0c5ef8bc0d8447b0c "pdflatex"
+  "main.tex" 1782859094 9143 fec24a1dd83a080a17f3adeacc22e9d5 ""
   "table/ablation_studies.tex" 1782726996 1163 e9208bef1f2f23a78b0402dcc4e3745e ""
   "table/real_world_results.tex" 1782640505 1000 6b55f7ecbd7e5c220286bc829766f153 ""
   "table/reward_shaping.tex" 1782650797 998 21419c9559b819857c2c2cae2c7c4972 ""
