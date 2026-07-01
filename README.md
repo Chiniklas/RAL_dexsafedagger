@@ -1,4 +1,4 @@
-# VLM-DexsafeDagger Paper
+# VLM-DexSafeDagger Paper
 
 ## Local LaTeX build
 

@@ -81,13 +81,17 @@ RTX~5090 GPU.
 We evaluate 40 objects from the Omniverse Asset Library and train one
 object-specific teacher for each object. Each teacher is trained for
 12{,}000 episodes (3.5\,h), totaling 480{,}000 teacher-training
-episodes and approximately 140 GPU-hours. Across the 40 teachers, lift success
-ranges from 72--100\% and unsafe rate from 5--30\%;
+episodes and approximately 140 GPU-hours. Across the 40 teachers, lift-success
+rates range from 72--100\%, and unsafe rates range from 5--30\%;
 Table~\ref{tab:teacher_perf_200} reports a representative four-object subset.
 During distillation, we randomize lighting intensity, direction, background
 textures, object material, and table appearance following DexTrAH-RGB-style
 domain randomization. The joint student is distilled across all 40 objects for
-100{,}000 episodes in 2.5\,h.
+100{,}000 episodes in 2.5\,h. 
+
+We issue the first VLM query after 2{,}000 episodes
+and subsequently query it every 10{,}000 distillation episodes, resulting in 10
+VLM calls over the full 100{,}000-episode training run.
 
 % \input{table/state_space.tex}
 
