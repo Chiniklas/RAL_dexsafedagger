@@ -1,4 +1,4 @@
-# VGIP-SafeDAgger Paper
+# VLM-DexsafeDagger Paper
 
 ## Local LaTeX build
 
