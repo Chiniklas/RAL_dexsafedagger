@@ -89,9 +89,11 @@ textures, object material, and table appearance following DexTrAH-RGB-style
 domain randomization. The joint student is distilled across all 40 objects for
 100{,}000 episodes in 2.5\,h. 
 
-We issue the first VLM query after 2{,}000 episodes
+We use GPT-5.5 with high reasoning effort as the VLM. We issue the first VLM
+query after 2{,}000 episodes
 and subsequently query it every 10{,}000 distillation episodes, resulting in 10
-VLM calls over the full 100{,}000-episode training run.
+VLM calls over the full 100{,}000-episode training run and approximately
+70k tokens of total usage per run.
 
 % \input{table/state_space.tex}
 

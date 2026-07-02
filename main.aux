@@ -21,8 +21,8 @@
 \citation{luo2025precise}
 \citation{rajeswaran2017learning,andrychowicz2020learning,akkaya2019solving,petrenko2023dexpbt}
 \citation{liu2023safe,yu2022dexterous}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \textbf  {VLM-DexSafeDagger\xspace  overview.} We propose a teacher-intervened online distillation pipeline that condenses teacher skills into a deployable RGB-based student policy. The unsafe exploration rate is substantially suppressed in the early training phase via a customized intervention policy that combines teacher--student action disagreement with a success-value critic trained from lift-success labels, while a vision-language model periodically adapts the intervention policy.\relax }}{1}{figure.1}\protected@file@percent }
-\newlabel{fig:teaser}{{1}{1}{\textbf {\methodname overview.} We propose a teacher-intervened online distillation pipeline that condenses teacher skills into a deployable RGB-based student policy. The unsafe exploration rate is substantially suppressed in the early training phase via a customized intervention policy that combines teacher--student action disagreement with a success-value critic trained from lift-success labels, while a vision-language model periodically adapts the intervention policy.\relax }{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \textbf  {VLM-DexSafeDagger\xspace  overview.} We propose a teacher-intervened online distillation pipeline that condenses teacher skills into a deployable RGB-based student policy. The unsafe exploration rate is substantially suppressed in the early training phase via a proposed VLM-guided intervention policy that combines teacher--student action disagreement with a success-value critic trained from lift-success labels, while a vision-language model continuously updates a safety-aware understanding of the scene and triggers interventions when necessary.\relax }}{1}{figure.1}\protected@file@percent }
+\newlabel{fig:teaser}{{1}{1}{\textbf {\methodname overview.} We propose a teacher-intervened online distillation pipeline that condenses teacher skills into a deployable RGB-based student policy. The unsafe exploration rate is substantially suppressed in the early training phase via a proposed VLM-guided intervention policy that combines teacher--student action disagreement with a success-value critic trained from lift-success labels, while a vision-language model continuously updates a safety-aware understanding of the scene and triggers interventions when necessary.\relax }{figure.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {I}INTRODUCTION}{1}{section.1}\protected@file@percent }
 \newlabel{sec:introduction}{{I}{1}{INTRODUCTION}{section.1}{}}
 \@writefile{brf}{\backcite{brahmbhatt2019contactgrasp}{{1}{I}{section.1}}}
@@ -32,6 +32,7 @@
 \@writefile{brf}{\backcite{liu2023safe,yu2022dexterous}{{1}{I}{section.1}}}
 \citation{ross2011reduction,singh2024dextrah}
 \citation{zhang2016query}
+\citation{zhang2016query}
 \citation{singh2024dextrah}
 \citation{wang2025unigrasptransformer}
 \citation{zhang2025contactdexnet,zhang2025omnidexvlg}
@@ -40,6 +41,7 @@
 \citation{zhang2016query}
 \citation{hoque2021lazydagger,hoque2021thriftydagger}
 \@writefile{brf}{\backcite{ross2011reduction,singh2024dextrah}{{2}{I}{section.1}}}
+\@writefile{brf}{\backcite{zhang2016query}{{2}{I}{section.1}}}
 \@writefile{brf}{\backcite{zhang2016query}{{2}{I}{section.1}}}
 \@writefile{toc}{\contentsline {section}{\numberline {II}Related work}{2}{section.2}\protected@file@percent }
 \newlabel{sec:related_works}{{II}{2}{Related work}{section.2}{}}
@@ -108,7 +110,6 @@
 \bibcite{zhang2016query}{12}
 \bibcite{wang2025unigrasptransformer}{13}
 \bibcite{zhang2025contactdexnet}{14}
-\bibcite{zhang2025omnidexvlg}{15}
 \@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Real-world experiments across various objects (tested over 15 episodes). \cellcolor  {gray!15}\textbf  {Unseen objects} are shaded.\relax }}{7}{table.caption.8}\protected@file@percent }
 \newlabel{tab:real_world_results}{{IV}{7}{Real-world experiments across various objects (tested over 15 episodes). \unseen {Unseen objects} are shaded.\relax }{table.caption.8}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-D}Real-World Experiments Setup}{7}{subsection.4.4}\protected@file@percent }
@@ -117,6 +118,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion and Future Work}{7}{section.5}\protected@file@percent }
 \newlabel{sec:conclusion}{{V}{7}{Conclusion and Future Work}{section.5}{}}
 \@writefile{toc}{\contentsline {section}{References}{7}{section.5}\protected@file@percent }
+\bibcite{zhang2025omnidexvlg}{15}
 \bibcite{welte2025interactive}{16}
 \bibcite{hoque2021lazydagger}{17}
 \bibcite{hoque2021thriftydagger}{18}

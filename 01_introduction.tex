@@ -111,7 +111,8 @@ The contributions of this work are summarized as follows:
     policy. To the best of our knowledge, this is the first attempt in dexterous manipulation to incorporate
     a mixed intervention policy combining teacher--student action disagreement
     with a success-value critic. Low predicted success triggers teacher takeover,
-    while VLM guidance adapts the intervention thresholds.
+    while the VLM reasons about scene-level safety from rollout statistics and
+    representative visual observations to regulate the intervention gate.
 
     \item We propose a safety-aware RL reward design that explicitly accounts for risky events in 
     arm--hand control scenarios, including harmful collisions, object escape, palm flipping, and the hand moving 
@@ -123,7 +124,7 @@ The contributions of this work are summarized as follows:
     achieving an approximately \textbf{80\%} relative reduction in the
     unsafe-episode rate during early training. It also reduces the average
     unsafe-episode rate by \textbf{7.5 percentage points} relative to
-    disagreement-only SafeDAgger. Ablation results further demonstrate the
+    disagreement-only SafeDAgger~\cite{zhang2016query}. Ablation results further demonstrate the
     effectiveness of VLM-guided adaptation across different visual contexts and
     unsafe scenarios: \methodname consistently achieves lower unsafe-episode
     rates than \dexsafedagger, with an average reduction of
