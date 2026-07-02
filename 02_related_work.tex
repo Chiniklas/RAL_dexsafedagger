@@ -44,8 +44,10 @@ especially for dexterous, contact-rich tasks.
 Visual and semantic information is widely recognized as a strong 
 cue for embodied agents to interpret task specifications and reason 
 about unstructured environments~\cite{firoozi2025foundation,han2026multimodal}.
-Some methods use VLMs to generate demonstrations or supervisory signals for
-offline policy construction~\cite{duan2025manipulate,duan2024aha}. Other
-approaches invoke VLMs at execution time for trajectory generation, failure
-recovery, or policy steering while keeping the underlying policy
-fixed~\cite{huang2023voxposer,dai2025racer,wu2025foresight}.
+One line of work uses VLMs to generate demonstrations or supervisory signals
+for offline policy construction, such as
+Manipulate-Anything~\cite{duan2025manipulate} and AHA~\cite{duan2024aha}.
+Complementary approaches, including RACER~\cite{dai2025racer}, and
+FOREWARN~\cite{wu2025foresight}, employ VLMs to guide risk prediction,
+provide recovery guidance for unsafe situations, or govern action selection
+during online policy learning or real-time execution.

@@ -149,12 +149,6 @@ J.~Duan, W.~Pumacay, N.~Kumar, Y.~R. Wang, S.~Tian, W.~Yuan, R.~Krishna,
   detecting and reasoning over failures in robotic manipulation,'' \emph{arXiv
   preprint arXiv:2410.00371}, 2024.
 
-\bibitem{huang2023voxposer}
-W.~Huang, C.~Wang, R.~Zhang, Y.~Li, J.~Wu, and L.~Fei-Fei, ``Voxposer:
-  Composable 3d value maps for robotic manipulation with language models,'' in
-  \emph{Proceedings of the 7th Conference on Robot Learning}, 2023, pp.
-  540--562.
-
 \bibitem{dai2025racer}
 Y.~Dai, J.~Lee, N.~Fazeli, and J.~Chai, ``{RACER}: Rich language-guided failure
   recovery policies for imitation learning,'' in \emph{2025 IEEE International
