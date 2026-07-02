@@ -182,6 +182,18 @@ and dynamics. The resulting weaker teachers constrain downstream distillation pe
 
 \input{table/ablation_studies.tex}
 
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/failure_mode.pdf}
+    \caption{\textbf{Per-object failure-mode decomposition during online distillation ablations.}
+    We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations.
+    Results are shown for two objects (\texttt{windcart} and \texttt{cow}); lower is better in all plots.
+    Curves correspond to four distillation variants: blue, Vanilla DAgger\cite{ross2011reduction};
+    yellow, Vanilla SafeDAgger\cite{zhang2016query}; green, \dexsafedagger;
+    and red, \methodname.}
+    \label{fig:failure_modes}
+\end{figure*}
+
 As shown in Fig.~\ref{fig:ablation}, ablations (b), (c), (e), and (f) achieve comparable final lift success
 (left), consistent with the intervention policy's focus on safety rather than task success. Unlike
 Vanilla DAgger ($\beta=0$), the three intervention variants reduce teacher intervention as the student
@@ -202,21 +214,6 @@ unsafe-episode rate by about 5 percentage points and limiting collision and obje
 failures without sacrificing task performance. Its unsafe rate approaches the teacher's
 average ($\approx 12\%$) by the end of training and reaches a minimum of approximately 8\%.
 
-\begin{figure*}[t]
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/failure_mode.pdf}
-    \caption{\textbf{Per-object failure-mode decomposition during online distillation ablations.}
-    We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations.
-    Results are shown for two objects (\texttt{windcart} and \texttt{cow}); lower is better in all plots.
-    Curves correspond to four distillation variants: blue, Vanilla DAgger\cite{ross2011reduction};
-    yellow, Vanilla SafeDAgger\cite{zhang2016query}; green, \dexsafedagger;
-    and red, \methodname.}
-    \label{fig:failure_modes}
-            \vspace{-0.3in}\bigskip
-
-\end{figure*}
-
-
 Fig.~\ref{fig:failure_modes} shows that harmful collisions and object escape dominate unsafe episodes.
 Compared with Vanilla DAgger, all three intervention variants suppress both failure modes, particularly
 their early spikes, demonstrating that teacher intervention limits unsafe exploration during the initial
@@ -231,16 +228,13 @@ the teacher and student evaluation results in simulation, indicating that \metho
 not fully eliminate the sim-to-real gap. Nevertheless, the resulting policy is sufficiently robust
 for real-world deployment.
 
-\begin{figure}[t]
+\begin{figure}[!t]
     \centering
     \includegraphics[width=0.85\linewidth]{figures/real_setup_1.png}
     \caption{\textbf{Real-world experimental setup and test objects.}
     Left: the single-arm manipulation platform used for deployment and evaluation.
     Right: examples of the physical objects used in the real-world lift experiments.}
     \label{fig:realworld_exp_setup}
-    % \vspace{-10pt}
-        \vspace{-0.5in}\bigskip
-
 \end{figure}
 
 

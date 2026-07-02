@@ -21,16 +21,14 @@
 % representation effectively reduces the action-space dimension
 % and significantly simplifies reward design during training.
 
-\subsection{Skill Distillation}
-Skill distillation transfers behavior from a high-capacity teacher to a compact student and has been adopted from
+\textbf{Skill Distillation.} Skill distillation transfers behavior from a high-capacity teacher to a compact student and has been adopted from
 vision to robotics. In robotics, the teacher can leverage privileged state and simulator access during training,
 while the student is distilled to operate from on-board observations (e.g., RGB). DexTrAH-RGB~\cite{singh2024dextrah} 
 distills a privileged RL teacher into an RGB-based policy via DAgger-based imitation learning, while 
 UniGraspTransformer~\cite{wang2025unigrasptransformer} distills offline trajectories from object-specific teachers 
 into a unified Transformer policy.
 
-\subsection{Interactive imitation learning}
-Many imitation learning methods operate offline, using a fixed dataset of expert demonstrations to match the expert
+\textbf{Interactive Imitation Learning.} Many imitation learning methods operate offline, using a fixed dataset of expert demonstrations to match the expert
 action distribution~\cite{zhang2025contactdexnet,zhang2025omnidexvlg}. In sequential decision-making, however,
 distributional shift induces covariate shift and compounding errors. Interactive imitation learning\cite{welte2025interactive} mitigates this
 issue by collecting supervision online under the learner-induced state distribution.
@@ -41,3 +39,13 @@ DAgger with a teacher-intervened rollout policy that takes over in high-risk sta
 Recent variants \cite{hoque2021lazydagger,hoque2021thriftydagger} extend interactive imitation learning to robotic manipulation, yet often rely on human
 supervision. Fully autonomous expert relabeling during online distillation remains rare in robotic manipulation,
 especially for dexterous, contact-rich tasks.
+
+\textbf{Vision-Language-Guided Robot Learning.}
+Visual and semantic information is widely recognized as a strong 
+cue for embodied agents to interpret task specifications and reason 
+about unstructured environments~\cite{firoozi2025foundation,han2026multimodal}.
+Some methods use VLMs to generate demonstrations or supervisory signals for
+offline policy construction~\cite{duan2025manipulate,duan2024aha}. Other
+approaches invoke VLMs at execution time for trajectory generation, failure
+recovery, or policy steering while keeping the underlying policy
+fixed~\cite{huang2023voxposer,dai2025racer,wu2025foresight}.

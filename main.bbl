@@ -124,4 +124,46 @@ R.~Hoque, A.~Balakrishna, E.~Novoseller, A.~Wilcox, D.~S. Brown, and
   interactive imitation learning,'' \emph{arXiv preprint arXiv:2109.08273},
   2021.
 
+\bibitem{firoozi2025foundation}
+R.~Firoozi, J.~Tucker, S.~Tian, A.~Majumdar, J.~Sun, W.~Liu, Y.~Zhu, S.~Song,
+  A.~Kapoor, K.~Hausman, B.~Ichter, D.~Driess, J.~Wu, C.~Lu, and M.~Schwager,
+  ``Foundation models in robotics: Applications, challenges, and the future,''
+  \emph{The International Journal of Robotics Research}, vol.~44, no.~5, pp.
+  701--739, 2025.
+
+\bibitem{han2026multimodal}
+X.~Han, S.~Chen, Z.~Fu, Z.~Feng, L.~Fan, D.~An, C.~Wang, L.~Guo, W.~Meng,
+  X.~Zhang, R.~Xu, and S.~Xu, ``Multimodal fusion and vision-language models: A
+  survey for robot vision,'' \emph{Information Fusion}, vol. 126, p. 103652,
+  2026.
+
+\bibitem{duan2025manipulate}
+J.~Duan, W.~Yuan, W.~Pumacay, Y.~R. Wang, K.~Ehsani, D.~Fox, and R.~Krishna,
+  ``Manipulate-anything: Automating real-world robots using vision-language
+  models,'' in \emph{Proceedings of the 8th Conference on Robot Learning},
+  2025, pp. 5326--5350.
+
+\bibitem{duan2024aha}
+J.~Duan, W.~Pumacay, N.~Kumar, Y.~R. Wang, S.~Tian, W.~Yuan, R.~Krishna,
+  D.~Fox, A.~Mandlekar, and Y.~Guo, ``{AHA}: A vision-language model for
+  detecting and reasoning over failures in robotic manipulation,'' \emph{arXiv
+  preprint arXiv:2410.00371}, 2024.
+
+\bibitem{huang2023voxposer}
+W.~Huang, C.~Wang, R.~Zhang, Y.~Li, J.~Wu, and L.~Fei-Fei, ``Voxposer:
+  Composable 3d value maps for robotic manipulation with language models,'' in
+  \emph{Proceedings of the 7th Conference on Robot Learning}, 2023, pp.
+  540--562.
+
+\bibitem{dai2025racer}
+Y.~Dai, J.~Lee, N.~Fazeli, and J.~Chai, ``{RACER}: Rich language-guided failure
+  recovery policies for imitation learning,'' in \emph{2025 IEEE International
+  Conference on Robotics and Automation (ICRA)}.\hskip 1em plus 0.5em minus
+  0.4em\relax IEEE, 2025, pp. 15\,657--15\,664.
+
+\bibitem{wu2025foresight}
+Y.~Wu, R.~Tian, G.~Swamy, and A.~Bajcsy, ``From foresight to forethought:
+  {VLM}-in-the-loop policy steering via latent alignment,'' \emph{arXiv
+  preprint arXiv:2502.01828}, 2025.
+
 \end{thebibliography}

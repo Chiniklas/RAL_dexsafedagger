@@ -40,20 +40,24 @@
 \citation{ross2011reduction}
 \citation{zhang2016query}
 \citation{hoque2021lazydagger,hoque2021thriftydagger}
+\citation{firoozi2025foundation,han2026multimodal}
+\citation{duan2025manipulate,duan2024aha}
+\citation{huang2023voxposer,dai2025racer,wu2025foresight}
 \@writefile{brf}{\backcite{ross2011reduction,singh2024dextrah}{{2}{I}{section.1}}}
 \@writefile{brf}{\backcite{zhang2016query}{{2}{I}{section.1}}}
 \@writefile{brf}{\backcite{zhang2016query}{{2}{I}{section.1}}}
 \@writefile{toc}{\contentsline {section}{\numberline {II}Related work}{2}{section.2}\protected@file@percent }
 \newlabel{sec:related_works}{{II}{2}{Related work}{section.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {II-A}Skill Distillation}{2}{subsection.2.1}\protected@file@percent }
-\@writefile{brf}{\backcite{singh2024dextrah}{{2}{II-A}{subsection.2.1}}}
-\@writefile{brf}{\backcite{wang2025unigrasptransformer}{{2}{II-A}{subsection.2.1}}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {II-B}Interactive imitation learning}{2}{subsection.2.2}\protected@file@percent }
-\@writefile{brf}{\backcite{zhang2025contactdexnet,zhang2025omnidexvlg}{{2}{II-B}{subsection.2.2}}}
-\@writefile{brf}{\backcite{welte2025interactive}{{2}{II-B}{subsection.2.2}}}
-\@writefile{brf}{\backcite{ross2011reduction}{{2}{II-B}{subsection.2.2}}}
-\@writefile{brf}{\backcite{zhang2016query}{{2}{II-B}{subsection.2.2}}}
-\@writefile{brf}{\backcite{hoque2021lazydagger,hoque2021thriftydagger}{{2}{II-B}{subsection.2.2}}}
+\@writefile{brf}{\backcite{singh2024dextrah}{{2}{II}{section.2}}}
+\@writefile{brf}{\backcite{wang2025unigrasptransformer}{{2}{II}{section.2}}}
+\@writefile{brf}{\backcite{zhang2025contactdexnet,zhang2025omnidexvlg}{{2}{II}{section.2}}}
+\@writefile{brf}{\backcite{welte2025interactive}{{2}{II}{section.2}}}
+\@writefile{brf}{\backcite{ross2011reduction}{{2}{II}{section.2}}}
+\@writefile{brf}{\backcite{zhang2016query}{{2}{II}{section.2}}}
+\@writefile{brf}{\backcite{hoque2021lazydagger,hoque2021thriftydagger}{{2}{II}{section.2}}}
+\@writefile{brf}{\backcite{firoozi2025foundation,han2026multimodal}{{2}{II}{section.2}}}
+\@writefile{brf}{\backcite{duan2025manipulate,duan2024aha}{{2}{II}{section.2}}}
+\@writefile{brf}{\backcite{huang2023voxposer,dai2025racer,wu2025foresight}{{2}{II}{section.2}}}
 \@writefile{toc}{\contentsline {section}{\numberline {III}Problem Statement and Methods}{2}{section.3}\protected@file@percent }
 \newlabel{sec:method}{{III}{2}{Problem Statement and Methods}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-A}Problem Formulation}{2}{subsection.3.1}\protected@file@percent }
@@ -86,14 +90,22 @@
 \@writefile{toc}{\contentsline {paragraph}{\numberline {IV-A.0.c}Failure-mode decomposition.}{5}{paragraph.4.1.0.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-B}Simulation Experiment Setup}{5}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-C}Ablation Studies}{5}{subsection.4.3}\protected@file@percent }
+\citation{ross2011reduction}
+\citation{zhang2016query}
+\citation{ross2011reduction}
+\citation{zhang2016query}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {Ablation studies.} We compare four distillation variants in terms of (left) student lift success, (middle) teacher intervention rate $\beta $, and (right) unsafe episode rate, all plotted over training iterations. Shaded regions indicate variability across runs (mean $\pm $ std). Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange), DexSafeDagger\xspace  (green), and VLM-DexSafeDagger\xspace  (red).\relax }}{6}{figure.caption.3}\protected@file@percent }
 \newlabel{fig:ablation}{{3}{6}{\textbf {Ablation studies.} We compare four distillation variants in terms of (left) student lift success, (middle) teacher intervention rate $\beta $, and (right) unsafe episode rate, all plotted over training iterations. Shaded regions indicate variability across runs (mean $\pm $ std). Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange), \dexsafedagger (green), and \methodname (red).\relax }{figure.caption.3}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Performance of ablations (a)--(f) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }}{6}{table.caption.5}\protected@file@percent }
 \newlabel{tab:ablation_studies}{{III}{6}{Performance of ablations (a)--(f) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }{table.caption.5}{}}
-\citation{ross2011reduction}
-\citation{zhang2016query}
-\citation{ross2011reduction}
-\citation{zhang2016query}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt  {windcart} and \texttt  {cow}); lower is better in all plots. Curves correspond to four distillation variants: blue, Vanilla DAgger\cite  {ross2011reduction}; yellow, Vanilla SafeDAgger\cite  {zhang2016query}; green, DexSafeDagger\xspace  ; and red, VLM-DexSafeDagger\xspace  .\relax }}{7}{figure.caption.6}\protected@file@percent }
+\@writefile{brf}{\backcite{ross2011reduction}{{7}{4}{figure.caption.6}}}
+\@writefile{brf}{\backcite{zhang2016query}{{7}{4}{figure.caption.6}}}
+\newlabel{fig:failure_modes}{{4}{7}{\textbf {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt {windcart} and \texttt {cow}); lower is better in all plots. Curves correspond to four distillation variants: blue, Vanilla DAgger\cite {ross2011reduction}; yellow, Vanilla SafeDAgger\cite {zhang2016query}; green, \dexsafedagger ; and red, \methodname .\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {IV-D}Real-World Experiments Setup}{7}{subsection.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }}{7}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:realworld_exp_setup}{{5}{7}{\textbf {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {IV-E}Discussion}{7}{subsection.4.5}\protected@file@percent }
 \bibstyle{IEEEtran}
 \bibdata{IEEEabrv,main}
 \bibcite{brahmbhatt2019contactgrasp}{1}
@@ -110,22 +122,21 @@
 \bibcite{zhang2016query}{12}
 \bibcite{wang2025unigrasptransformer}{13}
 \bibcite{zhang2025contactdexnet}{14}
-\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Real-world experiments across various objects (tested over 15 episodes). \cellcolor  {gray!15}\textbf  {Unseen objects} are shaded.\relax }}{7}{table.caption.8}\protected@file@percent }
-\newlabel{tab:real_world_results}{{IV}{7}{Real-world experiments across various objects (tested over 15 episodes). \unseen {Unseen objects} are shaded.\relax }{table.caption.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {IV-D}Real-World Experiments Setup}{7}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {IV-E}Discussion}{7}{subsection.4.5}\protected@file@percent }
-\newlabel{sec4:expriments}{{IV-E}{7}{Discussion}{subsection.4.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion and Future Work}{7}{section.5}\protected@file@percent }
-\newlabel{sec:conclusion}{{V}{7}{Conclusion and Future Work}{section.5}{}}
-\@writefile{toc}{\contentsline {section}{References}{7}{section.5}\protected@file@percent }
 \bibcite{zhang2025omnidexvlg}{15}
 \bibcite{welte2025interactive}{16}
 \bibcite{hoque2021lazydagger}{17}
 \bibcite{hoque2021thriftydagger}{18}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt  {windcart} and \texttt  {cow}); lower is better in all plots. Curves correspond to four distillation variants: blue, Vanilla DAgger\cite  {ross2011reduction}; yellow, Vanilla SafeDAgger\cite  {zhang2016query}; green, DexSafeDagger\xspace  ; and red, VLM-DexSafeDagger\xspace  .\relax }}{8}{figure.caption.6}\protected@file@percent }
-\@writefile{brf}{\backcite{ross2011reduction}{{8}{4}{figure.caption.6}}}
-\@writefile{brf}{\backcite{zhang2016query}{{8}{4}{figure.caption.6}}}
-\newlabel{fig:failure_modes}{{4}{8}{\textbf {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt {windcart} and \texttt {cow}); lower is better in all plots. Curves correspond to four distillation variants: blue, Vanilla DAgger\cite {ross2011reduction}; yellow, Vanilla SafeDAgger\cite {zhang2016query}; green, \dexsafedagger ; and red, \methodname .\relax }{figure.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }}{8}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:realworld_exp_setup}{{5}{8}{\textbf {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }{figure.caption.7}{}}
+\bibcite{firoozi2025foundation}{19}
+\bibcite{han2026multimodal}{20}
+\bibcite{duan2025manipulate}{21}
+\bibcite{duan2024aha}{22}
+\bibcite{huang2023voxposer}{23}
+\bibcite{dai2025racer}{24}
+\bibcite{wu2025foresight}{25}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Real-world experiments across various objects (tested over 15 episodes). \cellcolor  {gray!15}\textbf  {Unseen objects} are shaded.\relax }}{8}{table.caption.8}\protected@file@percent }
+\newlabel{tab:real_world_results}{{IV}{8}{Real-world experiments across various objects (tested over 15 episodes). \unseen {Unseen objects} are shaded.\relax }{table.caption.8}{}}
+\newlabel{sec4:expriments}{{IV-E}{8}{Discussion}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion and Future Work}{8}{section.5}\protected@file@percent }
+\newlabel{sec:conclusion}{{V}{8}{Conclusion and Future Work}{section.5}{}}
+\@writefile{toc}{\contentsline {section}{References}{8}{section.5}\protected@file@percent }
 \gdef \@abspage@last{8}
