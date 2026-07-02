@@ -21,8 +21,8 @@
 % representation effectively reduces the action-space dimension
 % and significantly simplifies reward design during training.
 
-\textbf{Skill Distillation.} Skill distillation transfers behavior from a high-capacity teacher to a compact student and has been adopted from
-vision to robotics. In robotics, the teacher can leverage privileged state and simulator access during training,
+\textbf{Skill Distillation.} Skill distillation transfers behavior from a high-capacity teacher to a compact student and has been widely adopted
+in both computer vision and robotics. In robotics, the teacher can leverage privileged state and simulator access during training,
 while the student is distilled to operate from on-board observations (e.g., RGB). DexTrAH-RGB~\cite{singh2024dextrah} 
 distills a privileged RL teacher into an RGB-based policy via DAgger-based imitation learning, while 
 UniGraspTransformer~\cite{wang2025unigrasptransformer} distills offline trajectories from object-specific teachers 
@@ -31,7 +31,7 @@ into a unified Transformer policy.
 \textbf{Interactive Imitation Learning.} Many imitation learning methods operate offline, using a fixed dataset of expert demonstrations to match the expert
 action distribution~\cite{zhang2025contactdexnet,zhang2025omnidexvlg}. In sequential decision-making, however,
 distributional shift induces covariate shift and compounding errors. Interactive imitation learning\cite{welte2025interactive} mitigates this
-issue by collecting supervision online under the learner-induced state distribution.
+issue by collecting supervision online along trajectories visited by the learner.
 
 DAgger\cite{ross2011reduction} addresses covariate shift by iteratively rolling out the learner and relabeling visited
 states with an expert, thereby aggregating data under the learner-induced state distribution. SafeDAgger\cite{zhang2016query} extends
@@ -47,7 +47,7 @@ about unstructured environments~\cite{firoozi2025foundation,han2026multimodal}.
 One line of work uses VLMs to generate demonstrations or supervisory signals
 for offline policy construction, such as
 Manipulate-Anything~\cite{duan2025manipulate} and AHA~\cite{duan2024aha}.
-Complementary approaches, including RACER~\cite{dai2025racer}, and
+Complementary approaches, including RACER~\cite{dai2025racer} and
 FOREWARN~\cite{wu2025foresight}, employ VLMs to guide risk prediction,
 provide recovery guidance for unsafe situations, or govern action selection
 during online policy learning or real-time execution.

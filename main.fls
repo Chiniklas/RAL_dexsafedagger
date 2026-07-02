@@ -1626,12 +1626,12 @@ INPUT ./figures/real_setup_1.png
 INPUT figures/real_setup_1.png
 INPUT ./figures/real_setup_1.png
 INPUT ./figures/real_setup_1.png
-INPUT ./table/real_world_results.tex
-INPUT table/real_world_results.tex
-INPUT ./table/real_world_results.tex
-INPUT table/real_world_results.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
+INPUT ./table/real_world_results.tex
+INPUT table/real_world_results.tex
+INPUT ./table/real_world_results.tex
+INPUT table/real_world_results.tex
 INPUT ./05_conclusion.tex
 INPUT ./05_conclusion.tex
 INPUT ./05_conclusion.tex

@@ -21,7 +21,7 @@ control policies in simulated environments without the need for manually designe
 These methods have demonstrated strong generalization capabilities across multi-object and 
 multi-task scenarios. 
 
-Despite these advances, existing reinforcement learning frameworks primarily optimize for task 
+Despite these advances, existing RL frameworks primarily optimize for task 
 success rates and rarely incorporate explicit modeling or constraints related to safety-critical 
 behaviors. During training, common failure modes include severe collisions between the hand and 
 the environment, unintended object ejection due to excessive contact forces, and loss of stable 
@@ -101,7 +101,7 @@ manipulation.
 % with distillation into an RGB-based student policy. We further enhance the
 % distillation process with a teacher-intervened exploration strategy, guided by a
 % combined decision signal derived from both teacher--student disagreement and a
-% risk-prediction probability.
+% success-value estimate.
 
 The contributions of this work are summarized as follows:
 \begin{itemize}
@@ -110,8 +110,7 @@ The contributions of this work are summarized as follows:
     distilling RL-acquired teacher policies into a single RGB-based student
     policy. To the best of our knowledge, this is the first attempt in dexterous manipulation to incorporate
     a mixed intervention policy combining teacher--student action disagreement
-    with a success-value critic. Low predicted success triggers teacher takeover,
-    while the VLM reasons about scene-level safety from rollout statistics and
+    with a Bellman success-value critic, while the VLM reasons about scene-level safety from rollout statistics and
     representative visual observations to regulate the intervention gate.
 
     \item We propose a safety-aware RL reward design that explicitly accounts for risky events in 
@@ -119,7 +118,7 @@ The contributions of this work are summarized as follows:
     too far from the workspace, thereby encouraging safer exploration during teacher training.
     
     \item We empirically demonstrate that \methodname, which combines
-    disagreement, risk prediction, and VLM-guided intervention policy adaptation,
+    disagreement, success-value prediction, and VLM-guided intervention policy adaptation,
     substantially reduces unsafe exploration compared with Vanilla DAgger,
     achieving an approximately \textbf{80\%} relative reduction in the
     unsafe-episode rate during early training. It also reduces the average

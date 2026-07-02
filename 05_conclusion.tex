@@ -1,13 +1,17 @@
-In this work, we propose \methodname (\methodfullname), which integrates
+In this work, we propose \methodname, which integrates
 teacher--student disagreement with a Bellman success-value critic trained on
-lift-success labels and uses a VLM to adapt the intervention policy.
+safe-lift-success labels and uses a VLM to adapt the intervention policy.
 \methodname improves exploration safety during multi-teacher distillation,
-with consistent gains across the evaluated object subsets and failure modes.
-It also approaches and, in some cases, slightly surpasses the teacher policy's
+reducing the unsafe-episode rate by \textbf{80\%} relative to the vanilla DAgger
+baseline during early training. The introduction of the Bellman critic
+reduces the average unsafe-episode rate by \textbf{7.5 percentage points} relative to the
+disagreement-only SafeDAgger baseline. In addition, VLM-guided intervention policy adaptation
+yields consistent improvements across different visual contexts and unsafe scenarios,
+reducing the average unsafe-episode rate by a further \textbf{4 percentage points} relative to
+\dexsafedagger.
+The proposed method approaches and, in some cases, surpasses the teacher policy's
 safety performance. Successful real-world deployment shows that the resulting
-student policy partially bridges the sim-to-real gap. However, its limited
-generalization to unseen objects indicates that \methodname remains vulnerable
-to unvisited, complex contact scenarios.
+student policy partially bridges the sim-to-real gap.
 
 A clear limitation is that performance during distillation, as well as the final student policy, is
 largely constrained by teacher capability. Developing a safety-aware teacher training pipeline is a

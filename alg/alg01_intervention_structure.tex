@@ -1,12 +1,12 @@
 \begin{algorithm}[t]
 \small
-\caption{\methodname: \methodfullname for \methodtask}
+\caption{\methodname}
 \label{alg:safe_dagger}
 \begin{algorithmic}[1]
 
 \STATE Train the privileged teacher policy $\pi_T$ via RL
 \STATE Collect a warm-start dataset $\mathcal{D}_0$ under teacher control
-\STATE Pretrain the success-value critic $\hat Q_{\mathrm{succ}}$ on $\mathcal{D}_0$
+\STATE Pretrain the Bellman critic $\hat Q_{\mathrm{succ}}$ on $\mathcal{D}_0$
 \STATE Initialize the intervention policy parameters $\boldsymbol{\tau}^{(0)}=(\tau_\delta^{(0)},\tau_Q^{(0)})$
 \STATE Initialize the visual buffer $\mathcal{B}_V$
 
@@ -14,12 +14,12 @@
     \STATE Observe the teacher state $s_t$ and student observation $o_t$
     \STATE Compute the actions $a_t^T\sim\pi_T(\cdot|s_t)$ and $a_t^S\sim\pi_S(\cdot|o_t)$
     \STATE Compute the action disagreement $\delta_t=\|a_t^S-a_t^T\|_2$
-    \STATE Predict the current action's contribution to future lift success using $\hat Q_{\mathrm{succ}}(s_t,a_t^S)$
+    \STATE Predict the safe-lift-success value $\hat Q_{\mathrm{succ}}(s_t,a_t^S)$
     \STATE Evaluate the intervention gate
     \STATE \hspace{1em}$g_t\gets\mathbb{I}[\delta_t>\tau_\delta\ \lor\ \hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q]$
     \STATE Execute the gated action $a_t=g_t a_t^T+(1-g_t)a_t^S$
-    \STATE Store the transition in the risk replay buffer $\mathcal{D}$
-    \STATE Update the student policy $\pi_S$ and the success critic $\hat Q_{\mathrm{succ}}$
+    \STATE Store the transition in the critic replay buffer $\mathcal{D}$
+    \STATE Update $\hat Q_{\mathrm{succ}}$; if $g_t=1$, update $\pi_S$
     \STATE Add representative visual states to $\mathcal{B}_V$
     \IF{an intervention policy update is due}
         \STATE Summarize rollout context $\mathcal{C}_k$ and sample images $\mathcal{V}_k$

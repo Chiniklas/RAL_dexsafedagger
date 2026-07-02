@@ -75,13 +75,13 @@ $\prod_{t=0}^{T-1}\big(1-\mathbb{I}_{\mathrm{unsafe}}(s_t)\big)=1$.
 \subsection{Overview of the Distillation Pipeline}
 Fig.~\ref{fig:pipeline} summarizes \methodname, our teacher--student distillation pipeline,
 which consists of five core components: (i) privileged teacher policy training
-in simulation (Sec.~C), (ii) risk predictor learning to estimate lift success
+in simulation (Sec.~C), (ii) Bellman success-value critic learning to estimate safe lift success
 under student actions (Sec.~D), (iii) deterministic teacher intervention
 (Sec.~E), (iv) VLM-guided intervention policy adaptation (Sec.~F), and (v) online
 student skill distillation (Sec.~G).
 
 The privileged teacher is first trained in simulation, and its rollouts provide
-an offline warm start for the Bellman success-value critic. The critic estimates
+an offline warm start for the Bellman critic. The critic estimates
 prospective lift success under the student action and continues to be updated
 from a ring replay buffer.
 
@@ -89,8 +89,8 @@ During online distillation, the teacher intervenes when either teacher--student
 action disagreement is high or the critic predicts low success. The student is
 then optimized online from teacher labels collected under the resulting rollout
 policy $\pi_{\mathcal{G}}$. A VLM is periodically queried to propose updates to
-the intervention policy's operating point. The resulting candidate policy parameters
-are clipped and smoothed before use. Pseudo-code is
+the intervention policy's operating point. The resulting candidate operating point
+is clipped and smoothed before use. Pseudo-code is
 provided in Alg.~\ref{alg:safe_dagger}.
 
 \input{alg/alg01_intervention_structure}
@@ -137,14 +137,14 @@ conditions include palm flip, harmful collision, object escape, and hand-too-far
 (see Sec.~A), and are treated as unsafe events for both teacher training and
 subsequent intervention decisions.
 
-\subsection{Risk Predictor}
+\subsection{Bellman Success-Value Critic}
 $\ell_2$ action disagreement alone is insufficient as an intervention signal and may miss small
 action deviations that could cause unstable grasps, collisions, or object escape.
-We therefore learn a success-value critic, trained with lift-success labels, that estimates the
+We therefore learn a Bellman critic, trained with safe-lift-success labels, that estimates the
 probability of safe lift success for the current student state--action pair and provides a
 prospective signal complementary to action disagreement.
 
-The predictor evaluates a multimodal state--action pair $(s_t,a_t^S)$, where
+The Bellman critic evaluates a multimodal state--action pair $(s_t,a_t^S)$, where
 $s_t$ combines robot proprioception and embeddings from a visual encoder. The
 encoder is trained end-to-end during skill distillation and regularized by the
 auxiliary object-position prediction loss in Sec.~G. The twin critics
@@ -176,11 +176,11 @@ updated target networks. Both critics minimize the mean-squared error (MSE)
 between their predictions and $y_t$; the minimum across critics reduces overestimation.
 
 \subsection{Intervention Policy}
-We use a deterministic two-channel safety filter for teacher arbitration. The
+The intervention policy uses a deterministic two-channel gate. The
 first channel measures teacher--student disagreement,
 $\delta_t\coloneqq\lVert a_t^S-a_t^T\rVert_2$, where
 $a_t^T\sim\pi_T(\cdot\mid s_t)$ and $a_t^S\sim\pi_S(\cdot\mid o_t)$. The second
-channel evaluates prospective task safety through
+channel evaluates prospective task success through
 $\hat Q_{\mathrm{succ}}(s_t,a_t^S)$. The intervention policy is parameterized by
 $\boldsymbol{\tau}^{(k)}=(\tau_\delta^{(k)},\tau_Q^{(k)})$, where
 $\tau_\delta^{(k)}$ is the maximum admissible disagreement and
@@ -202,21 +202,21 @@ Thus, either large disagreement or low predicted success triggers teacher
 takeover. Decreasing $\tau_\delta$ or increasing $\tau_Q$ makes the intervention
 policy more conservative; the opposite shift increases student autonomy.
 
-We initialize $\tau_\delta^{(0)}$ and $\tau_Q^{(0)}$ from the $90$th
+We empirically initialize $\tau_\delta^{(0)}$ and $\tau_Q^{(0)}$ from the $90$th
 percentile of warm-start disagreement and the $10$th percentile of predicted
 success over successful teacher rollouts, respectively. These values define the
 initial operating point $\boldsymbol{\tau}^{(0)}$.
 
 \subsection{VLM-Guided Intervention Policy Adaptation}
 \label{subsec:vlm_threshold_tuner}
-During online distillation, the student policy, visited-state distribution, and risk-predictor calibration co-evolve, and the dominant failure modes may also change. A stationary intervention mechanism therefore cannot maintain a consistent safety--autonomy trade-off. We periodically query a VLM to guide the displacement of intervention parameters.
+During online distillation, the student policy, visited-state distribution, and Bellman critic's calibration co-evolve, and the dominant failure modes may also change. A stationary intervention policy therefore cannot maintain a consistent safety--autonomy trade-off. We periodically query a VLM to guide the displacement of the intervention policy's operating point.
 At iteration $k$, the VLM receives rollout statistics $\mathcal{C}_k$,
 including disagreement ($\delta_t$), predicted success
 ($\hat Q_{\mathrm{succ}}(s_t,a_t^S)$), intervention rate ($\beta$), and
 unsafe-episode rate ($\mathrm{UnsafeRateAvg}$). It also receives a
 representative image batch $\mathcal{V}_k$ sampled from the visual buffer
 $\mathcal{B}_V$ to cover high-disagreement, low-success, and unsafe states.
-From this context, it proposes the policy update
+From this context, it proposes an operating-point displacement
 $\Delta\boldsymbol{\tau}^{(k)}=
 (\Delta\tau_\delta^{(k)},\Delta\tau_Q^{(k)})$, producing the candidate
 operating point
@@ -263,7 +263,7 @@ $\mathcal{L}_{\mathrm{action}}=
 
 Training proceeds in two stages. (i) \emph{Warm-start:} we collect an offline
 dataset (e.g., $100$k transitions) under full teacher control ($g_t\equiv 1$)
-to pretrain the risk predictor. (ii) \emph{Online
+to pretrain the Bellman critic. (ii) \emph{Online
 distillation:} we perform interactive rollouts under $\pi_{\mathcal{G}}$ and
 query teacher labels on intervened steps. The student is updated online using
 the current-step teacher label only; no replay buffer or offline dataset is

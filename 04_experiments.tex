@@ -93,7 +93,7 @@ We use GPT-5.5 with high reasoning effort as the VLM. We issue the first VLM
 query after 2{,}000 episodes
 and subsequently query it every 10{,}000 distillation episodes, resulting in 10
 VLM calls over the full 100{,}000-episode training run and approximately
-70k tokens of total usage per run.
+70{,}000 tokens of total usage per run.
 
 % \input{table/state_space.tex}
 
@@ -105,7 +105,7 @@ The following ablation studies validate the design choices in \methodname. We di
 teacher policies trained during the RL phase into a compact, generalizable student policy.
 For RL training, we compare the standard DexTrAH-RGB pipeline with our customized variant.
 For skill distillation, we evaluate four methods---Vanilla DAgger, Vanilla SafeDAgger,
-\dexsafedagger, and \methodname---in terms of growth in lift-success rate, unsafe-episode rate, and intervention
+\dexsafedagger, and \methodname---in terms of the evolution of lift-success, unsafe-episode, and intervention
 rate throughout training. The intervention rate is defined as the fraction of time steps at
 which the teacher takes over:
 $\beta=\frac{1}{T}\sum_{t=0}^{T-1}\mathbb{I}[g_t=1]$.
@@ -144,22 +144,22 @@ Using the same teacher as in (b), we replace Vanilla DAgger with a disagreement-
 The teacher intervenes only when $\lVert a_t^{T}-a_t^{S}\rVert_2$ exceeds a fixed threshold, and we train the student
 on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
 
-% \noindent\textbf{(d) DexTrAH-RGB RL teacher + SafeDAgger with disagreement and a risk predictor.}
+% \noindent\textbf{(d) DexTrAH-RGB RL teacher + SafeDAgger with disagreement and a success-value critic.}
 % We follow the DexTrAH-RGB teacher training setup but apply our teacher-intervened distillation pipeline for
 % student learning. The teacher and student policies are rolled out in parallel. Teacher intervention is triggered
-% when either (i) the teacher disagrees with the student or (ii) the risk predictor flags the current transition
+% when either (i) the teacher disagrees with the student or (ii) the success-value critic flags the current transition
 % as unlikely to lead to task success. The intervention decision is computed at every timestep. Likewise, the
 % student is trained on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
 
 \noindent\textbf{(d) DexTrAH-RGB RL + \dexsafedagger.}
-\dexsafedagger denotes SafeDAgger with disagreement and a risk predictor under a stationary intervention policy.
+\dexsafedagger denotes SafeDAgger with disagreement and a Bellman success-value critic under a stationary intervention policy.
 This setting uses the DexTrAH-RGB-trained teacher (as in (a)).
-Intervention is triggered by either large teacher--student disagreement or high predicted risk,
+Intervention is triggered by either large teacher--student disagreement or low predicted success,
 and the student is trained from teacher-labeled pairs $(o_t^{S}, a_t^{T})$ collected under this gate.
 
-% \noindent\textbf{(e) Our RL teacher + SafeDAgger with disagreement and a risk predictor.}
+% \noindent\textbf{(e) Our RL teacher + SafeDAgger with disagreement and a success-value critic.}
 % We combine our custom RL pipeline with the proposed teacher intervention mechanism, using both teacher--student
-% disagreement and state-risk prediction to trigger teacher takeover.
+% disagreement and success-value prediction to trigger teacher takeover.
 
 \noindent\textbf{(e) Our RL + \dexsafedagger.}
 This setting uses the \dexsafedagger setup defined in (d), but replaces the DexTrAH-RGB-trained teacher with one trained using
@@ -201,32 +201,18 @@ improves (middle). They reduce early unsafe episodes by approximately 80\% relat
 remain below 20\% throughout distillation, with \methodname achieving the lowest rate overall (right).
 
 Comparing ablations (e) and (f) isolates the contribution of VLM-guided adaptation in \methodname.
-Both use the same RL teacher and disagreement--risk gate, but (e) uses fixed thresholds, whereas
+Both use the same RL teacher and two-channel intervention policy, but (e) uses fixed thresholds, whereas
 (f) adapts them using a VLM conditioned on rollout statistics and visual context. Across all evaluated
-objects, ablation (f) achieves an average unsafe-episode rate of 5.3\%, consistently lower than that
-of (e), while maintaining comparable lift success. This result shows that VLM-guided intervention
+objects, ablation (f) achieves an unsafe-episode rate that is lower than that of (e) by an average of
+4 percentage points, while maintaining comparable lift success. This result shows that VLM-guided intervention
 policy adaptation improves safety without sacrificing task performance.
 
-Compared with ablation (c), which uses disagreement alone, ablation (e) adds risk prediction
+Compared with ablation (c), which uses disagreement alone, ablation (e) adds success-value prediction
 while retaining the same RL teacher and stationary intervention policy. The combined gate
 intervenes in low-predicted-success states missed by disagreement alone, reducing the average
-unsafe-episode rate by about 5 percentage points and limiting collision and object-escape
+unsafe-episode rate by about 7.5 percentage points and limiting collision and object-escape
 failures without sacrificing task performance. Its unsafe rate approaches the teacher's
 average ($\approx 12\%$) by the end of training and reaches a minimum of approximately 8\%.
-
-Fig.~\ref{fig:failure_modes} shows that harmful collisions and object escape dominate unsafe episodes.
-Compared with Vanilla DAgger, all three intervention variants suppress both failure modes, particularly
-their early spikes, demonstrating that teacher intervention limits unsafe exploration during the initial
-distillation phase.
-
-
-
-\subsection{Real-World Experiments Setup}
-
-The experiments exhibit a lower lift success rate and a higher unsafe episode rate than
-the teacher and student evaluation results in simulation, indicating that \methodname does
-not fully eliminate the sim-to-real gap. Nevertheless, the resulting policy is sufficiently robust
-for real-world deployment.
 
 \begin{figure}[!t]
     \centering
@@ -237,6 +223,19 @@ for real-world deployment.
     \label{fig:realworld_exp_setup}
 \end{figure}
 
+Fig.~\ref{fig:failure_modes} shows that harmful collisions and object escape dominate unsafe episodes.
+Compared with Vanilla DAgger, all three intervention variants suppress both failure modes, particularly
+their early spikes, demonstrating that teacher intervention limits unsafe exploration during the initial
+distillation phase.
+
+\subsection{Real-World Experimental Results}
+
+We evaluate the deployed student policy on 22 objects, comprising 16 seen objects and 6 unseen objects.
+Table~\ref{tab:real_world_results} reports a representative six-object subset.
+The experiments exhibit a lower lift success rate and a higher unsafe episode rate than
+the teacher and student evaluation results in simulation, indicating that \methodname does
+not fully eliminate the sim-to-real gap. Nevertheless, the resulting policy is sufficiently robust
+for real-world deployment.
 
 The unseen-object evaluation reveals a clear generalization gap: compared to
 seen objects (WindCart/Boot/ToolBox/Cow), the policy achieves lower lift success
@@ -252,10 +251,10 @@ interactions to novel object shapes.
 
 \input{table/real_world_results.tex}
 
-\subsection{Discussion}
+% \subsection{Discussion}
 
-While effectively reducing unsafe exploration, the teacher-intervened online distillation process
-appears to reduce sample efficiency. In Fig.~\ref{fig:ablation}, we observe slower performance growth in
-lift-success evaluation under higher intervention rates. The underlying cause remains unclear; we believe
-there is room for improvement in both exploration safety and sample efficiency within the online
-distillation paradigm.
+% While effectively reducing unsafe exploration, the teacher-intervened online distillation process
+% appears to reduce sample efficiency. In Fig.~\ref{fig:ablation}, we observe slower performance growth in
+% lift-success evaluation under higher intervention rates. The underlying cause remains unclear; we believe
+% there is room for improvement in both exploration safety and sample efficiency within the online
+% distillation paradigm.

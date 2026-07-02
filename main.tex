@@ -104,8 +104,9 @@ citecolor=blue
     deployable RGB-based student policy. The unsafe exploration rate is substantially suppressed in the early
     training phase via a proposed VLM-guided
     intervention policy that combines teacher--student action disagreement with a
-    success-value critic trained from lift-success labels, while a vision-language
-    model continuously updates a safety-aware understanding of the scene and triggers interventions when necessary.}
+    Bellman success-value critic trained on safe-lift-success labels, while a vision-language
+    model maintains an evolving, safety-aware understanding of the scene and periodically
+    adjusts the intervention policy during online distillation.}
     \label{fig:teaser}
     \vspace{-0.3in}\bigskip
   \end{center}%
@@ -134,7 +135,7 @@ citecolor=blue
 % unstable interactions, and hazardous contact events during exploration.
 % In this work, we propose a safety-aware online distillation framework that distills reinforcement learning (RL)
 % teacher policies into a student policy via mixed rollouts gated by teacher--student action disagreement and a learned
-% Q-value-based risk predictor. Across grasp-and-lift evaluations, the proposed method significantly reduces unsafe
+% Bellman success-value critic. Across grasp-and-lift evaluations, the proposed method significantly reduces unsafe
 % episodes (up to 80\% relative reduction early in training) while achieving a comparable lift success rate that is
 % suitable for real-world deployment.
 
@@ -144,13 +145,12 @@ to hardware damage and unstable or even hazardous contact events, posing a signi
 barrier to real-world deployment. To address this challenge, we propose \methodname
 , a safety-aware online skill-distillation framework that transfers
 reinforcement learning (RL) teacher policies to a vision-based student policy. \methodname
-combines an $\ell_2$ teacher--student disagreement gate with a learned Bellman critic that
-estimates the future success probability of the current student state--action pair.
-A vision-language model periodically adapts the intervention policy by applying displacements to
-the disagreement and success thresholds. This design enables safer exploration during
-online interactive imitation learning by adapting the intervention policy using high-level visual context. Experiments on
+combines an $\ell_2$ teacher--student disagreement gate with a learned Bellman success-value critic that
+estimates the prospective safe-lift-success value of the current student state--action pair.
+A vision-language model periodically adjusts the intervention policy parameterized by disagreement limit and acceptable predicted success rate. This design enables safer exploration during
+online interactive imitation learning using high-level visual context. Experiments on
 grasp-and-lift tasks show that \methodname significantly improves training safety, reducing
-unsafe episodes by up to 80\% during the early stages of training compared with vanilla
+unsafe episodes by up to 80\% during the training period compared with vanilla
 DAgger-based distillation. Meanwhile, the distilled student policy achieves comparable lift
 success rates and demonstrates sufficient robustness for real-world robotic deployment.
 \end{abstract}

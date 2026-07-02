@@ -1,0 +1,51 @@
+Reviewer 1 of IROS 2026 submission 3013
+
+Comments to the author
+======================
+
+(summary)
+This paper proposes a safety-aware teacher–student
+distillation framework that reduces unsafe exploration. It
+detects risky states using both a disagreement signal and a
+learned risk score, and selectively triggers teacher
+intervention to guide the student policy during training.
+
+(strengths)
+Conventional DAgger-based methods typically rely on action
+disagreement between the expert and the learner to trigger
+intervention. In contrast, this paper introduces a Q-based
+risk predictor that explicitly models state–action risk as
+a separate signal. This enables intervention decisions that
+consider actual failure likelihood beyond simple policy
+mismatch. Furthermore, the proposed method is validated in
+both simulation and real robot settings, demonstrating
+effective reduction of unsafe behavior across diverse
+failure modes.
+
+(weaknesses)
+First, the framework relies on a teacher policy that may
+not be robust under out-of-distribution states, raising
+concerns about its ability to provide reliable recovery
+during intervention.
+Second, the use of different observation modalities between
+teacher and student is not sufficiently justified, and the
+impact of this design choice on distillation performance is
+not clearly analyzed.
+Third, the method requires a warm-start dataset to train
+the risk predictor and calibrate thresholds, which limits
+its practicality, especially in safety-critical real-world
+settings where collecting unsafe data is undesirable.
+Fourth, it is unclear whether the performance improvement
+comes from the proposed intervention mechanism itself or
+simply from increased supervision due to more frequent
+expert queries. A controlled comparison with matched
+intervention rates would be necessary to isolate the true
+contribution of the method.
+
+Comments on the Video Attachment
+================================
+
+The video provides sufficient value by presenting both
+simulation and real robot experiments. However, it is
+unclear from the video how unsafe situations are detected
+and how the behavior is corrected, which is a limitation.
