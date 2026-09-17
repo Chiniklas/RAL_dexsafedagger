@@ -1,0 +1,93 @@
+Reviewer 3 of IROS 2026 submission 3013
+
+Comments to the author
+======================
+
+This paper proposes a safety-aware policy distillation
+framework for dexterous manipulation that integrates
+teacher intervention during online interactive imitation
+learning. The key idea is to trigger teacher takeover based
+on a combination of teacher–student action disagreement and
+a learned Q-value-based risk predictor. The method aims to
+reduce unsafe exploration during distillation while
+maintaining task performance when transferring from
+privileged-state RL teachers to RGB-based student policies.
+
+
+Strengths
+-Well-motivated problem setting. 
+The paper addresses an important and practical challenge:
+reducing unsafe exploration during policy distillation in
+dexterous manipulation. This is particularly relevant since
+failure modes in dexterous hands can directly translate
+into hardware risks.
+
+-Reasonable design intuition.
+The combination of action disagreement and a learned risk
+predictor is a natural extension of existing
+SafeDAgger-style methods. In particular, augmenting
+disagreement-based gating with a risk estimate to capture
+downstream failures (that are not detectable from local
+action similarity) is a sensible and well-motivated idea.
+
+-Autonomous teacher relabeling in an interactive setting.
+The method performs fully autonomous expert relabeling
+during online distillation using an RL-trained teacher,
+without requiring human supervision. This is a meaningful
+step in applying interactive imitation learning to
+dexterous manipulation.
+
+Weaknesses
+- Limited novelty.
+The proposed method largely combines existing ideas from
+interactive imitation learning and value-based risk
+estimation (e.g., ThriftyDAgger), and applies them to new
+domain(dexterous manipulation) with a modified RL teacher.
+While the integration is reasonable, the overall
+contribution appears incremental rather than introducing a
+fundamentally new methodology.
+
+- Ambiguity in risk predictor formulation.
+The so-called “Q-value-based failure prediction” is trained
+using predefined failure labels and bootstrapped
+targets, making it closer to a failure probability
+estimator than a true action-value function. As such, the
+terminology may be somewhat overstated, and its connection
+to actual failure likelihood is not rigorously justified.
+
+-Heuristic and fixed threshold design.
+The intervention threshold is determined from a warm-start
+dataset and kept fixed throughout training, despite the
+risk predictor being continuously updated and the data
+distribution shifting. The lack of adaptive thresholding or
+sensitivity analysis raises concerns about robustness and
+general applicability. Additionally, it raises concerns:
+Does a fixed threshold remain valid under distribution
+shift? No ablation or analysis is provided for threshold
+sensitivity, which weakens the methodological
+justification.
+
+-Unclear contribution of the risk predictor.
+From the results (e.g., Fig. 3), the method maintains a
+relatively high intervention rate even in later training
+stages, suggesting that improved safety may come from
+increased teacher intervention rather than better risk
+prediction. Without a fair comparison such as equal
+takeover rates, its true benefit remains unclear.
+
+-Experimental limitations and limited generalization.
+Although the paper mentions evaluation on multiple objects
+(10), detailed results in Tables III/IV and Fig. 4 are
+shown for only a subset. Additionally, the number of seeds
+or runs is not specified, making it difficult to assess
+variance and statistical significance. The method shows a
+significant drop in performance on unseen objects, with
+unsafe rates rising to around 40%. This indicates that
+safety and robustness do not generalize well beyond the
+training distribution, limiting practical deployment
+claims.
+
+Comments on the Video Attachment
+================================
+
+None.

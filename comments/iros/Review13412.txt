@@ -1,0 +1,54 @@
+Reviewer 4 of IROS 2026 submission 3013
+
+Comments to the author
+======================
+
+The paper proposes DexSafeDagger, a policy distillation
+pipeline that trains an RGB-based student from a
+state-based teacher, using safe intervention triggered by
+Q-value prediction and action disagreement. The method is
+validated on a lift object task in simulation, with limited
+hardware experiments. 
+
+Strengths:
+	- The paper is well written - the language is clear
+and the notation is clear. 
+	- The ablations in the simulation are clearly
+explained and designed. 
+
+Weaknesses:
+	- The related work is limited and that makes it
+difficult to judge the novelty of the method. There has
+been many related work in safedagger extensions
+(https://arxiv.org/abs/1807.08364,
+https://arxiv.org/pdf/2303.00638,
+https://arxiv.org/abs/2410.14868). There has been a lot of
+work in failure prediction and teacher intervention
+(https://arxiv.org/pdf/2302.04334,
+https://arxiv.org/pdf/2503.08558). 
+	- The novelty of the method is low. Every component
+is a standard: asymmetric actor-critic for teacher policy,
+risk predictor using SARSA Q-value, intervention mechanism
+is a heuristic check with hyperparameters, student
+distillation is standard MSE. The claimed contribution of
+applying these methods to a new application is relatively
+weak. 
+	- The experiments are not sufficiently impressive:
+The lift task is a good toy example, but it is not
+impressive to demonstrate the method's practical utility or
+scaling or performance compared to state-of-the-art. In the
+simulation experiment, the proposed method
+does not always outperform safedagger (fig 3). In the
+hardware experiment, there are not sufficient explanation
+of the experiment and there is no testing of baseline
+methods. 
+
+Minor:
+	- There is a typo in algorithm and equation (6).
+They use d_t (which is termination flag) instead of
+\delta_t (which is disagreement) 
+
+Comments on the Video Attachment
+================================
+
+The video clearly explains the paper. 

@@ -1,0 +1,75 @@
+Reviewer 2 of IROS 2026 submission 3013
+
+Comments to the author
+======================
+
+The paper tackles an important problem and provides a
+clear, implementable extension of SafeDAgger with a
+conservative Q-based risk predictor, supported by solid but
+not exhaustive experiments. However, the conceptual advance
+is modest, safety claims are confined to simulation, and
+the connection between the formal objective and the actual
+algorithm is weak.
+
+Weakness 1. Limited conceptual novelty relative to
+SafeDAgger and existing safe IL / safe RL work.
+
+The core method is essentially SafeDAgger with an extra
+value-based risk gate. The intervention policy is a simple
+OR over disagreement and a value threshold (Eq. (6)), and
+the risk predictor itself is a rather standard
+double-critic Q-estimator trained with SARSA. The paper
+does not convincingly argue why this combination is
+fundamentally new beyond “we plugged a Q-predictor into
+SafeDAgger for dexterous manipulation,” and it does not
+deeply compare to other risk/uncertainty-gated interactive
+IL variants like ThriftyDagger and LazyDagger (which are
+cited in Sec. II-B but only lightly discussed in the
+context of human supervision).
+
+The concept of using a learned critic or predicted failure
+probability to gate expert queries has appeared in various
+forms in safe IL and constrained RL. The paper does not
+clearly separate what is genuinely new (e.g., specific
+design choices for the risk target in Eq. (5) tailored to
+lift success and unsafe events) from what is fairly
+standard.
+
+Weakness 2. Formalization in Eq. (1) is not actually
+optimized and does not match the algorithm.
+The objective in Eq. (1) jointly optimizes over both the
+student policy (\pi_S) and the intervention mechanism
+(\mathcal{G}), trading off expected success and unsafe
+events under (p_{\pi_\mathcal{G}}). In practice,
+(\mathcal{G}) is not learned at all: it is hand-crafted as
+the OR-rule in Eq. (6), with thresholds (\tau_D) and
+(\tau_{\text{success}}) fixed from warm-start statistics.
+
+Weakness 3. Real-world experiments are too limited and lack
+baseline comparisons.
+Table V reports only the performance of the proposed
+pipeline's student on six objects (4 seen, 2 unseen) over
+15 episodes each. There are no real-world baselines such
+as:
+
+- A student distilled with vanilla DAgger or
+disagreement-only SafeDAgger,
+- A purely RL-based vision policy trained with domain
+randomization,
+- Or even ablations of the risk predictor off vs on in the
+final deployed policy.
+
+Without any such comparison, it is impossible to discern
+whether the safety-aware distillation pipeline is
+particularly advantageous in the real world versus
+alternative training schemes. The observed higher unsafe
+rates on unseen objects (Plane/Shoe; 40% unsafe) may be due
+to contact-design issues unrelated to the intervention
+mechanism.
+
+Comments on the Video Attachment
+================================
+
+It is highly intuitive, with the key points clearly
+organised and presented in a logical sequence. The intended
+message comes across clearly.
