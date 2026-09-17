@@ -1,0 +1,58 @@
+This paper proposes VLM-DexSafeDagger, a safety-aware online
+skill-distillation framework for transferring privileged RL teacher
+policies to an RGB-based student policy for dexterous manipulation. The
+method combines teacher–student action disagreement with a Bellman
+success-value critic and uses a VLM to adapt the intervention
+thresholds during training. Reducing unsafe exploration during
+interactive skill distillation is an important problem, especially for
+contact-rich dexterous manipulation. The paper is well written overall,
+and the simulation results show promising reductions in unsafe episodes
+while maintaining similar task success.
+
+However, I have two main concerns: the contribution and necessity of
+the VLM are not sufficiently demonstrated, and some details regarding
+reproducibility and safety characterization are still missing.
+
+1. The main concern about the proposed method is whether the
+improvement comes from VLM-based reasoning or simply from adaptive
+threshold tuning. The VLM uses rollout statistics and images, but its
+output only adjusts two intervention thresholds. The current comparison
+between DexSafeDagger and VLM-DexSafeDagger compares fixed thresholds
+with VLM-adapted thresholds. Therefore, it does not clearly show
+whether the improvement comes from threshold adaptation, language
+reasoning, or visual information. To clarify the VLM contribution, it
+would be helpful to compare cases with and without LLM/VLM, and with
+and without statistics and/or images. These comparisons would help show
+whether the VLM and visual information provide a clear advantage over
+simpler adaptive approaches.
+
+The related work on adaptive intervention should also be expanded. In
+particular, AIM (Cai et al., ICML 2025), EnsembleDAgger, and HG-DAgger
+are relevant. Since adaptive intervention can be achieved without a
+VLM, the authors should clarify how VLM-DexSafeDagger differs from
+these methods and whether the VLM provides an advantage over simpler
+adaptive approaches.
+
+2. Some details are still missing for reproducibility. Since the VLM
+directly changes the intervention thresholds, the authors should
+provide the VLM prompt and explain how the images are selected and how
+the VLM outputs are used. The Bellman success-value critic is also
+important for intervention, but its performance is not evaluated in
+detail. Some evaluation of the critic, especially its errors for unsafe
+cases, would be helpful. Please also clarify the number of runs/random
+seeds used for the results. Finally, I am not fully convinced by the
+use of the term “safety-critical.” The current safety evaluation is
+based on task-specific unsafe conditions rather than formal safety
+guarantees. The authors should clarify the scope of this claim.
+
+Additionally, the real-world experiments are valuable and show that the
+proposed method can work on physical hardware by comparing it with the
+baseline system. I understand that running additional real-world
+baseline experiments can be costly and difficult. However, only
+VLM-DexSafeDagger evaluated on the real robot does not sufficiently
+prove the proposed concept.  
+
+Minor comments: The paper also states that 22 objects were evaluated,
+while Table IV shows only six representative objects. It would be
+helpful to provide overall results for all 22 objects, for example by
+reporting results separately for seen and unseen objects.

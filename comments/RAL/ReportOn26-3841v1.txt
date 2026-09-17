@@ -1,0 +1,30 @@
+The manuscript proposes VLM-DexSafeDagger, a safety-aware skill
+distillation framework that combines teacher-student action
+disagreement, a Bellman success-value critic, and VLM-based adaptation
+of intervention thresholds for dexterous manipulation.
+
+The reviewers find the safety-oriented framework interesting, but raise
+several concerns that should be addressed. Most importantly, both
+reviewers question whether the VLM itself provides a clear benefit over
+simpler approaches for adaptive threshold tuning. The current
+experiments do not sufficiently separate the contribution of the VLM
+from the effect of threshold adaptation, and additional comparisons and
+ablations are needed to clarify this point.
+
+The reviewers also raise concerns about the safety claims. The current
+framework provides empirical intervention rather than a formal safety
+guarantee, and unsafe episodes still occur in the real-world
+experiments. The scope of the Âsafety-criticalÂ claim should
+therefore
+be clarified and better supported by the experiments.
+
+Other concerns include the evaluation of the Bellman success-value
+critic, reproducibility of the VLM component, the limited number of
+real-world trials, and insufficient baseline comparisons. More complete
+results for the tested objects and clearer reporting of the
+experimental settings are also needed.
+
+These concerns are substantial and should be fully addressed in a
+revised manuscript. Without adequately addressing these issues, the
+paper would be difficult to consider for publication. Please see the
+individual reviews for further details.

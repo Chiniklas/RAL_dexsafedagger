@@ -1,0 +1,54 @@
+This manuscript combines teacher–student action disagreement, a Bellman
+success-value critic, and VLM-adjusted intervention thresholds for
+dexterous policy distillation. The safety-oriented formulation and
+ablations are relevant. However, the method provides no formal safety
+guarantee, and the necessity of the VLM over conventional threshold
+adaptation remains unclear. Real-world unseen-object results show only
+60–66.7% success and 40% unsafe episodes. The limited repetitions,
+critic calibration, safety definitions, prompt reproducibility, teacher
+dependence, and sim-to-real limitations require substantial
+strengthening.
+
+Comments
+1- The term “safety-critical” is too strong because the framework supplies
+empirical intervention rather than formal constraint satisfaction.
+State explicitly that safety violations remain possible.
+
+2- Demonstrate that the VLM is necessary by comparing against fixed
+thresholds, rule-based adaptation, Bayesian optimization, curriculum
+schedules, grid search, and a small learned threshold network.
+
+3- The Bellman critic predicts combined “safe-lift-success,” thereby
+conflating task success with safety. Separate safety risk and task
+value, and report calibration, false-negative rates, and reliability
+diagrams.
+
+4- Teacher intervention is assumed safe, yet teacher policies may collide
+or fail. Quantify teacher unsafe rates and define how the framework
+responds when teacher and critic disagree.
+
+5- Provide exact VLM prompts, model version, decoding settings,
+image-selection procedure, output parsing, update frequency, latency,
+cost, and failure handling. Reproducibility may otherwise depend on an
+external proprietary service.
+
+6- Real-world unseen-object performance is weak: lift success falls to
+60–66.7%, while unsafe episodes reach 40%. Claims of sufficient
+deployment robustness should be moderated.
+
+7- Only fifteen real-world episodes per reported object produce coarse
+estimates. Increase repetitions and report confidence intervals and
+statistical comparisons across all 22 objects.
+
+8- Safety-event thresholds for harmful collision, object escape, palm
+flipping, and workspace violation require physical justification.
+Include contact-force measurements and severity-weighted safety
+metrics.
+
+9- Clarify whether VLM adaptation occurs only during simulation
+distillation or during physical deployment. If absent at deployment,
+the role of scene-level VLM reasoning should not be overstated.
+
+10- Compare training samples, teacher queries, interventions, computation,
+and final success across Vanilla DAgger, SafeDAgger, critic-based
+intervention, and VLM-guided intervention using multiple random seeds.
