@@ -1,0 +1,328 @@
+\documentclass[10pt]{article}
+
+\usepackage[letterpaper,margin=0.85in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[colorlinks=true,allcolors=blue!55!black]{hyperref}
+
+\definecolor{responseblue}{RGB}{0,70,140}
+\definecolor{placeholderred}{RGB}{170,25,25}
+
+\newcommand{\manuscriptid}{26-3841v1}
+\newcommand{\papertitle}{VLM-DexSafeDagger: VLM-Guided Intervention Policy for Safety-Critical Visuomotor Skill Distillation}
+\newcommand{\placeholder}[1]{\textcolor{placeholderred}{\textbf{[#1]}}}
+\newcommand{\response}{\par\smallskip\noindent\textcolor{responseblue}{\textbf{[Response:]}}\ }
+
+\newcounter{reviewcomment}
+\newcounter{reviewer}
+\renewcommand{\theHreviewcomment}{\arabic{reviewer}.\arabic{reviewcomment}}
+\newcommand{\reviewerheading}[1]{%
+  \clearpage
+  \stepcounter{reviewer}
+  \setcounter{reviewcomment}{0}
+  \begin{center}
+    \large\bfseries\scshape Response to #1
+  \end{center}
+  \vspace{0.4em}
+}
+\newcommand{\reviewcomment}[1]{%
+  \refstepcounter{reviewcomment}
+  \par\medskip\noindent\textbf{Comment \thereviewcomment:} #1\par
+}
+
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlength{\emergencystretch}{3em}
+
+\begin{document}
+\pagenumbering{roman}
+
+\begin{center}
+  {\Large\bfseries Authors' Responses}\par
+\end{center}
+
+\vspace{2em}
+\begin{tabular}{@{}p{0.34\linewidth}p{0.62\linewidth}@{}}
+\textbf{Journal Title:} & IEEE Robotics and Automation Letters \\
+\textbf{Reference Number:} & \manuscriptid \\
+\textbf{Title of Paper:} & \papertitle \\
+\textbf{Authors:} & Anonymous Authors
+\end{tabular}
+
+\vspace{2em}
+We sincerely thank the Editor and the reviewers for their careful evaluation
+of our manuscript and for their constructive comments. Their feedback has
+helped us identify where the contribution, safety claims, experimental
+evidence, and implementation details require clearer presentation.
+
+We are preparing a major revision of the manuscript. In the revised version,
+we will:
+\begin{enumerate}[label=\arabic*)]
+  \item clarify the specific contribution of VLM-guided threshold adaptation
+  through comparisons with conventional fixed and adaptive alternatives;
+  \item revise the safety terminology and explicitly delimit the empirical,
+  task-specific scope of the reported safety results;
+  \item strengthen the evaluation of the Bellman critic, teacher policies,
+  real-world experiments, and resource usage; and
+  \item provide the implementation details needed to reproduce the VLM-based
+  threshold tuner and the intervention pipeline.
+\end{enumerate}
+
+Detailed responses to each comment are provided below. Reviewer comments are
+reproduced in black, and our responses are shown in blue. Red bracketed text
+marks details that will be completed after the corresponding revision or
+experiment has been finalized. Changes in the revised manuscript will be
+highlighted in blue.
+
+\reviewerheading{the Associate Editor}
+
+We thank the Associate Editor for summarizing the central issues raised during
+review. We address each issue below and provide detailed point-by-point
+responses to the reviewers in the following sections.
+
+\reviewcomment{The experiments do not sufficiently separate the contribution
+of the VLM from the effect of adaptive threshold tuning. Additional comparisons
+and ablations are needed to clarify whether the VLM itself provides a benefit.}
+
+\response We agree that the comparison between a fixed intervention policy and
+VLM-guided adaptation does not, by itself, isolate the source of the
+improvement. In the revision, we will add controlled comparisons covering fixed
+threshold selection, conventional adaptive threshold rules, a learned threshold
+controller, statistics-only language-model input, and statistics-plus-image VLM
+input. All methods will use the same teacher, student, critic, training budget,
+and evaluation protocol. We will report both task performance and intervention
+cost so that safety improvements cannot be attributed only to increased teacher
+control. \placeholder{Insert the finalized methods, principal quantitative
+result, and revised table/figure locations.}
+
+\reviewcomment{The framework provides empirical intervention rather than a
+formal safety guarantee, and unsafe episodes remain in the real-world
+experiments. The scope of the ``safety-critical'' claim should therefore be
+clarified and better supported.}
+
+\response We agree. The revised manuscript will explicitly state that the
+framework does not guarantee constraint satisfaction and that safety violations
+remain possible. We will replace overly strong uses of ``safety-critical'' with
+terms such as ``safety-aware'' or ``empirically risk-reducing,'' and we will
+limit our conclusions to the task-specific unsafe events measured in the
+experiments. \placeholder{List the affected sections and the final revised
+title, if applicable.}
+
+\reviewcomment{The Bellman success-value critic, VLM reproducibility, number of
+real-world trials, baseline coverage, and reporting for all tested objects need
+to be strengthened.}
+
+\response We agree and will expand both the evaluation and the implementation
+description. The revision will include critic error and calibration analyses,
+the complete VLM prompt and output-processing procedure, the number of random
+seeds, matched baseline comparisons, uncertainty estimates, and aggregate as
+well as per-object real-world results. \placeholder{Insert the completed
+analyses and their manuscript or supplementary-material locations.}
+
+\reviewerheading{Reviewer \#14}
+
+We sincerely thank the reviewer for the careful assessment of our work and for
+the constructive suggestions. Below are our point-by-point responses.
+
+\reviewcomment{The current comparison between DexSafeDagger and
+VLM-DexSafeDagger compares fixed thresholds with VLM-adapted thresholds and
+therefore does not show whether the improvement comes from threshold adaptation,
+language reasoning, or visual information. Please compare cases with and without
+an LLM/VLM and with and without statistics and/or images.}
+
+\response We agree. We will add controlled ablations that separate adaptation,
+language reasoning, and visual input. In particular, the revision will compare
+a fixed operating point, a non-language adaptive controller, an LLM receiving
+rollout statistics only, a VLM receiving rollout statistics and selected
+images, and a visual-control condition in which the image information is
+removed or mismatched. These variants will be evaluated under matched training
+and intervention budgets. \placeholder{Insert final ablation definitions,
+results with uncertainty, and table/figure references.}
+
+\reviewcomment{The related work on adaptive intervention should be expanded.
+In particular, AIM, EnsembleDAgger, and HG-DAgger are relevant. Since adaptive
+intervention can be achieved without a VLM, please clarify how
+VLM-DexSafeDagger differs from these methods and whether the VLM provides an
+advantage over simpler adaptive approaches.}
+
+\response We agree and will expand the related-work discussion to include AIM,
+EnsembleDAgger, and HG-DAgger. We will distinguish uncertainty-based gating,
+human-gated intervention, learned intervention proxies, and our setting of
+autonomous multi-object visuomotor distillation with a two-channel
+disagreement/value gate. We will also ground the claimed benefit of the VLM in
+the new adaptive-baseline experiments rather than in a conceptual distinction
+alone. \placeholder{Insert citations and the revised section location.}
+
+\reviewcomment{Please provide the VLM prompt and explain how images are selected
+and how the VLM outputs are used. The Bellman success-value critic should also
+be evaluated, especially for errors on unsafe cases. Please clarify the number
+of runs or random seeds and the scope of the term ``safety-critical.''}
+
+\response We agree. The supplementary material will provide the exact prompt,
+model identifier, inference settings, image-selection rule, output format,
+parser, threshold clipping and smoothing, query schedule, retry behavior, and
+deterministic fallback. We will also report critic discrimination and
+calibration metrics, with particular attention to false negatives on unsafe
+episodes, and will state the number of independent runs used for every result.
+Finally, we will revise the safety terminology as described in our response to
+the Associate Editor. \placeholder{Insert model version, number of seeds,
+critic metrics, and section/appendix references.}
+
+\reviewcomment{Only VLM-DexSafeDagger is evaluated on the real robot. This does
+not sufficiently demonstrate the proposed concept; a physical baseline
+comparison is needed.}
+
+\response We agree that a matched physical comparison would provide stronger
+evidence. We will evaluate the distilled policy against
+\placeholder{specify the feasible real-world baseline or baselines} using the
+same object set, initial-condition protocol, and number of trials. We will
+report lift success, unsafe-event incidence, and uncertainty for each method.
+We will also clarify that the VLM is used during simulation distillation and is
+not queried by the deployed student policy. \placeholder{Insert final results
+and table reference.}
+
+\reviewcomment{The paper states that 22 objects were evaluated, while the
+current table shows only six representative objects. Please provide overall
+results for all 22 objects, for example separately for seen and unseen objects.}
+
+\response We agree. The revision will report aggregate results for all 16 seen
+and 6 unseen objects and will provide per-object results for the complete
+22-object evaluation in the supplementary material. Each aggregate will include
+the number of trials and a 95\% confidence interval.
+\placeholder{Insert the final seen/unseen results and table references.}
+
+\reviewerheading{Reviewer \#22}
+
+We sincerely thank the reviewer for the detailed and constructive comments.
+Below are our point-by-point responses.
+
+\reviewcomment{The term ``safety-critical'' is too strong because the framework
+supplies empirical intervention rather than formal constraint satisfaction.
+State explicitly that safety violations remain possible.}
+
+\response We agree. The revised manuscript will state explicitly that the
+method provides empirical risk reduction under task-specific event definitions,
+not a formal safety guarantee, and that nonzero violation probability remains
+in both simulation and physical deployment. We will revise the title, abstract,
+main text, and conclusion to remove or qualify claims that exceed this scope.
+\placeholder{Insert the final wording and section locations.}
+
+\reviewcomment{Demonstrate that the VLM is necessary by comparing against fixed
+thresholds, rule-based adaptation, Bayesian optimization, curriculum schedules,
+grid search, and a small learned threshold network.}
+
+\response We agree that stronger conventional baselines are required. We will
+compare validation-selected fixed thresholds (using grid search and Bayesian
+optimization) with adaptive curriculum, rule-based feedback, learned-network,
+and VLM-guided controllers. The fixed methods will select one operating point,
+whereas the adaptive methods will update the operating point during training.
+All comparisons will use matched data and compute budgets where applicable and
+will report task success, unsafe-event rate, intervention rate, teacher queries,
+and training cost. \placeholder{Insert the final protocol, quantitative results,
+and table/figure references.}
+
+\reviewcomment{The Bellman critic predicts combined ``safe-lift-success,''
+thereby conflating task success with safety. Separate safety risk and task value,
+and report calibration, false-negative rates, and reliability diagrams.}
+
+\response We agree that the current joint target does not distinguish an unsafe
+outcome from a safe episode that fails to complete the lift. In the revision, we
+will \placeholder{state whether the critic is redesigned with separate safety
+and task heads, or justify and retain the joint target}. We will report AUROC,
+AUPRC, Brier score, expected calibration error, reliability diagrams, and the
+false-negative rate at the deployed threshold on held-out trajectories.
+\placeholder{Describe exactly how the revised critic enters the intervention
+gate and insert the results.}
+
+\reviewcomment{Teacher intervention is assumed safe, yet teacher policies may
+collide or fail. Quantify teacher unsafe rates and define how the framework
+responds when teacher and critic disagree.}
+
+\response We agree that teacher takeover is not itself a safety guarantee. We
+will report success and unsafe-event rates for the teacher policies over the
+complete evaluation set rather than only representative objects. We will also
+specify how the controller handles disagreement between the critic's assessment
+and the teacher action, including the fallback used when neither candidate
+action satisfies the acceptance rule. \placeholder{Insert teacher statistics,
+the fallback rule, and section/table references.}
+
+\reviewcomment{Provide exact VLM prompts, model version, decoding settings,
+image-selection procedure, output parsing, update frequency, latency, cost, and
+failure handling. Reproducibility may otherwise depend on an external
+proprietary service.}
+
+\response We agree. The revised supplementary material will include all of the
+requested information, together with the permitted threshold range, smoothing
+rule, invalid-output handling, and deterministic fallback. We will archive the
+raw VLM outputs and threshold trajectories where allowed so that the adaptation
+process can be audited independently of the external service.
+\placeholder{Insert exact settings, measured latency/cost, archive location,
+and appendix reference.}
+
+\reviewcomment{Real-world unseen-object performance is weak: lift success falls
+to 60--66.7\%, while unsafe episodes reach 40\%. Claims of sufficient deployment
+robustness should be moderated.}
+
+\response We agree. We will remove the claim that the current results establish
+sufficient robustness for deployment. Instead, we will present the physical
+experiments as an initial transfer evaluation and identify the unseen-object
+results as evidence of a remaining sim-to-real and contact-generalization gap.
+\placeholder{Insert the revised discussion and limitation-section locations.}
+
+\reviewcomment{Only fifteen real-world episodes per reported object produce
+coarse estimates. Increase repetitions and report confidence intervals and
+statistical comparisons across all 22 objects.}
+
+\response We agree that the uncertainty of the current estimates must be made
+explicit. We will \placeholder{state the feasible number of additional trials}
+and report per-object and aggregate seen/unseen results with 95\% confidence
+intervals. Matched method comparisons will include effect sizes and appropriate
+statistical tests or bootstrap intervals. \placeholder{Insert the final trial
+count, analysis method, and results.}
+
+\reviewcomment{Safety-event thresholds for harmful collision, object escape,
+palm flipping, and workspace violation require physical justification. Include
+contact-force measurements and severity-weighted safety metrics.}
+
+\response We agree that each event definition requires a physical and sensing
+rationale. The revision will list the numerical threshold, sensor or simulator
+signal, units, and justification for every event. In addition to binary episode
+incidence, we will report \placeholder{the available force, impulse, motor-current,
+penetration, or other severity proxy}. If calibrated force measurements are not
+available, we will label the reported signal as a proxy and state this limitation
+explicitly. \placeholder{Define the severity-weighted metric and insert the
+section/table references.}
+
+\reviewcomment{Clarify whether VLM adaptation occurs only during simulation
+distillation or during physical deployment. If absent at deployment, the role of
+scene-level VLM reasoning should not be overstated.}
+
+\response The VLM is queried only during simulation-based online distillation.
+During physical deployment, the RGB student acts without the VLM, privileged
+teacher, Bellman critic, or threshold adaptation. We will state this distinction
+in the abstract, method, experimental setup, and limitations, and will describe
+the VLM as a training-time adaptation mechanism rather than a deployment-time
+safety monitor. \placeholder{Insert the final section locations.}
+
+\reviewcomment{Compare training samples, teacher queries, interventions,
+computation, and final success across Vanilla DAgger, SafeDAgger, critic-based
+intervention, and VLM-guided intervention using multiple random seeds.}
+
+\response We agree. We will add a unified comparison using the same training
+horizon and paired random seeds. For each method, we will report environment
+steps, student updates, teacher labels, teacher-controlled steps, intervention
+rate, compute time, VLM calls where applicable, final lift success, final unsafe
+rate, and unsafe-rate area under the training curve. \placeholder{Insert the
+number of seeds, quantitative results, and table/figure references.}
+
+\vspace{1em}
+We thank the Editor and the reviewers again for their thoughtful feedback. The
+requested revisions will help us present the method's contribution more clearly,
+support its empirical claims more rigorously, and state its limitations more
+precisely.
+
+\end{document}

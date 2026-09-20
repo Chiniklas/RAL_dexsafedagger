@@ -1,1 +1,10 @@
 .latex-build/
+
+# LaTeX intermediates from the dedicated rebuttal build. Keep the source and
+# finished PDF visible to Git.
+comments/RAL/response/*.aux
+comments/RAL/response/*.fdb_latexmk
+comments/RAL/response/*.fls
+comments/RAL/response/*.log
+comments/RAL/response/*.out
+comments/RAL/response/*.synctex.gz

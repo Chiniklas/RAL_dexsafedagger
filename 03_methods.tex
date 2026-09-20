@@ -96,46 +96,40 @@ provided in Alg.~\ref{alg:safe_dagger}.
 \input{alg/alg01_intervention_structure}
 
 \subsection{Privileged Teacher Policy Training}
-Teacher policy learning is formulated as a reinforcement learning problem with
-transition tuples $\langle s_t,a_t,r_t,s_{t+1}\rangle$, where $s_t$ is the
-privileged state, $a_t$ is the action, $r_t$ is the reward, and $s_{t+1}$ is the
-next state. The objective is to maximize the expected discounted return,
+We train each object-specific teacher $\pi_T$ in simulation with PPO using an
+asymmetric actor--critic. The actor maps noisy, partial proprioceptive
+observations to robot actions, approximating the sensing available during
+rollout. The critic receives the corresponding clean, privileged robot--object
+state available only in simulation.
+
+The reward shaping follows the below law
 \begingroup
 \small
 \begin{equation}
-\pi_T^*
-=
-\arg\max_{\pi_T}\;
-\mathbb{E}_{\pi_T}
-\left[
-\sum_{t=0}^{T-1}\gamma^t r_t
-\right].
-\label{eq:teacher_rl_objective}
+\begin{aligned}
+r_t
+&= \sum_{i\in\mathcal{R}} w_i R_{i,t}
+ - \sum_{j\in\mathcal{P}} w_j P_{j,t}, \\
+\mathcal{R}
+&= \{\mathrm{dist},\mathrm{curl},\mathrm{align},\mathrm{contact},
+      \mathrm{near},\mathrm{goal},\mathrm{lift}\}, \\
+\mathcal{P}
+&= \{\mathrm{action}\}.
+\end{aligned}
+\label{eq:teacher_reward}
 \end{equation}
 \endgroup
-We use a shaped reward $r_t=\sum_{k=1}^{K_r} r_{t,k}$ to encourage stable grasp
-acquisition, object lifting, and goal reaching (Table~\ref{tab:reward_terms}).
+The distance term guides the hand toward the object, while the curl and
+alignment terms encourage a grasp-ready, palm-down posture. The contact and
+stay-close terms promote stable thumb--finger contact and keep the hand near
+the object after reaching. The goal and lift terms then drive the grasped
+object toward the target and reward a stable lift. The action penalty
+discourages abrupt command changes.
 
-The teacher is trained in simulation using an asymmetric actor--critic setup.
-Details of the actor and critic observation spaces are provided in the Appendix.
-The actor receives noisy and partial proprioceptive observations that approximate
-realistic sensing, while the critic is provided with the privileged full state
-of both the robot and object, available only in simulation.
-
-\input{table/reward_shaping.tex}
-
-Episodes terminate at
-\begingroup
-\small
-\begin{equation}
-T = \min\left\{t \,\middle|\, \mathbb{I}_{\mathrm{unsafe}}(s_t)=1
-\;\;\text{or}\;\; t \ge T_{\max}\right\},
-\end{equation}
-\endgroup
-where $T_{\max}=10\,\mathrm{s}$ is the timeout horizon. Early termination
-conditions include palm flip, harmful collision, object escape, and hand-too-far
-(see Sec.~A), and are treated as unsafe events for both teacher training and
-subsequent intervention decisions.
+Each episode lasts at most $T_{\max}=10\,\mathrm{s}$ and terminates early upon
+a palm flip, harmful collision, object escape, or hand-too-far event (see
+Sec.~A). The same event predicates are used to characterize teacher safety and
+to supervise subsequent intervention decisions.
 
 \subsection{Bellman Success-Value Critic}
 $\ell_2$ action disagreement alone is insufficient as an intervention signal and may miss small
