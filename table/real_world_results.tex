@@ -4,22 +4,26 @@
 \centering
 \small
 \caption{Representative six-object subset of the 22-object real-world evaluation
-(30 episodes per object). \unseen{Unseen objects} are shaded.}
+(30 episodes per object). The last two columns report pooled results over the
+four seen and two unseen objects shown, respectively. \unseen{Unseen objects}
+are shaded.}
 \label{tab:real_world_results}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.2}
 \resizebox{0.48\textwidth}{!}{%
 
-\begin{tabular}{l|cccccc}
+\begin{tabular}{l|cccccc|cc}
 \hline
-Metric (\%) & WindCart & Boot & ToolBox & Cow & \unseen{Plane} & \unseen{Shoe} \\
+Metric (\%) & WindCart & Boot & ToolBox & Cow & \unseen{Plane} & \unseen{Shoe}
+& \makecell{\textcolor{red}{\textbf{Seen}} \\ \textcolor{red}{\textbf{avg. (4)}}}
+& \unseen{\textcolor{red}{\makecell{Unseen \\ avg. (2)}}} \\
 \hline
-Lift Success         & 86.7 & 86.7 & 80.0 & 86.7 & \unseen{66.7} & \unseen{60.0} \\
-Unsafe Rate Avg      & 13.3 & 20.0 & 20.0 & 26.7 & \unseen{40.0} & \unseen{40.0} \\
-Harmful collision    & 0.0  & 6.7  & 13.3 & 13.3 & \unseen{20.0} & \unseen{26.7} \\
-Object escape        & 13.3 & 13.3 & 6.7  & 13.3 & \unseen{20.0} & \unseen{13.3} \\
-Palm flipped         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  \\
-Hand too far         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  \\
+Lift Success         & 86.7 & 86.7 & 80.0 & 86.7 & \unseen{66.7} & \unseen{60.0} & \textcolor{red}{\textbf{85.0}} & \unseen{\textcolor{red}{63.3}} \\
+Unsafe Rate Avg      & 13.3 & 20.0 & 20.0 & 26.7 & \unseen{40.0} & \unseen{40.0} & \textcolor{red}{\textbf{20.0}} & \unseen{\textcolor{red}{40.0}} \\
+Harmful collision    & 0.0  & 6.7  & 13.3 & 13.3 & \unseen{20.0} & \unseen{26.7} & \textcolor{red}{\textbf{8.3}}  & \unseen{\textcolor{red}{23.3}} \\
+Object escape        & 13.3 & 13.3 & 6.7  & 13.3 & \unseen{20.0} & \unseen{13.3} & \textcolor{red}{\textbf{11.7}} & \unseen{\textcolor{red}{16.7}} \\
+Palm flipped         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  & \textcolor{red}{\textbf{0.0}}  & \unseen{\textcolor{red}{0.0}}  \\
+Hand too far         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  & \textcolor{red}{\textbf{0.0}}  & \unseen{\textcolor{red}{0.0}}  \\
 \hline
 \end{tabular}
 }

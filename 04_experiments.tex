@@ -102,17 +102,14 @@ VLM calls over the full 100{,}000-episode training run and approximately
 
 \subsection{Ablation Studies}
 
-The following ablation studies validate the design choices in \methodname. We distill the
-teacher policies trained during the RL phase into a compact, generalizable student policy.
-For RL training, we compare the standard DexTrAH-RGB pipeline with our customized variant.
-For skill distillation, we evaluate four methods---Vanilla DAgger, Vanilla SafeDAgger,
-\dexsafedagger, and \methodname---in terms of the evolution of lift-success, unsafe-episode, and intervention
-rate throughout training. The intervention rate is defined as the fraction of time steps at
-which the teacher takes over:
-$\beta=\frac{1}{T}\sum_{t=0}^{T-1}\mathbb{I}[g_t=1]$.
-We average this metric across evaluation episodes. As our primary safety metric, we report
-the unsafe-episode rate averaged across the four ablation objects, together with breakdowns
-by object and failure mode. The ablation settings are defined below.
+We perform the following ablation studies to validate the design choices in
+\methodname and answer four questions: \textbf{(i)~Does our customized RL
+recipe produce stronger teachers than the DexTrAH-RGB-style training recipe?}
+\textbf{(ii)~Does the intervention mechanism in \dexsafedagger enable safer
+exploration during policy distillation?} \textbf{(iii)~Does augmenting action
+disagreement with success-value prediction improve the intervention signal?}
+\textbf{(iv)~Is visual-language reasoning necessary for adapting the
+intervention boundary?}
 
 % \noindent\textbf{(a) DexTrAH-RGB RL teacher + Vanilla DAgger.}
 % We follow the DexTrAH-RGB teacher training setup and distill the resulting teacher into a student using
@@ -121,17 +118,17 @@ by object and failure mode. The ablation settings are defined below.
 % executed student action $a_t^{S}$ is relabeled with the corresponding teacher action $a_t^{T}$.
 
 \noindent\textbf{(a) DexTrAH-RGB RL + Vanilla DAgger.}
-The teacher is trained using the DexTrAH-RGB RL recipe, and the student policy is trained using Vanilla DAgger.
-The student controls the rollout ($\beta=0$), while the parallel teacher policy labels
-each executed student action $a_t^{S}$ with the corresponding teacher action $a_t^{T}$.
+The teacher is trained using the DexTrAH-RGB RL recipe and then distilled into
+a student policy using supervision only, with no teacher intervention during
+rollouts ($\beta=0$).
 
 % \noindent\textbf{(b) Our RL teacher + Vanilla DAgger.}
 % We replace the DexTrAH-RGB teacher training pipeline with our customized RL recipe and use the same
 % Vanilla DAgger-style online distillation.
 
 \noindent\textbf{(b) Our RL + Vanilla DAgger.}
-This setting matches (a) except that the teacher is trained with our customized RL recipe instead of the
-DexTrAH-RGB pipeline.
+This setting matches (a), except that our RL recipe replaces the DexTrAH-RGB
+teacher-training recipe.
 
 % \noindent\textbf{(c) Our RL teacher + Vanilla SafeDAgger.}
 % The teacher policy is trained using our RL pipeline, and we extend Vanilla DAgger to a Vanilla SafeDAgger
@@ -141,9 +138,9 @@ DexTrAH-RGB pipeline.
 % where $o_t^{S}$ denotes the student observation.
 
 \noindent\textbf{(c) Our RL + Vanilla SafeDAgger.}
-Using the same teacher as in (b), we replace Vanilla DAgger with a disagreement-gated SafeDAgger baseline.
-The teacher intervenes only when $\lVert a_t^{T}-a_t^{S}\rVert_2$ exceeds a fixed threshold, and we train the student
-on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
+The teacher training follows the recipe in (b), but we replace Vanilla DAgger
+with a disagreement-gated SafeDAgger baseline. The teacher intervenes only when
+$\lVert a_t^{T}-a_t^{S}\rVert_2$ exceeds a fixed threshold.
 
 % \noindent\textbf{(d) DexTrAH-RGB RL teacher + SafeDAgger with disagreement and a success-value critic.}
 % We follow the DexTrAH-RGB teacher training setup but apply our teacher-intervened distillation pipeline for
@@ -153,33 +150,38 @@ on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
 % student is trained on teacher-labeled pairs $(o_t^{S}, a_t^{T})$.
 
 \noindent\textbf{(d) DexTrAH-RGB RL + \dexsafedagger.}
-\dexsafedagger denotes SafeDAgger with disagreement and a Bellman success-value critic under a stationary intervention policy.
-This setting uses the DexTrAH-RGB-trained teacher (as in (a)).
-Intervention is triggered by either large teacher--student disagreement or low predicted success,
-and the student is trained from teacher-labeled pairs $(o_t^{S}, a_t^{T})$ collected under this gate.
+We use the teacher-training recipe from (a) and the intervention baseline from
+(c), extending it with a Bellman success-value critic under a stationary
+intervention policy. Teacher intervention is triggered by either large
+teacher--student disagreement or low predicted success.
 
 % \noindent\textbf{(e) Our RL teacher + SafeDAgger with disagreement and a success-value critic.}
 % We combine our custom RL pipeline with the proposed teacher intervention mechanism, using both teacher--student
 % disagreement and success-value prediction to trigger teacher takeover.
 
 \noindent\textbf{(e) Our RL + \dexsafedagger.}
-This setting uses the \dexsafedagger setup defined in (d), but replaces the DexTrAH-RGB-trained teacher with one trained using
-our customized RL recipe (as in (b)).
+Following the recipe in (d), we replace the teacher-training pipeline with our
+customized RL recipe.
 
 \noindent\textbf{(f) Our RL + \methodname.}
-This setting extends (e) with the proposed VLM tuner, which periodically
-calibrates the disagreement-risk intervention policy using rollout
-statistics and representative visual states.
+This setting extends (e) by replacing the stationary intervention policy with
+the proposed VLM tuner, which periodically calibrates the disagreement-risk
+intervention policy using rollout statistics and representative visual states.
 
-% \noindent\textbf{(g) Our RL + direct VLM intervention (ablation).}
-% This variant replaces the deterministic gate in Eq.~\eqref{eq:adaptive_gate}
-% with a binary VLM decision $g_t\in\{0,1\}$; all other training components match
-% those of the other intervention-based variants.
+\noindent\textbf{(g) Our RL + LLM-DexSafeDagger.}
+This setting matches (f), except that the language model receives only the
+rollout statistics and no visual observations.
 
-Table~\ref{tab:ablation_studies} shows that ablations (a) and (d), which use the DexTrAH-RGB RL recipe,
-achieve lower lift success and higher unsafe rates. We attribute this gap to the recipe's reliance on a
-\textsc{Fabrics} controller tuned for the KUKA--Allegro platform, which transfers poorly to our hardware
-and dynamics. The resulting weaker teachers constrain downstream distillation performance.
+\noindent\textbf{(h) Our RL + Grid-Search \dexsafedagger.}
+This setting replaces the language/vision model in (f) with grid search over
+the intervention thresholds. The remaining teacher, student, success-value
+critic, and distillation components are held fixed.
+
+To answer question~(i), we compare (a) with (b) and (d) with (e). The
+DexTrAH-RGB-style RL recipe achieves lower performance than our RL recipe. We
+attribute this gap to the specialized tuning of the \textsc{Fabrics} controller
+for the original task setup, which transfers poorly to new hardware and
+dynamics.
 
 \input{table/ablation_studies.tex}
 
@@ -195,25 +197,26 @@ and dynamics. The resulting weaker teachers constrain downstream distillation pe
     \label{fig:failure_modes}
 \end{figure*}
 
-As shown in Fig.~\ref{fig:ablation}, ablations (b), (c), (e), and (f) achieve comparable final lift success
+We next address question~(ii) by examining the distillation behavior in
+Fig.~\ref{fig:ablation}. Ablations (b), (c),
+(e), and (f) achieve comparable final lift success
 (left), consistent with the intervention policy's focus on safety rather than task success. Unlike
 Vanilla DAgger ($\beta=0$), the three intervention variants reduce teacher intervention as the student
 improves (middle). They reduce early unsafe episodes by approximately 80\% relative to Vanilla DAgger and
 remain below 20\% throughout distillation, with \methodname achieving the lowest rate overall (right).
 
-Comparing ablations (e) and (f) isolates the contribution of VLM-guided adaptation in \methodname.
-Both use the same RL teacher and two-channel intervention policy, but (e) uses fixed thresholds, whereas
-(f) adapts them using a VLM conditioned on rollout statistics and visual context. Across all evaluated
-objects, ablation (f) achieves an unsafe-episode rate that is lower than that of (e) by an average of
-4 percentage points, while maintaining comparable lift success. This result shows that VLM-guided intervention
-policy adaptation improves safety without sacrificing task performance.
-
-Compared with ablation (c), which uses disagreement alone, ablation (e) adds success-value prediction
+We address question~(iii) by comparing ablation (c), which uses disagreement alone,
+with ablation (e), which adds success-value prediction
 while retaining the same RL teacher and stationary intervention policy. The combined gate
 intervenes in low-predicted-success states missed by disagreement alone, reducing the average
 unsafe-episode rate by about 7.5 percentage points and limiting collision and object-escape
 failures without sacrificing task performance. Its unsafe rate approaches the teacher's
 average ($\approx 12\%$) by the end of training and reaches a minimum of approximately 8\%.
+Fig.~\ref{fig:failure_modes} further shows that harmful collisions and object
+escape dominate unsafe episodes. Compared with Vanilla DAgger, all three
+intervention variants suppress both failure modes, particularly their early
+spikes, demonstrating that teacher intervention limits unsafe exploration
+during the initial distillation phase.
 
 \begin{figure}[!t]
     \centering
@@ -224,23 +227,34 @@ average ($\approx 12\%$) by the end of training and reaches a minimum of approxi
     \label{fig:realworld_exp_setup}
 \end{figure}
 
-Fig.~\ref{fig:failure_modes} shows that harmful collisions and object escape dominate unsafe episodes.
-Compared with Vanilla DAgger, all three intervention variants suppress both failure modes, particularly
-their early spikes, demonstrating that teacher intervention limits unsafe exploration during the initial
-distillation phase.
+Finally, we address question~(iv) by comparing ablations (e), (h), (g), and
+(f), which form a progression from stationary intervention, to grid-searched
+thresholds, to semantics-guided LLM adaptation, and finally to our VLM-guided
+recipe. This controlled ladder isolates the contributions of threshold
+adaptation, semantic reasoning, and visual context.
+\textcolor{red}{TODO: Add the quantitative comparison of ablations (e), (h),
+(g), and (f) when the evaluation results are available.}
+Across all evaluated
+objects, ablation (f) achieves an unsafe-episode rate that is lower than that
+of (e) by an average of 4 percentage points, while maintaining comparable lift
+success. This result shows that VLM-guided intervention-policy adaptation
+improves safety without sacrificing task performance.
 
 \subsection{Real-World Experimental Results}
 
 We evaluate the deployed student policy on 22 objects, comprising 16 seen objects and 6 unseen objects.
-Table~\ref{tab:real_world_results} reports a representative six-object subset.
+Table~\ref{tab:real_world_results} reports a representative six-object subset
+and pooled results for the four seen and two unseen objects shown.
 The experiments exhibit a lower lift success rate and a higher unsafe episode rate than
 the teacher and student evaluation results in simulation, indicating that \methodname does
 not fully eliminate the sim-to-real gap. Nevertheless, the resulting policy is sufficiently robust
 for real-world deployment.
 
-The unseen-object evaluation reveals a clear generalization gap: compared to
-seen objects (WindCart/Boot/ToolBox/Cow), the policy achieves lower lift success
-and higher unsafe rates on unseen objects (Plane/Shoe). This degradation is
+The unseen-object evaluation reveals a clear generalization gap: compared with
+the seen objects shown, the policy's pooled lift success decreases from
+\textcolor{red}{85.0\%} to \textcolor{red}{63.3\%}, while its unsafe rate
+increases from \textcolor{red}{20.0\%} to \textcolor{red}{40.0\%} on the unseen
+objects shown. This degradation is
 primarily driven by increased harmful collisions (20.0\% and 26.7\% on Plane and
 Shoe), while object escape remains comparable across objects
 ($\approx$6.7--20.0\%). No palm-flip or hand-too-far events are observed,
