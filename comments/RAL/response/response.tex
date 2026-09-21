@@ -4,8 +4,17 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{mathptmx}
+\usepackage{courier}
 \usepackage{xcolor}
 \usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 \usepackage[colorlinks=true,allcolors=blue!55!black]{hyperref}
 
 \definecolor{responseblue}{RGB}{0,70,140}
@@ -14,6 +23,9 @@
 \newcommand{\manuscriptid}{26-3841v1}
 \newcommand{\papertitle}{VLM-DexSafeDagger: VLM-Guided Intervention Policy for Safety-Critical Visuomotor Skill Distillation}
 \newcommand{\placeholder}[1]{\textcolor{placeholderred}{\textbf{[#1]}}}
+\newcommand{\requestedby}[1]{%
+  \ifhmode\unskip\nolinebreak[4]\hspace{0.5em}\else\noindent\fi
+  \textit{Requested by #1.}\par}
 \newcommand{\response}{\par\smallskip\noindent\textcolor{responseblue}{\textbf{[Response:]}}\ }
 
 \newcounter{reviewcomment}
@@ -23,10 +35,7 @@
   \clearpage
   \stepcounter{reviewer}
   \setcounter{reviewcomment}{0}
-  \begin{center}
-    \large\bfseries\scshape Response to #1
-  \end{center}
-  \vspace{0.4em}
+  \section{Response to #1}
 }
 \newcommand{\reviewcomment}[1]{%
   \refstepcounter{reviewcomment}
@@ -77,6 +86,11 @@ reproduced in black, and our responses are shown in blue. Red bracketed text
 marks details that will be completed after the corresponding revision or
 experiment has been finalized. Changes in the revised manuscript will be
 highlighted in blue.
+
+\clearpage
+\appendix
+\section{Appendix Materials}
+\input{06_appendix}
 
 \reviewerheading{the Associate Editor}
 

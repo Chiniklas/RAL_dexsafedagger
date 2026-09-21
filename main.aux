@@ -71,16 +71,18 @@
 \newlabel{eq:vc_objective}{{1}{3}{Problem Formulation}{equation.3.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-B}Overview of the Distillation Pipeline}{3}{subsection.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-C}Privileged Teacher Policy Training}{3}{subsection.3.3}\protected@file@percent }
-\newlabel{eq:teacher_reward}{{2}{3}{Privileged Teacher Policy Training}{equation.3.2}{}}
+\newlabel{eq:teacher_rl_objective}{{2}{3}{Privileged Teacher Policy Training}{equation.3.2}{}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces VLM-DexSafeDagger\xspace  \relax }}{4}{algorithm.1}\protected@file@percent }
 \newlabel{alg:safe_dagger}{{1}{4}{\methodname \relax }{algorithm.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Reward components used for teacher policy training.\relax }}{4}{table.caption.2}\protected@file@percent }
+\newlabel{tab:reward_terms}{{I}{4}{Reward components used for teacher policy training.\relax }{table.caption.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-D}Bellman Success-Value Critic}{4}{subsection.3.4}\protected@file@percent }
-\newlabel{eq:success_target}{{3}{4}{Bellman Success-Value Critic}{equation.3.3}{}}
+\newlabel{eq:success_target}{{4}{4}{Bellman Success-Value Critic}{equation.3.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-E}Intervention Policy}{4}{subsection.3.5}\protected@file@percent }
-\newlabel{eq:adaptive_gate}{{4}{4}{Intervention Policy}{equation.3.4}{}}
+\newlabel{eq:adaptive_gate}{{5}{4}{Intervention Policy}{equation.3.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-F}VLM-Guided Intervention Policy Adaptation}{4}{subsection.3.6}\protected@file@percent }
 \newlabel{subsec:vlm_threshold_tuner}{{III-F}{4}{VLM-Guided Intervention Policy Adaptation}{subsection.3.6}{}}
-\newlabel{eq:vlm_threshold_update}{{5}{4}{VLM-Guided Intervention Policy Adaptation}{equation.3.5}{}}
+\newlabel{eq:vlm_threshold_update}{{6}{5}{VLM-Guided Intervention Policy Adaptation}{equation.3.6}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-G}Student Skill Distillation}{5}{subsection.3.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {IV}Experiment}{5}{section.4}\protected@file@percent }
 \newlabel{sec:experiment}{{IV}{5}{Experiment}{section.4}{}}
@@ -89,29 +91,24 @@
 \@writefile{toc}{\contentsline {paragraph}{\numberline {IV-A.0.b}Unsafe episode rate.}{5}{paragraph.4.1.0.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{\numberline {IV-A.0.c}Failure-mode decomposition.}{5}{paragraph.4.1.0.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-B}Simulation Experiment Setup}{5}{subsection.4.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Teacher policy performance on four representative objects from the 40-object training set (200 evaluation episodes per object).\relax }}{5}{table.caption.3}\protected@file@percent }
-\newlabel{tab:teacher_perf_200}{{I}{5}{Teacher policy performance on four representative objects from the 40-object training set (200 evaluation episodes per object).\relax }{table.caption.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-C}Ablation Studies}{5}{subsection.4.3}\protected@file@percent }
 \citation{ross2011reduction}
 \citation{zhang2016query}
 \citation{ross2011reduction}
 \citation{zhang2016query}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {Ablation studies.} The first three panels compare four distillation variants in terms of student lift success, teacher intervention rate $\beta $, and unsafe episode rate, respectively, all plotted over training iterations. The rightmost panel shows the VLM-guided trajectory of the intervention operating point over online training. Shaded regions indicate variability across runs (mean $\pm $ std). Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange), DexSafeDagger\xspace  (green), and VLM-DexSafeDagger\xspace  (red).\relax }}{6}{figure.caption.2}\protected@file@percent }
-\newlabel{fig:ablation}{{3}{6}{\textbf {Ablation studies.} The first three panels compare four distillation variants in terms of student lift success, teacher intervention rate $\beta $, and unsafe episode rate, respectively, all plotted over training iterations. The rightmost panel shows the VLM-guided trajectory of the intervention operating point over online training. Shaded regions indicate variability across runs (mean $\pm $ std). Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange), \dexsafedagger (green), and \methodname (red).\relax }{figure.caption.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Performance of ablations (a)--(f) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }}{6}{table.caption.4}\protected@file@percent }
-\newlabel{tab:ablation_studies}{{II}{6}{Performance of ablations (a)--(f) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }{table.caption.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {IV-D}Real-World Experimental Results}{6}{subsection.4.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt  {windcart} and \texttt  {cow}); lower is better in all plots. Curves correspond to four distillation variants: blue, Vanilla DAgger\cite  {ross2011reduction}; orange, Vanilla SafeDAgger\cite  {zhang2016query}; green, DexSafeDagger\xspace  ; and red, VLM-DexSafeDagger\xspace  .\relax }}{7}{figure.caption.5}\protected@file@percent }
-\@writefile{brf}{\backcite{ross2011reduction}{{7}{4}{figure.caption.5}}}
-\@writefile{brf}{\backcite{zhang2016query}{{7}{4}{figure.caption.5}}}
-\newlabel{fig:failure_modes}{{4}{7}{\textbf {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt {windcart} and \texttt {cow}); lower is better in all plots. Curves correspond to four distillation variants: blue, Vanilla DAgger\cite {ross2011reduction}; orange, Vanilla SafeDAgger\cite {zhang2016query}; green, \dexsafedagger ; and red, \methodname .\relax }{figure.caption.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }}{7}{figure.caption.6}\protected@file@percent }
-\newlabel{fig:realworld_exp_setup}{{5}{7}{\textbf {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }{figure.caption.6}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Representative six-object subset of the 22-object real-world evaluation (15 episodes per object). \cellcolor  {gray!15}\textbf  {Unseen objects} are shaded.\relax }}{7}{table.caption.7}\protected@file@percent }
-\newlabel{tab:real_world_results}{{III}{7}{Representative six-object subset of the 22-object real-world evaluation (15 episodes per object). \unseen {Unseen objects} are shaded.\relax }{table.caption.7}{}}
-\newlabel{sec4:expriments}{{IV-D}{7}{Real-World Experimental Results}{table.caption.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion and Future Work}{7}{section.5}\protected@file@percent }
-\newlabel{sec:conclusion}{{V}{7}{Conclusion and Future Work}{section.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {Ablation studies.} The first three panels compare four distillation variants in terms of student lift success, teacher intervention rate $\beta $, and unsafe episode rate, respectively, all plotted over training iterations. The rightmost panel shows the VLM-guided trajectory of the intervention operating point over online training. Shaded regions indicate variability across runs (mean $\pm $ std). Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange), DexSafeDagger\xspace  (green), and VLM-DexSafeDagger\xspace  (red).\relax }}{6}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:ablation}{{3}{6}{\textbf {Ablation studies.} The first three panels compare four distillation variants in terms of student lift success, teacher intervention rate $\beta $, and unsafe episode rate, respectively, all plotted over training iterations. The rightmost panel shows the VLM-guided trajectory of the intervention operating point over online training. Shaded regions indicate variability across runs (mean $\pm $ std). Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange), \dexsafedagger (green), and \methodname (red).\relax }{figure.caption.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Teacher policy performance on four representative objects from the 40-object training set (200 evaluation episodes per object).\relax }}{6}{table.caption.4}\protected@file@percent }
+\newlabel{tab:teacher_perf_200}{{II}{6}{Teacher policy performance on four representative objects from the 40-object training set (200 evaluation episodes per object).\relax }{table.caption.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Performance of ablations (a)--(f) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }}{6}{table.caption.5}\protected@file@percent }
+\newlabel{tab:ablation_studies}{{III}{6}{Performance of ablations (a)--(f) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }{table.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt  {windcart} and \texttt  {cow}); lower is better in all plots. Curves correspond to four distillation variants: blue, Vanilla DAgger\cite  {ross2011reduction}; orange, Vanilla SafeDAgger\cite  {zhang2016query}; green, DexSafeDagger\xspace  ; and red, VLM-DexSafeDagger\xspace  .\relax }}{7}{figure.caption.6}\protected@file@percent }
+\@writefile{brf}{\backcite{ross2011reduction}{{7}{4}{figure.caption.6}}}
+\@writefile{brf}{\backcite{zhang2016query}{{7}{4}{figure.caption.6}}}
+\newlabel{fig:failure_modes}{{4}{7}{\textbf {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt {windcart} and \texttt {cow}); lower is better in all plots. Curves correspond to four distillation variants: blue, Vanilla DAgger\cite {ross2011reduction}; orange, Vanilla SafeDAgger\cite {zhang2016query}; green, \dexsafedagger ; and red, \methodname .\relax }{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }}{7}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:realworld_exp_setup}{{5}{7}{\textbf {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {IV-D}Real-World Experimental Results}{7}{subsection.4.4}\protected@file@percent }
 \bibstyle{IEEEtran}
 \bibdata{IEEEabrv,main}
 \bibcite{brahmbhatt2019contactgrasp}{1}
@@ -130,18 +127,6 @@
 \bibcite{zhang2025contactdexnet}{14}
 \bibcite{zhang2025omnidexvlg}{15}
 \bibcite{welte2025interactive}{16}
-\@writefile{toc}{\contentsline {section}{Appendix}{8}{section*.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A}Asymmetric Observations}{8}{subsection.Appendix.A.1}\protected@file@percent }
-\newlabel{app:rl_training_details}{{A}{8}{Asymmetric Observations}{subsection.Appendix.A.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Asymmetric teacher observations.\relax }}{8}{table.caption.9}\protected@file@percent }
-\newlabel{tab:teacher_observations}{{IV}{8}{Asymmetric teacher observations.\relax }{table.caption.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B}VLM Prompt}{8}{subsection.Appendix.A.2}\protected@file@percent }
-\newlabel{app:vlm_inference_details}{{B}{8}{VLM Prompt}{subsection.Appendix.A.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C}Additional Experimental Results}{8}{subsection.Appendix.A.3}\protected@file@percent }
-\newlabel{app:additional_experimental_results}{{C}{8}{Additional Experimental Results}{subsection.Appendix.A.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Template for additional experimental results. Object names and numerical entries are placeholders.\relax }}{8}{table.caption.10}\protected@file@percent }
-\newlabel{tab:additional_experimental_results}{{V}{8}{Template for additional experimental results. Object names and numerical entries are placeholders.\relax }{table.caption.10}{}}
-\@writefile{toc}{\contentsline {section}{References}{8}{section*.11}\protected@file@percent }
 \bibcite{hoque2021lazydagger}{17}
 \bibcite{hoque2021thriftydagger}{18}
 \bibcite{firoozi2025foundation}{19}
@@ -149,5 +134,11 @@
 \bibcite{duan2025manipulate}{21}
 \bibcite{duan2024aha}{22}
 \bibcite{dai2025racer}{23}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Representative six-object subset of the 22-object real-world evaluation (30 episodes per object). \cellcolor  {gray!15}\textbf  {Unseen objects} are shaded.\relax }}{8}{table.caption.8}\protected@file@percent }
+\newlabel{tab:real_world_results}{{IV}{8}{Representative six-object subset of the 22-object real-world evaluation (30 episodes per object). \unseen {Unseen objects} are shaded.\relax }{table.caption.8}{}}
+\newlabel{sec4:expriments}{{IV-D}{8}{Real-World Experimental Results}{table.caption.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion and Future Work}{8}{section.5}\protected@file@percent }
+\newlabel{sec:conclusion}{{V}{8}{Conclusion and Future Work}{section.5}{}}
+\@writefile{toc}{\contentsline {section}{References}{8}{section.5}\protected@file@percent }
 \bibcite{wu2025foresight}{24}
 \gdef \@abspage@last{9}

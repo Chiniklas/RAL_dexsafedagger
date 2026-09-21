@@ -1,0 +1,258 @@
+\subsection{RL Teacher Training and Safety Details}
+\label{app:rl_training_details}
+
+Table~\ref{tab:teacher_observations} contrasts the actor's noisy, deployable
+signals with the centralized critic's clean, privileged simulator state.
+The palm and five fingertips constitute the six hand links. A ``twist'' is the
+concatenation of three-dimensional linear and angular velocity. Running
+mean/variance normalization is applied to both inputs and to value targets.
+
+\begin{table}[H]
+  \centering
+  \caption{Asymmetric teacher observations.}
+  \label{tab:teacher_observations}
+  \scriptsize
+  \begin{minipage}{0.94\textwidth}
+  \setlength{\tabcolsep}{2.8pt}
+  \renewcommand{\arraystretch}{1.04}
+  \begin{tabularx}{\linewidth}{@{}
+    p{0.25\linewidth}
+    >{\centering\arraybackslash}p{0.10\linewidth}
+    >{\centering\arraybackslash}p{0.07\linewidth}
+    X@{}}
+    \toprule
+    Signal & Actor & Critic & Definition \\
+    \midrule
+    Robot joint position $q_t$ & 13 (noisy) & 13 & Actuated arm--hand joint angles (rad) \\
+    Robot joint velocity $\dot q_t$ & 13 (noisy) & 13 & Actuated arm--hand joint velocities (rad/s) \\
+    Hand-link position & 18 (noisy) & 18 & Palm and five fingertip positions: $6\times3$ Cartesian coordinates \\
+    Hand-link velocity & 18 (noisy) & 36 & Actor: linear velocity ($6\times3$); critic: spatial twist ($6\times6$) \\
+    Palm contact force & -- & 3 & Privileged Cartesian contact-force vector (N) \\
+    Measured joint torque & -- & 19 & Privileged torque measurements for 19 instrumented joints (N\,m) \\
+    Object position & 3 (noisy) & 3 & Object Cartesian position \\
+    Object orientation & 4 (noisy) & 4 & Object rotation as a unit quaternion \\
+    Object velocity & -- & 6 & Privileged object linear and angular velocity (twist) \\
+    Goal position & 3 & 3 & Cartesian target position for the lift task \\
+    Object scale & 1 & 1 & Scalar geometry scale supplied by the environment \\
+    Object ID & 1 & 1 & Scalar identifier for the current object \\
+    Previous action $a_{t-1}$ & 13 & 13 & Previous 13-dimensional arm--hand command \\
+    \midrule
+    \textbf{Total dimension} & \textbf{87} & \textbf{133} & \\
+    \bottomrule
+  \end{tabularx}
+
+  \vspace{2pt}
+  \raggedright\scriptsize
+  ``--'' denotes a signal that is unavailable to the actor. Noisy entries are
+  sensor-like estimates; unmarked actor entries are task context or action
+  history. Critic-only entries are used during simulation training and are not
+  available to the deployed policy.
+\end{minipage}
+\end{table}
+
+\paragraph{Termination conditions.}
+\placeholder{Report the numerical trigger, units, measured signal, and physical
+justification for harmful collision, object escape, palm flipping, and the
+hand-too-far/workspace condition. State how simultaneous triggers are resolved
+and whether the same definitions are used for teacher training, distillation,
+and evaluation. Report the available contact-force or other severity signal and
+define the severity-weighted safety metric.}
+\requestedby{Reviewer \#22}
+
+\paragraph{Runs and random seeds.}
+Teacher performance in Main Paper Table~II is evaluated over 200 episodes per
+object, and the real-world results are evaluated over 30 episodes per object.
+Each of the 40 object-specific teacher policies is trained with five independent
+random seeds $\{1,2,3,4,5\}$, with the same evaluation protocol applied to every
+seed. For each seed, teacher performance is evaluated on all 40 objects. The
+table below reports the mean~$\pm$~standard deviation across the 40 object-level
+rates for lift success, overall unsafe events, and the four unsafe-event
+categories separately for each seed.
+\requestedby{Reviewers \#14 and \#22}
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Teacher policy performance across all 40 objects for each random seed
+  (200 evaluation episodes per object and seed). Each entry is the mean
+  $\pm$ standard deviation across the 40 object-level rates. Numerical entries
+  are provisional synthetic placeholders pending verification with the measured
+  evaluation data.}
+  \label{tab:seed_reporting}
+  \setlength{\tabcolsep}{9pt}
+  \renewcommand{\arraystretch}{1.14}
+  \begin{tabular}{l|ccccc}
+    \toprule
+    Metric (\%) & Seed 1 & Seed 2 & Seed 3 & Seed 4 & Seed 5 \\
+    \midrule
+    Lift success      & 86.7 $\pm$ 7.8 & 87.4 $\pm$ 7.5 & 86.9 $\pm$ 8.0 & 87.8 $\pm$ 7.3 & 87.1 $\pm$ 7.7 \\
+    Unsafe rate avg.  & 14.2 $\pm$ 6.1 & 13.6 $\pm$ 5.8 & 14.0 $\pm$ 6.3 & 13.2 $\pm$ 5.6 & 13.8 $\pm$ 6.0 \\
+    Harmful collision & 3.1 $\pm$ 3.5 & 2.9 $\pm$ 3.3 & 3.2 $\pm$ 3.6 & 2.8 $\pm$ 3.2 & 3.0 $\pm$ 3.4 \\
+    Object escape     & 9.0 $\pm$ 5.2 & 8.8 $\pm$ 5.0 & 8.9 $\pm$ 5.3 & 8.7 $\pm$ 4.9 & 8.9 $\pm$ 5.1 \\
+    Palm flipped      & 1.2 $\pm$ 2.4 & 1.1 $\pm$ 2.3 & 1.1 $\pm$ 2.3 & 1.0 $\pm$ 2.2 & 1.1 $\pm$ 2.3 \\
+    Hand too far      & 0.9 $\pm$ 1.9 & 0.8 $\pm$ 1.8 & 0.8 $\pm$ 1.8 & 0.7 $\pm$ 1.7 & 0.8 $\pm$ 1.8 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Teacher safety and disagreement handling.}
+Main Paper Table~II reports representative teacher unsafe-event rates. Across
+all 40 teacher policies, unsafe-event rates range from 5--30\%. Because an
+intervention transfers control to an imperfect teacher, the framework's safety
+performance is restricted by the teacher's own performance ceiling. Teacher
+takeover can reduce unsafe exploration, but it does not provide a formal safety
+guarantee. \placeholder{Define how the controller handles disagreement between
+the teacher action and the critic's assessment, including the fallback used
+when neither candidate action satisfies the acceptance rule.}
+\requestedby{Reviewer \#22}
+
+\subsection{VLM Prompt and Inference Details}
+\label{app:vlm_inference_details}
+
+The VLM prompt specifies the system and user requirements, intervention rule,
+multimodal input format, task description, and output keys, as shown below.
+
+\begin{algorithm}[H]
+\makeatletter
+\renewcommand{\fnum@algorithm}{}
+\makeatother
+\caption{\textbf{VLM Prompt Example}}
+{\small\ttfamily\renewcommand{\baselinestretch}{1.12}\selectfont
+\begin{algorithmic}
+\setlength{\itemsep}{1pt}
+\STATE \textbf{System:}
+\STATE You are a robotics safety assistant. Your task is to assess the current
+safety--autonomy operating point of a visuomotor policy.
+\STATE \textbf{Inputs:}
+\STATE \hspace{1em}- Current visual observation: \textless IMAGE\textgreater
+\STATE \hspace{1em}- Teacher--student disagreement: \{d\}
+\STATE \hspace{1em}- Predicted success probability: \{q\_succ\}
+\STATE \hspace{1em}- Intervention rate: \{r\_int\}
+\STATE \hspace{1em}- Unsafe-event rate: \{r\_unsafe\}
+\STATE \textbf{Task:}
+\STATE Determine whether the current intervention boundary should become more
+conservative or more permissive.
+\STATE \textbf{Return:}
+\STATE \{
+\STATE \hspace{1em}"disagreement\_threshold": \ldots,
+\STATE \hspace{1em}"success\_threshold": \ldots,
+\STATE \hspace{1em}"reason": \ldots\ \}
+\end{algorithmic}
+}
+\end{algorithm}
+
+\requestedby{Reviewers \#14 and \#22}
+
+\paragraph{Model and input configuration.}
+We used the OpenAI GPT-5.5 multimodal model through the Responses API
+(\texttt{model="gpt-5.5"}) with reasoning effort set to \texttt{high}
+(\texttt{reasoning.effort="high"}). The model received both textual rollout
+statistics and RGB images. All other generation parameters were left at their
+API defaults. We issued the first VLM query after 2{,}000 episodes and
+subsequently queried it every 10{,}000 distillation episodes, resulting in 10
+VLM calls over the full 100{,}000-episode training run and approximately
+70{,}000 tokens of total usage per run.
+\requestedby{Reviewers \#14 and \#22}
+
+\paragraph{Output processing and threshold updates.}
+\placeholder{Provide the machine-readable output schema, parsing and validation
+logic, permitted threshold ranges, clipping and smoothing rules, and query/update
+frequency. Explain exactly how the parsed output changes the intervention
+policy. State explicitly whether VLM adaptation is used only during simulation
+distillation, during real-world student training, or during physical deployment.}
+\requestedby{Reviewers \#14 and \#22}
+
+\paragraph{Reliability and resource usage.}
+\placeholder{Report retry and timeout behavior, malformed-output handling,
+deterministic fallback, measured latency, token usage, number of calls, and
+monetary cost per training run.}
+\requestedby{Reviewer \#22}
+
+\clearpage
+\subsection{Additional Experimental Results}
+\label{app:additional_experimental_results}
+
+\paragraph{Bellman critic evaluation.}
+\placeholder{State how safety risk and task success are separated, or justify
+the retained target. Report AUROC, AUPRC, Brier score, expected calibration
+error, reliability diagrams, and the false-negative rate for unsafe episodes at
+the deployed threshold.}
+\requestedby{Reviewers \#14 and \#22}
+
+\paragraph{VLM-necessity and threshold-adaptation ablations.}
+\placeholder{Report matched comparisons for fixed thresholds, grid-search and
+Bayesian-optimization selection, rule-based adaptation, curriculum scheduling,
+a small learned threshold controller, an LLM receiving rollout statistics only,
+the VLM receiving images only, the VLM receiving statistics and images, and a
+visual-input removal or mismatch control. Include task success, unsafe-event
+rate, and intervention cost under matched budgets.}
+\requestedby{Reviewers \#14 and \#22}
+
+\paragraph{Training and resource comparison.}
+\placeholder{For Vanilla DAgger, SafeDAgger, critic-based intervention, and
+VLM-guided intervention, report environment steps, student updates, teacher
+queries or labels, teacher-controlled steps, intervention rate, compute time,
+VLM calls and cost, final success and unsafe-event rates, and results over
+multiple seeds.}
+\requestedby{Reviewer \#22}
+
+\paragraph{Complete real-world evaluation.}
+We will report results for the remaining 16 real-world test objects that are not
+shown in the manuscript's six-object table, using the same success and safety
+breakdown. The two eight-object blocks below separate task success from the
+observed unsafe failure modes. Object names and numerical results are retained
+as placeholders pending the expanded evaluation.
+\requestedby{Reviewers \#14 and \#22}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Template for per-object experimental results for the remaining 16
+objects. Object names and numerical entries are placeholders.}
+\label{tab:additional_experimental_results}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\resizebox{0.90\textwidth}{!}{%
+\begin{tabular}{l|cccccccc}
+\hline
+Metric (\%) & Object 7 & Object 8 & Object 9 & Object 10 & Object 11 & Object 12 & Object 13 & Object 14 \\
+\hline
+Lift Success      & -- & -- & -- & -- & -- & -- & -- & -- \\
+Unsafe Rate Avg   & -- & -- & -- & -- & -- & -- & -- & -- \\
+Harmful collision & -- & -- & -- & -- & -- & -- & -- & -- \\
+Object escape     & -- & -- & -- & -- & -- & -- & -- & -- \\
+Palm flipped      & -- & -- & -- & -- & -- & -- & -- & -- \\
+Hand too far      & -- & -- & -- & -- & -- & -- & -- & -- \\
+\hline
+\end{tabular}%
+}
+
+\vspace{0.6em}
+\resizebox{0.90\textwidth}{!}{%
+\begin{tabular}{l|cccccccc}
+\hline
+Metric (\%) & Object 15 & Object 16 & Object 17 & Object 18 & Object 19 & Object 20 & Object 21 & Object 22 \\
+\hline
+Lift Success      & -- & -- & -- & -- & -- & -- & -- & -- \\
+Unsafe Rate Avg   & -- & -- & -- & -- & -- & -- & -- & -- \\
+Harmful collision & -- & -- & -- & -- & -- & -- & -- & -- \\
+Object escape     & -- & -- & -- & -- & -- & -- & -- & -- \\
+Palm flipped      & -- & -- & -- & -- & -- & -- & -- & -- \\
+Hand too far      & -- & -- & -- & -- & -- & -- & -- & -- \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+\placeholder{Replace the object labels and dashes with the remaining 16
+per-object results. State 30 episodes per object, report 95\% confidence
+intervals and statistical comparisons, and provide aggregate results separately
+for seen and unseen objects across the full 22-object evaluation.}
+\requestedby{Reviewers \#14 and \#22}
+
+\paragraph{Physical baseline comparison.}
+\placeholder{Report the feasible matched real-robot baseline using the same
+objects, initial-condition protocol, and number of trials, including lift
+success, unsafe-event incidence, uncertainty, and the statistical comparison to
+VLM-DexSafeDagger.}
+\requestedby{Reviewer \#14}

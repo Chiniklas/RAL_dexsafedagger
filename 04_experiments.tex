@@ -1,27 +1,37 @@
 \subsection{Evaluation Metrics}
-For $N$ evaluation episodes of 10\,s, let $\tau$ index episodes and $t$ timesteps.
+We designed the following metrics to evaluate both teacher and student policy performance.
+Let $\tau\in\{1,\dots,N\}$ index evaluation episodes and $t\in\{0,\dots,T_\tau\}$ index timesteps.
+Unless otherwise stated, we run the evaluation episodes with a horizon of 10\,s.
 
 \paragraph{Lift success (ever-lifted with hold).}
-For object height $h_t^\tau$, lift threshold $H$, and hold duration $N_{\mathrm{hold}}$, define
+Let $h_t^\tau$ be the object height above the table and $H$ a lift threshold. An episode is considered
+successful if the object remains above $H$ for at least $N_{\mathrm{hold}}$ consecutive steps. We define
 $\mathbb{I}^{\tau}_{\mathrm{lift}}
 =\mathbb{I}\!\left[\exists\, t:\ \forall k\in\{0,\dots,N_{\mathrm{hold}}-1\},\ h_{t+k}^{\tau}\ge H\right]$
-and report
+and report:
 $\mathrm{LiftSucc}=\frac{1}{N}\sum_{\tau=1}^{N} \mathbb{I}^{\tau}_{\mathrm{lift}}.$
 
 \paragraph{Unsafe episode rate.}
-Let $\mathcal{M}=\{\mathrm{coll},\mathrm{obj},\mathrm{flip},\mathrm{hf}\}$
-denote harmful collision, object escape, palm flip, and hand-too-far, and let
-$\mathbb{I}_m^\tau$ indicate mode $m$ in episode $\tau$. Define
+As stated above, an episode may terminate early due to one of the following conditions:
+palm flipped ($\mathbb{I}_{\mathrm{flip}}^{\tau}$), harmful collision ($\mathbb{I}_{\mathrm{coll}}^{\tau}$),
+object escape ($\mathbb{I}_{\mathrm{obj}}^{\tau}$), or hand too far ($\mathbb{I}_{\mathrm{hf}}^{\tau}$).
+Let $\mathcal{M}=\{\mathrm{coll},\mathrm{obj},\mathrm{flip},\mathrm{hf}\}$ denote the set of termination modes,
+and let $\mathbb{I}_m^\tau\in\{0,1\}$ indicate whether mode $m\in\mathcal{M}$ occurs in episode $\tau$.
+An episode is unsafe if any termination mode is triggered:
 $\mathbb{I}^{\tau}_{\mathrm{unsafe}}
-=\mathbb{I}\!\left[\bigvee_{m\in\mathcal{M}} \mathbb{I}^{\tau}_{m}=1\right]$
-and report
+=\mathbb{I}\!\left[\bigvee_{m\in\mathcal{M}} \mathbb{I}^{\tau}_{m}=1\right]$. We report:
 $\mathrm{UnsafeRateAvg}=\frac{1}{N}\sum_{\tau=1}^{N} \mathbb{I}^{\tau}_{\mathrm{unsafe}}.$
 
 \paragraph{Failure-mode decomposition.}
-Each episode is assigned its first unsafe terminal mode
-$m^\tau\in\mathcal{M}$; a fixed priority resolves simultaneous triggers. We define
+Each episode is assigned a single terminal mode $m^\tau\in\mathcal{M}$ from the
+set of unsafe events (collision, object escape, palm flip, hand-too-far) as well
+as timeout/success where applicable. We define
 $\mathbb{I}^{\tau}_{m}=\mathbb{I}[m^\tau=m]$ and report
 $\mathrm{FailureModeRate}(m)=\frac{1}{N}\sum_{\tau=1}^{N}\mathbb{I}^{\tau}_{m}, m\in\mathcal{M}.$
+
+When multiple unsafe conditions are triggered in the same timestep, we record
+the first triggered termination condition (using a fixed priority order) as the
+episode's failure mode.
 
 \subsection{Simulation Experiment Setup}
 
@@ -64,9 +74,10 @@ $\mathrm{FailureModeRate}(m)=\frac{1}{N}\sum_{\tau=1}^{N}\mathbb{I}^{\tau}_{m}, 
 % 100{,}000 episodes.
 
 Simulation experiments use single-arm control on a Tiangong~2 Pro humanoid equipped with InspireHand RH56DfX; the action
-space is 13-D (7D arm + 6D hand). The RGB student receives two $320\times240$ streams at 30\,fps, encoded by
-ResNet-18 and fused into a 128-D actor feature. Training and distillation use Isaac Sim 5.0.0/Isaac Lab 2.2.1 on
-one RTX~5090 GPU.
+space is 13-D (7 arm DoF + 6 hand DoF). The RGB student additionally receives two $320\times240$ camera streams at
+30\,fps, encoded by a Siamese ResNet-18 visual backbone with view fusion into a 128-D feature appended to the actor
+observation. Teacher training and student distillation are conducted in Isaac Sim 5.0.0 / Isaac Lab 2.2.1 on a single
+RTX~5090 GPU.
 
 We evaluate 40 objects from the Omniverse Asset Library and train one
 object-specific teacher for each object. Each teacher is trained for
@@ -175,11 +186,12 @@ and dynamics. The resulting weaker teachers constrain downstream distillation pe
 \begin{figure*}[!t]
     \centering
     \includegraphics[width=0.82\linewidth]{figures/failure_mode.pdf}
-    \caption{\textbf{Per-object failure-mode decomposition during online distillation.}
-    For \texttt{WindCart} and \texttt{Cow}, we show the aggregate unsafe-episode rate and its breakdown into
-    harmful collision, object escape, palm flip, and hand-too-far over training; lower is better.
-    Blue: Vanilla DAgger\cite{ross2011reduction}; orange: Vanilla SafeDAgger\cite{zhang2016query};
-    green: \dexsafedagger; red: \methodname.}
+    \caption{\textbf{Per-object failure-mode decomposition during online distillation ablations.}
+    We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations.
+    Results are shown for two objects (\texttt{windcart} and \texttt{cow}); lower is better in all plots.
+    Curves correspond to four distillation variants: blue, Vanilla DAgger\cite{ross2011reduction};
+    orange, Vanilla SafeDAgger\cite{zhang2016query}; green, \dexsafedagger;
+    and red, \methodname.}
     \label{fig:failure_modes}
 \end{figure*}
 
@@ -206,8 +218,9 @@ average ($\approx 12\%$) by the end of training and reaches a minimum of approxi
 \begin{figure}[!t]
     \centering
     \includegraphics[width=0.85\linewidth]{figures/real_setup_1.png}
-    \caption{\textbf{Real-world setup and test objects.}
-    Left: Tiangong~2 Pro with an InspireHand RH56DfX and an external stereo camera. Right: test objects.}
+    \caption{\textbf{Real-world experimental setup and test objects.}
+    Left: the single-arm manipulation platform used for deployment and evaluation.
+    Right: examples of the physical objects used in the real-world lift experiments.}
     \label{fig:realworld_exp_setup}
 \end{figure}
 
