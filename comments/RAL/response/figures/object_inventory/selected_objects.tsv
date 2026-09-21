@@ -1,0 +1,23 @@
+index	name	asset_id	group	identification_confidence
+1	WindCart	1m0lvpzs	main-paper seen	medium
+2	Boot	2kp2e9k7	main-paper seen	high
+3	ToolBox	2oiqpnts	main-paper seen	high
+4	Cow	z73ltdbb	main-paper seen	medium
+5	Plane	1nbuaiv2	main-paper OOD	high
+6	Shoe	1wdf56lx	main-paper OOD	medium
+7	Horse	horse	candidate asset	high
+8	Teapot	teapot	candidate asset	high
+9	Sphinx	sphinx	candidate asset	high
+10	Dragon	xyzrgb_dragon	candidate asset	high
+11	Homer bust	homer	candidate asset	high
+12	Ogre	ogre	candidate asset	high
+13	Cheburashka	cheburashka	candidate asset	high
+14	Lucy statue	lucy	candidate asset	high
+15	Beethoven bust	beeth	candidate asset	high
+16	Igea bust	igea	candidate asset	high
+17	Dog pair	Hundepaar	candidate asset	high
+18	Spot dog	spot	candidate asset	medium
+19	Suzanne monkey head	suzanne	candidate asset	high
+20	Blub character	blub_triangulated	candidate asset	medium
+21	Happy character	happy	candidate asset	medium
+22	Dinosaur	lh0nc4xq	candidate asset	medium

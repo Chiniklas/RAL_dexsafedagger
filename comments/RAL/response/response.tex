@@ -5,7 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{mathptmx}
 \usepackage{courier}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{enumitem}
 \usepackage{graphicx}
 \usepackage{float}
@@ -13,6 +13,7 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{makecell}
+\usepackage{amsmath,amssymb}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage[colorlinks=true,allcolors=blue!55!black]{hyperref}
@@ -273,9 +274,11 @@ proprietary service.}
 requested information, together with the permitted threshold range, smoothing
 rule, invalid-output handling, and deterministic fallback. We will archive the
 raw VLM outputs and threshold trajectories where allowed so that the adaptation
-process can be audited independently of the external service.
-\placeholder{Insert exact settings, measured latency/cost, archive location,
-and appendix reference.}
+process can be audited independently of the external service. In the reported
+run, all ten scheduled VLM calls completed successfully; we encountered no
+request timeout, API failure, or malformed VLM output. The implementation
+details and recorded token usage are provided in
+Appendix~\ref{app:vlm_inference_details}.
 
 \reviewcomment{Real-world unseen-object performance is weak: lift success falls
 to 60--66.7\%, while unsafe episodes reach 40\%. Claims of sufficient deployment
