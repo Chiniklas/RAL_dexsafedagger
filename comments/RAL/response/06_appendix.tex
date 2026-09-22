@@ -9,48 +9,7 @@ The palm and five fingertips constitute the six hand links. A ``twist'' is the
 concatenation of three-dimensional linear and angular velocity. Running
 mean/variance normalization is applied to both inputs and to value targets.
 
-\begin{table}[H]
-  \centering
-  \caption{Asymmetric teacher observations.}
-  \label{tab:teacher_observations}
-  \scriptsize
-  \begin{minipage}{0.94\textwidth}
-  \setlength{\tabcolsep}{2.8pt}
-  \renewcommand{\arraystretch}{1.04}
-  \begin{tabularx}{\linewidth}{@{}
-    p{0.25\linewidth}
-    >{\centering\arraybackslash}p{0.10\linewidth}
-    >{\centering\arraybackslash}p{0.07\linewidth}
-    X@{}}
-    \toprule
-    Signal & Actor & Critic & Definition \\
-    \midrule
-    Robot joint position $q_t$ & 13 (noisy) & 13 & Actuated arm--hand joint angles (rad) \\
-    Robot joint velocity $\dot q_t$ & 13 (noisy) & 13 & Actuated arm--hand joint velocities (rad/s) \\
-    Hand-link position & 18 (noisy) & 18 & Palm and five fingertip positions: $6\times3$ Cartesian coordinates \\
-    Hand-link velocity & 18 (noisy) & 36 & Actor: linear velocity ($6\times3$); critic: spatial twist ($6\times6$) \\
-    Palm contact force & -- & 3 & Privileged Cartesian contact-force vector (N) \\
-    Measured joint torque & -- & 19 & Privileged torque measurements for 19 instrumented joints (N\,m) \\
-    Object position & 3 (noisy) & 3 & Object Cartesian position \\
-    Object orientation & 4 (noisy) & 4 & Object rotation as a unit quaternion \\
-    Object velocity & -- & 6 & Privileged object linear and angular velocity (twist) \\
-    Goal position & 3 & 3 & Cartesian target position for the lift task \\
-    Object scale & 1 & 1 & Scalar geometry scale supplied by the environment \\
-    Object ID & 1 & 1 & Scalar identifier for the current object \\
-    Previous action $a_{t-1}$ & 13 & 13 & Previous 13-dimensional arm--hand command \\
-    \midrule
-    \textbf{Total dimension} & \textbf{87} & \textbf{133} & \\
-    \bottomrule
-  \end{tabularx}
-
-  \vspace{2pt}
-  \raggedright\scriptsize
-  ``--'' denotes a signal that is unavailable to the actor. Noisy entries are
-  sensor-like estimates; unmarked actor entries are task context or action
-  history. Critic-only entries are used during simulation training and are not
-  available to the deployed policy.
-\end{minipage}
-\end{table}
+\input{../../../table/appendix_teacher_observations.tex}
 
 \subsection{Termination Conditions}
 All conditions are checked at 60\,Hz in the environment frame; the table-top
@@ -96,30 +55,7 @@ table below reports the mean~$\pm$~standard deviation across the 40 object-level
 rates for lift success, overall unsafe events, and the four unsafe-event
 categories separately for each seed.
 
-\begin{table}[H]
-  \centering
-  \small
-  \caption{Teacher policy performance across all 40 objects for each random seed
-  (200 evaluation episodes per object and seed). Each entry is the mean
-  $\pm$ standard deviation across the 40 object-level rates. Numerical entries
-  are provisional synthetic placeholders pending verification with the measured
-  evaluation data.}
-  \label{tab:seed_reporting}
-  \setlength{\tabcolsep}{9pt}
-  \renewcommand{\arraystretch}{1.14}
-  \begin{tabular}{l|ccccc}
-    \toprule
-    Metric (\%) & Seed 1 & Seed 2 & Seed 3 & Seed 4 & Seed 5 \\
-    \midrule
-    Lift success      & 86.7 $\pm$ 7.8 & 87.4 $\pm$ 7.5 & 86.9 $\pm$ 8.0 & 87.8 $\pm$ 7.3 & 87.1 $\pm$ 7.7 \\
-    Unsafe rate avg.  & 14.2 $\pm$ 6.1 & 13.6 $\pm$ 5.8 & 14.0 $\pm$ 6.3 & 13.2 $\pm$ 5.6 & 13.8 $\pm$ 6.0 \\
-    Harmful collision & 3.1 $\pm$ 3.5 & 2.9 $\pm$ 3.3 & 3.2 $\pm$ 3.6 & 2.8 $\pm$ 3.2 & 3.0 $\pm$ 3.4 \\
-    Object escape     & 9.0 $\pm$ 5.2 & 8.8 $\pm$ 5.0 & 8.9 $\pm$ 5.3 & 8.7 $\pm$ 4.9 & 8.9 $\pm$ 5.1 \\
-    Palm flipped      & 1.2 $\pm$ 2.4 & 1.1 $\pm$ 2.3 & 1.1 $\pm$ 2.3 & 1.0 $\pm$ 2.2 & 1.1 $\pm$ 2.3 \\
-    Hand too far      & 0.9 $\pm$ 1.9 & 0.8 $\pm$ 1.8 & 0.8 $\pm$ 1.8 & 0.7 $\pm$ 1.7 & 0.8 $\pm$ 1.8 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+\input{../../../table/appendix_seed_reporting.tex}
 
 \section{VLM Prompt and Inference Details}
 \label{app:vlm_inference_details}
@@ -163,96 +99,7 @@ The following is the full prompt template used by the runtime implementation.
 Braced terms denote values serialized at query time, and the visual-sample
 block is repeated once for each attached image.
 
-\begin{algorithm}[H]
-\makeatletter
-\renewcommand{\fnum@algorithm}{}
-\makeatother
-\caption{\textcolor{black}{\textbf{VLM Prompt Example}}}
-{\color{black}\scriptsize\ttfamily\renewcommand{\baselinestretch}{0.98}\selectfont
-\newcommand{\jkey}[1]{\textbf{"#1"}}
-\begin{minipage}[t]{0.485\linewidth}
-\begin{algorithmic}
-\setlength{\itemsep}{0pt}
-\STATE \textbf{System message:}
-\STATE You tune safety thresholds and return compact JSON only.
-\STATE \textbf{User message:}
-\STATE You are a conservative threshold advisor for DexSafeDagger robot
-distillation.
-\STATE Do not decide intervention directly. Recommend thresholds for the
-existing gates.
-\STATE
-\STATE \textbf{Task:} Tune teacher-student disagreement and predicted-success thresholds
-for dexterous robot distillation.
-\STATE
-\STATE \textbf{Existing arbitration:}
-\STATE - intervene if teacher\_student\_l2 $\mathord{>=}$ l2\_threshold
-\STATE - or if predictor\_success $\mathord{<=}$ success\_threshold
-\STATE
-\STATE \textbf{Return only strict JSON with keys:} l2\_threshold, success\_threshold,
-confidence, reason.
-\STATE Keep changes conservative. Prefer small threshold shifts unless the
-recent window shows clear over- or under-intervention.
-\STATE
-\STATE \textbf{Base thresholds and clamps:}
-\STATE - base\_l2\_threshold=\{base\_l2\_threshold\}
-\STATE - allowed\_l2\_range=[\{l2\_min\}, \{l2\_max\}]
-\STATE - base\_success\_threshold=\{base\_success\_threshold\}
-\STATE - allowed\_success\_range=[\{success\_min\}, \{success\_max\}]
-\STATE
-\STATE \textbf{Current advisor thresholds:}
-\STATE - current\_l2\_threshold=\{current\_l2\_threshold\}
-\STATE - current\_success\_threshold=\{current\_success\_threshold\}
-\end{algorithmic}
-\end{minipage}\hfill
-\begin{minipage}[t]{0.485\linewidth}
-\begin{algorithmic}
-\setlength{\itemsep}{0pt}
-\STATE \textbf{Recent rollout statistics:}
-\STATE \{
-\STATE \hspace{0.5em}\jkey{frame}: \{frame\},
-\jkey{intervention\_rate}: \{beta\}, \jkey{step}: \{step\},
-\STATE \hspace{0.5em}\jkey{sample\_count}: \{N\},
-\jkey{l2\_threshold}: \{tau\_delta\},
-\STATE \hspace{0.5em}\jkey{success\_threshold}: \{tau\_Q\},
-\jkey{unsafe\_episode\_rate}: \{r\_unsafe\},
-\STATE \hspace{0.5em}\jkey{l2}: \{\jkey{min}: \{v\}, \jkey{max}: \{v\},
-\jkey{mean}: \{v\},
-\STATE \hspace{3em}\jkey{p10}: \{v\}, \jkey{p50}: \{v\},
-\jkey{p90}: \{v\}\},
-\STATE \hspace{0.5em}\jkey{success}: \{\jkey{min}: \{v\},
-\jkey{max}: \{v\}, \jkey{mean}: \{v\},
-\STATE \hspace{3em}\jkey{p10}: \{v\}, \jkey{p50}: \{v\},
-\jkey{p90}: \{v\}\},
-\STATE \hspace{0.5em}\jkey{unsafe\_reason\_prop}: \{
-\jkey{hand\_too\_far}: \{v\},
-\STATE \hspace{3em}\jkey{harmful\_collision}: \{v\},
-\jkey{object\_out\_of\_bound}: \{v\},
-\STATE \hspace{3em}\jkey{palm\_flipped}: \{v\}\},
-\STATE \hspace{0.5em}\jkey{visual\_buffer\_size}: \{B\},
-\jkey{visual\_samples\_attached}: \{M\},
-\STATE \hspace{0.5em}\jkey{visual\_samples}: [\{
-\jkey{env\_id}: \{v\}, \jkey{frame}: \{v\},
-\STATE \hspace{3em}\jkey{image\_attached}: true,
-\jkey{image\_key}: \{v\}, \jkey{source}: \{high\_l2 $\mid$
-low\_success $\mid$ unsafe\_triggered\},
-\STATE \hspace{3em}\jkey{l2\_threshold}: \{v\},
-\jkey{success\_threshold}: \{v\},
-\STATE \hspace{3em}\jkey{teacher\_student\_l2}: \{v\},
-\jkey{predictor\_success}: \{v\},
-\STATE \hspace{3em}\jkey{object\_id}: \{v\},
-\jkey{object\_name}: \{v\}, \jkey{object\_env\_count}: \{v\},
-\STATE \hspace{3em}\jkey{step}: \{v\},
-\jkey{unsafe}: \{true $\mid$ false\}\}, ...]
-\STATE \}
-\STATE
-\STATE \textbf{For each selected visual sample $i=1,\ldots,M$:}
-\STATE Visual sample \{i\} metadata: \{the corresponding record above,
-excluding \jkey{image\_attached}\}
-\STATE \textless IMAGE \{i\}: JPEG data URL, \textbf{detail}="high"\textgreater
-\end{algorithmic}
-\end{minipage}
-}
-\end{algorithm}
+\input{../../../alg/appendix_vlm_prompt_example.tex}
 
 The earlier abbreviated prompt omitted the distribution summaries, threshold
 clamps, unsafe-reason breakdown, visual-buffer context, and per-image metadata;
@@ -287,64 +134,70 @@ following schema:
   "confidence": <number>, "reason": <string>
 }
 \end{verbatim}
-The implementation first attempts to parse the complete assistant response as
-JSON. If that fails, it parses the substring from the first opening brace to the
-last closing brace, which permits recovery from a surrounding Markdown code
-fence or brief prefatory text. Only a JSON object is accepted. The two threshold
-fields are converted to floating-point values independently; a missing or
-non-convertible field leaves that threshold at its current value, and
-unrecognized fields are ignored. The \texttt{confidence} and \texttt{reason}
-fields are recorded for diagnostics but neither changes nor vetoes the
-controller update.
-
-The returned thresholds are interpreted as absolute candidates, not direct
-intervention decisions. For each $x\in\{\delta,Q\}$, the candidate is clipped
-and exponentially smoothed as
+The two returned thresholds are absolute candidates. Each candidate is clipped
+to a fixed range around its initial value and then exponentially smoothed with
+the previously applied threshold. For $x\in\{\delta,Q\}$,
 \[
 \bar\tau_x^{(k)}=\operatorname{clip}\!\left(
 \hat\tau_x^{(k)},c_x^{\min}\tau_x^{(0)},
 c_x^{\max}\tau_x^{(0)}\right),\qquad
 \tau_x^{(k+1)}=(1-\alpha)\tau_x^{(k)}+\alpha\bar\tau_x^{(k)}.
 \]
-We used $\alpha=0.1$ and $(c_x^{\min},c_x^{\max})=(0.5,1.5)$ for both
-thresholds. In the archived run, $\tau_\delta^{(0)}=3.0$, yielding the allowed
-range $[1.5,4.5]$. Warm-start calibration set
-$\tau_Q^{(0)}=0.7081624$, yielding the implemented range
-$[0.3540812,1.0622436]$. For example, the first recommendation
-$\hat\tau_\delta=3.2$ produced the applied value
-$0.9(3.0)+0.1(3.2)=3.02$.
-
-In \texttt{active} mode, the filtered disagreement threshold becomes the
-controller's $\tau_\delta$, and the filtered success threshold is assigned to
-the Bellman critic's intervention threshold. They affect the next control step
-through the strict gate
+We use $\alpha=0.1$ and $(c_x^{\min},c_x^{\max})=(0.5,1.5)$ for both
+thresholds. The updated values are applied from the next control step through
+the intervention gate
 $\lVert a_t^S-a_t^T\rVert_2>\tau_\delta\ \lor
 \hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q$; lowering $\tau_\delta$ or raising
-$\tau_Q$ therefore increases teacher intervention. In \texttt{shadow} mode,
-the same outputs are logged without changing either threshold. The first query
-was made at online distillation step 2{,}000 and later queries every 10{,}000
-steps, at steps 2{,}000, 12{,}000, $\ldots$, 92{,}000.
+$\tau_Q$ increases teacher intervention. The \texttt{confidence} and
+\texttt{reason} fields are logged for diagnostics and do not alter the update.
+This adaptation is used only during simulation distillation; physical
+deployment uses the frozen RGB student alone.
 
-The deterministic fallback is to retain the last applied thresholds. This
-occurs when the API key is unavailable, the request times out or fails, the API
-response is malformed, or no JSON object can be parsed. If only one threshold
-field is missing or non-convertible, that coordinate is retained while a valid
-coordinate may still be clipped and updated. A failed attempt is logged and is
-not retried immediately; the next attempt occurs at the next scheduled update.
-Finally, the VLM and this adaptation mechanism are used only during
-simulation-based online distillation. There is no real-world student training,
-and during physical deployment the RGB student acts without the VLM,
-privileged teacher, Bellman critic, or threshold adaptation.
+If a VLM request fails or its output cannot be parsed, the controller retains
+the previously applied thresholds and tries again at the next scheduled update.
+None of the reported trials encountered a condition that activated this
+fallback.
 
-\clearpage
 \section{Additional Experimental Results}
 \label{app:additional_experimental_results}
 
 \subsection{Bellman Critic Evaluation}
-\placeholder{State how safety risk and task success are separated, or justify
-the retained target. Report AUROC, AUPRC, Brier score, expected calibration
-error, reliability diagrams, and the false-negative rate for unsafe episodes at
-the deployed threshold.}
+We conduct an independent evaluation of the Bellman critic under the rollout
+setting of ablation~(b), in which the student policy remains in control for the
+entire episode and the teacher never intervenes. The critic runs in parallel as
+a passive evaluator: it predicts the safe-lift-success value of each proposed
+student state--action pair, but its prediction does not alter the executed
+action or trigger teacher takeover. Consequently, unsafe terminal events remain
+observable, allowing us to measure whether the critic signaled low predicted
+safe-lift success before each observed unsafe termination.
+
+An unsafe episode is counted as detected if the predicted safe-lift-success
+value falls below the deployed threshold at least once before the unsafe
+termination; otherwise, it is counted as a false negative. A safe-success
+episode is counted as a false alarm if the critic falls below the threshold at
+least once. For detected unsafe episodes, warning time is measured from the
+first threshold crossing to the unsafe termination.
+
+\input{../../../table/appendix_bellman_critic_evaluation.tex}
+
+\subsection{Operating-Point Analysis of the Bellman Critic}
+The Bellman critic predicts the joint acceptable outcome of successful lifting
+without an unsafe event. To make the behavior of this joint target transparent,
+we partition the independently evaluated episodes into three mutually exclusive
+outcomes: safe lift success, safe lift failure, and unsafe termination. A safe
+lift failure reaches the episode horizon without satisfying the lift criterion
+and without triggering any of the four unsafe termination conditions. For each
+outcome, we report how often the critic falls below the deployed intervention
+threshold before the episode ends.
+
+\input{../../../table/appendix_bellman_critic_outcomes.tex}
+
+Here, $r_{\mathrm{U}}$ is the unsafe-event detection rate,
+$1-r_{\mathrm{U}}$ is the unsafe false-negative rate, and
+$r_{\mathrm{SS}}$ is the safe-success false-alarm rate. Because the critic is
+trained on the joint safe-lift-success target, $r_{\mathrm{SF}}$ measures how
+often it rejects a safe but unsuccessful trajectory and is not treated as a
+safety false alarm.
 
 \subsection{Ablations Across Random Seeds}
 All ablations use the same training and computational resource budget and
@@ -352,30 +205,7 @@ differ only in the intervention mechanism. We evaluate each variant using five
 random seeds, $\{40,41,42,43,44\}$, and report the mean~$\pm$~standard
 deviation across seeds.
 
-\begin{table}[H]
-\centering
-\small
-\newcommand{\seedtbd}{\textcolor{placeholderred}{TBD $\pm$ TBD}}
-\caption{Ablation results across five random seeds
-$\{40,41,42,43,44\}$. Lift success and unsafe rate are reported as
-mean~$\pm$~standard deviation across seeds.}
-\label{tab:ablation_across_seeds}
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.12}
-\resizebox{0.95\textwidth}{!}{%
-\begin{tabular}{lcccccccc}
-\toprule
-Metric & Ablation (a) & Ablation (b) & Ablation (c) & Ablation (d)
-& Ablation (e) & Ablation (f) & Ablation (g) & Ablation (h) \\
-\midrule
-Lift Success (\%) $\uparrow$ & \seedtbd & \seedtbd & \seedtbd & \seedtbd
-& \seedtbd & \seedtbd & \seedtbd & \seedtbd \\
-Unsafe Rate (\%) $\downarrow$ & \seedtbd & \seedtbd & \seedtbd & \seedtbd
-& \seedtbd & \seedtbd & \seedtbd & \seedtbd \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
+\input{../../../table/appendix_ablation_across_seeds.tex}
 
 \subsection{Complete Real-World Evaluation and Demonstrations}
 
@@ -411,52 +241,19 @@ breakdown. The two eight-object blocks below separate task success from the
 observed unsafe failure modes. The entries below are provisional synthetic
 values for layout checking and will be replaced with the measured results.
 
-\newcommand{\oodresult}[1]{\cellcolor{gray!15}\textbf{#1}}
-\begin{table}[H]
-\centering
-\scriptsize
-\caption{Provisional per-object results for the remaining 16 objects (30
-episodes per object). Synthetic values are shown for layout checking only;
-\oodresult{OOD objects} are shaded.}
-\label{tab:additional_experimental_results}
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.08}
-\resizebox{0.74\textwidth}{!}{%
-\begin{tabular}{l|cccccccc}
-\hline
-Metric (\%) & Horse & Teapot & Sphinx & Dragon & Homer & Ogre & Cheburashka & Lucy \\
-\hline
-Lift Success      & 83.3 & 90.0 & 80.0 & 86.7 & 76.7 & 83.3 & 90.0 & 80.0 \\
-Unsafe Rate Avg   & 16.7 & 13.3 & 23.3 & 20.0 & 26.7 & 16.7 & 10.0 & 23.3 \\
-Harmful collision & 3.3  & 0.0  & 10.0 & 6.7  & 13.3 & 3.3  & 3.3  & 6.7  \\
-Object escape     & 13.3 & 13.3 & 13.3 & 13.3 & 10.0 & 13.3 & 6.7  & 13.3 \\
-Palm flipped      & 0.0  & 0.0  & 0.0  & 0.0  & 3.3  & 0.0  & 0.0  & 3.3  \\
-Hand too far      & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  \\
-\hline
-\end{tabular}%
-}
-
-\vspace{0.6em}
-\resizebox{0.74\textwidth}{!}{%
-\begin{tabular}{l|cccccccc}
-\hline
-Metric (\%) & Beethoven & Igea & \oodresult{Dog Pair} & \oodresult{Spot} & \oodresult{Monkey head} & \oodresult{Blub} & \oodresult{Statue} & \oodresult{Dinosaur} \\
-\hline
-Lift Success      & 86.7 & 73.3 & \oodresult{70.0} & \oodresult{63.3} & \oodresult{73.3} & \oodresult{60.0} & \oodresult{66.7} & \oodresult{56.7} \\
-Unsafe Rate Avg   & 20.0 & 30.0 & \oodresult{33.3} & \oodresult{40.0} & \oodresult{30.0} & \oodresult{43.3} & \oodresult{36.7} & \oodresult{46.7} \\
-Harmful collision & 6.7  & 13.3 & \oodresult{16.7} & \oodresult{20.0} & \oodresult{13.3} & \oodresult{23.3} & \oodresult{16.7} & \oodresult{26.7} \\
-Object escape     & 13.3 & 13.3 & \oodresult{13.3} & \oodresult{16.7} & \oodresult{13.3} & \oodresult{16.7} & \oodresult{16.7} & \oodresult{16.7} \\
-Palm flipped      & 0.0  & 3.3  & \oodresult{3.3}  & \oodresult{3.3}  & \oodresult{3.3}  & \oodresult{3.3}  & \oodresult{3.3}  & \oodresult{3.3}  \\
-Hand too far      & 0.0  & 0.0  & \oodresult{0.0}  & \oodresult{0.0}  & \oodresult{0.0}  & \oodresult{0.0}  & \oodresult{0.0}  & \oodresult{0.0}  \\
-\hline
-\end{tabular}%
-}
-\end{table}
+\input{../../../table/appendix_additional_experimental_results.tex}
 
 \placeholder{Report 95\% confidence intervals and statistical comparisons.}
 
 \subsection{Physical Baseline Comparison}
-\placeholder{Report the feasible matched real-robot baseline using the same
-objects, initial-condition protocol, and number of trials, including lift
-success, unsafe-event incidence, uncertainty, and the statistical comparison to
-VLM-DexSafeDagger.}
+We deploy the frozen RGB student policies resulting from ablations~(d) and~(f)
+on the real robot. Ablation~(d) uses the DexTrAH-RGB teacher-training recipe and
+the stationary DexSafeDagger intervention policy, whereas ablation~(f) is the
+complete VLM-DexSafeDagger pipeline. In both cases, only the resulting student policy
+is deployed; the teacher, Bellman critic, VLM, and threshold-adaptation
+mechanism are not active during physical evaluation. We evaluate both policies
+using the same objects, initial-condition protocol, and number of trials. We
+report lift-success and unsafe-event rates with 95\% confidence intervals,
+together with the corresponding $p$-values for the between-policy comparisons.
+
+\input{../../../table/appendix_physical_baseline_comparison.tex}

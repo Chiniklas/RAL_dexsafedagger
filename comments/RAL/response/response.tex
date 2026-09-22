@@ -102,11 +102,8 @@ highlighted in blue.
 We sincerely thank the reviewer for the careful assessment of our work and for
 the constructive suggestions. Below are our point-by-point responses.
 
-\reviewcomment{The current comparison between DexSafeDagger and
-VLM-DexSafeDagger compares fixed thresholds with VLM-adapted thresholds and
-therefore does not show whether the improvement comes from threshold adaptation,
-language reasoning, or visual information. Please compare cases with and without
-an LLM/VLM and with and without statistics and/or images.}
+\reviewcomment{whether the VLM and visual information provide a clear advantage
+over simpler adaptive approaches.}
 
 \response We have added ablations (g) and (h) to isolate the
 contribution of the VLM to the adaptive intervention pipeline. We have also
@@ -120,53 +117,69 @@ performance-based curriculum reduces unsafe exploration to some extent, it
 sacrifices task success, suggesting that a simple rule-based method is
 insufficient for guiding intervention policies in complex scenarios.
 
-\reviewcomment{The related work on adaptive intervention should be expanded.
-In particular, AIM, EnsembleDAgger, and HG-DAgger are relevant. Since adaptive
-intervention can be achieved without a VLM, please clarify how
-VLM-DexSafeDagger differs from these methods and whether the VLM provides an
-advantage over simpler adaptive approaches.}
+\reviewcomment{The related work on adaptive intervention should also be
+expanded.}
 
 \response We have reformulated the Related Work section to more
 clearly discuss adaptive intervention methods. In particular, AIM provides an
 important foundation for our work, and we have added it to the reference list.
 Compared with prior methods such as HG-DAgger and ThriftyDAgger, our proposed
 pipeline does not require human intervention, enabling fully autonomous
-intervention during online policy distillation. Regarding the advantage of VLMs
-over simpler adaptive approaches, our results show that the VLM- and LLM-based
-methods outperform the performance-based curriculum overall in terms of both
-lift success and unsafe rate. We attribute this improvement to semantic
-reasoning, further enhanced by visual context in the VLM, which enables more
-effective adaptation in contact-rich, high-degree-of-freedom manipulation
-tasks.
+intervention during online policy distillation.
 
-\reviewcomment{Please provide the VLM prompt and explain how images are selected
-and how the VLM outputs are used. The Bellman success-value critic should also
-be evaluated, especially for errors on unsafe cases. Please clarify the number
-of runs or random seeds and the scope of the term ``safety-critical.''}
+\reviewcomment{the authors should provide the VLM prompt and explain how the
+images are selected and how the VLM outputs are used.}
 
 \response The details required to reproduce our method are provided
 in the supplementary material. The exact VLM prompt and representative visual
-input examples are included in Supplementary Section~B, while the number of
-runs and random seeds is reported in Supplementary Section~A.3.
-\placeholder{Add the Bellman critic evaluation and the corresponding
-supplementary-material reference.}
+input examples are included in Supplementary Section~B.
 
-\reviewcomment{Only VLM-DexSafeDagger is evaluated on the real robot. This does
-not sufficiently demonstrate the proposed concept; a physical baseline
-comparison is needed.}
+\reviewcomment{The Bellman success-value critic is also important for
+intervention, but its performance is not evaluated in detail. Some evaluation
+of the critic, especially its errors for unsafe cases, would be helpful.}
 
-\response A matched physical comparison would provide stronger evidence. We
-will evaluate the distilled policy against
-\placeholder{specify the feasible real-world baseline or baselines} using the
-same object set, initial-condition protocol, and number of trials. We will
-report lift success, unsafe-event incidence, and uncertainty for each method.
-We will also clarify that the VLM is used during simulation distillation and is
-not queried by the deployed student policy. \placeholder{Insert final results
-and table reference.}
+\response We additionally evaluate the Bellman critic independently in Supplementary
+Section~C.1 using the rollout setting of ablation~(b). In this setting, the
+student remains in control throughout each episode and the teacher never
+intervenes, while the critic runs in parallel as a passive evaluator whose
+predictions do not affect the executed actions. This setup preserves observed
+unsafe terminations and allows us to evaluate whether the critic signals low
+predicted safe-lift success before an unsafe event occurs.
+\placeholder{Insert the critic evaluation metrics and results.}
 
-\reviewcomment{The paper states that 22 objects were evaluated, while the
-current table shows only six representative objects. Please provide overall
-results for all 22 objects, for example separately for seen and unseen objects.}
+\reviewcomment{Please also clarify the number of runs/random seeds used for the
+results.}
+
+\response We run 30 real-world evaluations for each object, distributed equally
+across random seeds 40, 41, 42, 43, and 44 (six evaluations per seed).
+
+\reviewcomment{Finally, I am not fully convinced by the use of the term
+``safety-critical.'' The current safety evaluation is based on task-specific
+unsafe conditions rather than formal safety guarantees. The authors should
+clarify the scope of this claim.}
+
+\response We acknowledge that the term ``safety-critical'' is too strong for an
+adaptive intervention pipeline such as ours. We have therefore revised the
+title to ``VLM-DexSafeDagger: VLM-Guided Intervention Policy Towards Safer
+Visuomotor Skill Distillation'' and removed or qualified the term elsewhere in
+the manuscript. The revised text explicitly states that our method provides
+empirical risk reduction under task-specific event definitions rather than a
+formal safety guarantee, and that safety violations remain possible.
+
+\reviewcomment{However, only VLM-DexSafeDagger evaluated on the real robot does
+not sufficiently prove the proposed concept.}
+
+\response We deploy the frozen RGB student policies resulting from
+ablations~(d) and~(f) on the real robot using the same object set,
+initial-condition protocol, and number of trials. We report lift-success and
+unsafe-event rates with 95\% confidence intervals and the corresponding
+$p$-values in Supplementary Section~C.5. Only the resulting student policy is
+deployed; the teacher, Bellman critic, VLM, and threshold-adaptation mechanism
+are not active during physical evaluation.
+
+\reviewcomment{It would be helpful to provide overall results for all 22
+objects, for example by reporting results separately for seen and unseen
+objects.}
 
 \response We have doubled the number of evaluation episodes for each object and
 reported the results for all 22 objects in Supplementary Table~III. As
@@ -211,14 +224,12 @@ rate.
 thereby conflating task success with safety. Separate safety risk and task value,
 and report calibration, false-negative rates, and reliability diagrams.}
 
-\response The current joint target does not distinguish an unsafe outcome from
-a safe episode that fails to complete the lift. In the revision, we
-will \placeholder{state whether the critic is redesigned with separate safety
-and task heads, or justify and retain the joint target}. We will report AUROC,
-AUPRC, Brier score, expected calibration error, reliability diagrams, and the
-false-negative rate at the deployed threshold on held-out trajectories.
-\placeholder{Describe exactly how the revised critic enters the intervention
-gate and insert the results.}
+\response We conducted this test using the rollout setting of ablation~(b), in
+which the student remains in control throughout the episode and the Bellman
+critic runs in parallel as a passive evaluator. We separately analyze safe lift
+successes, safe lift failures, and unsafe terminations, including the critic's
+false-negative rate for unsafe cases. The results are reported in Supplementary
+Section~C.2.
 
 \reviewcomment{Teacher intervention is assumed safe, yet teacher policies may
 collide or fail. Quantify teacher unsafe rates and define how the framework
@@ -244,8 +255,7 @@ proprietary service.}
 supplementary material. The exact VLM prompt, representative visual-input
 examples, model and inference configuration, image-selection and
 output-processing procedures, update frequency, token usage, and failure
-handling are included in Supplementary Section~B. The number of runs and random
-seeds is reported in Supplementary Section~A.3.
+handling are included in Supplementary Section~B.
 
 \reviewcomment{Real-world unseen-object performance is weak: lift success falls
 to 60--66.7\%, while unsafe episodes reach 40\%. Claims of sufficient deployment
@@ -281,14 +291,14 @@ During physical deployment, the RGB student acts without the VLM, privileged
 teacher, Bellman critic, or threshold adaptation. We will state this distinction
 in the abstract, method, experimental setup, and limitations, and will describe
 the VLM as a training-time adaptation mechanism rather than a deployment-time
-safety monitor. \placeholder{Insert the final section locations.}
+safety monitor.
 
 \reviewcomment{Compare training samples, teacher queries, interventions,
 computation, and final success across Vanilla DAgger, SafeDAgger, critic-based
 intervention, and VLM-guided intervention using multiple random seeds.}
 
 \response The requested comparison across multiple random seeds is provided in
-Supplementary Section~C.2.
+Supplementary Section~C.3.
 
 \vspace{1em}
 We thank the Editor and the reviewers again for their thoughtful feedback. The

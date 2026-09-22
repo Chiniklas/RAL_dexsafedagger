@@ -1,0 +1,42 @@
+\begin{table}[H]
+  \centering
+  \caption{Asymmetric teacher observations.}
+  \label{tab:teacher_observations}
+  \scriptsize
+  \begin{minipage}{0.94\textwidth}
+  \setlength{\tabcolsep}{2.8pt}
+  \renewcommand{\arraystretch}{1.04}
+  \begin{tabularx}{\linewidth}{@{}
+    p{0.25\linewidth}
+    >{\centering\arraybackslash}p{0.10\linewidth}
+    >{\centering\arraybackslash}p{0.07\linewidth}
+    X@{}}
+    \toprule
+    Signal & Actor & Critic & Definition \\
+    \midrule
+    Robot joint position $q_t$ & 13 (noisy) & 13 & Actuated arm--hand joint angles (rad) \\
+    Robot joint velocity $\dot q_t$ & 13 (noisy) & 13 & Actuated arm--hand joint velocities (rad/s) \\
+    Hand-link position & 18 (noisy) & 18 & Palm and five fingertip positions: $6\times3$ Cartesian coordinates \\
+    Hand-link velocity & 18 (noisy) & 36 & Actor: linear velocity ($6\times3$); critic: spatial twist ($6\times6$) \\
+    Palm contact force & -- & 3 & Privileged Cartesian contact-force vector (N) \\
+    Measured joint torque & -- & 19 & Privileged torque measurements for 19 instrumented joints (N\,m) \\
+    Object position & 3 (noisy) & 3 & Object Cartesian position \\
+    Object orientation & 4 (noisy) & 4 & Object rotation as a unit quaternion \\
+    Object velocity & -- & 6 & Privileged object linear and angular velocity (twist) \\
+    Goal position & 3 & 3 & Cartesian target position for the lift task \\
+    Object scale & 1 & 1 & Scalar geometry scale supplied by the environment \\
+    Object ID & 1 & 1 & Scalar identifier for the current object \\
+    Previous action $a_{t-1}$ & 13 & 13 & Previous 13-dimensional arm--hand command \\
+    \midrule
+    \textbf{Total dimension} & \textbf{87} & \textbf{133} & \\
+    \bottomrule
+  \end{tabularx}
+
+  \vspace{2pt}
+  \raggedright\scriptsize
+  ``--'' denotes a signal that is unavailable to the actor. Noisy entries are
+  sensor-like estimates; unmarked actor entries are task context or action
+  history. Critic-only entries are used during simulation training and are not
+  available to the deployed policy.
+\end{minipage}
+\end{table}

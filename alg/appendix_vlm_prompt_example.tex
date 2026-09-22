@@ -1,0 +1,90 @@
+\begin{algorithm}[H]
+\makeatletter
+\renewcommand{\fnum@algorithm}{}
+\makeatother
+\caption{\textcolor{black}{\textbf{VLM Prompt Example}}}
+{\color{black}\scriptsize\ttfamily\renewcommand{\baselinestretch}{0.98}\selectfont
+\newcommand{\jkey}[1]{\textbf{"#1"}}
+\begin{minipage}[t]{0.485\linewidth}
+\begin{algorithmic}
+\setlength{\itemsep}{0pt}
+\STATE \textbf{System message:}
+\STATE You tune safety thresholds and return compact JSON only.
+\STATE \textbf{User message:}
+\STATE You are a conservative threshold advisor for DexSafeDagger robot
+distillation.
+\STATE Do not decide intervention directly. Recommend thresholds for the
+existing gates.
+\STATE
+\STATE \textbf{Task:} Tune teacher-student disagreement and predicted-success thresholds
+for dexterous robot distillation.
+\STATE
+\STATE \textbf{Existing arbitration:}
+\STATE - intervene if teacher\_student\_l2 $\mathord{>=}$ l2\_threshold
+\STATE - or if predictor\_success $\mathord{<=}$ success\_threshold
+\STATE
+\STATE \textbf{Return only strict JSON with keys:} l2\_threshold, success\_threshold,
+confidence, reason.
+\STATE Keep changes conservative. Prefer small threshold shifts unless the
+recent window shows clear over- or under-intervention.
+\STATE
+\STATE \textbf{Base thresholds and clamps:}
+\STATE - base\_l2\_threshold=\{base\_l2\_threshold\}
+\STATE - allowed\_l2\_range=[\{l2\_min\}, \{l2\_max\}]
+\STATE - base\_success\_threshold=\{base\_success\_threshold\}
+\STATE - allowed\_success\_range=[\{success\_min\}, \{success\_max\}]
+\STATE
+\STATE \textbf{Current advisor thresholds:}
+\STATE - current\_l2\_threshold=\{current\_l2\_threshold\}
+\STATE - current\_success\_threshold=\{current\_success\_threshold\}
+\end{algorithmic}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\begin{algorithmic}
+\setlength{\itemsep}{0pt}
+\STATE \textbf{Recent rollout statistics:}
+\STATE \{
+\STATE \hspace{0.5em}\jkey{frame}: \{frame\},
+\jkey{intervention\_rate}: \{beta\}, \jkey{step}: \{step\},
+\STATE \hspace{0.5em}\jkey{sample\_count}: \{N\},
+\jkey{l2\_threshold}: \{tau\_delta\},
+\STATE \hspace{0.5em}\jkey{success\_threshold}: \{tau\_Q\},
+\jkey{unsafe\_episode\_rate}: \{r\_unsafe\},
+\STATE \hspace{0.5em}\jkey{l2}: \{\jkey{min}: \{v\}, \jkey{max}: \{v\},
+\jkey{mean}: \{v\},
+\STATE \hspace{3em}\jkey{p10}: \{v\}, \jkey{p50}: \{v\},
+\jkey{p90}: \{v\}\},
+\STATE \hspace{0.5em}\jkey{success}: \{\jkey{min}: \{v\},
+\jkey{max}: \{v\}, \jkey{mean}: \{v\},
+\STATE \hspace{3em}\jkey{p10}: \{v\}, \jkey{p50}: \{v\},
+\jkey{p90}: \{v\}\},
+\STATE \hspace{0.5em}\jkey{unsafe\_reason\_prop}: \{
+\jkey{hand\_too\_far}: \{v\},
+\STATE \hspace{3em}\jkey{harmful\_collision}: \{v\},
+\jkey{object\_out\_of\_bound}: \{v\},
+\STATE \hspace{3em}\jkey{palm\_flipped}: \{v\}\},
+\STATE \hspace{0.5em}\jkey{visual\_buffer\_size}: \{B\},
+\jkey{visual\_samples\_attached}: \{M\},
+\STATE \hspace{0.5em}\jkey{visual\_samples}: [\{
+\jkey{env\_id}: \{v\}, \jkey{frame}: \{v\},
+\STATE \hspace{3em}\jkey{image\_attached}: true,
+\jkey{image\_key}: \{v\}, \jkey{source}: \{high\_l2 $\mid$
+low\_success $\mid$ unsafe\_triggered\},
+\STATE \hspace{3em}\jkey{l2\_threshold}: \{v\},
+\jkey{success\_threshold}: \{v\},
+\STATE \hspace{3em}\jkey{teacher\_student\_l2}: \{v\},
+\jkey{predictor\_success}: \{v\},
+\STATE \hspace{3em}\jkey{object\_id}: \{v\},
+\jkey{object\_name}: \{v\}, \jkey{object\_env\_count}: \{v\},
+\STATE \hspace{3em}\jkey{step}: \{v\},
+\jkey{unsafe}: \{true $\mid$ false\}\}, ...]
+\STATE \}
+\STATE
+\STATE \textbf{For each selected visual sample $i=1,\ldots,M$:}
+\STATE Visual sample \{i\} metadata: \{the corresponding record above,
+excluding \jkey{image\_attached}\}
+\STATE \textless IMAGE \{i\}: JPEG data URL, \textbf{detail}="high"\textgreater
+\end{algorithmic}
+\end{minipage}
+}
+\end{algorithm}
