@@ -46,10 +46,10 @@ Install the **LaTeX Workshop** extension. Open `main.tex`, then run:
 
 Use **LaTeX Workshop: View LaTeX PDF file** to open the generated PDF.
 
-## Review response and appendix
+## Review response and supplementary material
 
-The review response and its appendix are separate documents. Build them from
-the repository root with:
+The review response and its supplementary material are separate documents.
+Build them from the repository root with:
 
 ```bash
 ./build-response.sh

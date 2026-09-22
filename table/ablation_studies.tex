@@ -8,27 +8,29 @@ reports lift success and average unsafe rate.}
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.15}
 \resizebox{0.48\textwidth}{!}{%
-\begin{tabular}{l|cc|cc|cc|cc}
+\begin{tabular}{l|cc|cc|cc|cc|>{\color{red}}c>{\color{red}}c}
 \hline
 \multirow{2}{*}{Metric (\%)}
 & \multicolumn{2}{c|}{WindCart}
 & \multicolumn{2}{c|}{Boot}
 & \multicolumn{2}{c|}{ToolBox}
-& \multicolumn{2}{c}{Cow} \\
-\cline{2-9}
+& \multicolumn{2}{c|}{Cow}
+& \multicolumn{2}{c}{\textcolor{red}{\textbf{Mean}}} \\
+\cline{2-11}
+& Lift  & Unsafe
 & Lift  & Unsafe
 & Lift  & Unsafe
 & Lift  & Unsafe
 & Lift  & Unsafe  \\
 \hline
-\textbf{Ablation (a)} & 75.0 & 24.0 & 76.5 & 28.0 & 72.0 & 26.0 & 70.0 & 27.5 \\
-\textbf{Ablation (b)} & 88.5 & 13.5 & 89.0 & 20.5 & 82.5 & 19.0 & 88.0 & 17.5 \\
-\textbf{Ablation (c)} & 88.0 & 12.0 & 89.5 & 19.5 & 81.5 & 18.5 & 87.0 & 16.0 \\
-\textbf{Ablation (d)} & 74.5 & 23.0 & 75.0 & 27.5 & 70.5 & 26.5 & 69.5 & 27.0 \\
-\textbf{Ablation (e)} & 88.0 & 7.5 & 90.0 & 15.0 & 82.0 & 15.5 & 88.0 & 12.0 \\
-\textbf{Ablation (f)} & 88.5 & 6.0 & 90.0 & 10.5 & 82.5 & 11.0 & 88.5 & 8.5 \\
-\textbf{Ablation (g)} & 88.0 & 7.5 & 89.5 & 12.5 & 82.0 & 13.0 & 88.0 & 10.5 \\
-\textbf{Ablation (h)} & 86.5 & 7.0 & 88.5 & 14.0 & 81.0 & 13.5 & 87.0 & 11.0 \\
+\textbf{(a)} & 75.0 & 24.0 & 76.5 & 28.0 & 72.0 & 26.0 & 70.0 & 27.5 & 73.4 & 26.4 \\
+\textbf{(b)} & 88.5 & 13.5 & 89.0 & 20.5 & 82.5 & 19.0 & 88.0 & 17.5 & 87.0 & 17.6 \\
+\textbf{(c)} & 88.0 & 12.0 & 89.5 & 19.5 & 81.5 & 18.5 & 87.0 & 16.0 & 86.5 & 16.5 \\
+\textbf{(d)} & 74.5 & 23.0 & 75.0 & 27.5 & 70.5 & 26.5 & 69.5 & 27.0 & 72.4 & 26.0 \\
+\textbf{(e)} & 88.0 & 7.5 & 90.0 & 15.0 & 82.0 & 15.5 & 88.0 & 12.0 & 87.0 & 12.5 \\
+\textbf{(f)} & 88.5 & 6.0 & 90.0 & 10.5 & 82.5 & 11.0 & 88.5 & 8.5 & 87.4 & 9.0 \\
+\textbf{(g)} & 88.0 & 7.5 & 89.5 & 12.5 & 82.0 & 13.0 & 88.0 & 10.5 & 86.9 & 10.9 \\
+\textbf{(h)} & 86.5 & 7.0 & 88.5 & 14.0 & 81.0 & 13.5 & 87.0 & 11.0 & 85.8 & 11.4 \\
 \hline
 \end{tabular}
 }

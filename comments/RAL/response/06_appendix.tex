@@ -1,6 +1,8 @@
 \section{RL Teacher Training and Safety Details}
 \label{app:rl_training_details}
 
+\subsection{Asymmetric Teacher Observations}
+
 Table~\ref{tab:teacher_observations} contrasts the actor's noisy, deployable
 signals with the centralized critic's clean, privileged simulator state.
 The palm and five fingertips constitute the six hand links. A ``twist'' is the
@@ -50,7 +52,7 @@ mean/variance normalization is applied to both inputs and to value targets.
 \end{minipage}
 \end{table}
 
-\paragraph{Termination conditions.}
+\subsection{Termination Conditions}
 All conditions are checked at 60\,Hz in the environment frame; the table-top
 height is $z_T=0.25$\,m.
 \begin{enumerate}[label=(\alph*),leftmargin=2em,itemsep=2pt,topsep=3pt]
@@ -79,11 +81,12 @@ Expanding the termination rule used in the main paper gives
  \lor\mathbb I_{\rm flip}(s_t)\lor\mathbb I_{\rm hf}(s_t)
  \lor\mathbb I_{\rm timeout}.
 \]
-To avoid conflicts between simultaneous termination conditions, we use the
-labeling priority $\text{object escape}\succ\text{hand too far}
-\succ\text{harmful collision}\succ\text{palm flipped}\succ\text{timeout}$.
+To avoid conflicts between simultaneous termination conditions, we assign the
+event label using the following descending severity priority:
+$\text{harmful collision}\succ\text{object escape}\succ\text{palm flipped}
+\succ\text{hand too far}\succ\text{timeout}$.
 
-\paragraph{Runs and random seeds.}
+\subsection{Runs and Random Seeds}
 Teacher performance in Main Paper Table~II is evaluated over 200 episodes per
 object, and the real-world results are evaluated over 30 episodes per object.
 Each of the 40 object-specific teacher policies is trained with five independent
@@ -118,46 +121,10 @@ categories separately for each seed.
   \end{tabular}
 \end{table}
 
-\paragraph{Teacher safety and disagreement handling.}
-Main Paper Table~II reports representative teacher unsafe-event rates. Across
-all 40 teacher policies, unsafe-event rates range from 5--30\%. Because an
-intervention transfers control to an imperfect teacher, the framework's safety
-performance is restricted by the teacher's own performance ceiling. Teacher
-takeover can reduce unsafe exploration, but it does not provide a formal safety
-guarantee. The controller does not screen the teacher and student as two
-symmetric candidates. Instead, the Bellman critic evaluates only the student
-state--action pair, and the deterministic intervention gate is
-\[
-g_t=\mathbb I\!\left[
-\lVert a_t^S-a_t^T\rVert_2>\tau_\delta
-\;\lor\;
-\hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q
-\right],
-\qquad
-a_t=(1-g_t)a_t^S+g_t a_t^T.
-\]
-Consequently, disagreement between the two intervention signals is resolved
-conservatively: either excessive teacher--student action disagreement or a low
-student success-value prediction is sufficient to trigger teacher takeover.
-The student action is executed only when both tests accept it. Once triggered,
-teacher control is retained for a preset minimum dwell interval to avoid rapid
-switching between policies.
-
-Because the critic is not used to veto the teacher action, the implemented
-gate has no branch in which both candidate actions are rejected. The teacher
-action is the terminal action-level fallback whenever $g_t=1$, even though the
-teacher is empirically rather than certifiably safe. If the resulting rollout
-reaches any monitored unsafe condition, the simulator terminates and resets the
-episode according to the termination rules above; the controller does not
-synthesize a third recovery action. Non-finite policy outputs are treated as a
-runtime error before the environment step rather than being accepted by the
-gate. This design makes the teacher's performance ceiling an explicit
-limitation of the intervention mechanism.
-
 \section{VLM Prompt and Inference Details}
 \label{app:vlm_inference_details}
 
-\paragraph{Visual-input storage and example.}
+\subsection{Visual-Input Storage and Example}
 Candidate visual inputs are retained during a run in a bounded in-memory buffer
 of at most 64 samples. At each query, up to eight selected samples are embedded
 as JPEG data URLs in a self-contained
@@ -298,7 +265,7 @@ only exact equality at a threshold and does not change the VLM's role as a
 threshold advisor.
 
 
-\paragraph{Model and input configuration.}
+\subsection{Model and Input Configuration}
 We used the OpenAI GPT-5.5 multimodal model through the Chat Completions endpoint
 (\texttt{/v1/chat/completions}, \texttt{model="gpt-5.5"}). Each request set
 \texttt{stream=false} and \texttt{max\_completion\_tokens=1024}; no temperature
@@ -311,7 +278,7 @@ archived API reports, which were generated with the previous low-detail image
 setting, record 30{,}641 prompt tokens and 4{,}841 completion tokens, or 35{,}482
 tokens in total.
 
-\paragraph{Output processing and threshold updates.}
+\subsection{Output Processing and Threshold Updates}
 The requested machine-readable output is a top-level JSON object with the
 following schema:
 \begin{verbatim}
@@ -373,39 +340,71 @@ privileged teacher, Bellman critic, or threshold adaptation.
 \section{Additional Experimental Results}
 \label{app:additional_experimental_results}
 
-\paragraph{Bellman critic evaluation.}
+\subsection{Bellman Critic Evaluation}
 \placeholder{State how safety risk and task success are separated, or justify
 the retained target. Report AUROC, AUPRC, Brier score, expected calibration
 error, reliability diagrams, and the false-negative rate for unsafe episodes at
 the deployed threshold.}
 
-\paragraph{Training and resource comparison.}
+\subsection{Ablations Across Random Seeds}
 All ablations use the same training and computational resource budget and
-differ only in the intervention mechanism.
+differ only in the intervention mechanism. We evaluate each variant using five
+random seeds, $\{40,41,42,43,44\}$, and report the mean~$\pm$~standard
+deviation across seeds.
 
-\paragraph{Twenty-two-object inventory.}
-The complete evaluation set comprises the following 22 objects (the six
-objects reported in the main paper are marked with an asterisk):
-\begin{center}
+\begin{table}[H]
+\centering
 \small
-\setlength{\tabcolsep}{5pt}
-\renewcommand{\arraystretch}{0.96}
-\begin{tabular}{r l @{\hspace{3em}} r l}
-  1 & WindCart$^*$              & 12 & Ogre \\
-  2 & Boot$^*$                  & 13 & Cheburashka \\
-  3 & ToolBox$^*$               & 14 & Lucy statue \\
-  4 & Cow$^*$                   & 15 & Beethoven bust \\
-  5 & Plane$^*$                 & 16 & Igea bust \\
-  6 & Shoe$^*$                  & 17 & Dog pair \\
-  7 & Horse                     & 18 & Spot dog \\
-  8 & Teapot                    & 19 & Monkey head \\
-  9 & Sphinx                    & 20 & Blub character \\
- 10 & Dragon                    & 21 & Statue \\
- 11 & Homer bust                & 22 & Dinosaur \\
+\newcommand{\seedtbd}{\textcolor{placeholderred}{TBD $\pm$ TBD}}
+\caption{Ablation results across five random seeds
+$\{40,41,42,43,44\}$. Lift success and unsafe rate are reported as
+mean~$\pm$~standard deviation across seeds.}
+\label{tab:ablation_across_seeds}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.12}
+\resizebox{0.95\textwidth}{!}{%
+\begin{tabular}{lcccccccc}
+\toprule
+Metric & Ablation (a) & Ablation (b) & Ablation (c) & Ablation (d)
+& Ablation (e) & Ablation (f) & Ablation (g) & Ablation (h) \\
+\midrule
+Lift Success (\%) $\uparrow$ & \seedtbd & \seedtbd & \seedtbd & \seedtbd
+& \seedtbd & \seedtbd & \seedtbd & \seedtbd \\
+Unsafe Rate (\%) $\downarrow$ & \seedtbd & \seedtbd & \seedtbd & \seedtbd
+& \seedtbd & \seedtbd & \seedtbd & \seedtbd \\
+\bottomrule
 \end{tabular}
-\end{center}
+}
+\end{table}
 
-\paragraph{Complete real-world evaluation.}
+\subsection{Complete Real-World Evaluation and Demonstrations}
+
+\begin{figure}[H]
+\centering
+\begingroup
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.08}
+\newcommand{\demoplaceholder}[1]{%
+  \fcolorbox{black!45}{gray!10}{%
+    \parbox[c][0.82in][c]{0.215\linewidth}{%
+      \centering\color{black!55}\small Demonstration\\[-1pt]
+      \textbf{#1}}}}
+\begin{tabular}{cccc}
+\demoplaceholder{1}  & \demoplaceholder{2}  & \demoplaceholder{3}  & \demoplaceholder{4}  \\
+\demoplaceholder{5}  & \demoplaceholder{6}  & \demoplaceholder{7}  & \demoplaceholder{8}  \\
+\demoplaceholder{9}  & \demoplaceholder{10} & \demoplaceholder{11} & \demoplaceholder{12} \\
+\demoplaceholder{13} & \demoplaceholder{14} & \demoplaceholder{15} & \demoplaceholder{16}
+\end{tabular}
+\endgroup
+\caption{\textbf{Sixteen-object demonstration inventory:}
+(1) Horse, (2) Teapot, (3) Sphinx, (4) Dragon, (5) Homer bust,
+(6) Ogre, (7) Cheburashka, (8) Lucy statue, (9) Beethoven bust,
+(10) Igea bust, (11) Dog pair, (12) Spot dog, (13) Monkey head,
+(14) Blub character, (15) Statue, and (16) Dinosaur. Each numbered
+panel is a placeholder for the corresponding object demonstration.}
+\label{fig:sixteen_object_demonstrations}
+\end{figure}
+
 We will report results for the remaining 16 real-world test objects that are not
 shown in the manuscript's six-object table, using the same success and safety
 breakdown. The two eight-object blocks below separate task success from the
@@ -422,7 +421,7 @@ episodes per object). Synthetic values are shown for layout checking only;
 \label{tab:additional_experimental_results}
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.08}
-\resizebox{0.90\textwidth}{!}{%
+\resizebox{0.74\textwidth}{!}{%
 \begin{tabular}{l|cccccccc}
 \hline
 Metric (\%) & Horse & Teapot & Sphinx & Dragon & Homer & Ogre & Cheburashka & Lucy \\
@@ -438,7 +437,7 @@ Hand too far      & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  \\
 }
 
 \vspace{0.6em}
-\resizebox{0.90\textwidth}{!}{%
+\resizebox{0.74\textwidth}{!}{%
 \begin{tabular}{l|cccccccc}
 \hline
 Metric (\%) & Beethoven & Igea & \oodresult{Dog Pair} & \oodresult{Spot} & \oodresult{Monkey head} & \oodresult{Blub} & \oodresult{Statue} & \oodresult{Dinosaur} \\
@@ -454,12 +453,9 @@ Hand too far      & 0.0  & 0.0  & \oodresult{0.0}  & \oodresult{0.0}  & \oodresu
 }
 \end{table}
 
-\placeholder{Replace all provisional synthetic values with the measured
-results for the remaining 16 objects. Report 95\% confidence
-intervals and statistical comparisons, and provide aggregate results separately
-for seen and unseen objects across the full 22-object evaluation.}
+\placeholder{Report 95\% confidence intervals and statistical comparisons.}
 
-\paragraph{Physical baseline comparison.}
+\subsection{Physical Baseline Comparison}
 \placeholder{Report the feasible matched real-robot baseline using the same
 objects, initial-condition protocol, and number of trials, including lift
 success, unsafe-event incidence, uncertainty, and the statistical comparison to
