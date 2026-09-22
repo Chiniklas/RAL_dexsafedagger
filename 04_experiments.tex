@@ -172,10 +172,13 @@ intervention policy using rollout statistics and representative visual states.
 This setting matches (f), except that the language model receives only the
 rollout statistics and no visual observations.
 
-\noindent\textbf{(h) Our RL + Grid-Search \dexsafedagger.}
-This setting replaces the language/vision model in (f) with grid search over
-the intervention thresholds. The remaining teacher, student, success-value
-critic, and distillation components are held fixed.
+\noindent\textbf{(h) Our RL + \dexsafedagger + Adaptive Intervention under a
+Performance Curriculum.}
+We replace the VLM model in (f) with an adaptive threshold curriculum inspired
+by ThriftyDAgger~\cite{hoque2021thriftydagger} and driven by recent lift-success
+and unsafe-episode rates, dynamically balancing conservative teacher
+intervention against aggressive student exploration throughout training. All
+other components and the threshold-update schedule are held fixed.
 
 To answer question~(i), we compare (a) with (b) and (d) with (e). The
 DexTrAH-RGB-style RL recipe achieves lower performance than our RL recipe. We
@@ -228,41 +231,39 @@ during the initial distillation phase.
 \end{figure}
 
 Finally, we address question~(iv) by comparing ablations (e), (h), (g), and
-(f), which form a progression from stationary intervention, to grid-searched
-thresholds, to semantics-guided LLM adaptation, and finally to our VLM-guided
-recipe. This controlled ladder isolates the contributions of threshold
-adaptation, semantic reasoning, and visual context.
-\textcolor{red}{TODO: Add the quantitative comparison of ablations (e), (h),
-(g), and (f) when the evaluation results are available.}
-Across all evaluated
-objects, ablation (f) achieves an unsafe-episode rate that is lower than that
-of (e) by an average of 4 percentage points, while maintaining comparable lift
-success. This result shows that VLM-guided intervention-policy adaptation
-improves safety without sacrificing task performance.
+(f), which form a progression from stationary intervention, to
+performance-curriculum adaptation, to semantics-guided LLM adaptation, and
+finally to our VLM-guided recipe. This controlled ladder isolates the
+contributions of feedback-based threshold adaptation, semantic reasoning, and
+visual context.
+As shown in Table~\ref{tab:ablation_studies}, VLM-guided adaptive intervention
+consistently achieves the highest (or tied-highest) lift success and the lowest
+unsafe rate across the evaluated objects. Both LLM-guided and curriculum-based
+adaptation improve overall safety, but neither matches the full VLM-guided
+recipe. The curriculum-based intervention also incurs a small reduction in
+lift success.
 
 \subsection{Real-World Experimental Results}
 
 We evaluate the deployed student policy on 22 objects, comprising 16 seen objects and 6 unseen objects.
 Table~\ref{tab:real_world_results} reports a representative six-object subset
-and pooled results for the four seen and two unseen objects shown.
+alongside pooled results over the complete sets of 16 seen and 6 unseen objects.
 The experiments exhibit a lower lift success rate and a higher unsafe episode rate than
 the teacher and student evaluation results in simulation, indicating that \methodname does
 not fully eliminate the sim-to-real gap. Nevertheless, the resulting policy is sufficiently robust
 for real-world deployment.
 
 The unseen-object evaluation reveals a clear generalization gap: compared with
-the seen objects shown, the policy's pooled lift success decreases from
-\textcolor{red}{85.0\%} to \textcolor{red}{63.3\%}, while its unsafe rate
-increases from \textcolor{red}{20.0\%} to \textcolor{red}{40.0\%} on the unseen
-objects shown. This degradation is
-primarily driven by increased harmful collisions (20.0\% and 26.7\% on Plane and
-Shoe), while object escape remains comparable across objects
-($\approx$6.7--20.0\%). No palm-flip or hand-too-far events are observed,
-suggesting that real-world failures are dominated by contact-rich interactions
-rather than gross pose instabilities. Overall, the results indicate that the
-remaining sim-to-real gap on unseen geometries is largely attributable to a
-contact-strategy mismatch, i.e., the policy fails to adapt its contact
-interactions to novel object shapes.
+the complete seen set, pooled lift success decreases from 86.2\% to 63.8\%,
+while the unsafe rate increases from 21.2\% to 34.8\% on the unseen set. This
+degradation is primarily driven by an increase in harmful collisions from
+9.3\% to 20.1\%, whereas object escape rises only from 11.9\% to 13.8\%. Among
+the six representative objects shown, no palm-flip or hand-too-far events are
+observed, suggesting that their real-world failures are dominated by
+contact-rich interactions rather than gross pose instabilities. Overall, the
+results indicate that the remaining sim-to-real gap on unseen geometries is
+largely attributable to a contact-strategy mismatch, i.e., the policy fails to
+adapt its contact interactions to novel object shapes.
 
 \input{table/real_world_results.tex}
 

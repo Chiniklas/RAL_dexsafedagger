@@ -1,4 +1,4 @@
-\subsection{RL Teacher Training and Safety Details}
+\section{RL Teacher Training and Safety Details}
 \label{app:rl_training_details}
 
 Table~\ref{tab:teacher_observations} contrasts the actor's noisy, deployable
@@ -82,7 +82,6 @@ Expanding the termination rule used in the main paper gives
 To avoid conflicts between simultaneous termination conditions, we use the
 labeling priority $\text{object escape}\succ\text{hand too far}
 \succ\text{harmful collision}\succ\text{palm flipped}\succ\text{timeout}$.
-\requestedby{Reviewer \#22}
 
 \paragraph{Runs and random seeds.}
 Teacher performance in Main Paper Table~II is evaluated over 200 episodes per
@@ -93,7 +92,6 @@ seed. For each seed, teacher performance is evaluated on all 40 objects. The
 table below reports the mean~$\pm$~standard deviation across the 40 object-level
 rates for lift success, overall unsafe events, and the four unsafe-event
 categories separately for each seed.
-\requestedby{Reviewers \#14 and \#22}
 
 \begin{table}[H]
   \centering
@@ -155,9 +153,8 @@ synthesize a third recovery action. Non-finite policy outputs are treated as a
 runtime error before the environment step rather than being accepted by the
 gate. This design makes the teacher's performance ceiling an explicit
 limitation of the intervention mechanism.
-\requestedby{Reviewer \#22}
 
-\subsection{VLM Prompt and Inference Details}
+\section{VLM Prompt and Inference Details}
 \label{app:vlm_inference_details}
 
 \paragraph{Visual-input storage and example.}
@@ -194,7 +191,6 @@ are 256$\times$192 JPEGs (quality 70). This archived call tagged the images as
 \texttt{detail="high"}.}
 \label{fig:vlm-input-examples}
 \end{figure}
-\requestedby{Reviewers \#14 and \#22}
 
 The following is the full prompt template used by the runtime implementation.
 Braced terms denote values serialized at query time, and the visual-sample
@@ -301,7 +297,6 @@ uses the strict tests in the intervention equation above; the distinction affect
 only exact equality at a threshold and does not change the VLM's role as a
 threshold advisor.
 
-\requestedby{Reviewers \#14 and \#22}
 
 \paragraph{Model and input configuration.}
 We used the OpenAI GPT-5.5 multimodal model through the Chat Completions endpoint
@@ -315,7 +310,6 @@ it every 10{,}000 steps, resulting in 10 calls over the 100{,}000-step run. The
 archived API reports, which were generated with the previous low-detail image
 setting, record 30{,}641 prompt tokens and 4{,}841 completion tokens, or 35{,}482
 tokens in total.
-\requestedby{Reviewers \#14 and \#22}
 
 \paragraph{Output processing and threshold updates.}
 The requested machine-readable output is a top-level JSON object with the
@@ -374,10 +368,9 @@ Finally, the VLM and this adaptation mechanism are used only during
 simulation-based online distillation. There is no real-world student training,
 and during physical deployment the RGB student acts without the VLM,
 privileged teacher, Bellman critic, or threshold adaptation.
-\requestedby{Reviewers \#14 and \#22}
 
 \clearpage
-\subsection{Additional Experimental Results}
+\section{Additional Experimental Results}
 \label{app:additional_experimental_results}
 
 \paragraph{Bellman critic evaluation.}
@@ -385,12 +378,10 @@ privileged teacher, Bellman critic, or threshold adaptation.
 the retained target. Report AUROC, AUPRC, Brier score, expected calibration
 error, reliability diagrams, and the false-negative rate for unsafe episodes at
 the deployed threshold.}
-\requestedby{Reviewers \#14 and \#22}
 
 \paragraph{Training and resource comparison.}
 All ablations use the same training and computational resource budget and
 differ only in the intervention mechanism.
-\requestedby{Reviewer \#22}
 
 \paragraph{Twenty-two-object inventory.}
 The complete evaluation set comprises the following 22 objects (the six
@@ -407,9 +398,9 @@ objects reported in the main paper are marked with an asterisk):
   5 & Plane$^*$                 & 16 & Igea bust \\
   6 & Shoe$^*$                  & 17 & Dog pair \\
   7 & Horse                     & 18 & Spot dog \\
-  8 & Teapot                    & 19 & Suzanne monkey head \\
+  8 & Teapot                    & 19 & Monkey head \\
   9 & Sphinx                    & 20 & Blub character \\
- 10 & Dragon                    & 21 & Happy character \\
+ 10 & Dragon                    & 21 & Statue \\
  11 & Homer bust                & 22 & Dinosaur \\
 \end{tabular}
 \end{center}
@@ -420,7 +411,6 @@ shown in the manuscript's six-object table, using the same success and safety
 breakdown. The two eight-object blocks below separate task success from the
 observed unsafe failure modes. The entries below are provisional synthetic
 values for layout checking and will be replaced with the measured results.
-\requestedby{Reviewers \#14 and \#22}
 
 \newcommand{\oodresult}[1]{\cellcolor{gray!15}\textbf{#1}}
 \begin{table}[H]
@@ -451,7 +441,7 @@ Hand too far      & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  & 0.0  \\
 \resizebox{0.90\textwidth}{!}{%
 \begin{tabular}{l|cccccccc}
 \hline
-Metric (\%) & Beethoven & Igea & \oodresult{Dog Pair} & \oodresult{Spot} & \oodresult{Suzanne} & \oodresult{Blub} & \oodresult{Happy} & \oodresult{Dinosaur} \\
+Metric (\%) & Beethoven & Igea & \oodresult{Dog Pair} & \oodresult{Spot} & \oodresult{Monkey head} & \oodresult{Blub} & \oodresult{Statue} & \oodresult{Dinosaur} \\
 \hline
 Lift Success      & 86.7 & 73.3 & \oodresult{70.0} & \oodresult{63.3} & \oodresult{73.3} & \oodresult{60.0} & \oodresult{66.7} & \oodresult{56.7} \\
 Unsafe Rate Avg   & 20.0 & 30.0 & \oodresult{33.3} & \oodresult{40.0} & \oodresult{30.0} & \oodresult{43.3} & \oodresult{36.7} & \oodresult{46.7} \\
@@ -468,11 +458,9 @@ Hand too far      & 0.0  & 0.0  & \oodresult{0.0}  & \oodresult{0.0}  & \oodresu
 results for the remaining 16 objects. Report 95\% confidence
 intervals and statistical comparisons, and provide aggregate results separately
 for seen and unseen objects across the full 22-object evaluation.}
-\requestedby{Reviewers \#14 and \#22}
 
 \paragraph{Physical baseline comparison.}
 \placeholder{Report the feasible matched real-robot baseline using the same
 objects, initial-condition protocol, and number of trials, including lift
 success, unsafe-event incidence, uncertainty, and the statistical comparison to
 VLM-DexSafeDagger.}
-\requestedby{Reviewer \#14}

@@ -45,3 +45,16 @@ Install the **LaTeX Workshop** extension. Open `main.tex`, then run:
 2. Select **LaTeX Workshop: Build LaTeX project**
 
 Use **LaTeX Workshop: View LaTeX PDF file** to open the generated PDF.
+
+## Review response and appendix
+
+The review response and its appendix are separate documents. Build them from
+the repository root with:
+
+```bash
+./build-response.sh
+./build-appendix.sh
+```
+
+The generated files are `comments/RAL/response/response.pdf` and
+`comments/RAL/response/appendix.pdf`, respectively.

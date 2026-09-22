@@ -24,9 +24,6 @@
 \newcommand{\manuscriptid}{26-3841v1}
 \newcommand{\papertitle}{VLM-DexSafeDagger: VLM-Guided Intervention Policy for Safety-Critical Visuomotor Skill Distillation}
 \newcommand{\placeholder}[1]{\textcolor{placeholderred}{\textbf{[#1]}}}
-\newcommand{\requestedby}[1]{%
-  \ifhmode\unskip\nolinebreak[4]\hspace{0.5em}\else\noindent\fi
-  \textit{Requested by #1.}\par}
 \newcommand{\response}{\par\smallskip\noindent\textcolor{responseblue}{\textbf{[Response:]}}\ }
 
 \newcounter{reviewcomment}
@@ -87,11 +84,6 @@ reproduced in black, and our responses are shown in blue. Red bracketed text
 marks details that will be completed after the corresponding revision or
 experiment has been finalized. Changes in the revised manuscript will be
 highlighted in blue.
-
-\clearpage
-\appendix
-\section{Appendix Materials}
-\input{06_appendix}
 
 \reviewerheading{the Associate Editor}
 
@@ -277,8 +269,8 @@ raw VLM outputs and threshold trajectories where allowed so that the adaptation
 process can be audited independently of the external service. In the reported
 run, all ten scheduled VLM calls completed successfully; we encountered no
 request timeout, API failure, or malformed VLM output. The implementation
-details and recorded token usage are provided in
-Appendix~\ref{app:vlm_inference_details}.
+details and recorded token usage are provided in the separate appendix, in the
+section titled ``VLM Prompt and Inference Details.''
 
 \reviewcomment{Real-world unseen-object performance is weak: lift success falls
 to 60--66.7\%, while unsafe episodes reach 40\%. Claims of sufficient deployment

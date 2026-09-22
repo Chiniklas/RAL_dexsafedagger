@@ -1,7 +1,7 @@
 This paper proposes VLM-DexSafeDagger, a safety-aware online
 skill-distillation framework for transferring privileged RL teacher
 policies to an RGB-based student policy for dexterous manipulation. The
-method combines teacher–student action disagreement with a Bellman
+method combines teacherï¿½student action disagreement with a Bellman
 success-value critic and uses a VLM to adapt the intervention
 thresholds during training. Reducing unsafe exploration during
 interactive skill distillation is an important problem, especially for
@@ -41,7 +41,7 @@ important for intervention, but its performance is not evaluated in
 detail. Some evaluation of the critic, especially its errors for unsafe
 cases, would be helpful. Please also clarify the number of runs/random
 seeds used for the results. Finally, I am not fully convinced by the
-use of the term “safety-critical.” The current safety evaluation is
+use of the term ï¿½safety-critical.ï¿½ The current safety evaluation is
 based on task-specific unsafe conditions rather than formal safety
 guarantees. The authors should clarify the scope of this claim.
 

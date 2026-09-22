@@ -24,9 +24,9 @@ The explicit-name assets are straightforward to identify. Several paper objects 
 | 16 | Igea bust | `igea` | Additional candidate | High | [PNG](selected/16_igea_bust_igea.png) |
 | 17 | Dog pair | `Hundepaar` | Additional candidate | High | [PNG](selected/17_dog_pair_Hundepaar.png) |
 | 18 | Spot dog | `spot` | Additional candidate | Medium | [PNG](selected/18_spot_dog_spot.png) |
-| 19 | Suzanne monkey head | `suzanne` | Additional candidate | High | [PNG](selected/19_suzanne_monkey_head_suzanne.png) |
+| 19 | Monkey head | `suzanne` | Additional candidate | High | [PNG](selected/19_suzanne_monkey_head_suzanne.png) |
 | 20 | Blub character | `blub_triangulated` | Additional candidate | Medium | [PNG](selected/20_blub_character_blub_triangulated.png) |
-| 21 | Happy character | `happy` | Additional candidate | Medium | [PNG](selected/21_happy_character_happy.png) |
+| 21 | Statue | `happy` | Additional candidate | Medium | [PNG](selected/21_happy_character_happy.png) |
 | 22 | Dinosaur | `lh0nc4xq` | Additional candidate | Medium | [PNG](selected/22_dinosaur_lh0nc4xq.png) |
 
 The [TSV manifest](selected_objects.tsv) contains the same information in machine-readable form. The six files in [`contact_sheets/`](contact_sheets/) cover the complete subset of the asset library for which renderable point clouds were found. These images are geometry-verification renders from the stored 1,000-point point clouds, rather than camera captures from Isaac Sim.

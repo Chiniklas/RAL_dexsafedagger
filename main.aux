@@ -92,6 +92,7 @@
 \@writefile{toc}{\contentsline {paragraph}{\numberline {IV-A.0.c}Failure-mode decomposition.}{5}{paragraph.4.1.0.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-B}Simulation Experiment Setup}{5}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-C}Ablation Studies}{5}{subsection.4.3}\protected@file@percent }
+\citation{hoque2021thriftydagger}
 \citation{ross2011reduction}
 \citation{zhang2016query}
 \citation{ross2011reduction}
@@ -100,8 +101,9 @@
 \newlabel{fig:ablation}{{3}{6}{\textbf {Ablation studies.} The first three panels compare four distillation variants in terms of student lift success, teacher intervention rate $\beta $, and unsafe episode rate, respectively, all plotted over training iterations. The rightmost panel shows the VLM-guided trajectory of the intervention operating point over online training. Shaded regions indicate variability across runs (mean $\pm $ std). Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange), \dexsafedagger (green), and \methodname (red).\relax }{figure.caption.3}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Teacher policy performance on four representative objects from the 40-object training set (200 evaluation episodes per object).\relax }}{6}{table.caption.4}\protected@file@percent }
 \newlabel{tab:teacher_perf_200}{{II}{6}{Teacher policy performance on four representative objects from the 40-object training set (200 evaluation episodes per object).\relax }{table.caption.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Performance of ablations (a)--(f) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }}{6}{table.caption.5}\protected@file@percent }
-\newlabel{tab:ablation_studies}{{III}{6}{Performance of ablations (a)--(f) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }{table.caption.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Performance of ablations (a)--(h) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }}{6}{table.caption.5}\protected@file@percent }
+\newlabel{tab:ablation_studies}{{III}{6}{Performance of ablations (a)--(h) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }{table.caption.5}{}}
+\@writefile{brf}{\backcite{hoque2021thriftydagger}{{6}{IV-C}{subsection.4.3}}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt  {windcart} and \texttt  {cow}); lower is better in all plots. Curves correspond to four distillation variants: blue, Vanilla DAgger\cite  {ross2011reduction}; orange, Vanilla SafeDAgger\cite  {zhang2016query}; green, DexSafeDagger\xspace  ; and red, VLM-DexSafeDagger\xspace  .\relax }}{7}{figure.caption.6}\protected@file@percent }
 \@writefile{brf}{\backcite{ross2011reduction}{{7}{4}{figure.caption.6}}}
 \@writefile{brf}{\backcite{zhang2016query}{{7}{4}{figure.caption.6}}}
@@ -131,14 +133,14 @@
 \bibcite{hoque2021thriftydagger}{18}
 \bibcite{firoozi2025foundation}{19}
 \bibcite{han2026multimodal}{20}
-\bibcite{duan2025manipulate}{21}
-\bibcite{duan2024aha}{22}
-\bibcite{dai2025racer}{23}
-\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Representative six-object subset of the 22-object real-world evaluation (30 episodes per object). \cellcolor  {gray!15}\textbf  {Unseen objects} are shaded.\relax }}{8}{table.caption.8}\protected@file@percent }
-\newlabel{tab:real_world_results}{{IV}{8}{Representative six-object subset of the 22-object real-world evaluation (30 episodes per object). \unseen {Unseen objects} are shaded.\relax }{table.caption.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Representative six-object subset of the 22-object real-world evaluation (30 episodes per object). The last two columns report pooled results over the complete sets of 16 seen and 6 unseen objects, respectively. \cellcolor  {gray!15}\textbf  {Unseen objects} are shaded.\relax }}{8}{table.caption.8}\protected@file@percent }
+\newlabel{tab:real_world_results}{{IV}{8}{Representative six-object subset of the 22-object real-world evaluation (30 episodes per object). The last two columns report pooled results over the complete sets of 16 seen and 6 unseen objects, respectively. \unseen {Unseen objects} are shaded.\relax }{table.caption.8}{}}
 \newlabel{sec4:expriments}{{IV-D}{8}{Real-World Experimental Results}{table.caption.8}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion and Future Work}{8}{section.5}\protected@file@percent }
 \newlabel{sec:conclusion}{{V}{8}{Conclusion and Future Work}{section.5}{}}
 \@writefile{toc}{\contentsline {section}{References}{8}{section.5}\protected@file@percent }
+\bibcite{duan2025manipulate}{21}
+\bibcite{duan2024aha}{22}
+\bibcite{dai2025racer}{23}
 \bibcite{wu2025foresight}{24}
 \gdef \@abspage@last{9}
