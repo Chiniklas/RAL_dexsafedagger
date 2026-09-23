@@ -111,18 +111,24 @@ E.~Welte and R.~Rayyes, ``Interactive imitation learning for dexterous robotic
   manipulation: challenges and perspectives—a survey,'' \emph{Frontiers in
   Robotics and AI}, vol.~12, p. 1682437, 2025.
 
-\bibitem{hoque2021lazydagger}
-R.~Hoque, A.~Balakrishna, C.~Putterman, M.~Luo, D.~S. Brown, D.~Seita,
-  B.~Thananjeyan, E.~Novoseller, and K.~Goldberg, ``Lazydagger: Reducing
-  context switching in interactive imitation learning,'' in \emph{2021 IEEE
-  17th international conference on automation science and engineering
-  (case)}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2021, pp. 502--509.
+\bibitem{menda2019ensembledagger}
+K.~Menda, K.~Driggs-Campbell, and M.~J. Kochenderfer, ``Ensembledagger: A
+  bayesian approach to safe imitation learning,'' in \emph{2019 IEEE/RSJ
+  International Conference on Intelligent Robots and Systems (IROS)}.\hskip 1em
+  plus 0.5em minus 0.4em\relax IEEE, 2019, pp. 5041--5048.
 
-\bibitem{hoque2021thriftydagger}
-R.~Hoque, A.~Balakrishna, E.~Novoseller, A.~Wilcox, D.~S. Brown, and
-  K.~Goldberg, ``Thriftydagger: Budget-aware novelty and risk gating for
-  interactive imitation learning,'' \emph{arXiv preprint arXiv:2109.08273},
-  2021.
+\bibitem{kelly2019hgdagger}
+M.~Kelly, C.~Sidrane, K.~Driggs-Campbell, and M.~J. Kochenderfer, ``Hg-dagger:
+  Interactive imitation learning with human experts,'' in \emph{2019
+  International Conference on Robotics and Automation (ICRA)}.\hskip 1em plus
+  0.5em minus 0.4em\relax IEEE, 2019, pp. 8077--8083.
+
+\bibitem{cai2025robot}
+H.~Cai, Z.~Peng, and B.~Zhou, ``Robot-gated interactive imitation learning with
+  adaptive intervention mechanism,'' in \emph{Proceedings of the 42nd
+  International Conference on Machine Learning}, ser. Proceedings of Machine
+  Learning Research, vol. 267.\hskip 1em plus 0.5em minus 0.4em\relax PMLR,
+  2025, pp. 6243--6256.
 
 \bibitem{firoozi2025foundation}
 R.~Firoozi, J.~Tucker, S.~Tian, A.~Majumdar, J.~Sun, W.~Liu, Y.~Zhu, S.~Song,
@@ -159,5 +165,11 @@ Y.~Dai, J.~Lee, N.~Fazeli, and J.~Chai, ``{RACER}: Rich language-guided failure
 Y.~Wu, R.~Tian, G.~Swamy, and A.~Bajcsy, ``From foresight to forethought:
   {VLM}-in-the-loop policy steering via latent alignment,'' \emph{arXiv
   preprint arXiv:2502.01828}, 2025.
+
+\bibitem{hoque2021thriftydagger}
+R.~Hoque, A.~Balakrishna, E.~Novoseller, A.~Wilcox, D.~S. Brown, and
+  K.~Goldberg, ``Thriftydagger: Budget-aware novelty and risk gating for
+  interactive imitation learning,'' \emph{arXiv preprint arXiv:2109.08273},
+  2021.
 
 \end{thebibliography}

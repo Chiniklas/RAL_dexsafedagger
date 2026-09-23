@@ -49,8 +49,8 @@ $\text{harmful collision}\succ\text{object escape}\succ\text{palm flipped}
 Teacher performance in Main Paper Table~II is evaluated over 200 episodes per
 object, and the real-world results are evaluated over 30 episodes per object.
 Each of the 40 object-specific teacher policies is trained with five independent
-random seeds $\{1,2,3,4,5\}$, with the same evaluation protocol applied to every
-seed. For each seed, teacher performance is evaluated on all 40 objects. The
+random seeds $\{40,41,42,43,44\}$, with the same evaluation protocol applied to
+every seed. For each seed, teacher performance is evaluated on all 40 objects. The
 table below reports the mean~$\pm$~standard deviation across the 40 object-level
 rates for lift success, overall unsafe events, and the four unsafe-event
 categories separately for each seed.
@@ -61,16 +61,14 @@ categories separately for each seed.
 \label{app:vlm_inference_details}
 
 \subsection{Visual-Input Storage and Example}
-Candidate visual inputs are retained during a run in a bounded in-memory buffer
-of at most 64 samples. At each query, up to eight selected samples are embedded
-as JPEG data URLs in a self-contained
-\texttt{<run\_dir>/vlm\_reports/*.html} report together with their metadata,
-the prompt, model reply, parsed JSON, and API diagnostics. The accompanying
-\texttt{vlm\_threshold\_advisor.jsonl} strips the base64 payloads and retains
-only metadata; no separate image files are written.
+Here, we provide representative examples of the selected visual inputs in
+Fig.~\ref{fig:vlm-input-examples}. These images illustrate observations
+associated with the two intervention sources considered by our framework:
+high teacher--student disagreement and low predicted task success. The
+algorithm block that follows presents the semantic prompt, which combines
+these visual samples with recent rollout statistics and instructs the VLM to
+recommend conservative updates to the corresponding intervention thresholds.
 
-Figure~\ref{fig:vlm-input-examples} shows four actual inputs extracted from the
-first archived query report, one for each object in that rollout.
 \begin{figure}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
@@ -79,46 +77,30 @@ first archived query report, one for each object in that rollout.
 \includegraphics[width=0.238\linewidth]{figures/vlm_inputs/vlm_input_2kp2e9k7.jpg} &
 \includegraphics[width=0.238\linewidth]{figures/vlm_inputs/vlm_input_2oiqpnts.jpg} &
 \includegraphics[width=0.238\linewidth]{figures/vlm_inputs/vlm_input_z73ltdbb.jpg} \\
-\scriptsize (a) \texttt{1m0lvpzs} &
-\scriptsize (b) \texttt{2kp2e9k7} &
-\scriptsize (c) \texttt{2oiqpnts} &
-\scriptsize (d) \texttt{z73ltdbb}
+\scriptsize (a) &
+\scriptsize (b) &
+\scriptsize (c) &
+\scriptsize (d)
 \end{tabular}
-\caption{Representative left-camera RGB inputs embedded in
-\texttt{step\_000002000\_attempt\_0001\_success.html}. Samples (a)--(c) were
-selected for high teacher--student disagreement, with $\ell_2$ values 9.7506,
-17.0997, and 51.9710, respectively; (d) was selected for low predicted success
-($0.2734$). All four records have \texttt{unsafe=true}. The transmitted images
-are 256$\times$192 JPEGs (quality 70). This archived call tagged the images as
-\texttt{detail="low"}; new calls transmit the same image format with
-\texttt{detail="high"}.}
+\caption{Here we present four pictures for two types of intervention sources.
+Samples (a)--(c) were selected for high teacher--student disagreement, with
+$\ell_2$ values 9.7506, 17.0997, and 51.9710, respectively; (d) was selected
+for low predicted success ($0.2734$). All four records have
+\texttt{unsafe=true}.}
 \label{fig:vlm-input-examples}
 \end{figure}
 
-The following is the full prompt template used by the runtime implementation.
-Braced terms denote values serialized at query time, and the visual-sample
-block is repeated once for each attached image.
+The algorithm block gives the full prompt template used by the runtime
+implementation. Braced terms denote values serialized at query time, and the
+visual-sample block is repeated once for each attached image.
 
 \input{../../../alg/appendix_vlm_prompt_example.tex}
 
-The earlier abbreviated prompt omitted the distribution summaries, threshold
-clamps, unsafe-reason breakdown, visual-buffer context, and per-image metadata;
-it also used the nonexistent output key \texttt{disagreement\_threshold} and
-omitted \texttt{confidence}. The runtime prompt uses
-\texttt{l2\_threshold}. For reproducibility, the template above preserves the
-literal inclusive comparison symbols sent to the VLM. The executed controller
-uses the strict tests in the intervention equation above; the distinction affects
-only exact equality at a threshold and does not change the VLM's role as a
-threshold advisor.
-
 
 \subsection{Model and Input Configuration}
-We used the OpenAI GPT-5.5 multimodal model through the Chat Completions endpoint
-(\texttt{/v1/chat/completions}, \texttt{model="gpt-5.5"}). Each request set
-\texttt{stream=false} and \texttt{max\_completion\_tokens=1024}; no temperature
-or reasoning-effort parameter was sent, so the provider defaults applied. The
-model received the textual rollout statistics above and up to eight RGB images,
-encoded as downsampled JPEG data URLs with high visual detail. We issued the
+We used the OpenAI GPT-5.5 multimodal model. The model received the textual
+rollout statistics above and up to eight RGB images,
+encoded as JPEG data URLs with high visual detail. We issued the
 first VLM query after 2{,}000 online distillation steps and subsequently queried
 it every 10{,}000 steps, resulting in 10 calls over the 100{,}000-step run. The
 archived API reports, which were generated with the previous low-detail image
@@ -211,27 +193,13 @@ deviation across seeds.
 
 \begin{figure}[H]
 \centering
-\begingroup
-\setlength{\tabcolsep}{2pt}
-\renewcommand{\arraystretch}{1.08}
-\newcommand{\demoplaceholder}[1]{%
-  \fcolorbox{black!45}{gray!10}{%
-    \parbox[c][0.82in][c]{0.215\linewidth}{%
-      \centering\color{black!55}\small Demonstration\\[-1pt]
-      \textbf{#1}}}}
-\begin{tabular}{cccc}
-\demoplaceholder{1}  & \demoplaceholder{2}  & \demoplaceholder{3}  & \demoplaceholder{4}  \\
-\demoplaceholder{5}  & \demoplaceholder{6}  & \demoplaceholder{7}  & \demoplaceholder{8}  \\
-\demoplaceholder{9}  & \demoplaceholder{10} & \demoplaceholder{11} & \demoplaceholder{12} \\
-\demoplaceholder{13} & \demoplaceholder{14} & \demoplaceholder{15} & \demoplaceholder{16}
-\end{tabular}
-\endgroup
+\includegraphics[width=0.85\linewidth]{figures/object_inventory/sixteen_object_demonstrations.jpg}
 \caption{\textbf{Sixteen-object demonstration inventory:}
 (1) Horse, (2) Teapot, (3) Sphinx, (4) Dragon, (5) Homer bust,
 (6) Ogre, (7) Cheburashka, (8) Lucy statue, (9) Beethoven bust,
 (10) Igea bust, (11) Dog pair, (12) Spot dog, (13) Monkey head,
-(14) Blub character, (15) Statue, and (16) Dinosaur. Each numbered
-panel is a placeholder for the corresponding object demonstration.}
+(14) Blub character, (15) Statue, and (16) Dinosaur. The photograph
+for object~(16) is pending and is marked accordingly.}
 \label{fig:sixteen_object_demonstrations}
 \end{figure}
 

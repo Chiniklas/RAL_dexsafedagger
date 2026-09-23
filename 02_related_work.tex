@@ -28,16 +28,10 @@ distills a privileged RL teacher into an RGB-based policy via DAgger-based imita
 UniGraspTransformer~\cite{wang2025unigrasptransformer} distills offline trajectories from object-specific teachers 
 into a unified Transformer policy.
 
-\textbf{Interactive Imitation Learning.} Many imitation learning methods operate offline, using a fixed dataset of expert demonstrations to match the expert
-action distribution~\cite{zhang2025contactdexnet,zhang2025omnidexvlg}. In sequential decision-making, however,
-distributional shift induces covariate shift and compounding errors. Interactive imitation learning\cite{welte2025interactive} mitigates this
-issue by collecting supervision online along trajectories visited by the learner.
+\textbf{Adaptive Intervention in Interactive Imitation Learning.} Many imitation learning methods use fixed offline datasets for supervision~\cite{zhang2025contactdexnet,zhang2025omnidexvlg}. In sequential decision-making, however, distribution shift induces covariate shift and compounding errors. Interactive imitation learning~\cite{welte2025interactive} mitigates these issues by collecting online supervision along trajectories visited by the learner.
+DAgger~\cite{ross2011reduction} addresses covariate shift by iteratively relabeling learner-visited states with an expert, while SafeDAgger~\cite{zhang2016query} adds teacher intervention in high-risk states to reduce unsafe exploration.
 
-DAgger\cite{ross2011reduction} addresses covariate shift by iteratively rolling out the learner and relabeling visited
-states with an expert, thereby aggregating data under the learner-induced state distribution. SafeDAgger\cite{zhang2016query} extends
-DAgger with a teacher-intervened rollout policy that takes over in high-risk states to reduce unsafe exploration.
-Recent variants \cite{hoque2021lazydagger,hoque2021thriftydagger} extend interactive imitation learning to robotic manipulation, yet often rely on human
-supervision. Fully autonomous expert relabeling during online distillation remains rare in robotic manipulation,
+Later methods introduce adaptive intervention mechanisms based on uncertainty-driven rules~\cite{menda2019ensembledagger}, human gating~\cite{kelly2019hgdagger}, or learned intervention criteria~\cite{cai2025robot}. However, they have primarily been evaluated in relatively simple control or autonomous-driving settings. Fully autonomous expert relabeling during online distillation remains rare in robotic manipulation,
 especially for dexterous, contact-rich tasks.
 
 \textbf{Vision-Language-Guided Robot Learning.}

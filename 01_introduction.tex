@@ -10,23 +10,10 @@
 
 Dexterous robotic hands typically possess a large number of degrees of freedom (DoFs) 
 and exhibit complex contact dynamics, enabling them to perform fine-grained and diverse 
-manipulation behaviors, such as multi-finger grasping~\cite{brahmbhatt2019contactgrasp}, in-hand 
-reorientation~\cite{chen2022system,andrychowicz2020learning}, and precise control~\cite{luo2025precise}. However, 
-the high-dimensional action space and intricate interaction dynamics substantially increase 
-the difficulty of control and policy learning. In recent years, reinforcement learning (RL)-based 
-approaches~\cite{rajeswaran2017learning,andrychowicz2020learning,akkaya2019solving,petrenko2023dexpbt} 
-have achieved remarkable progress in dexterous grasping and manipulation tasks. Leveraging large-scale 
-parallel simulation and high-fidelity physics engines, RL enables the automatic learning of complex
-control policies in simulated environments without the need for manually designed controllers. 
-These methods have demonstrated strong generalization capabilities across multi-object and 
-multi-task scenarios. 
+manipulation behaviors~\cite{brahmbhatt2019contactgrasp}\cite{chen2022system}\cite{andrychowicz2020learning}\cite{luo2025precise}. In recent years, reinforcement learning (RL)-based approaches~\cite{rajeswaran2017learning,andrychowicz2020learning,akkaya2019solving,petrenko2023dexpbt} have made significant progress in addressing the complex control problems posed by high-dimensional action spaces and intricate contact dynamics in dexterous manipulation tasks.
 
 Despite these advances, existing RL frameworks primarily optimize for task 
-success rates and rarely incorporate explicit modeling or constraints related to safety. During
-training, common failure modes include severe collisions between the hand and 
-the environment, unintended object ejection due to excessive contact forces, and loss of stable 
-hand posture~\cite{liu2023safe,yu2022dexterous}. Such unsafe behaviors not only reduce training 
-efficiency but also introduce potential risks during real-world deployment. Therefore, how to 
+success rates and rarely incorporate explicit modeling or constraints related to safety. During training, common failure modes, including severe collisions between the hand and the environment, unintended object ejection due to excessive contact forces, and loss of stable hand posture~\cite{liu2023safe,yu2022dexterous}, not only reduce training efficiency but also introduce potential risks during real-world deployment. Therefore, how to 
 reduce unsafe exploration while maintaining learning efficiency remains a critical challenge in 
 dexterous manipulation.
 
@@ -47,19 +34,7 @@ dexterous manipulation.
 % However, existing distillation methods~\cite{} typically rely on behavior cloning or the standard DAgger framework for data aggregation. Their primary objective is to mitigate performance degradation caused by distribution shift, rather than explicitly enforcing safety constraints during student policy learning. During distillation, the student policy may deviate from the teacher’s state–action distribution and enter regions that are either insufficiently covered by the teacher or inherently high-risk, leading to unsafe behaviors such as severe collisions or unstable hand configurations. 
 % Therefore, introducing explicit safety mechanisms into the distillation process—so that high-risk exploration can be avoided without sacrificing learning efficiency—remains an important and largely underexplored problem. Existing safety-aware distillation approaches~\cite{}, such as SafeDAgger~\cite{}, have primarily focused on autonomous driving scenarios and have not been systematically studied in the context of dexterous manipulation.
 
-To mitigate the performance gap between simulation and real-world deployment,
-skill distillation has become a widely adopted paradigm in recent years. The
-core idea is to first train a high-performing expert policy in simulation using
-privileged state information, and then distill its decision-making behavior into
-a student policy that relies solely on visual observations or partially
-observable inputs. This process enables modality transfer from privileged state
-information to perception-based inputs, facilitating efficient real-world
-deployment.
-Skill distillation reduces reliance on accurate state estimation and allows
-knowledge integration from multiple teacher policies, thereby substantially
-improving execution stability and generalization performance in real-world
-environments. Consequently, it has gained increasing attention in dexterous
-grasping and complex manipulation tasks.
+To bridge the sim-to-real gap, skill distillation is widely used to transfer the behavior of expert policies trained with privileged information to student policies capable of operating on real robots.
 However, existing distillation methods~\cite{ross2011reduction,singh2024dextrah}
 typically rely on behavior cloning or the standard DAgger framework for data
 aggregation. Their primary objective is to mitigate performance degradation
@@ -72,11 +47,7 @@ hand configurations.
 Therefore, introducing explicit safety mechanisms into the distillation
 process---so that high-risk exploration can be avoided without sacrificing
 learning efficiency---remains an important and largely underexplored problem.
-Existing safety-aware distillation
-approaches, such as
-SafeDAgger~\cite{zhang2016query}, have primarily focused on autonomous driving
-scenarios and have not been systematically studied in the context of dexterous
-manipulation.
+Typical safety-aware distillation approaches, such as SafeDAgger~\cite{zhang2016query}, have primarily focused on autonomous driving scenarios and have not been systematically studied in contact-rich tasks such as dexterous manipulation.
 
 %===================================================================================
 % To address the sim-to-real transfer problem, techniques such as domain
