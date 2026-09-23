@@ -1,14 +1,15 @@
 # Fdb version 3
-["bibtex main"] 1790196452 "main.aux" "main.bbl" "main" 1790196453
+["bibtex main"] 1790200008 "main.aux" "main.bbl" "main" 1790200816
   "/usr/share/texlive/texmf-dist/bibtex/bib/ieeetran/IEEEabrv.bib" 1440712899 20898 a5d2167c380db7dfff810b085c77ed63 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1440712899 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "main.aux" 1790196453 16010 b84dbaf3d80b98d8884ab3907460d457 "pdflatex"
+  "main.aux" 1790200816 16010 6637bafd8bb2d02bad8b002753be6dae "pdflatex"
   "main.bib" 1790196440 11594 1f736885c3205d86d8064be170366fb7 ""
   (generated)
   "main.bbl"
   "main.blg"
-["pdflatex"] 1790196452 "main.tex" "main.pdf" "main" 1790196453
+["pdflatex"] 1790200815 "/home/chi/projects/RAL_dexsafedagger/main.tex" "main.pdf" "main" 1790200816
   "/etc/texmf/web2c/texmf.cnf" 1779288117 475 c0e671620eb5563b2130f56340a5fde8 ""
+  "/home/chi/projects/RAL_dexsafedagger/main.tex" 1790081533 9241 915ea290530359b09aff96cc8ac1fb43 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -289,7 +290,7 @@
   "01_introduction.tex" 1790195357 9105 df13dbe1cf915dfa9ee7aeebd1927e15 ""
   "02_related_work.tex" 1790196440 3786 2269096ab627e86c7e6386532e82fbdc ""
   "03_methods.tex" 1789995502 13275 b2877b5e3cf9db4f87ab5a7e5835c146 ""
-  "04_experiments.tex" 1790081533 16866 02d9428dd3a30542f82ac6ebdb110372 ""
+  "04_experiments.tex" 1790199979 16860 abe6ec308612ff91927e84017c849401 ""
   "05_conclusion.tex" 1783007371 1304 f4600d2fb0178480c6eab02ff5323fbb ""
   "alg/alg01_intervention_structure.tex" 1783007371 1783 9b2c3e35e352d9d785adb4431626bccb ""
   "figures/ablation_comparison.png" 1782998698 626586 e9bd647c3040f2d6a799ad650d05284d ""
@@ -298,12 +299,12 @@
   "figures/fig02_main_pipeline.pdf" 1783029247 2282951 4fd4b66564c1933371dbc806d69a7fc9 ""
   "figures/real_setup_1.png" 1782294664 2425848 e96b7872a4bdb447adfe1e50c6c03c2e ""
   "ieeeconf.cls" 1782294664 197574 c8a8a2004c9762153e255667fc17d954 ""
-  "main.aux" 1790196453 16010 b84dbaf3d80b98d8884ab3907460d457 "pdflatex"
-  "main.bbl" 1790196452 8311 be05f98bcdf8bc5e7633b6ef5fd27280 "bibtex main"
-  "main.brf" 1790196453 1455 074a02cfcd82a1f4847d4037cdcb7629 "pdflatex"
+  "main.aux" 1790200816 16010 6637bafd8bb2d02bad8b002753be6dae "pdflatex"
+  "main.bbl" 1790200008 8311 be05f98bcdf8bc5e7633b6ef5fd27280 "bibtex main"
+  "main.brf" 1790200816 1455 074a02cfcd82a1f4847d4037cdcb7629 "pdflatex"
   "main.tex" 1790081533 9241 915ea290530359b09aff96cc8ac1fb43 ""
-  "table/ablation_studies.tex" 1790080619 1462 e8bde0e3b77455a74cc4838181d66012 ""
-  "table/real_world_results.tex" 1790069581 1372 576b23f0f32c84d122dcf3b433a41d27 ""
+  "table/ablation_studies.tex" 1790200815 1462 b0e2de5667353ceee18abbb2eab63158 ""
+  "table/real_world_results.tex" 1790200659 1371 3dd9a8709392fbb2ab5103cb70aff3b9 ""
   "table/reward_shaping.tex" 1789990808 998 21419c9559b819857c2c2cae2c7c4972 ""
   "table/teacher_performance.tex" 1790080619 816 92259d901f76ae8f937c448b0d32b58c ""
   (generated)

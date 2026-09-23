@@ -245,19 +245,19 @@ lift success.
 
 \subsection{Real-World Experimental Results}
 
-We evaluate the deployed student policy on 22 objects, comprising 16 seen objects and 6 unseen objects.
+We evaluate the deployed student policy on 22 objects, comprising 14 seen objects and 8 unseen objects.
 Table~\ref{tab:real_world_results} reports a representative six-object subset
-alongside pooled results over the complete sets of 16 seen and 6 unseen objects.
+alongside pooled results over the complete sets of 14 seen and 8 unseen objects.
 The experiments exhibit a lower lift success rate and a higher unsafe episode rate than
 the teacher and student evaluation results in simulation, indicating that \methodname does
 not fully eliminate the sim-to-real gap. Nevertheless, the physical experiments demonstrate
 that the policy can transfer successfully from simulation to the real robot.
 
 The unseen-object evaluation reveals a clear generalization gap: compared with
-the complete seen set, pooled lift success decreases from 86.2\% to 63.8\%,
-while the unsafe rate increases from 21.2\% to 34.8\% on the unseen set. This
+the complete seen set, pooled lift success decreases from 83.6\% to 64.6\%,
+while the unsafe rate increases from 14.7\% to 39.2\% on the unseen set. This
 degradation is primarily driven by an increase in harmful collisions from
-9.3\% to 20.1\%, whereas object escape rises only from 11.9\% to 13.8\%. Among
+4.7\% to 18.8\%, whereas object escape rises from 8.1\% to 15.8\%. Among
 the six representative objects shown, no palm-flip or hand-too-far events are
 observed, suggesting that their real-world failures are dominated by
 contact-rich interactions rather than gross pose instabilities. Overall, the
