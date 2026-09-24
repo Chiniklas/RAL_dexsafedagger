@@ -1,24 +1,26 @@
 \begin{table}[H]
 \centering
-\small
+\scriptsize
 \caption{Overall real-world comparison of the frozen student policies
-resulting from ablations~(d) and~(f), pooled across all 22 objects. Rates are
-reported with 95\% confidence intervals.}
+resulting from ablations~(e) and~(f). Rates are reported separately for the 14 seen and 8 unseen objects.}
 \label{tab:physical_baseline_comparison}
-\setlength{\tabcolsep}{8pt}
+\setlength{\tabcolsep}{6pt}
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{lccc}
+\begin{tabular}{lcccc}
 \toprule
-Metric & Ablation~(d) & Ablation~(f) & $p$-value \\
+\multirow{2}{*}{Metric (\%)}
+& \multicolumn{2}{c}{Ablation~(e)}
+& \multicolumn{2}{c}{Ablation~(f)} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+& Seen (14) & Unseen (8)
+& Seen (14) & Unseen (8) \\
 \midrule
-Lift success (\%)
-& \placeholder{TBD (95\% CI: TBD--TBD)}
-& \placeholder{TBD (95\% CI: TBD--TBD)}
-& \placeholder{TBD} \\
-Unsafe-event rate (\%)
-& \placeholder{TBD (95\% CI: TBD--TBD)}
-& \placeholder{TBD (95\% CI: TBD--TBD)}
-& \placeholder{TBD} \\
+Lift success
+& 83.4 & 61.7
+& 83.6 & 64.6 \\
+Unsafe-event rate
+& 15.9 & 41.4
+& 14.7 & 39.2 \\
 \bottomrule
 \end{tabular}
 \end{table}

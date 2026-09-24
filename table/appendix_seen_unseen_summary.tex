@@ -1,0 +1,28 @@
+\begin{table}[H]
+\centering
+\small
+\caption{Aggregate real-world performance across 14 seen and 8 unseen objects.
+Mean rates are pooled over 30 episodes per object (420 seen and 240 unseen
+episodes); parentheses report Wilson 95\% confidence intervals.}
+\label{tab:seen_unseen_summary}
+\setlength{\tabcolsep}{12pt}
+\renewcommand{\arraystretch}{1.14}
+\begin{tabular}{lcc}
+\toprule
+Metric (\%) & Seen mean (95\% CI) & Unseen mean (95\% CI) \\
+\midrule
+Lift success
+  & 83.6 (79.8--86.8) & 64.6 (58.4--70.4) \\
+Unsafe rate avg.
+  & 14.7 (11.6--18.4) & 39.2 (33.2--45.5) \\
+Harmful collision
+  & 4.7 (3.1--7.2) & 18.8 (14.4--24.2) \\
+Object escape
+  & 8.1 (5.9--11.1) & 15.8 (11.7--20.9) \\
+Palm flipped
+  & 1.4 (0.6--3.0) & 3.3 (1.7--6.4) \\
+Hand too far
+  & 0.5 (0.1--1.8) & 1.3 (0.5--3.7) \\
+\bottomrule
+\end{tabular}
+\end{table}

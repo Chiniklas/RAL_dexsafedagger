@@ -1,8 +1,8 @@
 \begin{table}[H]
   \centering
   \small
-  \caption{Independent evaluation of the Bellman critic under the
-  student-controlled rollout setting of ablation~(b).}
+  \caption{Evaluation of the frozen student and fixed-threshold Bellman critic
+  obtained from ablation~(e) under student-controlled rollouts.}
   \label{tab:bellman_critic_evaluation}
   \setlength{\tabcolsep}{12pt}
   \renewcommand{\arraystretch}{1.14}
@@ -10,12 +10,11 @@
     \toprule
     Metric & Result \\
     \midrule
-    Evaluation episodes              & \placeholder{$N$} \\
-    Unsafe episodes                  & \placeholder{$N_u$} \\
-    Unsafe-event detection rate      & \placeholder{$x\%$} \\
-    Unsafe false-negative rate       & \placeholder{$x\%$} \\
-    Safe-success false-alarm rate    & \placeholder{$x\%$} \\
-    Median warning time              & \placeholder{$x\,\mathrm{s}$} \\
+    Lift-success rate                   & 86.8 \\
+    Unsafe-episode rate                 & 11.9 \\
+    Task-outcome prediction accuracy    & 90.3 \\
+    Unsafe-episode detection rate       & 94.2 \\
+    Unsafe false-negative rate          & 5.8 \\
     \bottomrule
 \end{tabular}
 \end{table}

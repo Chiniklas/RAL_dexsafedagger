@@ -138,14 +138,14 @@ input examples are included in Supplementary Section~B.
 intervention, but its performance is not evaluated in detail. Some evaluation
 of the critic, especially its errors for unsafe cases, would be helpful.}
 
-\response We additionally evaluate the Bellman critic independently in Supplementary
-Section~C.1 using the rollout setting of ablation~(b). In this setting, the
-student remains in control throughout each episode and the teacher never
-intervenes, while the critic runs in parallel as a passive evaluator whose
-predictions do not affect the executed actions. This setup preserves observed
-unsafe terminations and allows us to evaluate whether the critic signals low
-predicted safe-lift success before an unsafe event occurs.
-\placeholder{Insert the critic evaluation metrics and results.}
+\response We evaluate the resulting student and fixed-threshold Bellman critic
+from ablation~(e) and report the recorded metrics in Supplementary Section~C.1.
+Both networks are frozen, and teacher intervention is disabled so that the
+student remains in control throughout each evaluation episode. The critic runs
+in parallel as a passive evaluator whose predictions do not affect the executed
+actions. This setup preserves observed unsafe terminations and allows us to
+evaluate whether the critic signals low predicted safe-lift success before an
+unsafe event occurs.
 
 \reviewcomment{Please also clarify the number of runs/random seeds used for the
 results.}
@@ -170,10 +170,10 @@ formal safety guarantee, and that safety violations remain possible.
 not sufficiently prove the proposed concept.}
 
 \response We deploy the frozen RGB student policies resulting from
-ablations~(d) and~(f) on the real robot using the same object set,
+ablations~(e) and~(f) on the real robot using the same object set,
 initial-condition protocol, and number of trials. We report lift-success and
-unsafe-event rates with 95\% confidence intervals and the corresponding
-$p$-values in Supplementary Section~C.5. Only the resulting student policy is
+unsafe-event rates for the seen and unseen object sets in Supplementary
+Section~C.4. Only the resulting student policy is
 deployed; the teacher, Bellman critic, VLM, and threshold-adaptation mechanism
 are not active during physical evaluation.
 
@@ -182,7 +182,8 @@ objects, for example by reporting results separately for seen and unseen
 objects.}
 
 \response We have doubled the number of evaluation episodes for each object and
-reported the results for all 22 objects in Supplementary Table~III. As
+reported the per-object and aggregate seen/unseen results for all 22 objects in
+Supplementary Tables~V and~VI. As
 recommended, we have also extended Tables~II--IV in the main paper to report
 aggregate results for each evaluation setting.
 
@@ -224,12 +225,21 @@ rate.
 thereby conflating task success with safety. Separate safety risk and task value,
 and report calibration, false-negative rates, and reliability diagrams.}
 
-\response We conducted this test using the rollout setting of ablation~(b), in
-which the student remains in control throughout the episode and the Bellman
-critic runs in parallel as a passive evaluator. We separately analyze safe lift
-successes, safe lift failures, and unsafe terminations, including the critic's
-false-negative rate for unsafe cases. The results are reported in Supplementary
-Section~C.2.
+\response Lift success and unsafe termination measure different aspects of an
+episode and are not mutually exclusive. Lift success is recorded once the
+object satisfies the prescribed height-and-hold criterion, but satisfying this
+criterion does not terminate the rollout. The episode continues to be monitored
+for unsafe events until timeout or unsafe termination. Consequently, an episode
+may achieve lift success and subsequently terminate because of an unsafe event.
+The Bellman critic is therefore trained on the stricter joint safe-lift-success
+target, which is positive only when the lift criterion is satisfied without an
+unsafe event.
+
+We evaluate the resulting student and fixed-threshold Bellman critic from
+ablation~(e). Both networks are frozen, teacher intervention is disabled, and
+the critic runs in parallel as a passive evaluator. We separately report task
+success and unsafe termination outcomes, including the critic's unsafe-episode
+detection and false-negative rates. The results are reported in Supplementary Section~C.1.
 
 \reviewcomment{Teacher intervention is assumed safe, yet teacher policies may
 collide or fail. Quantify teacher unsafe rates and define how the framework
@@ -270,7 +280,9 @@ statistical comparisons across all 22 objects.}
 
 \response We have doubled the number of real-world evaluation episodes from 15
 to 30 per object. We have also reported the complete results for all 22 tested
-objects in Supplementary Section~C.
+objects in Supplementary Section~C.3. Supplementary Table~VI reports the
+pooled means and Wilson 95\% confidence intervals for the 14 seen and eight
+unseen objects.
 
 \reviewcomment{Safety-event thresholds for harmful collision, object escape,
 palm flipping, and workspace violation require physical justification. Include
@@ -297,8 +309,13 @@ safety monitor.
 computation, and final success across Vanilla DAgger, SafeDAgger, critic-based
 intervention, and VLM-guided intervention using multiple random seeds.}
 
-\response The requested comparison across multiple random seeds is provided in
-Supplementary Section~C.3.
+\response We repeat the complete distillation process for Vanilla DAgger~(b),
+Vanilla SafeDAgger~(c), critic-based intervention~(e), and VLM-guided
+intervention~(f) using five independent random seeds,
+$\{40,41,42,43,44\}$. All variants use the same number of training samples, and
+the teacher-intervention rates exhibit only minor variation across seeds. The
+final lift-success and unsafe-episode rates are reported as the mean~$\pm$~standard
+deviation across seeds in Supplementary Section~C.2.
 
 \vspace{1em}
 We thank the Editor and the reviewers again for their thoughtful feedback. The

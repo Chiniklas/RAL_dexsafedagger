@@ -144,48 +144,36 @@ fallback.
 \label{app:additional_experimental_results}
 
 \subsection{Bellman Critic Evaluation}
-We conduct an independent evaluation of the Bellman critic under the rollout
-setting of ablation~(b), in which the student policy remains in control for the
-entire episode and the teacher never intervenes. The critic runs in parallel as
-a passive evaluator: it predicts the safe-lift-success value of each proposed
-student state--action pair, but its prediction does not alter the executed
-action or trigger teacher takeover. Consequently, unsafe terminal events remain
-observable, allowing us to measure whether the critic signaled low predicted
-safe-lift success before each observed unsafe termination.
+We use the resulting student and fixed-threshold Bellman critic from
+ablation~(e) to evaluate the critic's performance. Both networks are frozen
+during evaluation, and the critic runs in parallel as a passive evaluator. We
+evaluate 200 episodes for each of the 40 training objects in simulation.
+Table~\ref{tab:bellman_critic_evaluation} reports the observed lift-success and
+unsafe-episode rates together with the task-outcome prediction accuracy, the
+unsafe-episode detection rate, and its corresponding false-negative rate.
 
-An unsafe episode is counted as detected if the predicted safe-lift-success
-value falls below the deployed threshold at least once before the unsafe
-termination; otherwise, it is counted as a false negative. A safe-success
-episode is counted as a false alarm if the critic falls below the threshold at
-least once. For detected unsafe episodes, warning time is measured from the
-first threshold crossing to the unsafe termination.
+The lift-success rate and unsafe-episode rate characterize the student policy's
+ability to accomplish the task and the frequency of unsafe outcomes,
+respectively. Task-outcome prediction accuracy is the percentage of episodes
+for which the critic correctly predicts the task outcome. The unsafe-episode
+detection rate is the percentage of unsafely terminated episodes that are
+flagged by the critic before termination. The unsafe false-negative rate is the
+complementary percentage of unsafe episodes that the critic does not flag before
+termination.
 
 \input{../../../table/appendix_bellman_critic_evaluation.tex}
 
-\subsection{Operating-Point Analysis of the Bellman Critic}
-The Bellman critic predicts the joint acceptable outcome of successful lifting
-without an unsafe event. To make the behavior of this joint target transparent,
-we partition the independently evaluated episodes into three mutually exclusive
-outcomes: safe lift success, safe lift failure, and unsafe termination. A safe
-lift failure reaches the episode horizon without satisfying the lift criterion
-and without triggering any of the four unsafe termination conditions. For each
-outcome, we report how often the critic falls below the deployed intervention
-threshold before the episode ends.
-
-\input{../../../table/appendix_bellman_critic_outcomes.tex}
-
-Here, $r_{\mathrm{U}}$ is the unsafe-event detection rate,
-$1-r_{\mathrm{U}}$ is the unsafe false-negative rate, and
-$r_{\mathrm{SS}}$ is the safe-success false-alarm rate. Because the critic is
-trained on the joint safe-lift-success target, $r_{\mathrm{SF}}$ measures how
-often it rejects a safe but unsuccessful trajectory and is not treated as a
-safety false alarm.
-
 \subsection{Ablations Across Random Seeds}
-All ablations use the same training and computational resource budget and
-differ only in the intervention mechanism. We evaluate each variant using five
-random seeds, $\{40,41,42,43,44\}$, and report the mean~$\pm$~standard
-deviation across seeds.
+We independently train four intervention variants---Vanilla DAgger~(b),
+Vanilla SafeDAgger~(c), critic-based intervention~(e), and VLM-guided
+intervention~(f)---using five random seeds, $\{40,41,42,43,44\}$. For each
+variant and seed, we freeze the resulting student and evaluate it for 200
+episodes on each of the 40 training objects in simulation, yielding 8{,}000
+evaluation episodes per seed. Because all variants use the same number of
+training samples and the teacher-intervention rates exhibit only minor
+variation across seeds, Table~\ref{tab:ablation_across_seeds} reports only the
+final lift-success and unsafe-episode rates as the mean~$\pm$~standard deviation
+across the five seeds.
 
 \input{../../../table/appendix_ablation_across_seeds.tex}
 
@@ -202,25 +190,30 @@ deviation across seeds.
 \label{fig:sixteen_object_demonstrations}
 \end{figure}
 
-We will report results for the remaining 16 real-world test objects that are not
+We report results for the remaining 16 real-world test objects that are not
 shown in the manuscript's six-object table, using the same success and safety
 breakdown. The two eight-object blocks below separate task success from the
-observed unsafe failure modes. The entries below are provisional synthetic
-values for layout checking and will be replaced with the measured results.
+observed unsafe failure modes.
 
 \input{../../../table/appendix_additional_experimental_results.tex}
 
-\placeholder{Report 95\% confidence intervals and statistical comparisons.}
+Table~\ref{tab:seen_unseen_summary} summarizes performance across all 22
+objects. The mean rates reproduce the pooled results in Main Paper Table~IV;
+the 95\% confidence intervals account for the 420 seen-object episodes and 240
+unseen-object episodes.
+
+\input{../../../table/appendix_seen_unseen_summary.tex}
+
 
 \subsection{Physical Baseline Comparison}
-We deploy the frozen RGB student policies resulting from ablations~(d) and~(f)
-on the real robot. Ablation~(d) uses the DexTrAH-RGB teacher-training recipe and
-the stationary DexSafeDagger intervention policy, whereas ablation~(f) is the
-complete VLM-DexSafeDagger pipeline. In both cases, only the resulting student policy
+We deploy the frozen RGB student policies resulting from ablations~(e) and~(f)
+on the real robot. Ablation~(e) uses our RL teacher-training recipe with the stationary
+DexSafeDagger intervention policy, whereas ablation~(f) uses the same teacher
+recipe with VLM-guided threshold adaptation. In both cases, only the resulting student policy
 is deployed; the teacher, Bellman critic, VLM, and threshold-adaptation
 mechanism are not active during physical evaluation. We evaluate both policies
 using the same objects, initial-condition protocol, and number of trials. We
-report lift-success and unsafe-event rates with 95\% confidence intervals,
-together with the corresponding $p$-values for the between-policy comparisons.
+report lift-success and unsafe-event rates separately for the 14 seen and 8
+unseen objects.
 
 \input{../../../table/appendix_physical_baseline_comparison.tex}

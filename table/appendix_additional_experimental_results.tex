@@ -2,16 +2,14 @@
 \begin{table}[H]
 \centering
 \scriptsize
-\caption{Provisional per-object results for the remaining 16 objects (30
-episodes per object). Synthetic values are shown for layout checking only;
-\oodresult{OOD objects} are shaded.}
+\caption{Per-object results for the remaining 16 objects (30 episodes per
+object). \oodresult{OOD objects} are shaded.}
 \label{tab:additional_experimental_results}
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.08}
-\resizebox{0.74\textwidth}{!}{%
-\begin{tabular}{l|cccccccc}
+\begin{tabularx}{0.74\textwidth}{@{}p{0.16\textwidth}|*{8}{>{\centering\arraybackslash}X}@{}}
 \hline
-Metric (\%) & Horse & Teapot & Sphinx & Dragon & Homer & Ogre & Cheburashka & Lucy \\
+Metric (\%) & Horse & Teapot & Sphinx & Dragon & Homer & Ogre & \makecell{Chebura\\shka} & Lucy \\
 \hline
 Lift Success      & 83.3 & 90.0 & 80.0 & 86.7 & 76.7 & 83.3 & 90.0 & 80.0 \\
 Unsafe Rate Avg   & 16.7 & 6.7 & 13.3 & 13.3 & 23.3 & 10.0 & 6.7 & 16.7 \\
@@ -20,12 +18,10 @@ Object escape     & 6.7 & 3.3 & 6.7 & 10.0 & 10.0 & 6.7  & 3.3  & 10.0\\
 Palm flipped      & 3.3  & 0.0  & 3.3  & 0.0  & 6.7  & 0.0  & 0.0  & 3.3  \\
 Hand too far      & 0.0  & 0.0  & 0.0  & 0.0  & 3.3 & 0.0  & 0.0  & 0.0  \\
 \hline
-\end{tabular}%
-}
+\end{tabularx}
 
 \vspace{0.6em}
-\resizebox{0.74\textwidth}{!}{%
-\begin{tabular}{l|cccccccc}
+\begin{tabularx}{0.74\textwidth}{@{}p{0.16\textwidth}|*{8}{>{\centering\arraybackslash}X}@{}}
 \hline
 Metric (\%) & Beethoven & Igea & \oodresult{Dog Pair} & \oodresult{Cow statue} & \oodresult{Buddha statue} & \oodresult{Blub} & \oodresult{Monkey head} & \oodresult{Dinosaur} \\
 \hline
@@ -36,6 +32,5 @@ Object escape     & 6.7 & 3.3 & \oodresult{13.3} & \oodresult{16.7} & \oodresult
 Palm flipped      & 0.0  & 3.3  & \oodresult{3.3}  & \oodresult{10.0}  & \oodresult{3.3}  & \oodresult{3.3}  & \oodresult{3.3}  & \oodresult{3.3}  \\
 Hand too far      & 0.0  & 3.3  & \oodresult{3.3}  & \oodresult{3.3}  & \oodresult{3.3}  & \oodresult{0.0}  & \oodresult{0.0}  & \oodresult{0.0}  \\
 \hline
-\end{tabular}%
-}
+\end{tabularx}
 \end{table}

@@ -15,10 +15,8 @@ Metric & \makecell{Vanilla DAgger\\(b)}
 & \makecell{Critic-based\\intervention (e)}
 & \makecell{VLM-guided\\intervention (f)} \\
 \midrule
-Lift Success (\%) $\uparrow$
-& 87.1 $\pm$ 0.99 & 86.3 $\pm$ 0.92 & 86.8 $\pm$ 0.74 & 87.5 $\pm$ 0.98 \\
-Unsafe Rate (\%) $\downarrow$
-& 17.4 $\pm$ 0.52 & 16.7 $\pm$ 0.48 & 11.9 $\pm$ 0.58 & 9.3 $\pm$ 0.39 \\
+Lift Success (\%) $\uparrow$ & 87.1 +- 0.99 & 86.3 +- 0.92 & 86.8 +- 0.74 & 87.5 +- 0.98\\
+Unsafe Rate (\%) $\downarrow$ & 17.4 +- 0.52 & 16.7 +- 0.48 & 11.9 +- 0.58 & 9.3 +- 0.39 \\
 \bottomrule
 \end{tabular}
 \end{table}
