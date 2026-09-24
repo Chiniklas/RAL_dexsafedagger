@@ -15,10 +15,12 @@ mean/variance normalization is applied to both inputs and to value targets.
 All conditions are checked at 60\,Hz in the environment frame; the table-top
 height is $z_T=0.25$\,m.
 \begin{enumerate}[label=(\alph*),leftmargin=2em,itemsep=2pt,topsep=3pt]
-  \item \emph{Harmful collision:} We define a safety-clearance region above the
-  table and monitor all arm--table contacts.  We trigger this termination when
-  the palm or fingertips enter the clearance region, or when any arm link
-  contacts the table.
+  \item \emph{Harmful collision:} We define a $1$\,cm safety-clearance region
+  above the table and monitor all arm--table contacts. We trigger this
+  termination when the palm or any fingertip falls below
+  $z_T+0.01$\,m, or when any arm link contacts the table. An arm--table contact
+  is registered when the $\ell_1$ norm of the filtered contact-force vector
+  exceeds $10^{-4}$\,N.
   \item \emph{Object escape:} We define a permissible object workspace above
   the table that covers the intended manipulation region.  We trigger
   object-escape termination as soon as the object center leaves this space or
