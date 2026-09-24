@@ -6,7 +6,7 @@
 \caption{Representative six-object subset of the 22-object real-world evaluation
 (30 episodes per object). The last two columns report pooled results over the
 complete sets of 14 seen and 8 unseen objects, respectively. \unseen{Unseen
-objects} are shaded.}
+objects} are shaded. The lower table compares the real-world performance of ablations~(e) and~(f).}
 \label{tab:real_world_results}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.2}
@@ -15,16 +15,39 @@ objects} are shaded.}
 \begin{tabular}{l|cccccc|cc}
 \hline
 Metric (\%) & WindCart & Boot & ToolBox & Cow & \unseen{Plane} & \unseen{Shoe}
-& \makecell{{\textbf{Seen}} \\ {\textbf{avg. (14)}}}
-& \unseen{{\makecell{Unseen \\ avg. (8)}}} \\
+& \revisionadded{\makecell{{\textbf{Seen}} \\ {\textbf{avg. (14)}}}}
+& \unseen{\revisionadded{\makecell{Unseen \\ avg. (8)}}} \\
 \hline
-Lift Success         & 90.0 & 83.3 & 80.0 & 86.7 & \unseen{66.7} & \unseen{60.0} & 83.6 & \unseen{64.6} \\
-Unsafe Rate Avg      & 13.3 & 16.7 & 20.0 & 23.3 & \unseen{40.0} & \unseen{40.0} & 14.7 & \unseen{39.2} \\
-Harmful collision    & 0.0  & 3.3  & 13.3 & 13.3 & \unseen{20.0} & \unseen{26.7} & 4.7  & \unseen{18.8} \\
-Object escape        & 13.3 & 13.3 & 6.7  & 10.0 & \unseen{20.0} & \unseen{13.3} & 8.1 & \unseen{15.8} \\
-Palm flipped         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  & 1.4 & \unseen{3.3}  \\
-Hand too far         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  & 0.5  & \unseen{1.3}  \\
+Lift Success         & \revisionadded{90.0} & \revisionadded{83.3} & 80.0 & 86.7 & \unseen{66.7} & \unseen{60.0} & \revisionadded{83.6} & \unseen{\revisionadded{64.6}} \\
+Unsafe Rate Avg      & 13.3 & \revisionadded{16.7} & 20.0 & \revisionadded{23.3} & \unseen{40.0} & \unseen{40.0} & \revisionadded{14.7} & \unseen{\revisionadded{39.2}} \\
+Harmful collision    & 0.0  & \revisionadded{3.3}  & 13.3 & 13.3 & \unseen{20.0} & \unseen{26.7} & \revisionadded{4.7}  & \unseen{\revisionadded{18.8}} \\
+Object escape        & 13.3 & 13.3 & 6.7  & \revisionadded{10.0} & \unseen{20.0} & \unseen{13.3} & \revisionadded{8.1} & \unseen{\revisionadded{15.8}} \\
+Palm flipped         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  & \revisionadded{1.4} & \unseen{\revisionadded{3.3}}  \\
+Hand too far         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0}  & \revisionadded{0.5}  & \unseen{\revisionadded{1.3}}  \\
 \hline
+\end{tabular}
+}
+
+\vspace{0.7em}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{0.42\textwidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+\multirow{2}{*}{\revisionadded{Metric (\%)}}
+& \multicolumn{2}{c}{\revisionadded{Ablation~(e)}}
+& \multicolumn{2}{c}{\revisionadded{Ablation~(f)}} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+& \revisionadded{Seen (14)} & \revisionadded{Unseen (8)}
+& \revisionadded{Seen (14)} & \revisionadded{Unseen (8)} \\
+\midrule
+\revisionadded{Lift success}
+& \revisionadded{83.4} & \revisionadded{61.7}
+& \revisionadded{83.6} & \revisionadded{64.6} \\
+\revisionadded{Unsafe-event rate}
+& \revisionadded{16.1} & \revisionadded{41.4}
+& \revisionadded{14.8} & \revisionadded{39.2} \\
+\bottomrule
 \end{tabular}
 }
 \end{table}

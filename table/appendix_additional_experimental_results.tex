@@ -1,13 +1,13 @@
 \newcommand{\oodresult}[1]{\cellcolor{gray!15}\textbf{#1}}
 \begin{table}[H]
 \centering
-\scriptsize
+\footnotesize
 \caption{Per-object results for the remaining 16 objects (30 episodes per
 object). \oodresult{OOD objects} are shaded.}
 \label{tab:additional_experimental_results}
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.08}
-\begin{tabularx}{0.74\textwidth}{@{}p{0.16\textwidth}|*{8}{>{\centering\arraybackslash}X}@{}}
+\begin{tabularx}{0.80\textwidth}{@{}p{0.16\textwidth}|*{8}{>{\centering\arraybackslash}X}@{}}
 \hline
 Metric (\%) & Horse & Teapot & Sphinx & Dragon & Homer & Ogre & \makecell{Chebura\\shka} & Lucy \\
 \hline
@@ -21,7 +21,7 @@ Hand too far      & 0.0  & 0.0  & 0.0  & 0.0  & 3.3 & 0.0  & 0.0  & 0.0  \\
 \end{tabularx}
 
 \vspace{0.6em}
-\begin{tabularx}{0.74\textwidth}{@{}p{0.16\textwidth}|*{8}{>{\centering\arraybackslash}X}@{}}
+\begin{tabularx}{0.80\textwidth}{@{}p{0.16\textwidth}|*{8}{>{\centering\arraybackslash}X}@{}}
 \hline
 Metric (\%) & Beethoven & Igea & \oodresult{Dog Pair} & \oodresult{Cow statue} & \oodresult{Buddha statue} & \oodresult{Blub} & \oodresult{Monkey head} & \oodresult{Dinosaur} \\
 \hline

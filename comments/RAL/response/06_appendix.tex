@@ -3,24 +3,27 @@
 
 \subsection{Asymmetric Teacher Observations}
 
-Table~\ref{tab:teacher_observations} contrasts the actor's noisy, deployable
-signals with the centralized critic's clean, privileged simulator state.
-The palm and five fingertips constitute the six hand links. A ``twist'' is the
-concatenation of three-dimensional linear and angular velocity. Running
-mean/variance normalization is applied to both inputs and to value targets.
+Table~\ref{tab:teacher_observations} details the asymmetric actor--critic
+observation spaces used during teacher-policy training. The critic receives a
+133-dimensional privileged simulator state, whereas the actor receives an
+87-dimensional observation consisting only of signals available at deployment.
+We inject noise into the actor observations during training to improve
+robustness and reduce the sim-to-real gap. The palm and five fingertips
+constitute the six hand links. A ``twist'' is the concatenation of
+three-dimensional linear and angular velocity. Running mean/variance
+normalization is applied to both inputs and to the value targets.
 
 \input{../../../table/appendix_teacher_observations.tex}
 
 \subsection{Termination Conditions}
-All conditions are checked at 60\,Hz in the environment frame; the table-top
-height is $z_T=0.25$\,m.
+We define four unsafe conditions that serve both as termination criteria during teacher-policy training and as unsafe-event signals during student-policy distillation. We additionally terminate an episode when it reaches the maximum time horizon; however, a timeout is not classified as an unsafe event. All five termination conditions are checked at \(60\,\text{Hz}\) in the environment frame.
+
 \begin{enumerate}[label=(\alph*),leftmargin=2em,itemsep=2pt,topsep=3pt]
-  \item \emph{Harmful collision:} We define a $1$\,cm safety-clearance region
-  above the table and monitor all arm--table contacts. We trigger this
-  termination when the palm or any fingertip falls below
-  $z_T+0.01$\,m, or when any arm link contacts the table. An arm--table contact
+  \item \emph{Harmful collision:} We monitor all arm--table contacts and
+  trigger this termination when the palm or any fingertip is less than
+  1\,cm above the tabletop, or when any arm link contacts the table. An arm--table contact
   is registered when the $\ell_1$ norm of the filtered contact-force vector
-  exceeds $10^{-4}$\,N.
+  exceeds 0.1 N.
   \item \emph{Object escape:} We define a permissible object workspace above
   the table that covers the intended manipulation region.  We trigger
   object-escape termination as soon as the object center leaves this space or
@@ -47,17 +50,17 @@ event label using the following descending severity priority:
 $\text{harmful collision}\succ\text{object escape}\succ\text{palm flipped}
 \succ\text{hand too far}\succ\text{timeout}$.
 
-\subsection{Runs and Random Seeds}
-Teacher performance in Main Paper Table~II is evaluated over 200 episodes per
-object, and the real-world results are evaluated over 30 episodes per object.
-Each of the 40 object-specific teacher policies is trained with five independent
-random seeds $\{40,41,42,43,44\}$, with the same evaluation protocol applied to
-every seed. For each seed, teacher performance is evaluated on all 40 objects. The
-table below reports the mean~$\pm$~standard deviation across the 40 object-level
-rates for lift success, overall unsafe events, and the four unsafe-event
-categories separately for each seed.
-
-\input{../../../table/appendix_seed_reporting.tex}
+% \subsection{Runs and Random Seeds}
+% Teacher performance in Main Paper Table~II is evaluated over 200 episodes per
+% object, and the real-world results are evaluated over 30 episodes per object.
+% Each of the 40 object-specific teacher policies is trained with five independent
+% random seeds $\{40,41,42,43,44\}$, with the same evaluation protocol applied to
+% every seed. For each seed, teacher performance is evaluated on all 40 objects. The
+% table below reports the mean~$\pm$~standard deviation across the 40 object-level
+% rates for lift success, overall unsafe events, and the four unsafe-event
+% categories separately for each seed.
+%
+% \input{../../../table/appendix_seed_reporting.tex}
 
 \section{VLM Prompt and Inference Details}
 \label{app:vlm_inference_details}
@@ -75,10 +78,10 @@ recommend conservative updates to the corresponding intervention thresholds.
 \centering
 \setlength{\tabcolsep}{2pt}
 \begin{tabular}{@{}cccc@{}}
-\includegraphics[width=0.238\linewidth]{figures/vlm_inputs/vlm_input_1m0lvpzs.jpg} &
-\includegraphics[width=0.238\linewidth]{figures/vlm_inputs/vlm_input_2kp2e9k7.jpg} &
-\includegraphics[width=0.238\linewidth]{figures/vlm_inputs/vlm_input_2oiqpnts.jpg} &
-\includegraphics[width=0.238\linewidth]{figures/vlm_inputs/vlm_input_z73ltdbb.jpg} \\
+\includegraphics[width=0.22\linewidth]{figures/vlm_inputs/vlm_input_1m0lvpzs.jpg} &
+\includegraphics[width=0.22\linewidth]{figures/vlm_inputs/vlm_input_2kp2e9k7.jpg} &
+\includegraphics[width=0.22\linewidth]{figures/vlm_inputs/vlm_input_2oiqpnts.jpg} &
+\includegraphics[width=0.22\linewidth]{figures/vlm_inputs/vlm_input_z73ltdbb.jpg} \\
 \scriptsize (a) &
 \scriptsize (b) &
 \scriptsize (c) &
@@ -100,15 +103,13 @@ visual-sample block is repeated once for each attached image.
 
 
 \subsection{Model and Input Configuration}
-We used the OpenAI GPT-5.5 multimodal model. The model received the textual
-rollout statistics above and up to eight RGB images,
-encoded as JPEG data URLs with high visual detail. We issued the
-first VLM query after 2{,}000 online distillation steps and subsequently queried
-it every 10{,}000 steps, resulting in 10 calls over the 100{,}000-step run. The
-archived API reports, which were generated with the previous low-detail image
-setting, record 30{,}641 prompt tokens and 4{,}841 completion tokens, or 35{,}482
-tokens in total.
+We used OpenAI GPT-5.5 with the rollout statistics above and up to eight
+high-detail RGB images encoded as JPEG data URLs. We queried the model after
+2{,}000 steps and every 10{,}000 steps thereafter (10 calls over 100{,}000
+steps). Archived reports from the earlier low-detail setting contain 30{,}641
+prompt and 4{,}841 completion tokens (35{,}482 total).
 
+\begin{samepage}
 \subsection{Output Processing and Threshold Updates}
 The requested machine-readable output is a top-level JSON object with the
 following schema:
@@ -118,6 +119,7 @@ following schema:
   "confidence": <number>, "reason": <string>
 }
 \end{verbatim}
+\end{samepage}
 The two returned thresholds are absolute candidates. Each candidate is clipped
 to a fixed range around its initial value and then exponentially smoothed with
 the previously applied threshold. For $x\in\{\delta,Q\}$,
@@ -211,11 +213,10 @@ unseen-object episodes.
 We deploy the frozen RGB student policies resulting from ablations~(e) and~(f)
 on the real robot. Ablation~(e) uses our RL teacher-training recipe with the stationary
 DexSafeDagger intervention policy, whereas ablation~(f) uses the same teacher
-recipe with VLM-guided threshold adaptation. In both cases, only the resulting student policy
-is deployed; the teacher, Bellman critic, VLM, and threshold-adaptation
-mechanism are not active during physical evaluation. We evaluate both policies
+recipe with VLM-guided threshold adaptation. We evaluate both policies
 using the same objects, initial-condition protocol, and number of trials. We
 report lift-success and unsafe-event rates separately for the 14 seen and 8
+unseen objects in Main Paper Table~IV. The comparison shows that the student
+trained with VLM-augmented intervention achieves a comparable real-world
+task-success rate while exhibiting a lower unsafe-event rate for both seen and
 unseen objects.
-
-\input{../../../table/appendix_physical_baseline_comparison.tex}

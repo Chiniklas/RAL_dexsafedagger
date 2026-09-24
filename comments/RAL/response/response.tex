@@ -31,6 +31,7 @@
 \newcommand{\papertitle}{VLM-DexSafeDagger: VLM-Guided Intervention Policy Towards Safer Visuomotor Skill Distillation}
 \newcommand{\placeholder}[1]{\textcolor{placeholderred}{\textbf{[#1]}}}
 \newcommand{\response}{\par\smallskip\noindent\textcolor{responseblue}{\textbf{[Response:]}}\ }
+\providecommand{\revisionadded}[1]{#1}
 
 \newcounter{reviewcomment}
 \newcounter{reviewer}
@@ -56,7 +57,6 @@
 \begin{document}
 \pagenumbering{roman}
 \begingroup
-\color{placeholderred}
 
 \begin{center}
   {\Large\bfseries Authors' Responses}\par
@@ -76,24 +76,29 @@ of our manuscript and for their constructive comments. Their feedback has
 helped us identify where the contribution, safety claims, experimental
 evidence, and implementation details require clearer presentation.
 
-We are preparing a major revision of the manuscript. In the revised version,
-we will:
+We have completed a major revision of the manuscript and expanded its technical
+explanations in the following four main areas:
 \begin{enumerate}[label=\arabic*)]
-  \item clarify the specific contribution of VLM-guided threshold adaptation
-  through comparisons with conventional fixed and adaptive alternatives;
-  \item revise the safety terminology and explicitly delimit the empirical,
-  task-specific scope of the reported safety results;
-  \item strengthen the evaluation of the Bellman critic, teacher policies,
-  real-world experiments, and resource usage; and
-  \item provide the implementation details needed to reproduce the VLM-based
-  threshold tuner and the intervention pipeline.
+  \item validated the necessity and contribution of VLM guidance by adding two
+  ablations that isolate its visual and semantic components and by extending
+  comparisons with fixed and adaptive intervention strategies;
+  \item improved reproducibility by providing the exact VLM prompt, model and
+  inference settings, visual-input selection procedure, output processing,
+  update frequency, resource usage, failure handling, and relevant training
+  details;
+  \item strengthened the evaluation of the proposed Bellman success-value
+  critic by reporting task-outcome prediction accuracy, unsafe-event detection,
+  and false-negative rates under student-controlled rollouts; and
+  \item expanded the real-world evaluation by increasing the number of trials,
+  reporting results for all 22 objects and pooled seen/unseen confidence
+  intervals, adding a
+  physical baseline comparison, and clarifying the empirical scope and
+  limitations of our safety and deployment claims.
 \end{enumerate}
 
 Detailed responses to each comment are provided below. Reviewer comments are
-reproduced in black, and our responses are shown in blue. Red bracketed text
-marks details that will be completed after the corresponding revision or
-experiment has been finalized. Changes in the revised manuscript will be
-highlighted in blue.
+reproduced in black, and our responses are shown in blue. Changes in the
+revised manuscript are highlighted in blue.
 
 \clearpage
 \endgroup
@@ -107,8 +112,15 @@ over simpler adaptive approaches.}
 
 \response We have added ablations (g) and (h) to isolate the
 contribution of the VLM to the adaptive intervention pipeline. We have also
-expanded the discussion of Table~III in the Results section. The results
-provide strong evidence that VLM-based intervention outperforms both LLM-based
+expanded the discussion of Table~III in the Results section.
+\begingroup
+\let\responsetable\table
+\let\endresponsetable\endtable
+\renewenvironment{table}[1][]{\responsetable[H]}{\endresponsetable}
+\input{../../../table/ablation_studies.tex}
+\endgroup
+
+The results provide strong evidence that VLM-based intervention outperforms both LLM-based
 intervention and performance-based curriculum adaptation. Semantic information
 alone reduces the unsafe exploration rate, while combining visual and semantic
 information enables more precise intervention, achieving the highest task
@@ -127,6 +139,11 @@ Compared with prior methods such as HG-DAgger and ThriftyDAgger, our proposed
 pipeline does not require human intervention, enabling fully autonomous
 intervention during online policy distillation.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.52\textwidth]{figures/reviewer14_comment2_adaptive_intervention.png}
+\end{figure}
+
 \reviewcomment{the authors should provide the VLM prompt and explain how the
 images are selected and how the VLM outputs are used.}
 
@@ -140,6 +157,8 @@ of the critic, especially its errors for unsafe cases, would be helpful.}
 
 \response We evaluate the resulting student and fixed-threshold Bellman critic
 from ablation~(e) and report the recorded metrics in Supplementary Section~C.1.
+\input{../../../table/appendix_bellman_critic_evaluation.tex}
+
 Both networks are frozen, and teacher intervention is disabled so that the
 student remains in control throughout each evaluation episode. The critic runs
 in parallel as a passive evaluator whose predictions do not affect the executed
@@ -172,9 +191,11 @@ not sufficiently prove the proposed concept.}
 \response We deploy the frozen RGB student policies resulting from
 ablations~(e) and~(f) on the real robot using the same object set,
 initial-condition protocol, and number of trials. We report lift-success and
-unsafe-event rates for the seen and unseen object sets in Supplementary
-Section~C.4. Only the resulting student policy is
-deployed; the teacher, Bellman critic, VLM, and threshold-adaptation mechanism
+unsafe-event rates for the seen and unseen object sets in Main Paper
+Table~IV.
+\input{../../../table/appendix_physical_baseline_comparison.tex}
+
+Only the resulting student policy is deployed; the teacher, Bellman critic, VLM, and threshold-adaptation mechanism
 are not active during physical evaluation.
 
 \reviewcomment{It would be helpful to provide overall results for all 22
@@ -183,7 +204,11 @@ objects.}
 
 \response We have doubled the number of evaluation episodes for each object and
 reported the per-object and aggregate seen/unseen results for all 22 objects in
-Supplementary Tables~V and~VI. As
+Supplementary Tables~IV and~V.
+\input{../../../table/appendix_additional_experimental_results.tex}
+\input{../../../table/appendix_seen_unseen_summary.tex}
+
+As
 recommended, we have also extended Tables~II--IV in the main paper to report
 aggregate results for each evaluation setting.
 
@@ -280,7 +305,7 @@ statistical comparisons across all 22 objects.}
 
 \response We have doubled the number of real-world evaluation episodes from 15
 to 30 per object. We have also reported the complete results for all 22 tested
-objects in Supplementary Section~C.3. Supplementary Table~VI reports the
+objects in Supplementary Section~C.3. Supplementary Table~V reports the
 pooled means and Wilson 95\% confidence intervals for the 14 seen and eight
 unseen objects.
 

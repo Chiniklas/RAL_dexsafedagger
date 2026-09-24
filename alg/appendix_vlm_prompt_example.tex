@@ -15,25 +15,25 @@
 distillation.
 \STATE Do not decide intervention directly. Recommend thresholds for the
 existing gates.
-\STATE
+
 \STATE \textbf{Task:} Tune teacher-student disagreement and predicted-success thresholds
 for dexterous robot distillation.
-\STATE
+
 \STATE \textbf{Existing arbitration:}
 \STATE - intervene if teacher\_student\_l2 $\mathord{>=}$ l2\_threshold
 \STATE - or if predictor\_success $\mathord{<=}$ success\_threshold
-\STATE
+
 \STATE \textbf{Return only strict JSON with keys:} l2\_threshold, success\_threshold,
 confidence, reason.
 \STATE Keep changes conservative. Prefer small threshold shifts unless the
 recent window shows clear over- or under-intervention.
-\STATE
+
 \STATE \textbf{Base thresholds and clamps:}
 \STATE - base\_l2\_threshold=\{base\_l2\_threshold\}
 \STATE - allowed\_l2\_range=[\{l2\_min\}, \{l2\_max\}]
 \STATE - base\_success\_threshold=\{base\_success\_threshold\}
 \STATE - allowed\_success\_range=[\{success\_min\}, \{success\_max\}]
-\STATE
+
 \STATE \textbf{Current advisor thresholds:}
 \STATE - current\_l2\_threshold=\{current\_l2\_threshold\}
 \STATE - current\_success\_threshold=\{current\_success\_threshold\}
@@ -79,7 +79,7 @@ low\_success $\mid$ unsafe\_triggered\},
 \STATE \hspace{3em}\jkey{step}: \{v\},
 \jkey{unsafe}: \{true $\mid$ false\}\}, ...]
 \STATE \}
-\STATE
+
 \STATE \textbf{For each selected visual sample $i=1,\ldots,M$:}
 \STATE Visual sample \{i\} metadata: \{the corresponding record above,
 excluding \jkey{image\_attached}\}
