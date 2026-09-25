@@ -149,12 +149,6 @@ J.~Duan, W.~Yuan, W.~Pumacay, Y.~R. Wang, K.~Ehsani, D.~Fox, and R.~Krishna,
   models,'' in \emph{Proceedings of the 8th Conference on Robot Learning},
   2025, pp. 5326--5350.
 
-\bibitem{duan2024aha}
-J.~Duan, W.~Pumacay, N.~Kumar, Y.~R. Wang, S.~Tian, W.~Yuan, R.~Krishna,
-  D.~Fox, A.~Mandlekar, and Y.~Guo, ``{AHA}: A vision-language model for
-  detecting and reasoning over failures in robotic manipulation,'' \emph{arXiv
-  preprint arXiv:2410.00371}, 2024.
-
 \bibitem{dai2025racer}
 Y.~Dai, J.~Lee, N.~Fazeli, and J.~Chai, ``{RACER}: Rich language-guided failure
   recovery policies for imitation learning,'' in \emph{2025 IEEE International

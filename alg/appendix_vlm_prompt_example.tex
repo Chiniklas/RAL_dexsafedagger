@@ -9,21 +9,21 @@
 \begin{algorithmic}
 \setlength{\itemsep}{0pt}
 \STATE \textbf{System message:}
-\STATE You tune safety thresholds and return compact JSON only.
+\STATE You tune safety-threshold displacements and return compact JSON only.
 \STATE \textbf{User message:}
 \STATE You are a conservative threshold advisor for DexSafeDagger robot
 distillation.
-\STATE Do not decide intervention directly. Recommend thresholds for the
+\STATE Do not decide intervention directly. Recommend threshold displacements for the
 existing gates.
 
-\STATE \textbf{Task:} Tune teacher-student disagreement and predicted-success thresholds
-for dexterous robot distillation.
+\STATE \textbf{Task:} Propose displacements for the teacher-student disagreement and
+predicted-success thresholds used in dexterous robot distillation.
 
 \STATE \textbf{Existing arbitration:}
 \STATE - intervene if teacher\_student\_l2 $\mathord{>=}$ l2\_threshold
 \STATE - or if predictor\_success $\mathord{<=}$ success\_threshold
 
-\STATE \textbf{Return only strict JSON with keys:} l2\_threshold, success\_threshold,
+\STATE \textbf{Return only strict JSON with keys:} delta\_l2\_threshold, delta\_success\_threshold,
 confidence, reason.
 \STATE Keep changes conservative. Prefer small threshold shifts unless the
 recent window shows clear over- or under-intervention.

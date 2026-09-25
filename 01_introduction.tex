@@ -10,7 +10,7 @@
 
 Dexterous robotic hands typically possess a large number of degrees of freedom (DoFs) 
 and exhibit complex contact dynamics, enabling them to perform fine-grained and diverse 
-manipulation behaviors~\cite{brahmbhatt2019contactgrasp}\cite{chen2022system}\cite{andrychowicz2020learning}\cite{luo2025precise}. In recent years, reinforcement learning (RL)-based approaches~\cite{rajeswaran2017learning,andrychowicz2020learning,akkaya2019solving,petrenko2023dexpbt} have made significant progress in addressing the complex control problems posed by high-dimensional action spaces and intricate contact dynamics in dexterous manipulation tasks.
+manipulation behaviors~\cite{brahmbhatt2019contactgrasp,chen2022system,andrychowicz2020learning,luo2025precise}. In recent years, reinforcement learning (RL)-based approaches~\cite{rajeswaran2017learning,andrychowicz2020learning,akkaya2019solving,petrenko2023dexpbt} have made significant progress in addressing the complex control problems posed by high-dimensional action spaces and intricate contact dynamics in dexterous manipulation tasks.
 
 Despite these advances, existing RL frameworks primarily optimize for task 
 success rates and rarely incorporate explicit modeling or constraints related to safety. During training, common failure modes, including severe collisions between the hand and the environment, unintended object ejection due to excessive contact forces, and loss of stable hand posture~\cite{liu2023safe,yu2022dexterous}, not only reduce training efficiency but also introduce potential risks during real-world deployment. Therefore, how to 

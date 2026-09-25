@@ -16,10 +16,7 @@
 \gdef\HyperFirstAtBeginDocument#1{#1}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
-\citation{brahmbhatt2019contactgrasp}
-\citation{chen2022system}
-\citation{andrychowicz2020learning}
-\citation{luo2025precise}
+\citation{brahmbhatt2019contactgrasp,chen2022system,andrychowicz2020learning,luo2025precise}
 \citation{rajeswaran2017learning,andrychowicz2020learning,akkaya2019solving,petrenko2023dexpbt}
 \citation{liu2023safe,yu2022dexterous}
 \citation{ross2011reduction,singh2024dextrah}
@@ -28,13 +25,6 @@
 \newlabel{fig:teaser}{{1}{1}{\textbf {\methodname overview.} We propose a teacher-intervened online distillation pipeline that condenses teacher skills into a deployable RGB-based student policy. The unsafe exploration rate is substantially suppressed in the early training phase via a proposed VLM-guided intervention policy that combines teacher--student action disagreement with a Bellman success-value critic trained on safe-lift-success labels, while a vision-language model maintains an evolving, safety-aware understanding of the scene and periodically adjusts the intervention policy during online distillation.\relax }{figure.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {I}INTRODUCTION}{1}{section.1}\protected@file@percent }
 \newlabel{sec:introduction}{{I}{1}{INTRODUCTION}{section.1}{}}
-\@writefile{brf}{\backcite{brahmbhatt2019contactgrasp}{{1}{I}{section.1}}}
-\@writefile{brf}{\backcite{chen2022system}{{1}{I}{section.1}}}
-\@writefile{brf}{\backcite{andrychowicz2020learning}{{1}{I}{section.1}}}
-\@writefile{brf}{\backcite{luo2025precise}{{1}{I}{section.1}}}
-\@writefile{brf}{\backcite{rajeswaran2017learning,andrychowicz2020learning,akkaya2019solving,petrenko2023dexpbt}{{1}{I}{section.1}}}
-\@writefile{brf}{\backcite{liu2023safe,yu2022dexterous}{{1}{I}{section.1}}}
-\@writefile{brf}{\backcite{ross2011reduction,singh2024dextrah}{{1}{I}{section.1}}}
 \citation{zhang2016query}
 \citation{singh2024dextrah}
 \citation{wang2025unigrasptransformer}
@@ -47,34 +37,17 @@
 \citation{cai2025robot}
 \citation{firoozi2025foundation,han2026multimodal}
 \citation{duan2025manipulate}
-\citation{duan2024aha}
 \citation{dai2025racer}
 \citation{wu2025foresight}
-\@writefile{brf}{\backcite{zhang2016query}{{2}{I}{section.1}}}
-\@writefile{brf}{\backcite{zhang2016query}{{2}{I}{section.1}}}
 \@writefile{toc}{\contentsline {section}{\numberline {II}Related work}{2}{section.2}\protected@file@percent }
 \newlabel{sec:related_works}{{II}{2}{Related work}{section.2}{}}
-\@writefile{brf}{\backcite{singh2024dextrah}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{wang2025unigrasptransformer}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{zhang2025contactdexnet,zhang2025omnidexvlg}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{welte2025interactive}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{ross2011reduction}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{zhang2016query}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{menda2019ensembledagger}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{kelly2019hgdagger}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{cai2025robot}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{firoozi2025foundation,han2026multimodal}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{duan2025manipulate}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{duan2024aha}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{dai2025racer}{{2}{II}{section.2}}}
-\@writefile{brf}{\backcite{wu2025foresight}{{2}{II}{section.2}}}
 \@writefile{toc}{\contentsline {section}{\numberline {III}Problem Statement and Methods}{2}{section.3}\protected@file@percent }
 \newlabel{sec:method}{{III}{2}{Problem Statement and Methods}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-A}Problem Formulation}{2}{subsection.3.1}\protected@file@percent }
 \newlabel{eq:vc_objective}{{1}{2}{Problem Formulation}{equation.3.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Overview of the VLM-DexSafeDagger\xspace  teacher--student learning pipeline. A privileged reinforcement learning teacher is trained in simulation and subsequently distilled into an RGB-based visuomotor policy for real-world deployment. A vision-language model periodically proposes a displacement of the intervention policy's operating point; deterministic clipping and smoothing constrain the resulting policy update.\relax }}{3}{figure.caption.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Overview of the VLM-DexSafeDagger\xspace  teacher--student learning pipeline. A privileged reinforcement learning teacher is trained in simulation and subsequently distilled into an RGB-based visuomotor policy for real-world deployment. A vision-language model periodically proposes candidate intervention thresholds; deterministic clipping and smoothing constrain the resulting policy update.\relax }}{3}{figure.caption.1}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:pipeline}{{2}{3}{Overview of the \methodname teacher--student learning pipeline. A privileged reinforcement learning teacher is trained in simulation and subsequently distilled into an RGB-based visuomotor policy for real-world deployment. A vision-language model periodically proposes a displacement of the intervention policy's operating point; deterministic clipping and smoothing constrain the resulting policy update.\relax }{figure.caption.1}{}}
+\newlabel{fig:pipeline}{{2}{3}{Overview of the \methodname teacher--student learning pipeline. A privileged reinforcement learning teacher is trained in simulation and subsequently distilled into an RGB-based visuomotor policy for real-world deployment. A vision-language model periodically proposes candidate intervention thresholds; deterministic clipping and smoothing constrain the resulting policy update.\relax }{figure.caption.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-B}Overview of the Distillation Pipeline}{3}{subsection.3.2}\protected@file@percent }
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces VLM-DexSafeDagger\xspace  \relax }}{3}{algorithm.1}\protected@file@percent }
 \newlabel{alg:safe_dagger}{{1}{3}{\methodname \relax }{algorithm.1}{}}
@@ -107,12 +80,9 @@
 \citation{zhang2016query}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {Ablation studies.} The first three panels compare four distillation variants in terms of student lift success, teacher intervention rate $\beta $, and unsafe episode rate, respectively, all plotted over training iterations. The rightmost panel shows the VLM-guided trajectory of the intervention operating point over online training. Shaded regions indicate variability across runs (mean $\pm $ std). Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange), DexSafeDagger\xspace  (green), and VLM-DexSafeDagger\xspace  (red).\relax }}{6}{figure.caption.3}\protected@file@percent }
 \newlabel{fig:ablation}{{3}{6}{\textbf {Ablation studies.} The first three panels compare four distillation variants in terms of student lift success, teacher intervention rate $\beta $, and unsafe episode rate, respectively, all plotted over training iterations. The rightmost panel shows the VLM-guided trajectory of the intervention operating point over online training. Shaded regions indicate variability across runs (mean $\pm $ std). Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange), \dexsafedagger (green), and \methodname (red).\relax }{figure.caption.3}{}}
-\@writefile{brf}{\backcite{hoque2021thriftydagger}{{6}{IV-C}{subsection.4.3}}}
 \@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Performance of ablations (a)--(h) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }}{6}{table.caption.5}\protected@file@percent }
 \newlabel{tab:ablation_studies}{{III}{6}{Performance of ablations (a)--(h) on four representative objects from the 40-object training set (200 evaluation episodes per object). Each ablation reports lift success and average unsafe rate.\relax }{table.caption.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt  {windcart} and \texttt  {cow}); lower is better in all plots. Curves correspond to four distillation variants: blue, Vanilla DAgger\cite  {ross2011reduction}; orange, Vanilla SafeDAgger\cite  {zhang2016query}; green, DexSafeDagger\xspace  ; and red, VLM-DexSafeDagger\xspace  .\relax }}{7}{figure.caption.6}\protected@file@percent }
-\@writefile{brf}{\backcite{ross2011reduction}{{7}{4}{figure.caption.6}}}
-\@writefile{brf}{\backcite{zhang2016query}{{7}{4}{figure.caption.6}}}
 \newlabel{fig:failure_modes}{{4}{7}{\textbf {Per-object failure-mode decomposition during online distillation ablations.} We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations. Results are shown for two objects (\texttt {windcart} and \texttt {cow}); lower is better in all plots. Curves correspond to four distillation variants: blue, Vanilla DAgger\cite {ross2011reduction}; orange, Vanilla SafeDAgger\cite {zhang2016query}; green, \dexsafedagger ; and red, \methodname .\relax }{figure.caption.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }}{7}{figure.caption.7}\protected@file@percent }
 \newlabel{fig:realworld_exp_setup}{{5}{7}{\textbf {Real-world experimental setup and test objects.} Left: the single-arm manipulation platform used for deployment and evaluation. Right: examples of the physical objects used in the real-world lift experiments.\relax }{figure.caption.7}{}}
@@ -144,11 +114,14 @@
 \bibcite{firoozi2025foundation}{20}
 \bibcite{han2026multimodal}{21}
 \bibcite{duan2025manipulate}{22}
-\bibcite{duan2024aha}{23}
-\bibcite{dai2025racer}{24}
-\bibcite{wu2025foresight}{25}
-\bibcite{hoque2021thriftydagger}{26}
-\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Representative six-object subset of the 22-object real-world evaluation (30 episodes per object). The last two columns report pooled results over the complete sets of 14 seen and 8 unseen objects, respectively. \cellcolor  {gray!15}\textbf  {Unseen objects} are shaded.\relax }}{8}{table.caption.8}\protected@file@percent }
-\newlabel{tab:real_world_results}{{IV}{8}{Representative six-object subset of the 22-object real-world evaluation (30 episodes per object). The last two columns report pooled results over the complete sets of 14 seen and 8 unseen objects, respectively. \unseen {Unseen objects} are shaded.\relax }{table.caption.8}{}}
+\bibcite{dai2025racer}{23}
+\bibcite{wu2025foresight}{24}
+\bibcite{hoque2021thriftydagger}{25}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces \textbf  {(a):} Representative six-object subset of the 22-object real-world evaluation (30 episodes per object across seeds 40--44), with pooled results over the complete sets of 14 seen and 8 unseen objects in the last two columns, and \cellcolor  {gray!15}\textbf  {unseen objects} are shaded; \textbf  {(b):} real-world performance comparison of ablations\nobreakspace  {}(e) and\nobreakspace  {}(f).\relax }}{8}{table.caption.8}\protected@file@percent }
+\newlabel{tab:real_world_results}{{IV}{8}{\textbf {(a):} Representative six-object subset of the 22-object real-world evaluation (30 episodes per object across seeds 40--44), with pooled results over the complete sets of 14 seen and 8 unseen objects in the last two columns, and \unseen {unseen objects} are shaded; \textbf {(b):} real-world performance comparison of ablations~(e) and~(f).\relax }{table.caption.8}{}}
+\newlabel{tab:real_world_results:a}{{IVa}{8}{\relax }{table.caption.8}{}}
+\newlabel{sub@tab:real_world_results:a}{{a}{8}{\relax }{table.caption.8}{}}
+\newlabel{tab:real_world_results:b}{{IVb}{8}{\relax }{table.caption.8}{}}
+\newlabel{sub@tab:real_world_results:b}{{b}{8}{\relax }{table.caption.8}{}}
 \@writefile{toc}{\contentsline {section}{References}{8}{section.5}\protected@file@percent }
 \gdef \@abspage@last{8}

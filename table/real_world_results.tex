@@ -3,13 +3,15 @@
 \begin{table}[t]
 \centering
 \small
-\caption{Representative six-object subset of the 22-object real-world evaluation
-(30 episodes per object). The last two columns report pooled results over the
-complete sets of 14 seen and 8 unseen objects, respectively. \unseen{Unseen
-objects} are shaded. The lower table compares the real-world performance of ablations~(e) and~(f).}
+\caption{\textbf{(a):} Representative six-object subset of the 22-object
+real-world evaluation (30 episodes per object across seeds 40--44), with pooled results over the
+complete sets of 14 seen and 8 unseen objects in the last two columns, and
+\unseen{unseen objects} are shaded; \textbf{(b):} real-world performance
+comparison of ablations~(e) and~(f).}
 \label{tab:real_world_results}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.2}
+\subcaptionbox{\label{tab:real_world_results:a}}{%
 \resizebox{0.48\textwidth}{!}{%
 
 \begin{tabular}{l|cccccc|cc}
@@ -27,10 +29,12 @@ Hand too far         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0} 
 \hline
 \end{tabular}
 }
+}
 
 \vspace{0.7em}
 \setlength{\tabcolsep}{6pt}
 \renewcommand{\arraystretch}{1.15}
+\subcaptionbox{\label{tab:real_world_results:b}}{%
 \resizebox{0.42\textwidth}{!}{%
 \begin{tabular}{lcccc}
 \toprule
@@ -49,5 +53,6 @@ Hand too far         & 0.0  & 0.0  & 0.0  & 0.0  & \unseen{0.0}  & \unseen{0.0} 
 & \revisionadded{14.8} & \revisionadded{39.2} \\
 \bottomrule
 \end{tabular}
+}
 }
 \end{table}

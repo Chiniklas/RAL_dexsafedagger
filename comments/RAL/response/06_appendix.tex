@@ -87,7 +87,7 @@ recommend conservative updates to the corresponding intervention thresholds.
 \scriptsize (c) &
 \scriptsize (d)
 \end{tabular}
-\caption{Here we present four pictures for two types of intervention sources.
+\caption{Representative visual inputs selected according to the two intervention signals.
 Samples (a)--(c) were selected for high teacher--student disagreement, with
 $\ell_2$ values 9.7506, 17.0997, and 51.9710, respectively; (d) was selected
 for low predicted success ($0.2734$). All four records have
@@ -105,8 +105,8 @@ visual-sample block is repeated once for each attached image.
 \subsection{Model and Input Configuration}
 We used OpenAI GPT-5.5 with the rollout statistics above and up to eight
 high-detail RGB images encoded as JPEG data URLs. We queried the model after
-2{,}000 steps and every 10{,}000 steps thereafter (10 calls over 100{,}000
-steps). Archived reports from the earlier low-detail setting contain 30{,}641
+2{,}000 episodes and every 10{,}000 episodes thereafter (10 calls over 100{,}000
+episodes). Archived reports from the earlier low-detail setting contain 30{,}641
 prompt and 4{,}841 completion tokens (35{,}482 total).
 
 \begin{samepage}
@@ -115,17 +115,21 @@ The requested machine-readable output is a top-level JSON object with the
 following schema:
 \begin{verbatim}
 {
-  "l2_threshold": <number>, "success_threshold": <number>,
+  "delta_l2_threshold": <number>, "delta_success_threshold": <number>,
   "confidence": <number>, "reason": <string>
 }
 \end{verbatim}
 \end{samepage}
-The two returned thresholds are absolute candidates. Each candidate is clipped
-to a fixed range around its initial value and then exponentially smoothed with
-the previously applied threshold. For $x\in\{\delta,Q\}$,
+The two returned values are threshold displacements. For each channel
+$x\in\{\delta,Q\}$, the candidate threshold is
+\[
+\tilde\tau_x^{(k)}=\tau_x^{(k)}+\Delta\tau_x^{(k)}.
+\]
+Each candidate is clipped to a fixed range around its initial value and then
+exponentially smoothed with the previously applied threshold:
 \[
 \bar\tau_x^{(k)}=\operatorname{clip}\!\left(
-\hat\tau_x^{(k)},c_x^{\min}\tau_x^{(0)},
+\tilde\tau_x^{(k)},c_x^{\min}\tau_x^{(0)},
 c_x^{\max}\tau_x^{(0)}\right),\qquad
 \tau_x^{(k+1)}=(1-\alpha)\tau_x^{(k)}+\alpha\bar\tau_x^{(k)}.
 \]
@@ -216,7 +220,72 @@ DexSafeDagger intervention policy, whereas ablation~(f) uses the same teacher
 recipe with VLM-guided threshold adaptation. We evaluate both policies
 using the same objects, initial-condition protocol, and number of trials. We
 report lift-success and unsafe-event rates separately for the 14 seen and 8
-unseen objects in Main Paper Table~IV. The comparison shows that the student
-trained with VLM-augmented intervention achieves a comparable real-world
-task-success rate while exhibiting a lower unsafe-event rate for both seen and
-unseen objects.
+unseen objects in Table~\ref{tab:physical_baseline_comparison}.
+
+\input{../../../table/appendix_physical_baseline_comparison.tex}
+
+The comparison supports our claim that the student trained with VLM-augmented intervention
+achieves a comparable real-world task-success rate while exhibiting a lower
+unsafe-event rate for both seen and unseen objects.
+
+\subsection{Implementation Details of Ablation~(h)}
+Ablation~(h) replaces the VLM tuner in ablation~(f) with a deterministic
+performance-triggered threshold curriculum inspired by the budget-aware
+intervention principle of ThriftyDAgger. The teacher, student, Bellman critic,
+intervention gate, admissible threshold range, rollout budget, and update
+schedule are otherwise identical to those in ablation~(f); the curriculum uses
+neither language nor visual inputs.
+
+At scheduled update~$k$, let $\mathcal W_k$ denote the most recent rollout
+window. We compute its lift-success and unsafe-episode rates as
+\begin{equation}
+\bar s_k=\frac{1}{|\mathcal W_k|}\sum_{\tau\in\mathcal W_k}
+\mathbb I_{\mathrm{succ}}(\tau),\qquad
+\bar u_k=\frac{1}{|\mathcal W_k|}\sum_{\tau\in\mathcal W_k}
+\mathbb I_{\mathrm{unsafe}}(\tau).
+\label{eq:curriculum_window_metrics}
+\end{equation}
+The curriculum contains five ordered operating points, indexed from the most
+conservative ($j=0$) to the most autonomous ($j=4$):
+\begin{equation}
+\begin{array}{c|ccccc}
+j                         & 0    & 1    & 2    & 3    & 4 \\ \hline
+c_{\delta}^{(j)}           & 0.50 & 0.75 & 1.00 & 1.25 & 1.50 \\
+c_{Q}^{(j)}                & 1.50 & 1.25 & 1.00 & 0.75 & 0.50
+\end{array}
+\label{eq:curriculum_levels}
+\end{equation}
+At level~$j_k$, the intervention thresholds are
+\begin{equation}
+\tau_{\delta}^{(k)}=c_{\delta}^{(j_k)}\tau_{\delta}^{(0)},
+\qquad
+\tau_{Q}^{(k)}=c_{Q}^{(j_k)}\tau_{Q}^{(0)}.
+\label{eq:curriculum_thresholds}
+\end{equation}
+Thus, moving toward a smaller level lowers the disagreement threshold and
+raises the minimum acceptable predicted-success threshold, producing more
+teacher intervention. Moving toward a larger level has the opposite effect and
+grants the student more autonomy. The resulting gate remains an OR rule:
+intervention occurs when either
+$\lVert a_t^S-a_t^T\rVert_2>\tau_{\delta}^{(k)}$ or
+$\hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q^{(k)}$.
+
+Let $u_{\max}$ be a validation-selected unsafe-rate limit and $s_{\min}$ a
+validation-selected competence threshold. Define
+$A_k=\mathbb I[\bar u_k\leq u_{\max}\land\bar s_k\geq s_{\min}]$.
+Starting from the nominal operating point $j_0=2$, the curriculum update is
+\begin{equation}
+j_{k+1}=
+\begin{cases}
+\max(j_k-1,0), & \bar u_k>u_{\max},\\
+\min(j_k+1,4), & A_k=1\ \land\ A_{k-1}=1,\\
+j_k,           & \text{otherwise}.
+\end{cases}
+\label{eq:curriculum_update}
+\end{equation}
+Consequently, one unsafe window immediately moves the gate one level toward
+more teacher intervention, whereas two consecutive windows satisfying both
+safety and task-performance criteria are required before increasing student
+autonomy. This asymmetric update prevents rapid oscillation. We apply the first
+curriculum update after 2{,}000 distillation episodes and subsequent updates
+every 10{,}000 episodes, matching the VLM update schedule in ablation~(f).

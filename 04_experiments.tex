@@ -73,22 +73,20 @@ episode's failure mode.
 % improved sim-to-real transfer, following a setup similar to DexTrAH-RGB. The distillation phase requires approximately 2.5~hours to complete
 % 100{,}000 episodes.
 
-Simulation experiments use single-arm control on a Tiangong~2 Pro humanoid equipped with InspireHand RH56DfX; the action
-space is 13-D (7 arm DoF + 6 hand DoF). The RGB student additionally receives two $320\times240$ camera streams at
-30\,fps, encoded by a Siamese ResNet-18 visual backbone with view fusion into a 128-D feature appended to the actor
-observation. Teacher training and student distillation are conducted in Isaac Sim 5.0.0 / Isaac Lab 2.2.1 on a single
-RTX~5090 GPU.
+Simulation uses single-arm control of a Tiangong~2 Pro humanoid with an
+InspireHand RH56DfX and a 13-D action space (7 arm + 6 hand DoF). The RGB
+student receives two $320\times240$, 30-fps camera streams, encoded by a
+ResNet-18 and fused into a 128-D feature appended to the actor
+observation. Teacher training and student distillation run in Isaac Sim~5.0.0 /
+Isaac Lab~2.2.1 on one RTX~5090 GPU.
 
-We evaluate 40 objects from the Omniverse Asset Library and train one
-object-specific teacher for each object. Each teacher is trained for
-12{,}000 episodes (3.5\,h), totaling 480{,}000 teacher-training
-episodes and approximately 140 GPU-hours. Across the 40 teachers, lift-success
-rates range from 72--100\%, and unsafe rates range from 5--30\%;
-Table~\ref{tab:teacher_perf_200} reports a representative four-object subset.
-During distillation, we randomize lighting intensity, direction, background
-textures, object material, and table appearance following DexTrAH-RGB-style
-domain randomization. The joint student is distilled across all 40 objects for
-100{,}000 episodes in 2.5\,h. 
+We train 40 object-specific teachers on Omniverse Asset Library objects, each
+for 12{,}000 episodes (3.5\,h), totaling 480{,}000 episodes and approximately
+140 GPU-hours. Lift-success rates span 72--100\% and unsafe rates 5--30\%;
+Table~\ref{tab:teacher_perf_200} shows four representative objects. The joint
+student is distilled across all 40 objects for 100{,}000 episodes (2.5\,h),
+using DexTrAH-RGB-style randomization of lighting intensity and direction,
+background textures, object materials, and table appearance.
 
 We use GPT-5.5 with high reasoning effort as the VLM. We issue the first VLM
 query after 2{,}000 episodes
@@ -108,7 +106,7 @@ recipe produce stronger teachers than the DexTrAH-RGB-style training recipe?}
 \textbf{(ii)~Does the intervention mechanism in \dexsafedagger enable safer
 exploration during policy distillation?} \textbf{(iii)~Does augmenting action
 disagreement with success-value prediction improve the intervention signal?}
-\textbf{(iv)~Is visual-language reasoning necessary for adapting the
+\textbf{(iv)~Is vision-language reasoning necessary for adapting the
 intervention boundary?}
 
 % \noindent\textbf{(a) DexTrAH-RGB RL teacher + Vanilla DAgger.}
@@ -174,7 +172,7 @@ rollout statistics and no visual observations.
 
 \noindent\textbf{(h) Our RL + \dexsafedagger + Adaptive Intervention under a
 Performance Curriculum.}
-We replace the VLM model in (f) with an adaptive threshold curriculum inspired
+We replace the VLM in (f) with an adaptive threshold curriculum inspired
 by ThriftyDAgger~\cite{hoque2021thriftydagger} and driven by recent lift-success
 and unsafe-episode rates, dynamically balancing conservative teacher
 intervention against aggressive student exploration throughout training. All
@@ -237,7 +235,7 @@ finally to our VLM-guided recipe. This controlled ladder isolates the
 contributions of feedback-based threshold adaptation, semantic reasoning, and
 visual context.
 As shown in Table~\ref{tab:ablation_studies}, VLM-guided adaptive intervention
-consistently achieves the highest (or tied-highest) lift success and the lowest
+consistently achieves the highest lift success and the lowest
 unsafe rate across the evaluated objects. Both LLM-guided and curriculum-based
 adaptation improve overall safety, but neither matches the full VLM-guided
 recipe. The curriculum-based intervention also incurs a small reduction in
@@ -248,22 +246,26 @@ lift success.
 We evaluate the deployed student policy on 22 objects, comprising 14 seen objects and 8 unseen objects.
 Table~\ref{tab:real_world_results} reports a representative six-object subset
 alongside pooled results over the complete sets of 14 seen and 8 unseen objects.
-The experiments exhibit a lower lift success rate and a higher unsafe episode rate than
-the teacher and student evaluation results in simulation, indicating that \methodname does
+The real-world results show lower lift-success rates and higher unsafe-episode rates than
+the simulation results, indicating that \methodname does
 not fully eliminate the sim-to-real gap. Nevertheless, the physical experiments demonstrate
 that the policy can transfer successfully from simulation to the real robot.
 
-The unseen-object evaluation reveals a clear generalization gap: compared with
-the complete seen set, pooled lift success decreases from 83.6\% to 64.6\%,
-while the unsafe rate increases from 14.7\% to 39.2\% on the unseen set. This
-degradation is primarily driven by an increase in harmful collisions from
-4.7\% to 18.8\%, whereas object escape rises from 8.1\% to 15.8\%. Among
+Unseen objects show a clear generalization gap: pooled lift success drops from
+83.6\% to 64.6\%, while the unsafe rate rises from 14.7\% to 39.2\%, mainly
+due to more harmful collisions (4.7\% to 18.8\%) and object escapes (8.1\% to
+15.8\%). Among
 the six representative objects shown, no palm-flip or hand-too-far events are
 observed, suggesting that their real-world failures are dominated by
 contact-rich interactions rather than gross pose instabilities. Overall, the
 results indicate that the remaining sim-to-real gap on unseen geometries is
 largely attributable to a contact-strategy mismatch, i.e., the policy fails to
 adapt its contact interactions to novel object shapes.
+
+The real-world comparison between ablations~(e) and~(f) further shows that our
+VLM-guided method lowers the unsafe-event rate on both seen (16.1\% to 14.8\%)
+and unseen objects (41.4\% to 39.2\%) while maintaining a comparable task
+success rate.
 
 \input{table/real_world_results.tex}
 

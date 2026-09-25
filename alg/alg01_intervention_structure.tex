@@ -7,7 +7,8 @@
 \STATE Train the privileged teacher policy $\pi_T$ via RL
 \STATE Collect a warm-start dataset $\mathcal{D}_0$ under teacher control
 \STATE Pretrain the Bellman critic $\hat Q_{\mathrm{succ}}$ on $\mathcal{D}_0$
-\STATE Initialize the intervention policy parameters $\boldsymbol{\tau}^{(0)}=(\tau_\delta^{(0)},\tau_Q^{(0)})$
+\STATE Initialize the intervention policy parameters
+{\footnotesize $\boldsymbol{\tau}^{(0)}=(\tau_\delta^{(0)},\tau_Q^{(0)})$}
 \STATE Initialize the visual buffer $\mathcal{B}_V$
 
 \FOR{iteration $k = 1 \dots N$}
