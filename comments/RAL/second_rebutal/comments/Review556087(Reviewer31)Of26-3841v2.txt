@@ -1,0 +1,80 @@
+This paper proposes a framework for distilling privileged RL teacher
+policies into an RGB-based student policy. To reduce unsafe exploration
+such as collisions during distillation, the authors propose an
+intervention gate (DexSafeDagger) that combines a teacher–student
+action-disagreement gate with a success-value critic evaluated on the
+current student state–action pair through an OR rule, and further
+propose adjusting the gate thresholds with a VLM.
+
+The scale of the real-robot evaluation, the reporting of failure cases,
+and the strengthened reproducibility material are appreciated, and the
+previous revision appropriately moderated the claims regarding the
+paper’s main contributions. However, the claimed superiority of the
+teacher RL recipe, inconsistencies between the result tables and
+figures, and the evidence for the VLM’s contribution remain unresolved,
+as detailed below.
+
+Major Comments
+
+M1. The reward for teacher-policy training is described only verbally.
+Table I lists only the purpose of each reward term; the exact
+formulation, weights, and scales of the terms are not given in the
+manuscript. Since teacher training is the starting point of every
+subsequent stage, the work does not appear reproducible in its current
+form. Please provide the exact formulation and weights of each reward
+term.
+
+M2. The claimed superiority of the authors’ RL recipe is not supported.
+
+(1) The authors explain the performance gap between ablations (a) and
+(b) by stating that the FABRICS controller was tuned for the original
+platform and transfers poorly to the new hardware. This implies that
+the DexTrAH baseline was not tuned for the authors’ hardware, and
+therefore the comparison cannot serve as evidence that the authors’
+recipe produces more effective teacher policies. A comparison against a
+DexTrAH baseline re-tuned for the authors’ platform, or additional
+experiments and analysis that can demonstrate the superiority of the
+recipe, is required.
+
+(2) The difference between the “DexTrAH-RGB-style RL recipe” and “our
+RL recipe” is not defined in the manuscript. Please state explicitly
+how the two recipes differ.
+
+(3) The second contribution claims “a safety-aware RL reward design
+that explicitly accounts for risky events.” However, the reward terms
+in Table I are generic shaped-reward terms, and no term explicitly
+penalizes the unsafe events defined by the authors, such as collisions
+or object escape. Early termination does penalize unsafe events
+implicitly by truncating the future return, but it is indistinguishable
+from a timeout unless truncation is bootstrapped. The manuscript does
+not specify any of these.  Please either add an ablation of the reward
+terms or of the termination conditions, or moderate the contribution
+statement.
+
+M3. The unsafe rates in Fig. 3 and Table III are inconsistent. In the
+“Comparison Unsafe Episode Rate” panel of Fig. 3, (c) is the highest,
+(b) and (e) are nearly indistinguishable, and (f) is the lowest. In
+contrast, Table III reports (b) 17.4 > (c) 16.7 > (e) 11.9 > (f) 9.3,
+which differs in both values and ordering. Please revise so that the
+two results are consistent with each other.
+
+M4. The contribution of the VLM is not established by the (e) vs. (f)
+comparison alone. In particular, the third contribution claims
+effectiveness “across different visual contexts and unsafe scenarios,”
+but the results currently presented do not clearly verify this claim.
+Please either moderate the corresponding contribution statement or
+provide additional analysis.
+
+Minor Comments
+
+m1. One paragraph in Sec. III-A has a line spacing that differs from
+the rest of the text. Please check the formatting of the entire
+manuscript.
+
+m2. The “Mean” columns of Table II and Table III appear to average over
+different populations. Please unify the definition of “Mean” across the
+two tables. In addition, please briefly state why these four objects
+were selected from the 40-object set.
+
+m3. Fig. 4 is difficult to read at print quality. Please also explain
+why only two objects (windcart and cow) are shown.

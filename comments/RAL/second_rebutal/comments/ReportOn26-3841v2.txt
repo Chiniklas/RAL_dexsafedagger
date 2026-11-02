@@ -1,0 +1,8 @@
+The revised manuscript has improved considerably, and the reviewers
+acknowledge the authors' efforts in addressing the previous comments.
+However, several important concerns remain, particularly regarding the
+RL teacher-training procedure, the fairness of the baseline comparison,
+inconsistencies in the reported results, and the evidence supporting
+the contribution of VLM-guided adaptation.  These issues need to be
+addressed to properly support the claimed contributions. Please see the
+individual reviews for further details.

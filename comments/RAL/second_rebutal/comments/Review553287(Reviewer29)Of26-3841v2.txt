@@ -1,0 +1,63 @@
+The revised manuscript is substantially stronger. It now isolates
+visual and semantic VLM contributions, compares fixed and adaptive
+intervention strategies, reports critic detection errors, expands
+real-robot trials across all 22 objects, and appropriately narrows the
+safety claims. These revisions address most major concerns. Remaining
+issues are primarily interpretive and statistical: unseen-object
+unsafe-event rates remain high, the real-world benefit over the non-VLM
+intervention baseline is modest, critic false negatives persist, and
+VLM dependence introduces reproducibility and latency concerns. These
+points can be handled through clarification and limited additional
+analysis.
+
+
+Comments
+
+1. The revision appropriately removes formal 'safety-critical' claims.
+Please maintain this discipline throughout the manuscript and
+consistently describe the method as empirical risk reduction under
+task-specific unsafe-event definitions.
+
+2. Real-world unsafe-event rates on unseen objects remain around 39%,
+which is substantial. This limitation should be emphasized prominently
+in the abstract, discussion, and conclusion to avoid implying
+deployment-ready safety.
+
+3. The real-robot difference between VLM-guided and fixed-threshold
+critic policies appears modest. Report confidence intervals and paired
+or proportion tests to determine whether the observed unsafe-rate
+reductions are statistically distinguishable.
+
+4. The Bellman critic achieves a 5.8% false-negative rate on unsafe
+episodes. Please discuss the consequences of these missed warnings and
+whether threshold adjustment can trade task success for lower
+false-negative risk.
+
+5. Clarify whether critic metrics are computed at the episode or
+time-step level and how early an unsafe event is detected before
+termination. Warning lead time is important for intervention
+usefulness.
+
+6. The teacher policy is implicitly treated as a safe fallback, yet
+teacher interventions can still generate unsafe contacts. Report
+teacher unsafe-event rates and explain what happens when teacher and
+critic recommendations conflict.
+
+7. Provide the final exact VLM identifier, prompt, decoding settings,
+visual-sample selection rules, update interval, latency distribution,
+failure handling, and cost in the main paper or permanent supplementary
+material.
+
+8. The ablations convincingly motivate visual-semantic adaptation on
+representative training objects. Please state more explicitly whether
+the VLM adaptation itself was evaluated on novel scene semantics,
+rather than only novel object geometries.
+
+9. The current unsafe-event taxonomy is task-specific. Clarify which
+events are directly sensor-observable on hardware and which depend on
+privileged simulation signals during training or evaluation.
+
+10. Please add a compact limitations paragraph covering the remaining
+sim-to-real contact-strategy mismatch, external VLM dependence,
+task-specific safety definitions, and absence of formal constraint
+guarantees. No major methodological restructuring appears necessary.
