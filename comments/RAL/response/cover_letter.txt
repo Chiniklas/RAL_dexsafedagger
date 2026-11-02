@@ -1,0 +1,28 @@
+Dear Editor-in-Chief and Associate Editor of IEEE Robotics and Automation Letters,
+
+We are pleased to resubmit the revised version of our manuscript, “VLM-DexSafeDagger: VLM-Guided Intervention Policy Towards Safer Visuomotor Skill Distillation,” for consideration for publication in IEEE Robotics and Automation Letters (RA-L). We sincerely thank the editors and reviewers for their careful assessment and constructive comments, which have helped us substantially improve the manuscript.
+
+This work presents VLM-DexSafeDagger, a safety-aware online skill-distillation framework that transfers reinforcement-learning teacher policies to a vision-based student policy for dexterous manipulation. The framework combines teacher–student action disagreement with a learned Bellman success-value critic and uses a vision-language model to adapt the intervention policy from rollout statistics and representative visual observations. It also introduces a safety-aware reward design that accounts for harmful collisions, object escape, palm flipping, and excessive displacement from the workspace.
+
+We have completed a major revision of the manuscript and expanded its technical explanations in the following four main areas:
+
+1. validated the necessity and contribution of VLM guidance by adding two ablations that isolate its visual and semantic components and by extending comparisons with fixed and adaptive intervention strategies;
+
+2. improved reproducibility by providing the exact VLM prompt, model and inference settings, visual-input selection procedure, output processing, update frequency, resource usage, failure handling, and relevant training details;
+
+3. strengthened the evaluation of the proposed Bellman success-value critic by reporting task-outcome prediction accuracy, unsafe-event detection, and false-negative rates under student-controlled rollouts; and
+
+4. expanded the real-world evaluation by increasing the number of trials, reporting results for all 22 objects and pooled seen/unseen confidence intervals, adding a physical baseline comparison, and clarifying the empirical scope and limitations of our safety and deployment claims.
+
+We believe that this work will be of interest to the RA-L community, particularly researchers working on dexterous manipulation, safe robot learning, interactive imitation learning, vision-language models, and sim-to-real transfer. A detailed point-by-point response accompanies the revised manuscript, and all changes are highlighted in the revision.
+
+This manuscript is original, has not been published, and is not under consideration elsewhere. All authors have approved the manuscript and its submission to RA-L, and we have adhered to IEEE’s ethical publication requirements. If the manuscript is accepted, we would be pleased to present it at an eligible partner conference should that option be available.
+
+Thank you for your time and consideration. We look forward to your response.
+
+Sincerely,
+
+Chi Zhang
+On behalf of all co-authors
+Technical University of Munich
+chi97.zhang@tum.de
