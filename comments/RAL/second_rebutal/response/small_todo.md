@@ -1,0 +1,299 @@
+# Second rebuttal — small TODOs
+
+This file tracks the remaining clarification, statistical-analysis, reporting,
+and formatting requests from Reviewer 29 and Reviewer 31. Major scientific
+issues are tracked separately in [`TODO.md`](TODO.md).
+
+## Small-task index
+
+| Task | Reviewer item | Action | Status |
+|---|---|---|---|
+| Small Task 1 | Reviewer 29, comment 1 | Audit empirical safety language | Open |
+| Small Task 2 | Reviewer 29, comment 2 | Emphasize the 39.2% unseen-object unsafe rate | Open |
+| Small Task 3 | Reviewer 29, comment 3 | Add uncertainty/significance analysis for physical (e) versus (f) | Open |
+| Small Task 4 | Reviewer 29, comment 4 | Analyze the consequences of critic false negatives | Open |
+| Small Task 5 | Reviewer 29, comment 5 | Measure how early the Bellman critic warns before unsafe termination | Open |
+| Small Task 6 | Reviewer 29, comment 6 | Clarify teacher unsafe-rate aggregation | Mostly complete |
+| Small Task 7 | Reviewer 29, comment 7 | Complete the final VLM reproducibility specification | Open |
+| Small Task 8 | Reviewer 29, comment 9 | Separate hardware-observable and simulation-privileged unsafe signals | Open |
+| Small Task 9 | Reviewer 29, comment 10 | Add a compact limitations paragraph | Open |
+| Small Task 10 | Reviewer 31, m1 | Correct inconsistent line spacing and audit formatting | Open |
+| Small Task 11 | Reviewer 31, m3 | Improve Figure 4 readability and justify the two displayed objects | Open |
+
+## Small Task 1 — Maintain empirical safety language
+
+**Reviewer item:** Reviewer 29, comment 1
+
+> The revision appropriately removes formal 'safety-critical' claims. Please
+> maintain this discipline throughout the manuscript and consistently describe
+> the method as empirical risk reduction under task-specific unsafe-event
+> definitions.
+
+- [ ] Search the title, abstract, introduction, contributions, method, results,
+      discussion, conclusion, captions, supplement, and response for
+      `safe`, `safety`, `guarantee`, `constraint`, `hazard`, and
+      `safety-critical`.
+- [ ] Replace language that implies formal guarantees with precise terms such
+      as `empirical reduction in task-specific unsafe-event rate`.
+- [ ] Define the four unsafe events as task-specific operational metrics, not a
+      general safety specification.
+- [ ] State explicitly that the method provides no formal safety guarantee.
+- [ ] Ensure `safety-aware` is not used as a synonym for certified or guaranteed
+      safety.
+
+## Small Task 2 — Prominently report the unseen-object limitation
+
+**Reviewer item:** Reviewer 29, comment 2
+
+> Real-world unsafe-event rates on unseen objects remain around 39%, which is
+> substantial. This limitation should be emphasized prominently in the
+> abstract, discussion, and conclusion to avoid implying deployment-ready
+> safety.
+
+- [ ] Verify the exact unseen-object value and denominator from the physical
+      trial records; the submitted manuscript reports `39.2%`.
+- [ ] State the value explicitly in the abstract, not only in a table.
+- [ ] Discuss it as a major remaining sim-to-real/generalization limitation.
+- [ ] Repeat the limitation in the conclusion.
+- [ ] Remove or qualify any wording that implies deployment-ready safety.
+- [ ] Keep the population explicit: eight unseen objects and the corresponding
+      number of physical evaluation episodes.
+
+## Small Task 3 — Quantify the physical (e) versus (f) comparison
+
+**Reviewer item:** Reviewer 29, comment 3
+
+> The real-robot difference between VLM-guided and fixed-threshold critic
+> policies appears modest. Report confidence intervals and paired or proportion
+> tests to determine whether the observed unsafe-rate reductions are
+> statistically distinguishable.
+
+- [ ] Determine whether trials for (e) and (f) were genuinely paired by object,
+      seed, pose, and other initial conditions.
+- [ ] Do not call the analysis paired unless those trial-level conditions match.
+- [ ] Recompute lift-success and unsafe-event rates for seen and unseen objects.
+- [ ] Report effect sizes for (f) minus (e), not only separate percentages.
+- [ ] Add appropriate confidence intervals that account for object-level
+      clustering and repeated trials.
+- [ ] Use a paired test only if justified; otherwise use a suitable two-sample
+      or clustered/hierarchical analysis.
+- [ ] State plainly if the observed reduction is not statistically
+      distinguishable.
+
+## Small Task 4 — Analyze critic false negatives
+
+**Reviewer item:** Reviewer 29, comment 4
+
+> The Bellman critic achieves a 5.8% false-negative rate on unsafe episodes.
+> Please discuss the consequences of these missed warnings and whether threshold
+> adjustment can trade task success for lower false-negative risk.
+
+- [ ] Verify that `5.8%` is calculated over unsafe episodes and record the exact
+      numerator and denominator.
+- [ ] Inspect missed-warning episodes and summarize their unsafe-event types.
+- [ ] Explain that a false negative can prevent critic-triggered takeover, while
+      the disagreement branch may still trigger intervention.
+- [ ] If saved critic scores are available, sweep the critic threshold.
+- [ ] For each threshold, report false-negative rate, detection rate,
+      intervention/takeover rate, lift success, and unsafe-event rate.
+- [ ] Discuss the empirical safety–task-success–autonomy tradeoff without
+      implying a formal guarantee.
+
+## Small Task 5 — Measure how early the Bellman critic warns before unsafe termination
+
+**Reviewer item:** Reviewer 29, comment 5
+
+> Clarify whether critic metrics are computed at the episode or time-step level
+> and how early an unsafe event is detected before termination. Warning lead
+> time is important for intervention usefulness.
+
+Here, `critic` means the learned **Bellman success-value critic**
+`Q_succ(s_t, a_t^S)`, not the VLM. At every control step, it estimates whether
+the student's current state and proposed action are likely to lead to a safe,
+successful lift. A value below the critic threshold is a `critic warning` and
+requests teacher takeover.
+
+The reviewer is asking whether the reported `5.8%` false-negative rate means:
+
+1. `episode-level`: 5.8% of unsafe episodes received no critic warning before
+   termination; or
+2. `timestep-level`: 5.8% of individual unsafe timesteps were classified
+   incorrectly.
+
+Our existing description appears to use the first definition, but this must be
+verified from the evaluation code and stated explicitly. The reviewer also
+wants to know whether a correct warning arrives early enough for teacher
+takeover to change the outcome. A warning one step before termination may count
+as detection while offering almost no practical reaction time.
+
+For every unsafe episode, identify:
+
+- `t_warning`: the first timestep at which `Q_succ` crosses the intervention
+  threshold; and
+- `t_unsafe`: the timestep at which the first unsafe event causes termination.
+
+Then calculate
+
+`warning lead time = (t_unsafe - t_warning) / 60` seconds,
+
+because the environment is checked at 60 Hz. Only warnings occurring before
+the unsafe event count as advance warnings. Episodes with no prior threshold
+crossing are false negatives.
+
+- [ ] Verify from the evaluation code that the reported `5.8%` false-negative
+      rate is episode-level, and record its exact numerator and denominator.
+- [ ] Extract `t_warning` and `t_unsafe` for every unsafe episode from the saved
+      timestep-level critic scores and termination logs.
+- [ ] Report lead time in both control steps and seconds, including the median,
+      interquartile range, and preferably the 10th--90th percentile.
+- [ ] Report the fraction of unsafe episodes warned at least `0.1 s`, `0.25 s`,
+      and `0.5 s` before termination, plus the fraction receiving no warning.
+- [ ] Explain that this analysis measures whether the critic warning is early
+      enough to be operationally useful; it does not establish a safety
+      guarantee.
+- [ ] If timestep-level scores or timestamps were not saved, state that lead
+      time cannot be reconstructed and disclose this as a limitation.
+
+## Small Task 6 — Clarify teacher unsafe-rate aggregation
+
+**Reviewer item:** Reviewer 29, comment 6
+
+> The teacher policy is implicitly treated as a safe fallback, yet teacher
+> interventions can still generate unsafe contacts. Report teacher unsafe-event
+> rates and explain what happens when teacher and critic recommendations
+> conflict.
+
+This concern is already substantially addressed in the previous response and
+revised manuscript: teacher takeover is explicitly described as empirically
+safer rather than guaranteed safe, and the method defines a conservative OR
+rule under which either high teacher--student disagreement or low critic value
+triggers intervention. Neither signal cancels the other.
+
+The remaining issue is numerical scope. Table II reports unsafe-event rates for
+four displayed teachers and an `11.8%` four-object mean, while the main text
+reports only the `5--30%` range across all 40 teachers. The previous response's
+statement that it provides a mean "across all tested objects" must therefore be
+verified and corrected.
+
+- [ ] Compute or recover the aggregate teacher unsafe-event rate across all 40
+      objects using the same episode-level definition and evaluation protocol.
+- [ ] Label the Table II value explicitly as the four-object mean and report the
+      all-40-object aggregate separately; coordinate this with Major Task 1.
+- [ ] In the new response, point to the existing safety-limitation and OR-rule
+      text, and state that only the evaluation population/aggregation has been
+      clarified.
+
+## Small Task 7 — Complete VLM reproducibility details
+
+**Reviewer item:** Reviewer 29, comment 7
+
+> Provide the final exact VLM identifier, prompt, decoding settings,
+> visual-sample selection rules, update interval, latency distribution, failure
+> handling, and cost in the main paper or permanent supplementary material.
+
+- [ ] Record the exact provider and immutable model/version identifier used in
+      the reported experiments.
+- [ ] Include the complete system and user prompt without omissions.
+- [ ] Report temperature, top-p, token limits, seed if supported, image detail or
+      resolution settings, and all other decoding parameters.
+- [ ] Define exactly which frames/views are selected and how they are
+      preprocessed.
+- [ ] State the threshold-update interval and total number of calls per run.
+- [ ] Document output parsing, validation, clipping, smoothing, and application
+      of updated thresholds.
+- [ ] Report latency as a distribution rather than only one representative
+      value.
+- [ ] Report failure, timeout, retry, and fallback behavior.
+- [ ] Report measured or reconstructed API cost and the date/price basis used.
+- [ ] Ensure these details appear in a permanent supplement, not only an
+      ephemeral service or external link.
+
+## Small Task 8 — Separate hardware-observable and privileged unsafe signals
+
+**Reviewer item:** Reviewer 29, comment 9
+
+> The current unsafe-event taxonomy is task-specific. Clarify which events are
+> directly sensor-observable on hardware and which depend on privileged
+> simulation signals during training or evaluation.
+
+- [ ] Create a table with one row per unsafe event: harmful collision, object
+      escape, palm flip, and hand-too-far.
+- [ ] For simulation, list the exact privileged state/contact quantities and
+      thresholds used to detect each event.
+- [ ] For hardware, list the sensor, estimator, or annotation used to detect each
+      event.
+- [ ] State whether hardware outcomes are detected online or labeled offline.
+- [ ] Identify events whose simulation and hardware definitions are only
+      approximations rather than equivalent measurements.
+- [ ] Clarify which privileged signals are available only during teacher
+      training/distillation and are absent from the deployed RGB student.
+
+## Small Task 9 — Add a compact limitations paragraph
+
+**Reviewer item:** Reviewer 29, comment 10
+
+> Please add a compact limitations paragraph covering the remaining sim-to-real
+> contact-strategy mismatch, external VLM dependence, task-specific safety
+> definitions, and absence of formal constraint guarantees. No major
+> methodological restructuring appears necessary.
+
+- [ ] Cover the contact-rich sim-to-real mismatch, especially on unseen objects.
+- [ ] State the dependence on an external proprietary VLM, including possible
+      model/version drift, latency, availability, and cost.
+- [ ] State that the unsafe-event definitions are task-specific and incomplete
+      as a general robot-safety specification.
+- [ ] State that the method provides empirical intervention, not formal
+      constraint satisfaction or safety guarantees.
+- [ ] Mention that the VLM, teacher, and critic are used during simulation
+      distillation and are not runtime physical safety monitors.
+- [ ] Keep the paragraph visible in the main paper rather than placing all
+      limitations only in the supplement.
+
+## Small Task 10 — Correct manuscript formatting
+
+**Reviewer item:** Reviewer 31, m1
+
+> One paragraph in Sec. III-A has a line spacing that differs from the rest of
+> the text. Please check the formatting of the entire manuscript.
+
+- [ ] Inspect every paragraph in Section III-A in the final rendered PDF.
+- [ ] Identify local spacing, font-size, manual line-break, or environment
+      commands causing the mismatch.
+- [ ] Remove accidental local formatting overrides.
+- [ ] Visually inspect every page after the final LaTeX build for inconsistent
+      line spacing, font size, margins, table scaling, and caption formatting.
+- [ ] Perform this check on both the clean and highlighted manuscripts.
+
+## Small Task 11 — Improve Figure 4 and justify its object subset
+
+**Reviewer item:** Reviewer 31, m3
+
+> Fig. 4 is difficult to read at print quality. Please also explain why only two
+> objects (windcart and cow) are shown.
+
+- [ ] Regenerate Figure 4 with print-readable fonts, line widths, markers,
+      colors, and panel labels at the final column/page size.
+- [ ] Prefer vector output where practical and verify readability in a printed or
+      100%-zoom PDF view.
+- [ ] Reduce visual density or move detailed panels to the supplement if needed.
+- [ ] Document the true selection rationale for WindCart and Cow; do not invent
+      a post-hoc representativeness criterion.
+- [ ] State whether the two objects were preselected, illustrative, or chosen to
+      show particular failure-mode profiles.
+- [ ] Consider adding all-object or additional-object failure-mode results to
+      the supplement.
+
+## Reviewer items tracked in the major TODO
+
+The following comments are intentionally not duplicated here:
+
+- Reviewer 29, comment 8 and Reviewer 31, M4: VLM contribution and novel scene
+  semantics — [`TODO.md`, Task 5](TODO.md#task-5--assess-the-evidence-for-the-distinct-vlm-contribution).
+- Reviewer 31, m2: inconsistent `Mean` populations and four-object selection —
+  [`TODO.md`, Task 1](TODO.md#task-1--unify-mean-in-tables-ii-and-iii).
+- Reviewer 31, M3: Figure 3 versus Table III —
+  [`TODO.md`, Task 2](TODO.md#task-2--resolve-figure-3-versus-table-iii).
+- Reviewer 31, M1: exact teacher reward formulation —
+  [`TODO.md`, Task 3](TODO.md#task-3--document-the-exact-teacher-training-reward).
+- Reviewer 31, M2: RL-recipe superiority and DextrAH/FABRICS fairness —
+  [`TODO.md`, Task 4](TODO.md#task-4--withdraw-the-unsupported-rl-recipe-superiority-claim).
