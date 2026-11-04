@@ -295,5 +295,6 @@ The following comments are intentionally not duplicated here:
   [`TODO.md`, Task 2](TODO.md#task-2--resolve-figure-3-versus-table-iii).
 - Reviewer 31, M1: exact teacher reward formulation —
   [`TODO.md`, Task 3](TODO.md#task-3--document-the-exact-teacher-training-reward).
-- Reviewer 31, M2: RL-recipe superiority and DextrAH/FABRICS fairness —
+- Reviewer 31, M2: RL-recipe superiority, DextrAH/FABRICS fairness, and the
+  follow-up teacher-only verification experiment —
   [`TODO.md`, Task 4](TODO.md#task-4--withdraw-the-unsupported-rl-recipe-superiority-claim).

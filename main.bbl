@@ -160,6 +160,12 @@ Y.~Wu, R.~Tian, G.~Swamy, and A.~Bajcsy, ``From foresight to forethought:
   {VLM}-in-the-loop policy steering via latent alignment,'' \emph{arXiv
   preprint arXiv:2502.01828}, 2025.
 
+\bibitem{wan2023unidexgraspplusplus}
+W.~Wan, H.~Geng, Y.~Liu, Z.~Shan, Y.~Yang, L.~Yi, and H.~Wang, ``Unidexgrasp++:
+  Improving dexterous grasping policy learning via geometry-aware curriculum
+  and iterative generalist-specialist learning,'' in \emph{Proceedings of the
+  IEEE/CVF International Conference on Computer Vision}, 2023, pp. 3891--3902.
+
 \bibitem{hoque2021thriftydagger}
 R.~Hoque, A.~Balakrishna, E.~Novoseller, A.~Wilcox, D.~S. Brown, and
   K.~Goldberg, ``Thriftydagger: Budget-aware novelty and risk gating for

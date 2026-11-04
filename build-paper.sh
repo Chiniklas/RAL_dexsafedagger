@@ -182,7 +182,7 @@ EOF
   sed -i '/^\\begin{document}$/a\
 \\providecommand{\\DIFyellowstripe}{\\bgroup\\markoverwith{\\textcolor{yellow}{\\rule[-0.5ex]{2pt}{2.5ex}}}\\ULon}\
 \\renewcommand{\\DIFaddtex}[1]{\\DIFyellowstripe{#1}}\
-\\renewcommand{\\DIFaddFL}[1]{\\DIFadd{#1}}' \
+\\renewcommand{\\DIFaddFL}[1]{\\texorpdfstring{\\colorbox{yellow}{\\strut #1}}{#1}}' \
     "$diff_tex"
 
   # latexdiff's figure-markup helper uses blue by default. Keep all visible

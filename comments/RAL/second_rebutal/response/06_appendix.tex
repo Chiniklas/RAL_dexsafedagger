@@ -111,10 +111,9 @@ is
 \begin{bmatrix}\mathbf a_t^{\rm arm}\\ \mathbf a_t^{\rm hand}\end{bmatrix}.
 \label{eq:teacher_action_definition}
 \end{equation}
-The near term uses the episode age $n_t$ while the distance gate is active,
-rather than the consecutive time spent inside the gate.  PPO receives
-the globally scaled reward $r^{\rm PPO}=\eta_{\rm PPO}r$; no additional
-per-term normalization is applied.  Table~\ref{tab:teacher_reward_parameters}
+Before PPO uses the reward, the sum of all eight terms is multiplied by
+$\eta_{\rm PPO}$, i.e., $r^{\rm PPO}=\eta_{\rm PPO}r$. The individual reward
+terms are not normalized separately. Table~\ref{tab:teacher_reward_parameters}
 summarizes the numerical parameters used in our experiments.
 
 \begin{table}[H]
@@ -153,7 +152,7 @@ sharpness according to
 where $m_t$ is the ADR increment at control step $t$.
 
 \subsection{Termination Conditions}
-We define four unsafe conditions that serve both as termination criteria during teacher-policy training and as unsafe-event signals during student-policy distillation. We additionally terminate an episode when it reaches the maximum time horizon; however, a timeout is not classified as an unsafe event. All five termination conditions are checked at \(60\,\text{Hz}\) in the environment frame.
+We define four unsafe conditions that serve both as termination criteria during teacher-policy training and as unsafe-event signals during student-policy distillation. We additionally terminate an episode when it reaches the maximum time horizon. With $T_{\max}=10\,\mathrm{s}$, timeout termination was rarely observed in the reported experiments and was not classified as an unsafe event. All five termination conditions are checked at \(60\,\text{Hz}\) in the environment frame.
 
 \begin{enumerate}[label=(\alph*),leftmargin=2em,itemsep=2pt,topsep=3pt]
   \item \emph{Harmful collision:} We monitor all arm--table contacts and
@@ -290,7 +289,7 @@ fallback.
 
 \subsection{Bellman Critic Evaluation}
 We use the resulting student and fixed-threshold Bellman critic from
-ablation~(e) to evaluate the critic's performance. Both networks are frozen
+ablation~(c) to evaluate the critic's performance. Both networks are frozen
 during evaluation, and the critic runs in parallel as a passive evaluator. We
 evaluate 200 episodes for each of the 40 training objects in simulation.
 Table~\ref{tab:bellman_critic_evaluation} reports the observed lift-success and
@@ -309,9 +308,9 @@ termination.
 \input{../../../../table/appendix_bellman_critic_evaluation.tex}
 
 \subsection{Ablations Across Random Seeds}
-We independently train four intervention variants---Vanilla DAgger~(b),
-Vanilla SafeDAgger~(c), critic-based intervention~(e), and VLM-guided
-intervention~(f)---using five random seeds, $\{40,41,42,43,44\}$. For each
+We independently train four intervention variants---Vanilla DAgger~(a),
+Vanilla SafeDAgger~(b), critic-based intervention~(c), and VLM-guided
+intervention~(d)---using five random seeds, $\{40,41,42,43,44\}$. For each
 variant and seed, we freeze the resulting student and evaluate it for 200
 episodes on each of the 40 training objects in simulation, yielding 8{,}000
 evaluation episodes per seed. Because all variants use the same number of
@@ -351,9 +350,9 @@ unseen-object episodes.
 
 
 \subsection{Physical Baseline Comparison}
-We deploy the frozen RGB student policies resulting from ablations~(e) and~(f)
-on the real robot. Ablation~(e) uses our RL teacher-training recipe with the stationary
-DexSafeDagger intervention policy, whereas ablation~(f) uses the same teacher
+We deploy the frozen RGB student policies resulting from ablations~(c) and~(d)
+on the real robot. Ablation~(c) uses our RL teacher-training recipe with the stationary
+DexSafeDagger intervention policy, whereas ablation~(d) uses the same teacher
 recipe with VLM-guided threshold adaptation. We evaluate both policies
 using the same objects, initial-condition protocol, and number of trials. We
 report lift-success and unsafe-event rates separately for the 14 seen and 8
@@ -365,12 +364,12 @@ The comparison supports our claim that the student trained with VLM-augmented in
 achieves a comparable real-world task-success rate while exhibiting a lower
 unsafe-event rate for both seen and unseen objects.
 
-\subsection{Implementation Details of Ablation~(h)}
-Ablation~(h) replaces the VLM tuner in ablation~(f) with a deterministic
+\subsection{Implementation Details of Ablation~(f)}
+Ablation~(f) replaces the VLM tuner in ablation~(d) with a deterministic
 performance-triggered threshold curriculum inspired by the budget-aware
 intervention principle of ThriftyDAgger. The teacher, student, Bellman critic,
 intervention gate, admissible threshold range, rollout budget, and update
-schedule are otherwise identical to those in ablation~(f); the curriculum uses
+schedule are otherwise identical to those in ablation~(d); the curriculum uses
 neither language nor visual inputs.
 
 At scheduled update~$k$, let $\mathcal W_k$ denote the most recent rollout
@@ -425,4 +424,4 @@ more teacher intervention, whereas two consecutive windows satisfying both
 safety and task-performance criteria are required before increasing student
 autonomy. This asymmetric update prevents rapid oscillation. We apply the first
 curriculum update after 2{,}000 distillation episodes and subsequent updates
-every 10{,}000 episodes, matching the VLM update schedule in ablation~(f).
+every 10{,}000 episodes, matching the VLM update schedule in ablation~(d).

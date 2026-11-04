@@ -115,6 +115,11 @@ next state. The objective is to maximize the expected discounted return,
 \endgroup
 We use a shaped reward $r_t=\sum_{k=1}^{K_r} r_{t,k}$ to encourage stable grasp
 acquisition, object lifting, and goal reaching (Table~\ref{tab:reward_terms}).
+Our teacher-training control interface follows the normalized direct motor-command
+formulation used in UniDexGrasp++~\cite{wan2023unidexgraspplusplus}. Unlike the
+human-motion-derived hand-action manifold and FABRICS interface used by
+DexTrAH-RGB~\cite{singh2024dextrah}, our 13 normalized outputs map directly to
+joint-position targets for seven arm and six hand DoFs.
 
 The teacher is trained in simulation using an asymmetric actor--critic setup.
 Details of the actor and critic observation spaces are provided in the Appendix.

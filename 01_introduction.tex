@@ -84,10 +84,6 @@ The contributions of this work are summarized as follows:
     with a Bellman success-value critic, while the VLM reasons about scene-level safety from rollout statistics and
     representative visual observations to regulate the intervention gate.
 
-    \item We propose a safety-aware RL reward design that explicitly accounts for risky events in 
-    arm--hand control scenarios, including harmful collisions, object escape, palm flipping, and the hand moving 
-    too far from the workspace, thereby encouraging safer exploration during teacher training.
-    
     \item We empirically demonstrate that \methodname, which combines
     disagreement, success-value prediction, and VLM-guided intervention policy adaptation,
     substantially reduces unsafe exploration compared with Vanilla DAgger,

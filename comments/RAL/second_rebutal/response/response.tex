@@ -300,22 +300,119 @@ provide the exact formulation and weights of each reward term.}
 \response We thank the reviewer for identifying this reproducibility gap.  We
 agree that the verbal descriptions in Table~I were insufficient to reproduce
 the teacher-training objective.  We have therefore added a new
-``Teacher-Reward Formulation'' subsection to Supplementary Section~A.2.  The
-new subsection first states the complete additive teacher reward and then gives
-the exact mathematical expression for each of its eight terms:
-$r_{\mathrm{dist}}$, $r_{\mathrm{curl}}$, $r_{\mathrm{align}}$,
-$r_{\mathrm{contact}}$, $r_{\mathrm{near}}$, $r_{\mathrm{goal}}$,
-$r_{\mathrm{lift}}$, and $r_{\mathrm{action}}$.  It also defines the geometric
-distances, contact and grasp indicators, action decomposition, activation
-conditions, and clipping operations used by these terms.
+``Teacher-Reward Formulation'' subsection to Supplementary Section~A.2.  We
+reproduce the added formulation below so that the complete correction is also
+available directly in this response.
 
-Supplementary Table~2 collects all numerical coefficients and implementation
-parameters, including the distance and contact thresholds, reference finger
-posture, ADR schedule, lift delay, relative hand-action penalty, and global PPO
-reward scaling.  We verified every equation and value directly against the
-implementation and configuration used to train the reported teacher policies.
-This addition provides the requested reproducibility details while retaining
-the compact qualitative overview in the main-paper Table~I.
+At each control step $t$, all state and action quantities below are evaluated
+at that step, and the raw environment reward is
+\begin{align*}
+r={}&r_{\text{dist}}+r_{\text{curl}}+r_{\text{align}}+r_{\text{contact}}\\
+   &+r_{\text{near}}+r_{\text{goal}}+r_{\text{lift}}+r_{\text{action}}.
+\end{align*}
+Let $\mathbf p_{o,t}$ and $\mathbf p_g$ denote the object and desired goal
+positions, respectively.  For
+$\mathcal H=\{\text{palm center},\text{five fingertips}\}$, we define
+\begin{align*}
+d_t^{\rm hand}
+  &=\max_{i\in\mathcal H}\|\mathbf p_{i,t}-\mathbf p_{o,t}\|_2, &
+d_t^{\rm goal}
+  &=\|\mathbf p_{o,t}-\mathbf p_g\|_2,\\
+d_t^{z}
+  &=|p_{o,t}^{z}-p_g^{z}|, &
+\Delta\mathbf a_t&=\mathbf a_t-\mathbf a_{t-1}.
+\end{align*}
+For each fingertip
+$i\in\mathcal F=\{\mathrm{index,middle,ring,little,thumb}\}$, the contact
+and grasp indicators are
+\begin{equation*}
+b_{i,t}=\mathbb I\!\left[
+  \max_j\|\mathbf f_{i,j,t}\|_1>\varepsilon_f
+\right],\qquad
+I_t^{\rm any}=\mathbb I\!\left[\sum_{i\in\mathcal F}b_{i,t}>0\right],
+\qquad
+I_t^{\rm grasp}=b_{\rm thumb,t}\,
+\mathbb I\!\left[\sum_{i\in\mathcal F}b_{i,t}\geq2\right].
+\end{equation*}
+Here $\mathbf f_{i,j,t}$ is a vector in the simulator contact-force matrix for
+fingertip $i$; $I_t^{\rm any}$ denotes any fingertip--object contact, whereas
+$I_t^{\rm grasp}$ requires the thumb and at least one other fingertip.  With
+$n_t$ denoting the elapsed environment steps, the eight sub-rewards are
+\begin{align*}
+r_{\text{dist}}
+  &=w_{\rm dist}\exp(-\kappa_{\rm dist}d_t^{\rm hand}),\\
+r_{\text{curl}}
+  &=\operatorname{clip}\!\left(
+      -w_{\rm curl}\|\mathbf q_t^{H}-\mathbf q_{\rm curl}\|_2^2,
+      -c_{\rm curl},0
+    \right),\\
+r_{\text{align}}
+  &=-w_{\rm align}\left[
+      \arccos\!\left(
+        \operatorname{clip}((\mathbf d_t^{\rm palm})^{\top}\mathbf e_{-z},-1,1)
+      \right)
+    \right]^2,\\
+r_{\text{contact}}
+  &=w_{\rm contact} I_t^{\rm grasp},\\
+r_{\text{near}}
+  &=w_{\rm near}\,n_t\,\mathbb I[d_t^{\rm hand}<\varepsilon_{\rm near}],\\
+r_{\text{goal}}
+  &=w_{\rm goal}\exp(-\alpha_t d_t^{\rm goal})I_t^{\rm any},\\
+r_{\text{lift}}
+  &=w_{\rm lift}\exp(-\kappa_{\rm lift}d_t^{z})
+    I_t^{\rm any}\mathbb I[n_t\geq n_{\rm lift}],\\
+r_{\text{action}}
+  &=-w_{\rm action}\left(
+      \|\Delta\mathbf a_t^{\rm arm}\|_2^2
+      +\lambda_H\|\Delta\mathbf a_t^{\rm hand}\|_2^2
+    \right).
+\end{align*}
+Here $\mathbf q_t^H$ contains the actuated finger-joint positions,
+$\mathbf q_{\rm curl}$ is the desired curling posture,
+$\mathbf d_t^{\rm palm}$ is the world-frame unit vector along the palm-down
+axis, $\mathbf e_{-z}$ is the world-down unit vector, and
+\begin{equation*}
+\mathbf a_t=
+\begin{bmatrix}\mathbf a_t^{\rm arm}\\ \mathbf a_t^{\rm hand}\end{bmatrix}.
+\end{equation*}
+Before PPO uses the reward, the sum of all eight terms is multiplied by
+$\eta_{\rm PPO}$, i.e., $r^{\rm PPO}=\eta_{\rm PPO}r$. The individual reward
+terms are not normalized separately. The numerical parameters used in all
+experiments are reproduced below.
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.05}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\multicolumn{2}{c}{\textbf{Teacher-reward parameters used in all experiments.}}\\[2pt]
+\toprule
+Component & Parameter values \\
+\midrule
+Hand distance & $w_{\rm dist}=5$, $\kappa_{\rm dist}=10$ \\
+Finger curl & $w_{\rm curl}=0.1$, $c_{\rm curl}=2$,
+$\mathbf q_{\rm curl}=[0,0,0,0,0.4,0.1]$ \\
+Palm alignment & $w_{\rm align}=0.1$ \\
+Contact bonus & $w_{\rm contact}=10$, $\varepsilon_f=10^{-4}$ \\
+Stay-close & $w_{\rm near}=0.005$, $\varepsilon_{\rm near}=0.2\,\mathrm{m}$ \\
+Goal tracking & $w_{\rm goal}=8$, $\alpha_0=15$,
+$\Delta\alpha=0.1$, $m_{\max}=50$ \\
+Lift & $w_{\rm lift}=10$, $\kappa_{\rm lift}=8.5$,
+$n_{\rm lift}=60$ steps \\
+Action smoothness & $w_{\rm action}=0.01$, $\lambda_H=3$ \\
+Global PPO scaling & $\eta_{\rm PPO}=0.01$ \\
+\bottomrule
+\end{tabularx}
+\end{center}
+Finally, automatic domain randomization progressively sharpens the
+goal-tracking reward while leaving the lift weight fixed:
+\begin{equation*}
+\alpha_t=\alpha_0+\Delta\alpha\,m_t,
+\qquad m_t\in\{0,\ldots,m_{\max}\}.
+\end{equation*}
+We verified every equation and value directly against the implementation and
+configuration used to train the reported teacher policies. The complete
+formulation and parameter table can be found in Supplementary Section~A.2,
+``Teacher-Reward Formulation.''
 
 \reviewcommentlabel{Major Comment M2}{The claimed superiority of the authors'
 RL recipe is not supported. (1) The authors explain the performance gap between
@@ -339,18 +436,62 @@ reward terms or of the termination conditions, or moderate the contribution
 statement.}
 
 \response
-\textcolor{responseblue}{\textbf{Drafting checklist by subpart:}}
-\begin{enumerate}[label=(\arabic*),leftmargin=2em,itemsep=4pt,topsep=3pt]
-  \item \placeholder{Choose and document the factual resolution: report a
-  re-tuned embodiment-matched DexTrAH/FABRICS baseline, or withdraw the
-  superiority claim and state that the transferred baseline is not evidence of
-  recipe superiority.}
-  \item \placeholder{Provide a precise component-by-component comparison of
-  the two recipes, including embodiment, observations, action space, reward,
-  termination, optimizer, network, training budget, and controller tuning.}
-  \item \placeholder{Report the verified termination/bootstrap semantics and
-  either add the requested ablation or moderate the reward-design contribution
-  so it matches the actual implementation and evidence.}
+\begin{enumerate}[label=(\arabic*),leftmargin=2em,itemsep=6pt,topsep=3pt]
+  \item We clarify that the submitted DexTrAH/FABRICS baseline was not an
+  untuned transfer. We adapted and retuned the controller for the Tiangong~2 Pro
+  and InspireHand, including the robot geometry, constraints, action interface,
+  and controller parameters. On our platform, our direct-control teacher recipe
+  achieved at least comparable task performance while avoiding the
+  human-grasp-motion processing used to construct DexTrAH's hand action space:
+  embodiment-specific motion retargeting, PCA action-manifold construction, and
+  the associated FABRICS tuning. The direct normalized motor-command design is
+  inspired by \href{https://openaccess.thecvf.com/content/ICCV2023/html/Wan_UniDexGrasp_Improving_Dexterous_Grasping_Policy_Learning_via_Geometry-Aware_Curriculum_and_ICCV_2023_paper.html}{UniDexGrasp++ (Wan et al., ICCV 2023)}.
+  We therefore make only the scoped implementation claim that comparable
+  teacher performance can be obtained with substantially less
+  embodiment-specific data processing and controller engineering; we do not
+  claim intrinsic superiority of the underlying RL algorithm. Consistent with
+  that narrower claim, we removed the two FABRICS-based ablations from the
+  primary contribution argument and removed the corresponding research
+  question.
+
+  \placeholder{Add the verified teacher-only evidence here and replace this
+  note with the final numerical statement: the supplementary teacher-only
+  figure should plot evaluation lift-success versus environment steps for the retuned
+  DexTrAH/FABRICS teacher and our direct-control teacher under the same objects,
+  initialization distribution, horizon, PPO budget, and matched random seeds.
+  Report the mean with a 95\% confidence interval, the final paired difference
+  across all 40 objects with a pre-specified equivalence margin, and the
+  corresponding unsafe-termination rates. Use ``comparable'' only if the
+  verified interval supports that conclusion.}
+
+  \item The main implementation difference is the action-control interface.
+  The submitted DexTrAH-inspired baseline retained the retuned FABRICS
+  controller and its human-motion-derived PCA hand-action manifold between the
+  RL policy and the robot joints. Our teacher-training implementation removes
+  FABRICS and maps 13 normalized policy outputs one-to-one to joint-position
+  targets for the seven arm and six hand DoFs. Revised Sec.~III-C now states
+  both this difference and the connection to UniDexGrasp++ explicitly. All
+  retained ablations use the same teacher setup and differ only in their
+  student-distillation and intervention mechanisms.
+
+  \item Consistent with the reduced claim, we deleted the following
+  contribution from the previous manuscript:
+  \begin{quote}
+  \itshape
+  ``We propose a safety-aware RL reward design that explicitly accounts for
+  risky events in arm--hand control scenarios, including harmful collisions,
+  object escape, palm flipping, and the hand moving too far from the workspace,
+  thereby encouraging safer exploration during teacher training.''
+  \end{quote}
+  Unsafe events are handled through early termination rather than through an
+  explicit negative reward term. The timeout horizon is
+  $T_{\max}=10\,\mathrm{s}$ and was rarely reached in our experiments.
+  Nevertheless, we agree that early termination should not be presented as an
+  explicit unsafe-event reward, and we have therefore removed the corresponding
+  contribution claim. The termination conditions and timeout treatment are
+  documented in Supplementary Section~A.3. We retain the exact reward
+  equations, weights, and implementation details in Supplementary
+  Section~A.2 solely to make the teacher-policy training procedure reproducible.
 \end{enumerate}
 
 \reviewcommentlabel{Major Comment M3}{The unsafe rates in Fig. 3 and Table III

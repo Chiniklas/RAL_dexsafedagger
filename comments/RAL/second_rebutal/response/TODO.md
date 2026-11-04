@@ -22,7 +22,7 @@ and have been checked for content and layout.
 | Task 1 | Reviewer 31, m2 | Unify the definition and population of `Mean` in Tables II and III and document the four-object selection | Problem identified; verification and correction needed |
 | Task 2 | Reviewer 31, M3 | Resolve or explain the apparent inconsistency between Figure 3 and Table III | Working explanation identified; raw-data verification needed |
 | Task 3 | Reviewer 31, M1 | Make teacher-policy reward formulation reproducible | Complete: exact equations and parameter table added to Appendix A.2; reviewer response finalized |
-| Task 4 | Reviewer 31, M2 | Resolve the unsupported RL-recipe superiority claim and unfair DextrAH/FABRICS comparison | Preferred route: withdraw the superiority claim and avoid a new embodiment-specific FABRICS port |
+| Task 4 | Reviewer 31, M2 | Resolve the unsupported RL-recipe superiority claim and unfair DextrAH/FABRICS comparison | Claim audit complete; teacher-only verification retained as a follow-up experiment |
 | Task 5 | Reviewer 31, M4; Reviewer 29, comment 8 | Determine whether the evidence sufficiently supports the distinct VLM contribution across visual contexts and unsafe scenarios | Open question; do not defend or narrow the claim until existing data are audited |
 
 Add future review items as `Task 3`, `Task 4`, and so forth. Each task should
@@ -304,8 +304,8 @@ was verified against the submitted teacher-training implementation.
 
 **Reviewer item:** Reviewer 31, M2
 
-**Status:** Analysis completed; preferred resolution is to withdraw the
-intrinsic RL-superiority claim, subject to final author/supervisor approval.
+**Status:** Claim and manuscript audit completed. The teacher-only verification
+remains as the follow-up experiment below.
 
 ### Reviewer 31's original comment
 
@@ -409,28 +409,148 @@ the same teacher setup, so that the intervention mechanism is isolated:
 
 ### Required claim and manuscript audit
 
-- [ ] Obtain final author/supervisor approval to withdraw the RL-superiority
+- [x] Obtain final author/supervisor approval to withdraw the RL-superiority
       claim rather than implement a new Tiangong--InspireHand FABRICS baseline.
-- [ ] Remove the research question asking whether the customized RL recipe
+- [x] Remove the research question asking whether the customized RL recipe
       produces stronger teachers than the DextrAH-RGB-style recipe.
-- [ ] Remove statements that the experiments demonstrate intrinsic superiority
+- [x] Remove statements that the experiments demonstrate intrinsic superiority
       of the customized RL recipe.
-- [ ] Remove teacher-recipe superiority from the contribution list, abstract,
+- [x] Remove teacher-recipe superiority from the contribution list, abstract,
       introduction, results, discussion, conclusion, cover letter, and response.
-- [ ] Decide whether to retain ablations (a) and (d) as qualified implementation
+- [x] Decide whether to retain ablations (a) and (d) as qualified implementation
       references or remove them from the main comparison.
-- [ ] If retained, relabel them accurately as a `DextrAH-inspired transferred
+- [x] If retained, relabel them accurately as a `DextrAH-inspired transferred
       implementation` or equivalent wording, and state the embodiment mismatch.
-- [ ] Add a compact table describing the factual implementation differences
+      **Not applicable:** both ablations were removed from the main comparison.
+- [x] Add a compact factual description of the implementation differences
       between the transferred DextrAH-inspired setup and the customized teacher
-      setup, without interpreting the difference as superiority.
-- [ ] Keep teacher policies and all teacher-training settings fixed across the
+      setup, without interpreting the difference as superiority. This is stated
+      in response M2(1)--(2) and Supplementary Section D.1; a separate table is
+      not required.
+- [x] Keep teacher policies and all teacher-training settings fixed across the
       intervention comparisons used to support the central contribution.
-- [ ] Audit the separate “safety-aware RL reward” claim. Unless an explicit
+- [x] Audit the separate “safety-aware RL reward” claim. Unless an explicit
       unsafe-event reward or a supporting reward/termination ablation exists,
       moderate or remove this contribution claim as Reviewer 31 requests.
-- [ ] Ensure Task 3 still provides the exact teacher reward equations and
+- [x] Ensure Task 3 still provides the exact teacher reward equations and
       weights for reproducibility even after the superiority claim is removed.
+
+### Follow-up experiment — Verify the retuned DextrAH transfer with a teacher-only comparison
+
+**Status:** Planned. A figure placeholder has been added to Supplementary
+Section D.1 and a matching evidence placeholder has been added to response item
+M2(1). No numerical claim should replace those placeholders until the protocol,
+raw data, and uncertainty analysis below have been verified.
+
+#### Purpose and claim boundary
+
+The revised manuscript withdraws the claim that the direct-control teacher
+implementation is intrinsically superior to DextrAH. Nevertheless, the response
+must demonstrate that the submitted DextrAH/FABRICS comparison was based on a
+real target-platform adaptation and that selecting the direct joint-target
+teacher did not sacrifice teacher performance.
+
+The experiment may support only the following scoped conclusion:
+
+> On the Tiangong 2 Pro--InspireHand platform, the direct joint-target teacher
+> achieves performance equivalent to, or at least comparable with, the retuned
+> DextrAH/FABRICS teacher under a matched evaluation protocol. We therefore use
+> direct control as an embodiment-native implementation choice that avoids
+> human-motion retargeting, PCA action-manifold construction, and additional
+> FABRICS tuning. This is not evidence of general RL-algorithm superiority.
+
+#### Baseline identity and transfer audit
+
+- [ ] Record the exact source commit, configuration, checkpoint, and training
+      logs for the DextrAH/FABRICS teacher.
+- [ ] Document every target-platform adaptation: robot geometry, collision
+      model, joint and dynamic limits, action interface, PCA or hand-action
+      manifold, controller gains, low-level command mapping, and RL parameters.
+- [ ] Verify whether the implementation is sufficiently faithful to be called a
+      `retuned DextrAH/FABRICS teacher`. If any essential DextrAH component was
+      not reproduced, label it `DextrAH-inspired adapted FABRICS teacher`
+      instead.
+- [ ] Record the corresponding source commit, configuration, checkpoints, and
+      logs for the direct joint-target teacher.
+- [ ] Confirm that the two implementations differ only in the intended
+      teacher action/control interface and associated reward or controller
+      requirements; list all remaining differences explicitly.
+
+#### Matched teacher-only experiment
+
+- [ ] Evaluate the teachers directly, before DAgger, student distillation,
+      Bellman-critic intervention, or VLM adaptation.
+- [ ] Use the same 40 objects, initial-state distribution, object sampling,
+      episode horizon ($T_{\max}=10\,\mathrm{s}$), success definition, unsafe-event
+      definitions, evaluation episodes per object, simulator version, and
+      hardware allocation.
+- [ ] Match the PPO interaction budget, environment count, checkpoint cadence,
+      and random seeds. Report any unavoidable mismatch rather than silently
+      normalizing it away.
+- [ ] Plot evaluation lift-success against environment interaction steps, not
+      raw training reward, because the two reward formulations or scales may
+      differ.
+- [ ] Use at least three matched seeds, preferably five. Plot the seed mean and
+      a 95\% confidence interval without hiding the individual seed traces.
+- [ ] Add teacher unsafe-termination rate against environment steps so that
+      comparable task success is not achieved by accepting substantially more
+      unsafe rollouts.
+- [ ] If wall-clock or sample-efficiency statements are made, report both
+      environment steps and measured wall-clock time under the same compute
+      setup.
+
+#### Final-performance and equivalence analysis
+
+- [ ] Evaluate the selected final checkpoint from each matched seed on all 40
+      objects using paired evaluation conditions where possible.
+- [ ] Plot the per-object paired difference
+      $\Delta_i=S_i^{\mathrm{direct}}-S_i^{\mathrm{FABRICS}}$ and report its
+      mean with a bootstrap or otherwise justified 95\% confidence interval.
+- [ ] Define the practically meaningful equivalence margin before inspecting
+      the final comparison. Document the scientific justification for the
+      chosen margin.
+- [ ] Use an equivalence or non-inferiority analysis appropriate to the claim.
+      Failure to reject a difference is not evidence that the implementations
+      match.
+- [ ] Report the final lift-success and unsafe-termination denominators, effect
+      sizes, intervals, and seed/object aggregation rule.
+- [ ] Use the words `matches`, `equivalent`, or `comparable` only if the verified
+      interval and pre-specified margin support that wording.
+
+#### Missing-log fallback
+
+If historical checkpoint traces cannot be recovered, do not reconstruct or
+smooth a synthetic training curve. Instead:
+
+- [ ] evaluate the available final teacher checkpoints under the matched
+      40-object protocol;
+- [ ] present a paired per-object dot/difference plot with uncertainty; and
+- [ ] state explicitly that the evidence concerns final teacher performance,
+      not learning speed or convergence behavior.
+
+#### UniDexGrasp++ scope
+
+- [ ] Cite UniDexGrasp++ only as precedent for a normalized direct
+      motor-command interface.
+- [ ] Do not add UniDexGrasp++ as a separate performance baseline unless its
+      complete relevant training method is faithfully ported and evaluated.
+- [ ] Do not call the direct teacher the `UniDexGrasp++ recipe`: its reward,
+      observations, task distribution, PPO configuration, and lack of the full
+      GeoCurriculum/GiGSL pipeline must remain explicit.
+
+#### Required deliverables
+
+- [ ] Preserve the raw scalar exports and a manifest mapping every plotted line
+      to its source run, seed, checkpoint, and metric tag.
+- [ ] Replace the boxed placeholder in Supplementary Section D.1 with the
+      verified teacher-only figure and final caption.
+- [ ] Replace the red placeholder in response M2(1) with the exact sample sizes,
+      final values, effect/interval, and scoped conclusion.
+- [ ] Add a compact implementation table listing the action interface,
+      intermediate controller, human-motion/PCA requirement, and
+      embodiment-specific tuning for both teachers.
+- [ ] Check that the main manuscript, highlighted manuscript, response, and
+      appendix use the same baseline name and the same level of claim.
 
 ### Proposed response if the preferred resolution is approved
 

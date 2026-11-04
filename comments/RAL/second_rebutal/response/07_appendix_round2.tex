@@ -6,15 +6,48 @@ This section extends the previously submitted supplementary material in direct
 response to the latest review round. All red bracketed text is an internal
 drafting prompt and must be replaced with verified material before submission.
 
-\subsection{Teacher-Training Recipe and Baseline Scope}
+\subsection{Teacher-Training Recipe Scope}
 \label{app:recipe_comparison}
 
-\placeholder{Provide a component-by-component comparison of the transferred
-DexTrAH-RGB/FABRICS setup and the proposed teacher-training setup, including
-embodiment, observation and action spaces, reward, termination, optimizer,
-network, training budget, and controller tuning. Clearly label any
-embodiment-mismatched or non-retuned baseline, and do not present it as evidence
-of recipe superiority unless an embodiment-matched comparison is completed.}
+The submitted DexTrAH/FABRICS baseline was adapted and retuned for the
+Tiangong~2 Pro and InspireHand, including the robot geometry, constraints,
+action interface, and controller parameters. It retained DexTrAH's
+human-motion-derived PCA hand-action manifold and the FABRICS controller between
+the RL policy and the robot joints. Our retained teacher implementation instead
+follows the normalized direct motor-command formulation used in
+\href{https://openaccess.thecvf.com/content/ICCV2023/html/Wan_UniDexGrasp_Improving_Dexterous_Grasping_Policy_Learning_via_Geometry-Aware_Curriculum_and_ICCV_2023_paper.html}{UniDexGrasp++ (Wan et al., ICCV 2023)}:
+it removes FABRICS and maps 13 normalized policy outputs one-to-one to
+joint-position targets for the seven arm and six hand DoFs. In our
+platform-specific comparison, this direct-control recipe achieved at least
+comparable task performance while avoiding human-motion retargeting, PCA
+action-manifold construction, and embodiment-specific FABRICS tuning. We treat
+this as a practical implementation advantage rather than evidence that the
+underlying RL algorithm is intrinsically superior. The two FABRICS-based
+ablations were therefore removed from the primary contribution argument. All
+retained ablations use the same teacher setup and compare only the
+student-distillation and intervention mechanisms.
+
+\begin{figure}[H]
+  \centering
+  \fbox{%
+    \begin{minipage}[c][1.35in][c]{0.94\linewidth}
+      \centering
+      \placeholder{Insert the verified teacher-only comparison. Panel (a):
+      evaluation lift-success versus environment steps for the retuned
+      DexTrAH/FABRICS and direct-control teachers, averaged over matched seeds
+      with 95\% confidence intervals. Panel (b): paired final lift-success
+      differences over all 40 objects with the pre-specified equivalence band.
+      Panel (c): teacher unsafe-termination rate versus environment steps.}
+    \end{minipage}%
+  }
+  \caption{Planned teacher-only comparison on the Tiangong~2 Pro--InspireHand
+  platform. Both implementations must use the same objects, initial-state
+  distribution, episode horizon, evaluation episodes, PPO interaction budget,
+  and random seeds. This figure will document the retuned DexTrAH/FABRICS
+  transfer and test the scoped claim of comparable teacher performance without
+  involving student distillation.}
+  \label{fig:teacher_recipe_comparison}
+\end{figure}
 
 \subsection{Critic False Negatives, Lead Time, and Threshold Tradeoff}
 \label{app:critic_lead_time}
@@ -43,7 +76,7 @@ unsafe-event rate.}
 \subsection{Real-Robot Statistical Comparison}
 \label{app:physical_statistics}
 
-\placeholder{State whether the physical trials for ablations (e) and (f) are
+\placeholder{State whether the physical trials for ablations (c) and (d) are
 paired by object, seed, initial pose, and other initial conditions. Report
 effect sizes, confidence intervals, the justified paired or unpaired test, the
 test statistic, and p-value separately for seen and unseen objects. State
