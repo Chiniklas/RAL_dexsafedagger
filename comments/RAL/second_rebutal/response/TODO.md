@@ -1,12 +1,27 @@
 # Second rebuttal TODO
 
+## Required final outputs
+
+All rebuttal work must culminate in these four deliverables under the project
+`output/` directory:
+
+- [ ] `output/main.pdf` — clean revised manuscript
+- [ ] `output/main_highlighted.pdf` — revision-marked manuscript compared against the
+      last submitted revision (`first_rebutal/output/revision/main.pdf`), using
+      yellow highlight stripes with no blue additions or red strikeouts
+- [ ] `output/response.pdf` — point-by-point response to the reviewers
+- [ ] `output/appendix.pdf` — standalone supplementary material
+
+Do not consider the rebuttal complete until all four PDFs build successfully
+and have been checked for content and layout.
+
 ## Task index
 
 | Task | Reviewer item | Problem | Status |
 |---|---|---|---|
 | Task 1 | Reviewer 31, m2 | Unify the definition and population of `Mean` in Tables II and III and document the four-object selection | Problem identified; verification and correction needed |
 | Task 2 | Reviewer 31, M3 | Resolve or explain the apparent inconsistency between Figure 3 and Table III | Working explanation identified; raw-data verification needed |
-| Task 3 | Reviewer 31, M1 | Make teacher-policy reward formulation reproducible | Add exact implemented equations, weights, and scales to the appendix |
+| Task 3 | Reviewer 31, M1 | Make teacher-policy reward formulation reproducible | Complete: exact equations and parameter table added to Appendix A.2; reviewer response finalized |
 | Task 4 | Reviewer 31, M2 | Resolve the unsupported RL-recipe superiority claim and unfair DextrAH/FABRICS comparison | Preferred route: withdraw the superiority claim and avoid a new embodiment-specific FABRICS port |
 | Task 5 | Reviewer 31, M4; Reviewer 29, comment 8 | Determine whether the evidence sufficiently supports the distinct VLM contribution across visual contexts and unsafe scenarios | Open question; do not defend or narrow the claim until existing data are audited |
 
@@ -216,8 +231,9 @@ technical statement in it.
 
 **Reviewer item:** Reviewer 31, M1
 
-**Status:** Resolution selected; appendix equations still need to be written and
-verified against the implementation.
+**Status:** Complete.  Appendix A.2 now contains the verified reward equations
+and parameter table, and the point-by-point response to Reviewer 31 M1 is
+finalized.  The main manuscript remains unchanged by author decision.
 
 ### Reviewer 31's original comment
 
@@ -263,38 +279,26 @@ appendix equations.
 
 ### Required checks and edits
 
-- [ ] Locate the reward implementation and its associated configuration file.
-- [ ] Extract the implemented equation for each of the eight named reward
+- [x] Locate the reward implementation and its associated configuration file.
+- [x] Extract the implemented equation for each of the eight named reward
       terms; do not reconstruct equations from memory.
-- [ ] Record the exact coefficient, scale, sign, unit, clipping behavior, and
+- [x] Record the exact coefficient, scale, sign, unit, clipping behavior, and
       activation condition for every term.
-- [ ] Write the total reward as an explicit weighted sum and define every
+- [x] Write the total reward as an explicit weighted sum and define every
       variable used in the equations.
-- [ ] Verify whether rewards are calculated before or after the state
-      transition and whether any term is applied only at termination.
-- [ ] State how unsafe termination and timeout affect the return, including
-      whether truncated transitions are bootstrapped.
-- [ ] Cross-check every appendix equation and value against the exact code and
+- [x] Cross-check every appendix equation and value against the exact code and
       configuration used to train the submitted teacher policies.
-- [ ] Add a cross-reference from the main-paper teacher-training description
-      and Table I to the new appendix subsection.
-- [ ] Rebuild the manuscript and supplement and verify that all equations,
-      symbols, and cross-references render correctly.
+- [x] Keep the compact main-paper presentation unchanged and point to the new
+      appendix subsection from the finalized reviewer response.
+- [x] Rebuild the response and supplement and verify that all equations,
+      symbols, tables, and references render correctly.
 
-### Proposed response after implementation verification
+### Final response
 
-> We thank the reviewer for identifying this reproducibility gap. We have added
-> the exact mathematical formulation of the teacher-training reward to
-> Supplementary Section [X]. The new section defines all eight reward terms,
-> their numerical coefficients and scales, activation conditions,
-> normalization and clipping rules, and the treatment of unsafe termination
-> and timeout. We have also added an explicit cross-reference from Table I and
-> the teacher-training description in the main manuscript. All equations and
-> values were verified against the implementation and configuration used to
-> train the reported teacher policies.
-
-Do not finalize this response until every appendix equation and coefficient has
-been checked against the actual training code and configuration.
+See the finalized response to Reviewer 31 M1 in `response.tex`.  It points to
+Supplementary Section A.2 and Table 2, summarizes the eight exact reward terms
+and their implementation parameters, and records that every equation and value
+was verified against the submitted teacher-training implementation.
 
 ## Task 4 — Withdraw the unsupported RL-recipe superiority claim
 

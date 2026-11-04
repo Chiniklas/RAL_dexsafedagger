@@ -17,8 +17,8 @@ Build the regular paper from the repository root:
 ./build-paper.sh
 ```
 
-The generated document is `main.pdf`. `latexmk` automatically runs the required
-LaTeX and BibTeX passes.
+The generated document is `output/main.pdf`. `latexmk` automatically runs the
+required LaTeX and BibTeX passes.
 
 To generate a separate change-highlighted `main_highlighted.pdf`:
 
@@ -26,15 +26,17 @@ To generate a separate change-highlighted `main_highlighted.pdf`:
 ./build-paper.sh highlighted
 ```
 
-This creates `main_highlighted.pdf` without overwriting the regular `main.pdf`.
+This creates `output/main_highlighted.pdf` without overwriting the regular
+`output/main.pdf`.
 
 Highlighted mode compares the current working tree, including uncommitted
-manuscript edits, with Git snapshot `498ab21`. That snapshot exactly matches
-`output/vlm_dexsafedagger_compressed.pdf`, the pre-revision submission. Added
-text is blue and underlined, deleted text is red and struck out, changed
-figures are framed, and changed equations are marked as complete units. The
-flattened diff source and build diagnostics are retained under
-`.latex-build/highlighted/`.
+manuscript edits, with Git snapshot `5a42fcb`. That snapshot contains the
+source corresponding to the last submitted revision at
+`comments/RAL/first_rebutal/output/revision/main.pdf`. Revised material is
+shown as normal black text over yellow highlight stripes; deleted material is
+omitted rather than crossed out. Changed figures receive yellow marking, and
+changed equations are marked as complete units. The flattened diff source and
+build diagnostics are retained under `.latex-build/highlighted/`.
 
 To compare against another source snapshot, pass any valid Git ref:
 
@@ -70,13 +72,24 @@ Use **LaTeX Workshop: View LaTeX PDF file** to open the generated PDF.
 
 ## Review response and supplementary material
 
-The review response and its supplementary material are separate documents.
-Build them from the repository root with:
+The second-round response source belongs in
+`comments/RAL/second_rebutal/response/response.tex`. Build it from the
+repository root with:
 
 ```bash
 ./build-response.sh
 ./build-appendix.sh
 ```
 
-The generated files are `comments/RAL/response/response.pdf` and
-`comments/RAL/response/appendix.pdf`, respectively.
+The generated files are `output/response.pdf` and `output/appendix.pdf`.
+The response-folder copies and all LaTeX auxiliary/build files remain together
+under `comments/RAL/second_rebutal/response/`, matching the previous rebuttal's
+directory structure. The root build scripts publish atomic copies of the two
+PDFs into `output/`.
+
+The four final rebuttal deliverables are collected in `output/`:
+
+- `output/main.pdf`
+- `output/main_highlighted.pdf`
+- `output/response.pdf`
+- `output/appendix.pdf`

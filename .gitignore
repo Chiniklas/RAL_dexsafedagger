@@ -8,3 +8,12 @@ comments/RAL/response/*.fls
 comments/RAL/response/*.log
 comments/RAL/response/*.out
 comments/RAL/response/*.synctex.gz
+
+# Current rebuttal sources, PDFs, and LaTeX build files are intentionally kept
+# together. Ignore only the reproducible auxiliary files.
+comments/RAL/second_rebutal/response/*.aux
+comments/RAL/second_rebutal/response/*.fdb_latexmk
+comments/RAL/second_rebutal/response/*.fls
+comments/RAL/second_rebutal/response/*.log
+comments/RAL/second_rebutal/response/*.out
+comments/RAL/second_rebutal/response/*.synctex.gz

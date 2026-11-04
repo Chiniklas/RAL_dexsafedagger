@@ -1,0 +1,428 @@
+\section{RL Teacher Training and Safety Details}
+\label{app:rl_training_details}
+
+\subsection{Asymmetric Teacher Observations}
+
+Table~\ref{tab:teacher_observations} details the asymmetric actor--critic
+observation spaces used during teacher-policy training. The critic receives a
+133-dimensional privileged simulator state, whereas the actor receives an
+87-dimensional observation consisting only of signals available at deployment.
+We inject noise into the actor observations during training to improve
+robustness and reduce the sim-to-real gap. The palm and five fingertips
+constitute the six hand links. A ``twist'' is the concatenation of
+three-dimensional linear and angular velocity. Running mean/variance
+normalization is applied to both inputs and to the value targets.
+
+\input{../../../../table/appendix_teacher_observations.tex}
+
+\subsection{Teacher-Reward Formulation}
+\label{app:exact_teacher_reward}
+
+We train the privileged teacher policy with a shaped per-step reward that
+coordinates approaching the object, forming a grasp, lifting and tracking the
+goal, and maintaining smooth control.  At each control step $t$, all state and
+action quantities below are evaluated at that step, and the raw environment
+reward is the additive objective
+\begin{align}
+r={}&r_{\text{dist}}+r_{\text{curl}}+r_{\text{align}}
+       +r_{\text{contact}}\notag\\
+    &+r_{\text{near}}+r_{\text{goal}}+r_{\text{lift}}
+       +r_{\text{action}}.
+\label{eq:teacher_reward_total}
+\end{align}
+
+We next define the geometric and contact quantities used by the individual
+sub-rewards.  Let $\mathbf p_{o,t}$ and $\mathbf p_g$ denote the object and
+desired goal positions, respectively.  For the six-element set
+$\mathcal H=\{\text{palm center},\text{five fingertips}\}$, we define
+\begin{align*}
+d_t^{\rm hand}
+  &=\max_{i\in\mathcal H}\|\mathbf p_{i,t}-\mathbf p_{o,t}\|_2, &
+d_t^{\rm goal}
+  &=\|\mathbf p_{o,t}-\mathbf p_g\|_2,\\
+d_t^{z}
+  &=|p_{o,t}^{z}-p_g^{z}|, &
+\Delta\mathbf a_t&=\mathbf a_t-\mathbf a_{t-1},
+\end{align*}
+where $\mathbf p_{i,t}$ is the position of hand link $i$, $d_t^{\rm hand}$ is
+the maximum hand-link distance to the object, $d_t^{\rm goal}$ is the object--goal
+distance, $d_t^z$ is their vertical separation, and $\Delta\mathbf a_t$ is the
+change in action.  To characterize grasp formation, for each fingertip
+$i\in\mathcal F=\{\mathrm{index,middle,ring,little,thumb}\}$ we define
+\begin{equation}
+b_{i,t}=\mathbb I\!\left[
+  \max_j\|\mathbf f_{i,j,t}\|_1>\varepsilon_f
+\right],\qquad
+I_t^{\rm any}=\mathbb I\!\left[\sum_{i\in\mathcal F}b_{i,t}>0\right],
+\qquad
+I_t^{\rm grasp}=b_{\rm thumb,t}\,
+\mathbb I\!\left[\sum_{i\in\mathcal F}b_{i,t}\geq2\right],
+\label{eq:teacher_contact_indicators}
+\end{equation}
+where $\mathbf f_{i,j,t}$ is one vector in the simulator contact-force matrix
+for fingertip $i$.  Thus, $I_t^{\rm any}$ denotes any fingertip--object
+contact, whereas $I_t^{\rm grasp}$ requires the thumb and at least one other
+fingertip.  With $n_t$ denoting the elapsed environment steps, the eight
+sub-rewards in Eq.~\eqref{eq:teacher_reward_total} are
+\begin{align}
+r_{\text{dist}}
+  &=w_{\rm dist}\exp(-\kappa_{\rm dist}d_t^{\rm hand}),
+  \label{eq:teacher_reward_dist}\\
+r_{\text{curl}}
+  &=\operatorname{clip}\!\left(
+      -w_{\rm curl}\|\mathbf q_t^{H}-\mathbf q_{\rm curl}\|_2^2,
+      -c_{\rm curl},0
+    \right),
+  \label{eq:teacher_reward_curl}\\
+r_{\text{align}}
+  &=-w_{\rm align}\left[
+      \arccos\!\left(
+        \operatorname{clip}((\mathbf d_t^{\rm palm})^{\top}\mathbf e_{-z},-1,1)
+      \right)
+    \right]^2,
+  \label{eq:teacher_reward_align}\\
+r_{\text{contact}}
+  &=w_{\rm contact} I_t^{\rm grasp},
+  \label{eq:teacher_reward_contact}\\
+r_{\text{near}}
+  &=w_{\rm near}\,n_t\,\mathbb I[d_t^{\rm hand}<\varepsilon_{\rm near}],
+  \label{eq:teacher_reward_near}\\
+r_{\text{goal}}
+  &=w_{\rm goal}\exp(-\alpha_t d_t^{\rm goal})I_t^{\rm any},
+  \label{eq:teacher_reward_goal}\\
+r_{\text{lift}}
+  &=w_{\rm lift}\exp(-\kappa_{\rm lift}d_t^{z})
+    I_t^{\rm any}\mathbb I[n_t\geq n_{\rm lift}],
+  \label{eq:teacher_reward_lift}\\
+r_{\text{action}}
+  &=-w_{\rm action}\left(
+      \|\Delta\mathbf a_t^{\rm arm}\|_2^2
+      +\lambda_H\|\Delta\mathbf a_t^{\rm hand}\|_2^2
+    \right).
+  \label{eq:teacher_reward_action}
+\end{align}
+Here $\mathbf q_t^H$ contains the actuated finger-joint positions,
+$\mathbf q_{\rm curl}$ is the desired curling posture,
+$\mathbf d_t^{\rm palm}$ is the world-frame unit vector along the palm-down
+axis, and $\mathbf e_{-z}$ is the world-down unit vector.  The composite action
+is
+\begin{equation}
+\mathbf a_t=
+\begin{bmatrix}\mathbf a_t^{\rm arm}\\ \mathbf a_t^{\rm hand}\end{bmatrix}.
+\label{eq:teacher_action_definition}
+\end{equation}
+The near term uses the episode age $n_t$ while the distance gate is active,
+rather than the consecutive time spent inside the gate.  PPO receives
+the globally scaled reward $r^{\rm PPO}=\eta_{\rm PPO}r$; no additional
+per-term normalization is applied.  Table~\ref{tab:teacher_reward_parameters}
+summarizes the numerical parameters used in our experiments.
+
+\begin{table}[H]
+\centering
+\caption{Teacher-reward parameters used in all experiments.}
+\label{tab:teacher_reward_parameters}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Component & Parameter values \\
+\midrule
+Hand distance & $w_{\rm dist}=5$, $\kappa_{\rm dist}=10$ \\
+Finger curl & $w_{\rm curl}=0.1$, $c_{\rm curl}=2$,
+$\mathbf q_{\rm curl}=[0,0,0,0,0.4,0.1]$ \\
+Palm alignment & $w_{\rm align}=0.1$ \\
+Contact bonus & $w_{\rm contact}=10$, $\varepsilon_f=10^{-4}$ \\
+Stay-close & $w_{\rm near}=0.005$, $\varepsilon_{\rm near}=0.2\,\mathrm{m}$ \\
+Goal tracking & $w_{\rm goal}=8$, $\alpha_0=15$,
+$\Delta\alpha=0.1$, $m_{\max}=50$ \\
+Lift & $w_{\rm lift}=10$, $\kappa_{\rm lift}=8.5$,
+$n_{\rm lift}=60$ steps \\
+Action smoothness & $w_{\rm action}=0.01$, $\lambda_H=3$ \\
+Global PPO scaling & $\eta_{\rm PPO}=0.01$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Finally, automatic domain randomization (ADR) progressively sharpens the
+goal-tracking reward while leaving the lift weight fixed.  We update the goal
+sharpness according to
+\begin{equation}
+\alpha_t=\alpha_0+\Delta\alpha\,m_t,
+\qquad m_t\in\{0,\ldots,m_{\max}\},
+\label{eq:teacher_adr_definition}
+\end{equation}
+where $m_t$ is the ADR increment at control step $t$.
+
+\subsection{Termination Conditions}
+We define four unsafe conditions that serve both as termination criteria during teacher-policy training and as unsafe-event signals during student-policy distillation. We additionally terminate an episode when it reaches the maximum time horizon; however, a timeout is not classified as an unsafe event. All five termination conditions are checked at \(60\,\text{Hz}\) in the environment frame.
+
+\begin{enumerate}[label=(\alph*),leftmargin=2em,itemsep=2pt,topsep=3pt]
+  \item \emph{Harmful collision:} We monitor all arm--table contacts and
+  trigger this termination when the palm or any fingertip is less than
+  1\,cm above the tabletop, or when any arm link contacts the table. An arm--table contact
+  is registered when the $\ell_1$ norm of the filtered contact-force vector
+  exceeds 0.1 N.
+  \item \emph{Object escape:} We define a permissible object workspace above
+  the table that covers the intended manipulation region.  We trigger
+  object-escape termination as soon as the object center leaves this space or
+  falls below the table.
+  \item \emph{Palm flipped:} The palm should face downward toward the object and
+  table.  We trigger this termination when its downward direction differs from
+  world-down by more than $90^\circ$, at which point the nominal grasp geometry
+  is inverted.
+  \item \emph{Hand too far:} We use the same permissible workspace as in (b)
+  and trigger this termination when the palm link leaves it, indicating that
+  the hand has moved too far during exploration.
+  \item \emph{Timeout:} We terminate the episode when the time index reaches
+  the maximum episode horizon, $t\geq T_{\max}$.
+\end{enumerate}
+Expanding the termination rule used in the main paper gives
+\[
+\mathbb I_{\rm term}(s_t,t)
+=\mathbb I_{\rm coll}(s_t)\lor\mathbb I_{\rm obj}(s_t)
+ \lor\mathbb I_{\rm flip}(s_t)\lor\mathbb I_{\rm hf}(s_t)
+ \lor\mathbb I_{\rm timeout}.
+\]
+To avoid conflicts between simultaneous termination conditions, we assign the
+event label using the following descending severity priority:
+$\text{harmful collision}\succ\text{object escape}\succ\text{palm flipped}
+\succ\text{hand too far}\succ\text{timeout}$.
+
+% \subsection{Runs and Random Seeds}
+% Teacher performance in Main Paper Table~II is evaluated over 200 episodes per
+% object, and the real-world results are evaluated over 30 episodes per object.
+% Each of the 40 object-specific teacher policies is trained with five independent
+% random seeds $\{40,41,42,43,44\}$, with the same evaluation protocol applied to
+% every seed. For each seed, teacher performance is evaluated on all 40 objects. The
+% table below reports the mean~$\pm$~standard deviation across the 40 object-level
+% rates for lift success, overall unsafe events, and the four unsafe-event
+% categories separately for each seed.
+%
+% \input{../../../../table/appendix_seed_reporting.tex}
+
+\section{VLM Prompt and Inference Details}
+\label{app:vlm_inference_details}
+
+\subsection{Visual-Input Storage and Example}
+Here, we provide representative examples of the selected visual inputs in
+Fig.~\ref{fig:vlm-input-examples}. These images illustrate observations
+associated with the two intervention sources considered by our framework:
+high teacher--student disagreement and low predicted task success. The
+algorithm block that follows presents the semantic prompt, which combines
+these visual samples with recent rollout statistics and instructs the VLM to
+recommend conservative updates to the corresponding intervention thresholds.
+
+\begin{figure}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{@{}cccc@{}}
+\includegraphics[width=0.22\linewidth]{../../first_rebutal/response/figures/vlm_inputs/vlm_input_1m0lvpzs.jpg} &
+\includegraphics[width=0.22\linewidth]{../../first_rebutal/response/figures/vlm_inputs/vlm_input_2kp2e9k7.jpg} &
+\includegraphics[width=0.22\linewidth]{../../first_rebutal/response/figures/vlm_inputs/vlm_input_2oiqpnts.jpg} &
+\includegraphics[width=0.22\linewidth]{../../first_rebutal/response/figures/vlm_inputs/vlm_input_z73ltdbb.jpg} \\
+\scriptsize (a) &
+\scriptsize (b) &
+\scriptsize (c) &
+\scriptsize (d)
+\end{tabular}
+\caption{Representative visual inputs selected according to the two intervention signals.
+Samples (a)--(c) were selected for high teacher--student disagreement, with
+$\ell_2$ values 9.7506, 17.0997, and 51.9710, respectively; (d) was selected
+for low predicted success ($0.2734$). All four records have
+\texttt{unsafe=true}.}
+\label{fig:vlm-input-examples}
+\end{figure}
+
+The algorithm block gives the full prompt template used by the runtime
+implementation. Braced terms denote values serialized at query time, and the
+visual-sample block is repeated once for each attached image.
+
+\input{../../../../alg/appendix_vlm_prompt_example.tex}
+
+
+\subsection{Model and Input Configuration}
+We used OpenAI GPT-5.5 with the rollout statistics above and up to eight
+high-detail RGB images encoded as JPEG data URLs. We queried the model after
+2{,}000 episodes and every 10{,}000 episodes thereafter (10 calls over 100{,}000
+episodes). Archived reports from the earlier low-detail setting contain 30{,}641
+prompt and 4{,}841 completion tokens (35{,}482 total).
+
+\begin{samepage}
+\subsection{Output Processing and Threshold Updates}
+The requested machine-readable output is a top-level JSON object with the
+following schema:
+\begin{verbatim}
+{
+  "delta_l2_threshold": <number>, "delta_success_threshold": <number>,
+  "confidence": <number>, "reason": <string>
+}
+\end{verbatim}
+\end{samepage}
+The two returned values are threshold displacements. For each channel
+$x\in\{\delta,Q\}$, the candidate threshold is
+\[
+\tilde\tau_x^{(k)}=\tau_x^{(k)}+\Delta\tau_x^{(k)}.
+\]
+Each candidate is clipped to a fixed range around its initial value and then
+exponentially smoothed with the previously applied threshold:
+\[
+\bar\tau_x^{(k)}=\operatorname{clip}\!\left(
+\tilde\tau_x^{(k)},c_x^{\min}\tau_x^{(0)},
+c_x^{\max}\tau_x^{(0)}\right),\qquad
+\tau_x^{(k+1)}=(1-\alpha)\tau_x^{(k)}+\alpha\bar\tau_x^{(k)}.
+\]
+We use $\alpha=0.1$ and $(c_x^{\min},c_x^{\max})=(0.5,1.5)$ for both
+thresholds. The updated values are applied from the next control step through
+the intervention gate
+$\lVert a_t^S-a_t^T\rVert_2>\tau_\delta\ \lor
+\hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q$; lowering $\tau_\delta$ or raising
+$\tau_Q$ increases teacher intervention. The \texttt{confidence} and
+\texttt{reason} fields are logged for diagnostics and do not alter the update.
+This adaptation is used only during simulation distillation; physical
+deployment uses the frozen RGB student alone.
+
+If a VLM request fails or its output cannot be parsed, the controller retains
+the previously applied thresholds and tries again at the next scheduled update.
+None of the reported trials encountered a condition that activated this
+fallback.
+
+\section{Additional Experimental Results}
+\label{app:additional_experimental_results}
+
+\subsection{Bellman Critic Evaluation}
+We use the resulting student and fixed-threshold Bellman critic from
+ablation~(e) to evaluate the critic's performance. Both networks are frozen
+during evaluation, and the critic runs in parallel as a passive evaluator. We
+evaluate 200 episodes for each of the 40 training objects in simulation.
+Table~\ref{tab:bellman_critic_evaluation} reports the observed lift-success and
+unsafe-episode rates together with the task-outcome prediction accuracy, the
+unsafe-episode detection rate, and its corresponding false-negative rate.
+
+The lift-success rate and unsafe-episode rate characterize the student policy's
+ability to accomplish the task and the frequency of unsafe outcomes,
+respectively. Task-outcome prediction accuracy is the percentage of episodes
+for which the critic correctly predicts the task outcome. The unsafe-episode
+detection rate is the percentage of unsafely terminated episodes that are
+flagged by the critic before termination. The unsafe false-negative rate is the
+complementary percentage of unsafe episodes that the critic does not flag before
+termination.
+
+\input{../../../../table/appendix_bellman_critic_evaluation.tex}
+
+\subsection{Ablations Across Random Seeds}
+We independently train four intervention variants---Vanilla DAgger~(b),
+Vanilla SafeDAgger~(c), critic-based intervention~(e), and VLM-guided
+intervention~(f)---using five random seeds, $\{40,41,42,43,44\}$. For each
+variant and seed, we freeze the resulting student and evaluate it for 200
+episodes on each of the 40 training objects in simulation, yielding 8{,}000
+evaluation episodes per seed. Because all variants use the same number of
+training samples and the teacher-intervention rates exhibit only minor
+variation across seeds, Table~\ref{tab:ablation_across_seeds} reports only the
+final lift-success and unsafe-episode rates as the mean~$\pm$~standard deviation
+across the five seeds.
+
+\input{../../../../table/appendix_ablation_across_seeds.tex}
+
+\subsection{Complete Real-World Evaluation and Demonstrations}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\linewidth]{../../first_rebutal/response/figures/object_inventory/sixteen_object_demonstrations.jpg}
+\caption{\textbf{Sixteen-object demonstration inventory:}
+(1) Horse, (2) Teapot, (3) Sphinx, (4) Dragon, (5) Homer bust,
+(6) Ogre, (7) Cheburashka, (8) Lucy statue, (9) Beethoven bust,
+(10) Igea bust, (11) Dog pair, (12) Cow statue, (13) Buddha statue,
+(14) Blub character, (15) Monkey head, and (16) Dinosaur.}
+\label{fig:sixteen_object_demonstrations}
+\end{figure}
+
+We report results for the remaining 16 real-world test objects that are not
+shown in the manuscript's six-object table, using the same success and safety
+breakdown. The two eight-object blocks below separate task success from the
+observed unsafe failure modes.
+
+\input{../../../../table/appendix_additional_experimental_results.tex}
+
+Table~\ref{tab:seen_unseen_summary} summarizes performance across all 22
+objects. The mean rates reproduce the pooled results in Main Paper Table~IV;
+the 95\% confidence intervals account for the 420 seen-object episodes and 240
+unseen-object episodes.
+
+\input{../../../../table/appendix_seen_unseen_summary.tex}
+
+
+\subsection{Physical Baseline Comparison}
+We deploy the frozen RGB student policies resulting from ablations~(e) and~(f)
+on the real robot. Ablation~(e) uses our RL teacher-training recipe with the stationary
+DexSafeDagger intervention policy, whereas ablation~(f) uses the same teacher
+recipe with VLM-guided threshold adaptation. We evaluate both policies
+using the same objects, initial-condition protocol, and number of trials. We
+report lift-success and unsafe-event rates separately for the 14 seen and 8
+unseen objects in Table~\ref{tab:physical_baseline_comparison}.
+
+\input{../../../../table/appendix_physical_baseline_comparison.tex}
+
+The comparison supports our claim that the student trained with VLM-augmented intervention
+achieves a comparable real-world task-success rate while exhibiting a lower
+unsafe-event rate for both seen and unseen objects.
+
+\subsection{Implementation Details of Ablation~(h)}
+Ablation~(h) replaces the VLM tuner in ablation~(f) with a deterministic
+performance-triggered threshold curriculum inspired by the budget-aware
+intervention principle of ThriftyDAgger. The teacher, student, Bellman critic,
+intervention gate, admissible threshold range, rollout budget, and update
+schedule are otherwise identical to those in ablation~(f); the curriculum uses
+neither language nor visual inputs.
+
+At scheduled update~$k$, let $\mathcal W_k$ denote the most recent rollout
+window. We compute its lift-success and unsafe-episode rates as
+\begin{equation}
+\bar s_k=\frac{1}{|\mathcal W_k|}\sum_{\tau\in\mathcal W_k}
+\mathbb I_{\mathrm{succ}}(\tau),\qquad
+\bar u_k=\frac{1}{|\mathcal W_k|}\sum_{\tau\in\mathcal W_k}
+\mathbb I_{\mathrm{unsafe}}(\tau).
+\label{eq:curriculum_window_metrics}
+\end{equation}
+The curriculum contains five ordered operating points, indexed from the most
+conservative ($j=0$) to the most autonomous ($j=4$):
+\begin{equation}
+\begin{array}{c|ccccc}
+j                         & 0    & 1    & 2    & 3    & 4 \\ \hline
+c_{\delta}^{(j)}           & 0.50 & 0.75 & 1.00 & 1.25 & 1.50 \\
+c_{Q}^{(j)}                & 1.50 & 1.25 & 1.00 & 0.75 & 0.50
+\end{array}
+\label{eq:curriculum_levels}
+\end{equation}
+At level~$j_k$, the intervention thresholds are
+\begin{equation}
+\tau_{\delta}^{(k)}=c_{\delta}^{(j_k)}\tau_{\delta}^{(0)},
+\qquad
+\tau_{Q}^{(k)}=c_{Q}^{(j_k)}\tau_{Q}^{(0)}.
+\label{eq:curriculum_thresholds}
+\end{equation}
+Thus, moving toward a smaller level lowers the disagreement threshold and
+raises the minimum acceptable predicted-success threshold, producing more
+teacher intervention. Moving toward a larger level has the opposite effect and
+grants the student more autonomy. The resulting gate remains an OR rule:
+intervention occurs when either
+$\lVert a_t^S-a_t^T\rVert_2>\tau_{\delta}^{(k)}$ or
+$\hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q^{(k)}$.
+
+Let $u_{\max}$ be a validation-selected unsafe-rate limit and $s_{\min}$ a
+validation-selected competence threshold. Define
+$A_k=\mathbb I[\bar u_k\leq u_{\max}\land\bar s_k\geq s_{\min}]$.
+Starting from the nominal operating point $j_0=2$, the curriculum update is
+\begin{equation}
+j_{k+1}=
+\begin{cases}
+\max(j_k-1,0), & \bar u_k>u_{\max},\\
+\min(j_k+1,4), & A_k=1\ \land\ A_{k-1}=1,\\
+j_k,           & \text{otherwise}.
+\end{cases}
+\label{eq:curriculum_update}
+\end{equation}
+Consequently, one unsafe window immediately moves the gate one level toward
+more teacher intervention, whereas two consecutive windows satisfying both
+safety and task-performance criteria are required before increasing student
+autonomy. This asymmetric update prevents rapid oscillation. We apply the first
+curriculum update after 2{,}000 distillation episodes and subsequent updates
+every 10{,}000 episodes, matching the VLM update schedule in ablation~(f).

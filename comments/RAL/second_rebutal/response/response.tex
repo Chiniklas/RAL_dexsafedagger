@@ -1,0 +1,435 @@
+\documentclass[11pt]{article}
+
+\usepackage[
+  letterpaper,
+  left=0.70in,
+  right=0.70in,
+  top=0.75in,
+  bottom=0.75in
+]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage{microtype}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[colorlinks=true,allcolors=blue!55!black]{hyperref}
+
+\definecolor{responseblue}{RGB}{0,70,140}
+\definecolor{reviewerred}{RGB}{190,25,25}
+\definecolor{placeholderred}{RGB}{155,25,25}
+\definecolor{draftgray}{RGB}{246,246,246}
+
+\newcommand{\manuscriptid}{26-3841v2}
+\newcommand{\papertitle}{VLM-DexSafeDagger: VLM-Guided Intervention Policy Towards Safer Visuomotor Skill Distillation}
+\newcommand{\placeholder}[1]{\textcolor{placeholderred}{\textbf{[#1]}}}
+\newcommand{\response}{\par\smallskip\noindent\textcolor{responseblue}{\textbf{[Response:]}}\ }
+
+\newcounter{reviewer}
+\newcounter{reviewcomment}
+\renewcommand{\theHreviewcomment}{\arabic{reviewer}.\arabic{reviewcomment}}
+
+\newcommand{\reviewerheading}[1]{%
+  \clearpage
+  \stepcounter{reviewer}
+  \setcounter{reviewcomment}{0}
+  \phantomsection
+  \pdfbookmark[1]{Response to #1}{response.reviewer.\arabic{reviewer}}
+  \begin{center}
+    {\Large\bfseries\scshape\color{reviewerred} Response to #1}\par
+  \end{center}
+  \vspace{0.25\baselineskip}
+}
+
+\newcommand{\reviewcommentlabel}[2]{%
+  \refstepcounter{reviewcomment}
+  \par\medskip
+  \noindent\colorbox{draftgray}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
+      \textbf{#1.}\ \textbf{\itshape #2}%
+    }%
+  }\par\smallskip
+}
+
+\newenvironment{draftresponse}{%
+  \response
+  \textcolor{responseblue}{\textbf{Drafting checklist:}}
+  \begin{itemize}[leftmargin=1.6em,itemsep=2pt,topsep=3pt]
+}{%
+  \end{itemize}
+}
+
+\newcommand{\draftitem}[1]{\item \placeholder{#1}}
+
+\setlist[enumerate]{leftmargin=2em,itemsep=2pt,topsep=2pt}
+\setlist[itemize]{leftmargin=1.6em,itemsep=2pt,topsep=2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\emergencystretch}{3em}
+\linespread{1.12}
+
+\begin{document}
+\pagenumbering{roman}
+
+\begin{center}
+  {\Large\bfseries Authors' Responses}\par
+  \vspace{0.35em}
+  {\large\bfseries\color{placeholderred} WORKING SKELETON: NOT FOR SUBMISSION}\par
+\end{center}
+
+\vspace{1.5em}
+\begin{tabularx}{\linewidth}{@{}p{0.28\linewidth}X@{}}
+\textbf{Journal Title:} & IEEE Robotics and Automation Letters \\
+\textbf{Reference Number:} & \manuscriptid \\
+\textbf{Title of Paper:} & \papertitle \\
+\textbf{Authors:} & Anonymous Authors
+\end{tabularx}
+
+\vspace{1.5em}
+We sincerely thank the Associate Editor and the two anonymous reviewers for
+their careful assessment of the revised manuscript. We appreciate their
+recognition of the improvements made in the previous revision and their clear
+identification of the remaining issues.
+
+\placeholder{Replace this paragraph with a concise summary of the completed
+revision after every response below has been factually verified. The summary
+should cover teacher-reward reproducibility, baseline fairness, result
+consistency, statistical analysis, the scope of the VLM contribution, and the
+strengthened limitations statement.}
+
+The detailed point-by-point responses follow. Reviewer comments are reproduced
+in bold italic text. All red bracketed text is an internal drafting prompt and
+must be replaced before submission.
+
+\reviewerheading{the Associate Editor}
+
+We thank the Associate Editor for summarizing the remaining concerns and for
+directing us to the detailed reviews.
+
+\reviewcommentlabel{Associate Editor Comment}{The revised manuscript has
+improved considerably, and the reviewers acknowledge the authors' efforts in
+addressing the previous comments. However, several important concerns remain,
+particularly regarding the RL teacher-training procedure, the fairness of the
+baseline comparison, inconsistencies in the reported results, and the evidence
+supporting the contribution of VLM-guided adaptation. These issues need to be
+addressed to properly support the claimed contributions. Please see the
+individual reviews for further details.}
+
+\begin{draftresponse}
+  \draftitem{Summarize the exact teacher-reward equations, weights, scales, and
+  truncation/bootstrap treatment added to the paper or supplement.}
+  \draftitem{State the verified resolution of the DexTrAH/FABRICS comparison:
+  either report a fair re-tuned baseline or withdraw the unsupported
+  superiority claim and relabel the transferred implementation accurately.}
+  \draftitem{Summarize the corrected Figure 3/Table III relationship and the
+  unified definition of the reported means.}
+  \draftitem{Summarize the final evidence and claim scope for VLM-guided
+  adaptation without exceeding what the audited experiments establish.}
+\end{draftresponse}
+
+\reviewerheading{Reviewer \#29}
+
+We sincerely thank the reviewer for recognizing the substantial improvements
+in the revised manuscript and for identifying the remaining interpretive,
+statistical, and reproducibility issues. Below are our point-by-point
+responses.
+
+\reviewcommentlabel{Comment 1}{The revision appropriately removes formal
+``safety-critical'' claims. Please maintain this discipline throughout the
+manuscript and consistently describe the method as empirical risk reduction
+under task-specific unsafe-event definitions.}
+
+\begin{draftresponse}
+  \draftitem{Report the completed manuscript-wide audit of safety language,
+  including the title, abstract, contributions, methods, captions, results,
+  discussion, conclusion, supplement, and response.}
+  \draftitem{State explicitly that the framework provides empirical reduction
+  in task-specific unsafe-event rates and no formal safety guarantee.}
+  \draftitem{List the principal locations where claims were revised.}
+\end{draftresponse}
+
+\reviewcommentlabel{Comment 2}{Real-world unsafe-event rates on unseen objects
+remain around 39\%, which is substantial. This limitation should be emphasized
+prominently in the abstract, discussion, and conclusion to avoid implying
+deployment-ready safety.}
+
+\begin{draftresponse}
+  \draftitem{Verify and report the exact unseen-object unsafe-event rate,
+  numerator, denominator, object count, and seed/trial aggregation.}
+  \draftitem{Quote or summarize the new abstract, discussion, and conclusion
+  language that foregrounds this limitation.}
+  \draftitem{State plainly that the current system is not deployment-ready and
+  identify the remaining sim-to-real/generalization gap.}
+\end{draftresponse}
+
+\reviewcommentlabel{Comment 3}{The real-robot difference between VLM-guided
+and fixed-threshold critic policies appears modest. Report confidence intervals
+and paired or proportion tests to determine whether the observed unsafe-rate
+reductions are statistically distinguishable.}
+
+\begin{draftresponse}
+  \draftitem{Determine and state whether trials are genuinely paired by object,
+  seed, initial pose, and other initial conditions.}
+  \draftitem{Report the effect size for VLM-guided minus fixed-threshold
+  unsafe-event rate, with confidence intervals for seen and unseen objects.}
+  \draftitem{Name the justified statistical test, report its statistic and
+  p-value, and state plainly whether the difference is statistically
+  distinguishable.}
+  \draftitem{Identify the table or paragraph containing the new analysis.}
+\end{draftresponse}
+
+\reviewcommentlabel{Comment 4}{The Bellman critic achieves a 5.8\%
+false-negative rate on unsafe episodes. Please discuss the consequences of
+these missed warnings and whether threshold adjustment can trade task success
+for lower false-negative risk.}
+
+\begin{draftresponse}
+  \draftitem{Verify the 5.8\% numerator, denominator, and episode-level
+  definition.}
+  \draftitem{Explain that a missed critic warning can prevent critic-triggered
+  takeover, while the disagreement branch may still trigger intervention.}
+  \draftitem{If saved critic scores are available, report a threshold sweep
+  covering false negatives, intervention rate, task success, and unsafe-event
+  rate; otherwise disclose why the tradeoff cannot be reconstructed.}
+\end{draftresponse}
+
+\reviewcommentlabel{Comment 5}{Clarify whether critic metrics are computed at
+the episode or time-step level and how early an unsafe event is detected before
+termination. Warning lead time is important for intervention usefulness.}
+
+\begin{draftresponse}
+  \draftitem{State whether each critic metric is episode-level or time-step
+  level and give the exact counting rule.}
+  \draftitem{Define the first warning time, unsafe-event time, and lead-time
+  computation at the 60 Hz control rate.}
+  \draftitem{Report the verified lead-time distribution and useful-warning
+  fractions, or state explicitly that saved time-step scores are insufficient
+  to reconstruct them.}
+\end{draftresponse}
+
+\reviewcommentlabel{Comment 6}{The teacher policy is implicitly treated as a
+safe fallback, yet teacher interventions can still generate unsafe contacts.
+Report teacher unsafe-event rates and explain what happens when teacher and
+critic recommendations conflict.}
+
+\begin{draftresponse}
+  \draftitem{Report teacher unsafe-event rates using an explicit, consistent
+  aggregation population and denominator.}
+  \draftitem{Clarify that teacher takeover is empirically safer in the tested
+  setting but is not guaranteed safe.}
+  \draftitem{Explain the conservative OR rule accurately: disagreement and
+  critic output determine whether the gate requests teacher takeover; they are
+  not two action recommendations.}
+  \draftitem{State what occurs when the two gate signals disagree and note that
+  teacher failures remain possible after takeover.}
+\end{draftresponse}
+
+\reviewcommentlabel{Comment 7}{Provide the final exact VLM identifier, prompt,
+decoding settings, visual-sample selection rules, update interval, latency
+distribution, failure handling, and cost in the main paper or permanent
+supplementary material.}
+
+\begin{draftresponse}
+  \draftitem{Insert the final verified model identifier and provider/API
+  version rather than a provisional model name.}
+  \draftitem{Point to the exact prompt and machine-readable output schema.}
+  \draftitem{Report decoding parameters, image resolution/detail settings,
+  visual-sample selection rules, query schedule, parsing and clipping logic,
+  and failure fallback.}
+  \draftitem{Report latency distribution, token usage, and monetary cost from
+  archived logs, distinguishing measured values from estimates.}
+\end{draftresponse}
+
+\reviewcommentlabel{Comment 8}{The ablations convincingly motivate
+visual-semantic adaptation on representative training objects. Please state
+more explicitly whether the VLM adaptation itself was evaluated on novel scene
+semantics, rather than only novel object geometries.}
+
+\begin{draftresponse}
+  \draftitem{Audit the evaluation logs and define exactly which visual factors
+  varied: object geometry, texture, material, lighting, background, camera, or
+  semantic hazard type.}
+  \draftitem{State explicitly whether novel scene semantics were evaluated.}
+  \draftitem{If not, narrow the contribution claim and identify semantic
+  generalization as future work rather than inferring it from novel geometry.}
+\end{draftresponse}
+
+\reviewcommentlabel{Comment 9}{The current unsafe-event taxonomy is
+task-specific. Clarify which events are directly sensor-observable on hardware
+and which depend on privileged simulation signals during training or
+evaluation.}
+
+\begin{draftresponse}
+  \draftitem{Create an event-by-event mapping for harmful collision, object
+  escape, palm flip, and hand-too-far signals.}
+  \draftitem{For each event, distinguish hardware sensor or vision observables
+  from simulator-only state, contact, force, or geometry information.}
+  \draftitem{Explain how real-robot events were labeled and whether any
+  post-processing or manual annotation was used.}
+\end{draftresponse}
+
+\reviewcommentlabel{Comment 10}{Please add a compact limitations paragraph
+covering the remaining sim-to-real contact-strategy mismatch, external VLM
+dependence, task-specific safety definitions, and absence of formal constraint
+guarantees. No major methodological restructuring appears necessary.}
+
+\begin{draftresponse}
+  \draftitem{Insert the final limitations paragraph or quote it here.}
+  \draftitem{Confirm that it covers all four requested limitations without
+  weakening or omitting the 39\% unseen-object unsafe-event limitation.}
+  \draftitem{Identify its location in the manuscript.}
+\end{draftresponse}
+
+\reviewerheading{Reviewer \#31}
+
+We sincerely thank the reviewer for the detailed technical assessment, for
+recognizing the expanded real-robot evaluation and reproducibility material,
+and for identifying the remaining issues in teacher training, baseline
+fairness, result consistency, and the scope of the VLM contribution.
+
+\reviewcommentlabel{Major Comment M1}{The reward for teacher-policy training is
+described only verbally. Table I lists only the purpose of each reward term;
+the exact formulation, weights, and scales of the terms are not given in the
+manuscript. Since teacher training is the starting point of every subsequent
+stage, the work does not appear reproducible in its current form. Please
+provide the exact formulation and weights of each reward term.}
+
+\response We thank the reviewer for identifying this reproducibility gap.  We
+agree that the verbal descriptions in Table~I were insufficient to reproduce
+the teacher-training objective.  We have therefore added a new
+``Teacher-Reward Formulation'' subsection to Supplementary Section~A.2.  The
+new subsection first states the complete additive teacher reward and then gives
+the exact mathematical expression for each of its eight terms:
+$r_{\mathrm{dist}}$, $r_{\mathrm{curl}}$, $r_{\mathrm{align}}$,
+$r_{\mathrm{contact}}$, $r_{\mathrm{near}}$, $r_{\mathrm{goal}}$,
+$r_{\mathrm{lift}}$, and $r_{\mathrm{action}}$.  It also defines the geometric
+distances, contact and grasp indicators, action decomposition, activation
+conditions, and clipping operations used by these terms.
+
+Supplementary Table~2 collects all numerical coefficients and implementation
+parameters, including the distance and contact thresholds, reference finger
+posture, ADR schedule, lift delay, relative hand-action penalty, and global PPO
+reward scaling.  We verified every equation and value directly against the
+implementation and configuration used to train the reported teacher policies.
+This addition provides the requested reproducibility details while retaining
+the compact qualitative overview in the main-paper Table~I.
+
+\reviewcommentlabel{Major Comment M2}{The claimed superiority of the authors'
+RL recipe is not supported. (1) The authors explain the performance gap between
+ablations (a) and (b) by stating that the FABRICS controller was tuned for the
+original platform and transfers poorly to the new hardware. This implies that
+the DexTrAH baseline was not tuned for the authors' hardware, and therefore the
+comparison cannot serve as evidence that the authors' recipe produces more
+effective teacher policies. A comparison against a DexTrAH baseline re-tuned
+for the authors' platform, or additional experiments and analysis that can
+demonstrate the superiority of the recipe, is required. (2) The difference
+between the ``DexTrAH-RGB-style RL recipe'' and ``our RL recipe'' is not defined
+in the manuscript. Please state explicitly how the two recipes differ. (3) The
+second contribution claims ``a safety-aware RL reward design that explicitly
+accounts for risky events.'' However, the reward terms in Table I are generic
+shaped-reward terms, and no term explicitly penalizes the unsafe events defined
+by the authors, such as collisions or object escape. Early termination does
+penalize unsafe events implicitly by truncating the future return, but it is
+indistinguishable from a timeout unless truncation is bootstrapped. The
+manuscript does not specify any of these. Please either add an ablation of the
+reward terms or of the termination conditions, or moderate the contribution
+statement.}
+
+\response
+\textcolor{responseblue}{\textbf{Drafting checklist by subpart:}}
+\begin{enumerate}[label=(\arabic*),leftmargin=2em,itemsep=4pt,topsep=3pt]
+  \item \placeholder{Choose and document the factual resolution: report a
+  re-tuned embodiment-matched DexTrAH/FABRICS baseline, or withdraw the
+  superiority claim and state that the transferred baseline is not evidence of
+  recipe superiority.}
+  \item \placeholder{Provide a precise component-by-component comparison of
+  the two recipes, including embodiment, observations, action space, reward,
+  termination, optimizer, network, training budget, and controller tuning.}
+  \item \placeholder{Report the verified termination/bootstrap semantics and
+  either add the requested ablation or moderate the reward-design contribution
+  so it matches the actual implementation and evidence.}
+\end{enumerate}
+
+\reviewcommentlabel{Major Comment M3}{The unsafe rates in Fig. 3 and Table III
+are inconsistent. In the ``Comparison Unsafe Episode Rate'' panel of Fig. 3,
+(c) is the highest, (b) and (e) are nearly indistinguishable, and (f) is the
+lowest. In contrast, Table III reports (b) 17.4 $>$ (c) 16.7 $>$ (e) 11.9 $>$
+(f) 9.3, which differs in both values and ordering. Please revise so that the
+two results are consistent with each other.}
+
+\begin{draftresponse}
+  \draftitem{Verify both outputs from raw logs and record objects, seeds,
+  rollout phase, policy checkpoint, intervention state, episode denominator,
+  smoothing/window, and aggregation population.}
+  \draftitem{If Figure 3 is online-distillation data and Table III is frozen
+  post-training evaluation, state this distinction prominently and explain why
+  values/orderings need not match.}
+  \draftitem{If they were intended to show the same measurement, identify and
+  correct the plotting, transcription, or aggregation error.}
+  \draftitem{Point to the revised captions and text.}
+\end{draftresponse}
+
+\reviewcommentlabel{Major Comment M4}{The contribution of the VLM is not
+established by the (e) vs. (f) comparison alone. In particular, the third
+contribution claims effectiveness ``across different visual contexts and unsafe
+scenarios,'' but the results currently presented do not clearly verify this
+claim. Please either moderate the corresponding contribution statement or
+provide additional analysis.}
+
+\begin{draftresponse}
+  \draftitem{Choose the evidence-based route after auditing stored data:
+  provide stratified visual-context/unsafe-scenario analysis, or narrow the
+  contribution statement.}
+  \draftitem{Do not treat object geometry alone as evidence of novel visual
+  semantics.}
+  \draftitem{Report the final claim language and the exact analysis, table, or
+  limitation that supports it.}
+\end{draftresponse}
+
+\reviewcommentlabel{Minor Comment m1}{One paragraph in Sec. III-A has a line
+spacing that differs from the rest of the text. Please check the formatting of
+the entire manuscript.}
+
+\begin{draftresponse}
+  \draftitem{Identify and fix the source of the spacing inconsistency.}
+  \draftitem{Report a full rendered-page formatting audit, including captions,
+  tables, equations, section transitions, and line spacing.}
+\end{draftresponse}
+
+\reviewcommentlabel{Minor Comment m2}{The ``Mean'' columns of Table II and
+Table III appear to average over different populations. Please unify the
+definition of ``Mean'' across the two tables. In addition, please briefly state
+why these four objects were selected from the 40-object set.}
+
+\begin{draftresponse}
+  \draftitem{Verify whether each current mean is macro-averaged or pooled and
+  whether it covers four displayed objects or all 40 objects.}
+  \draftitem{Use one explicit population definition in both tables, or label
+  distinct populations unambiguously if unification is impossible.}
+  \draftitem{Report the true four-object selection procedure, including whether
+  it was fixed before inspecting comparative results. Do not invent a
+  representativeness rationale after the fact.}
+  \draftitem{Point to updated captions and any full 40-object results.}
+\end{draftresponse}
+
+\reviewcommentlabel{Minor Comment m3}{Fig. 4 is difficult to read at print
+quality. Please also explain why only two objects (windcart and cow) are shown.}
+
+\begin{draftresponse}
+  \draftitem{Describe the figure redesign and verify legibility at final print
+  size.}
+  \draftitem{State the true selection rationale for WindCart and Cow and whether
+  it was fixed before inspecting results.}
+  \draftitem{If space permits, point to higher-resolution or complete
+  per-object failure-mode results in permanent supplementary material.}
+\end{draftresponse}
+
+\vspace{1em}
+We thank the Associate Editor and the reviewers again for their constructive
+feedback. \placeholder{Replace this closing with a concise statement of the
+verified revisions and their effect on the manuscript's claims.}
+
+\end{document}
