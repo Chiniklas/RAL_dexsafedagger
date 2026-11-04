@@ -567,6 +567,9 @@ as a runtime physical-robot safety monitor.
       those differences?
 - [ ] Does any existing experiment test novel scene semantics, or only novel
       object geometry?
+- [ ] **Nice to have for M4:** add a safety--autonomy trade-off curve, plotting
+      unsafe-event rate against autonomy (or, equivalently, intervention
+      burden) across the relevant methods or operating points.
 
 ### Candidate resolution paths — decision still open
 
