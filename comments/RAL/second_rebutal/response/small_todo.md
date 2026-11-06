@@ -17,7 +17,7 @@ issues are tracked separately in [`TODO.md`](TODO.md).
 | Small Task 7 | Reviewer 29, comment 7 | Complete the final VLM reproducibility specification | Open |
 | Small Task 8 | Reviewer 29, comment 9 | Separate hardware-observable and simulation-privileged unsafe signals | Open |
 | Small Task 9 | Reviewer 29, comment 10 | Add a compact limitations paragraph | Open |
-| Small Task 10 | Reviewer 31, m1 | Correct inconsistent line spacing and audit formatting | Open |
+| Small Task 10 | Reviewer 31, m1 | Correct inconsistent line spacing and audit formatting | Complete |
 | Small Task 11 | Reviewer 31, m3 | Improve Figure 4 readability and justify the two displayed objects | Open |
 
 ## Small Task 1 — Maintain empirical safety language
@@ -169,16 +169,15 @@ safer rather than guaranteed safe, and the method defines a conservative OR
 rule under which either high teacher--student disagreement or low critic value
 triggers intervention. Neither signal cancels the other.
 
-The remaining issue is numerical scope. Table II reports unsafe-event rates for
-four displayed teachers and an `11.8%` four-object mean, while the main text
-reports only the `5--30%` range across all 40 teachers. The previous response's
-statement that it provides a mean "across all tested objects" must therefore be
-verified and corrected.
+The numerical scope is now corrected. Table II reports an `11.4%` all-40-object
+unsafe-event mean, decomposed into `2.1%` harmful collision, `8.0%` object
+escape, `1.2%` palm flipped, and `0.1%` hand too far. Its caption states that
+the Mean column is computed over all 40 objects.
 
-- [ ] Compute or recover the aggregate teacher unsafe-event rate across all 40
+- [x] Compute or recover the aggregate teacher unsafe-event rate across all 40
       objects using the same episode-level definition and evaluation protocol.
-- [ ] Label the Table II value explicitly as the four-object mean and report the
-      all-40-object aggregate separately; coordinate this with Major Task 1.
+- [x] Report the all-40-object aggregate in Table II and state its population in
+      the caption; coordinate this with Major Task 1.
 - [ ] In the new response, point to the existing safety-limitation and OR-rule
       text, and state that only the evaluation population/aggregation has been
       clarified.
@@ -256,13 +255,17 @@ verified and corrected.
 > One paragraph in Sec. III-A has a line spacing that differs from the rest of
 > the text. Please check the formatting of the entire manuscript.
 
-- [ ] Inspect every paragraph in Section III-A in the final rendered PDF.
-- [ ] Identify local spacing, font-size, manual line-break, or environment
-      commands causing the mismatch.
-- [ ] Remove accidental local formatting overrides.
-- [ ] Visually inspect every page after the final LaTeX build for inconsistent
+- [x] Inspect every paragraph in Section III-A in the current rendered PDF.
+- [x] Check local spacing, font-size, manual line-break, and environment
+      commands: no body-text spacing override was found; the local `\small`
+      command is scoped to the displayed objective equation.
+- [x] Confirm no accidental local paragraph-formatting override requires removal.
+- [x] Visually inspect every page of the current manuscript for inconsistent
       line spacing, font size, margins, table scaling, and caption formatting.
-- [ ] Perform this check on both the clean and highlighted manuscripts.
+- [x] Add the formatting-audit response under Reviewer 31, Minor Comment m1.
+
+The current eight-page manuscript passed the visual audit. Repeat the final
+submission check on both clean and highlighted PDFs after all remaining edits.
 
 ## Small Task 11 — Improve Figure 4 and justify its object subset
 
@@ -271,15 +274,19 @@ verified and corrected.
 > Fig. 4 is difficult to read at print quality. Please also explain why only two
 > objects (windcart and cow) are shown.
 
+- [ ] Improve Figure 4 quality from the original plotting source: enlarge the
+      legend and fonts, export at publication quality, and avoid
+      quality-reducing image compression.
 - [ ] Regenerate Figure 4 with print-readable fonts, line widths, markers,
       colors, and panel labels at the final column/page size.
 - [ ] Prefer vector output where practical and verify readability in a printed or
       100%-zoom PDF view.
 - [ ] Reduce visual density or move detailed panels to the supplement if needed.
-- [ ] Document the true selection rationale for WindCart and Cow; do not invent
-      a post-hoc representativeness criterion.
-- [ ] State whether the two objects were preselected, illustrative, or chosen to
-      show particular failure-mode profiles.
+- [x] Document the selection rationale in the m3 response: WindCart and Cow are
+      illustrative examples; more objects would make the plots too dense.
+      Point to Table III for the aggregate comparison over all 40 objects.
+- [x] State that the two objects are illustrative examples of failure-mode
+      dynamics during training.
 - [ ] Consider adding all-object or additional-object failure-mode results to
       the supplement.
 

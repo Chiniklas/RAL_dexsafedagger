@@ -534,38 +534,47 @@ provide additional analysis.}
 spacing that differs from the rest of the text. Please check the formatting of
 the entire manuscript.}
 
-\begin{draftresponse}
-  \draftitem{Identify and fix the source of the spacing inconsistency.}
-  \draftitem{Report a full rendered-page formatting audit, including captions,
-  tables, equations, section transitions, and line spacing.}
-\end{draftresponse}
+\response Thank you for bringing this formatting concern to our attention.
+We carefully checked Section III-A and visually inspected every page of the
+revised manuscript, including paragraph spacing, captions, tables, equations,
+and section transitions. We confirmed that body-text line spacing is consistent
+throughout the revised manuscript, including Section III-A.
 
 \reviewcommentlabel{Minor Comment m2}{The ``Mean'' columns of Table II and
 Table III appear to average over different populations. Please unify the
 definition of ``Mean'' across the two tables. In addition, please briefly state
 why these four objects were selected from the 40-object set.}
 
-\begin{draftresponse}
-  \draftitem{Verify whether each current mean is macro-averaged or pooled and
-  whether it covers four displayed objects or all 40 objects.}
-  \draftitem{Use one explicit population definition in both tables, or label
-  distinct populations unambiguously if unification is impossible.}
-  \draftitem{Report the true four-object selection procedure, including whether
-  it was fixed before inspecting comparative results. Do not invent a
-  representativeness rationale after the fact.}
-  \draftitem{Point to updated captions and any full 40-object results.}
-\end{draftresponse}
+\response We thank the reviewer for identifying the inconsistent aggregation
+populations. We corrected this issue by recalculating every entry in Table~II's
+``Mean'' column directly from the raw evaluation data for all 40 objects, so
+that Tables~II and III now use the same 40-object population. Both table
+captions now explicitly state that ``Mean is computed over all 40 objects.''
+
+The four objects were selected only as a compact illustrative subset
+to show object-level results within the available table space. They were not
+selected using a statistical, difficulty-based, or performance-based criterion,
+and no conclusion is based specifically on these four objects. We agree that
+the word ``representative'' incorrectly implied a formal selection procedure
+and have replaced it with ``illustrative.''
 
 \reviewcommentlabel{Minor Comment m3}{Fig. 4 is difficult to read at print
 quality. Please also explain why only two objects (windcart and cow) are shown.}
 
+\response Thank you for pointing this out. Image compression appears to have
+reduced the readability of Fig.~4 at print size. To address this, we will enlarge
+the legend and increase the font sizes to make the figure easier to read.
+
+We show WindCart and Cow as illustrative examples of the failure-mode dynamics
+during training. Including additional objects would make the plots overly
+dense and difficult to read at print size. Figure~4 therefore presents a
+compact illustration, while Table~III reports the aggregate quantitative
+results over all 40 objects.
+
 \begin{draftresponse}
-  \draftitem{Describe the figure redesign and verify legibility at final print
-  size.}
-  \draftitem{State the true selection rationale for WindCart and Cow and whether
-  it was fixed before inspecting results.}
-  \draftitem{If space permits, point to higher-resolution or complete
-  per-object failure-mode results in permanent supplementary material.}
+  \draftitem{TODO: Regenerate Fig.~4 from the original plotting source at
+  publication quality; enlarge the legend and fonts, avoid quality-reducing
+  image compression, and verify readability at final print size.}
 \end{draftresponse}
 
 \vspace{1em}

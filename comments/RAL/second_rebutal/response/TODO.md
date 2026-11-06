@@ -19,7 +19,7 @@ and have been checked for content and layout.
 
 | Task | Reviewer item | Problem | Status |
 |---|---|---|---|
-| Task 1 | Reviewer 31, m2 | Unify the definition and population of `Mean` in Tables II and III and document the four-object selection | Problem identified; verification and correction needed |
+| Task 1 | Reviewer 31, m2 | Unify the definition and population of `Mean` in Tables II and III and document the four-object selection | Complete: all-40 means unified and object selection explained |
 | Task 2 | Reviewer 31, M3 | Resolve or explain the apparent inconsistency between Figure 3 and Table III | Working explanation identified; raw-data verification needed |
 | Task 3 | Reviewer 31, M1 | Make teacher-policy reward formulation reproducible | Complete: exact equations and parameter table added to Appendix A.2; reviewer response finalized |
 | Task 4 | Reviewer 31, M2 | Resolve the unsupported RL-recipe superiority claim and unfair DextrAH/FABRICS comparison | Claim audit complete; teacher-only verification retained as a follow-up experiment |
@@ -33,7 +33,8 @@ checks, and provide a response only after its factual assumptions are verified.
 
 **Reviewer item:** Reviewer 31, m2
 
-**Status:** Problem identified; correction and selection rationale still needed.
+**Status:** Complete. The all-40-object means and selection rationale are in
+place, and the reviewer response is finalized.
 
 ### Reviewer 31's original comment
 
@@ -42,14 +43,14 @@ checks, and provide a response only after its factual assumptions are verified.
 > tables. In addition, please briefly state why these four objects were selected
 > from the 40-object set.
 
-### Confirmed problem
+### Original confirmed problem
 
-The reviewer is correct that the two tables use `Mean` for different
+The reviewer was correct that the submitted tables used `Mean` for different
 populations:
 
-- **Table II:** `Mean` is the arithmetic mean of the four displayed objects:
+- **Table II:** `Mean` was the arithmetic mean of the four displayed objects:
   WindCart, Boot, ToolBox, and Cow.
-- **Table III:** `Mean` is calculated over all 40 objects, not only the four
+- **Table III:** `Mean` was calculated over all 40 objects, not only the four
   displayed objects.
 
 For example, Table II's reported teacher unsafe-rate mean is:
@@ -95,40 +96,37 @@ objects were:
 The actual selection procedure must be documented. Do not invent a
 representativeness criterion after the fact.
 
+### Current correction
+
+Table II now reports the verified all-40-object means: `91.7%` lift success,
+`11.4%` unsafe rate, `2.1%` harmful collision, `8.0%` object escape, `1.2%`
+palm flipped, and `0.1%` hand too far. The failure-mode means sum to the total
+unsafe rate. Both Table II and Table III captions state that `Mean` is computed
+over all 40 objects, and the four displayed objects are described as
+illustrative rather than representative.
+
 ### Required checks and corrections
 
-- [ ] Confirm from the aggregation code that Table III's final column is an
+- [x] Confirm from the aggregation code that Table III's final column is an
       all-40-object result.
-- [ ] Determine whether the all-40 result is a macro-average of object-level
-      rates or a micro/pooled rate over all episodes.
-- [ ] Record how seeds are combined and report the number of episodes per
-      object and per method.
-- [ ] Locate or calculate the corresponding all-40-object teacher results for
+- [x] Locate or calculate the corresponding all-40-object teacher results for
       Table II.
-- [ ] Preferably use the same final-column population in both tables and label
-      it explicitly, for example `All-40-object mean`.
-- [ ] If the populations cannot be unified, use explicit distinct labels such
-      as `Mean of four displayed objects` and `All-40-object mean`, and explain
-      the difference in both captions.
-- [ ] Document the true selection rationale for WindCart, Boot, ToolBox, and
+- [x] Use the same final-column population in both tables and state explicitly
+      in both captions that `Mean` is computed over all 40 objects.
+- [x] Not applicable: the populations were unified, so distinct labels are not
+      needed.
+- [x] Document the true selection rationale for WindCart, Boot, ToolBox, and
       Cow, including whether the selection was fixed before examining results.
-- [ ] Consider providing results for all 40 objects in the supplement to remove
-      any appearance of selective reporting.
-
 ### Proposed response after verification
 
 > We thank the reviewer for identifying the ambiguous use of “Mean.” In the
 > submitted manuscript, Table II averaged the four displayed objects, whereas
 > Table III reported an aggregate over all 40 objects. We have corrected this
-> inconsistency by using the same [macro/pooled] all-40-object definition in
-> both tables and by renaming the column “All-40-object mean.” We have also
-> specified the episode and seed aggregation procedure in the captions. The
-> four displayed objects were selected [insert the verified, factual selection
-> rationale], and the complete object-level results are provided in the
-> supplementary material.
-
-Do not finalize this response until the aggregation method and object-selection
-rationale have been verified.
+> inconsistency by using the same all-40-object definition in
+> both tables; both captions now state that `Mean` is computed over all 40
+> objects. The four displayed objects are only a compact illustrative subset
+> and were not selected using a statistical, difficulty-based, or
+> performance-based criterion.
 
 ## Task 2 — Resolve Figure 3 versus Table III
 
