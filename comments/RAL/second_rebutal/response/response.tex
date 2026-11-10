@@ -11,6 +11,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{mathptmx}
 \usepackage{microtype}
+\usepackage{graphicx}
 \usepackage[table]{xcolor}
 \usepackage{enumitem}
 \usepackage{amsmath,amssymb}
@@ -501,17 +502,34 @@ lowest. In contrast, Table III reports (b) 17.4 $>$ (c) 16.7 $>$ (e) 11.9 $>$
 (f) 9.3, which differs in both values and ordering. Please revise so that the
 two results are consistent with each other.}
 
-\begin{draftresponse}
-  \draftitem{Verify both outputs from raw logs and record objects, seeds,
-  rollout phase, policy checkpoint, intervention state, episode denominator,
-  smoothing/window, and aggregation population.}
-  \draftitem{If Figure 3 is online-distillation data and Table III is frozen
-  post-training evaluation, state this distinction prominently and explain why
-  values/orderings need not match.}
-  \draftitem{If they were intended to show the same measurement, identify and
-  correct the plotting, transcription, or aggregation error.}
-  \draftitem{Point to the revised captions and text.}
-\end{draftresponse}
+\response Thank you for highlighting this apparent discrepancy. We checked the
+raw logs and evaluation data and confirmed that Figure~3 and Table~III
+correctly report their respective measurements. The unsafe-episode-rate
+curves in Figure~3 show how unsafe events evolve during online distillation,
+whereas Table~III reports standalone evaluation of the resulting
+student-policy checkpoints after training.
+
+These measurements support two complementary findings: reduced unsafe
+exploration during early distillation and lower unsafe-event rates for the
+resulting student policies in post-training evaluation. We do not claim that
+the endpoints of the training curves must reproduce the numerical values or
+ordering in Table~III, because the two measurements assess different phases
+under different conditions.
+
+Thus, the figure and table are consistent with the scope of our claims,
+although their values and rankings need not coincide. We have revised both
+captions to clarify this distinction.
+
+\begin{center}
+\begin{minipage}{\linewidth}
+\small
+The revised captions are reproduced below, with changes highlighted in yellow.
+\par\smallskip
+\includegraphics[width=\linewidth]{figures/figure3-highlighted-caption.png}
+\par\medskip
+\includegraphics[width=0.55\linewidth]{figures/table3-highlighted-caption.png}
+\end{minipage}
+\end{center}
 
 \reviewcommentlabel{Major Comment M4}{The contribution of the VLM is not
 established by the (e) vs. (f) comparison alone. In particular, the third

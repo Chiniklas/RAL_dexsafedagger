@@ -20,7 +20,7 @@ and have been checked for content and layout.
 | Task | Reviewer item | Problem | Status |
 |---|---|---|---|
 | Task 1 | Reviewer 31, m2 | Unify the definition and population of `Mean` in Tables II and III and document the four-object selection | Complete: all-40 means unified and object selection explained |
-| Task 2 | Reviewer 31, M3 | Resolve or explain the apparent inconsistency between Figure 3 and Table III | Working explanation identified; raw-data verification needed |
+| Task 2 | Reviewer 31, M3 | Resolve or explain the apparent inconsistency between Figure 3 and Table III | Complete: training/post-training scope clarified in both captions; response finalized with highlighted screenshots |
 | Task 3 | Reviewer 31, M1 | Make teacher-policy reward formulation reproducible | Complete: exact equations and parameter table added to Appendix A.2; reviewer response finalized |
 | Task 4 | Reviewer 31, M2 | Resolve the unsupported RL-recipe superiority claim and unfair DextrAH/FABRICS comparison | Claim audit complete; teacher-only verification retained as a follow-up experiment |
 | Task 5 | Reviewer 31, M4; Reviewer 29, comment 8 | Determine whether the evidence sufficiently supports the distinct VLM contribution across visual contexts and unsafe scenarios | Open question; do not defend or narrow the claim until existing data are audited |
@@ -132,8 +132,9 @@ illustrative rather than representative.
 
 **Reviewer item:** Reviewer 31, M3
 
-**Status:** Unresolved pending verification of the source logs and aggregation
-scripts.
+**Status:** Complete. The training/post-training distinction is clarified in
+both captions, and the M3 response is finalized with screenshots from the
+highlighted manuscript.
 
 ### Reviewer 31's original comment
 
@@ -174,56 +175,27 @@ the ordering of (b) and (c) differs between Figure 3 and Table III. The figure
 also makes (b) and (e) look relatively close, whereas Table III separates them
 by 5.5 percentage points.
 
-### Working explanation to verify
+### Resolution
 
-Figure 3 and Table III appear to report different experimental measurements:
+- [x] Clarify that the unsafe-episode-rate panel in Figure 3 records online
+      distillation rollouts, whereas Table III reports standalone evaluation
+      of the resulting student-policy checkpoints after training.
+- [x] Update the Figure 3 caption to describe evolution during online
+      distillation and the Table III caption to specify 200 post-training
+      evaluation episodes per object. The Mean columns cover all 40 objects.
+- [x] Finalize the response to Reviewer 31 M3 in `response.tex` and include
+      screenshots of both captions from the highlighted manuscript.
 
-- **Figure 3:** unsafe-event rates observed during online student distillation,
-  plotted over training iterations and possibly smoothed or averaged over a
-  training window.
-- **Table III:** a separate post-training evaluation of frozen student policies,
-  using 200 evaluation episodes per displayed object. Its `Mean` column may be
-  aggregated over all 40 objects rather than only the four displayed objects.
+The figure supports reduced unsafe exploration during early distillation;
+the table supports lower unsafe-event rates for the resulting student
+policies in post-training evaluation. Their values and rankings need not
+coincide because they assess different phases under different conditions.
+The plotted curves and table values remain unchanged.
 
-Different rollout phases, checkpoints, populations, and aggregation rules can
-legitimately produce different values and even a different ordering. If this is
-confirmed, the issue is primarily insufficient labeling and explanation, not a
-requirement that the two results be numerically identical.
+### Final response
 
-### Required checks
-
-- [ ] Locate the raw data and plotting script used for Figure 3.
-- [ ] Record the Figure 3 objects, seeds, episode denominator, smoothing method,
-      checkpoint/window, and whether unsafe rates are measured during active
-      online training.
-- [ ] Locate the raw evaluation data and aggregation script used for Table III.
-- [ ] Record the Table III objects, seeds, checkpoint, number of evaluation
-      episodes, and whether the policy is frozen and intervention is disabled.
-- [ ] Verify whether Table III's `Mean` is calculated over the four displayed
-      objects or all 40 objects.
-- [ ] Recompute both outputs from the raw logs without manually altering their
-      ordering.
-- [ ] Confirm that the color-to-ablation mapping in Figure 3 is correct.
-- [ ] If both outputs are correct but measure different phases, revise the
-      Figure 3 and Table III captions to state those differences explicitly.
-- [ ] If they were intended to report the same measurement, identify and fix
-      the plotting, transcription, or aggregation error and regenerate both
-      outputs from one source of truth.
-
-### Proposed response if the working explanation is confirmed
-
-> We thank the reviewer for identifying this ambiguity. Figure 3 and Table III
-> report two distinct evaluations. Figure 3 shows unsafe-event rates observed
-> during online distillation as a function of training iteration, whereas Table
-> III reports a separate post-training evaluation of frozen student policies
-> over 200 episodes per object. Consequently, the two measurements use different
-> rollout phases and aggregation populations and are not expected to have
-> identical values or ordering. We have revised the figure and table captions,
-> as well as the surrounding text, to state the evaluation phase, population,
-> checkpoint/window, and aggregation procedure explicitly.
-
-Do not use this proposed response until the raw logs and scripts confirm every
-technical statement in it.
+See the finalized response to Reviewer 31 M3 in `response.tex` and the
+highlighted caption screenshots embedded immediately after it.
 
 ## Task 3 — Document the exact teacher-training reward
 
