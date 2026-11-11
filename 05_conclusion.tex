@@ -11,8 +11,7 @@ reducing the average unsafe-episode rate by a further \textbf{4 percentage point
 \dexsafedagger.
 The proposed method approaches and, in some cases, surpasses the teacher policy's
 safety performance. Successful real-world deployment shows that the resulting
-student policy partially bridges the sim-to-real gap.
-
-A clear limitation is that performance during distillation, as well as the final student policy, is
-largely constrained by teacher capability. Developing a safety-aware teacher training pipeline is a
-promising direction for future work to generate stronger teacher policies.
+student policy \textbf{partially} bridges the sim-to-real gap.
+Future work should develop stronger teachers through safety-aware training
+and improve generalization to unseen objects by addressing the
+contact-strategy mismatch between simulation and hardware.

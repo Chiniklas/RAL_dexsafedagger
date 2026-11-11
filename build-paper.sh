@@ -185,6 +185,9 @@ EOF
 \\renewcommand{\\DIFaddFL}[1]{\\texorpdfstring{\\colorbox{yellow}{\\strut #1}}{#1}}' \
     "$diff_tex"
 
+  # Section headings use a box because the wrapping stripe fails inside IEEEtran headings.
+  sed -i -E 's/(\\(sub)*section\*?\{)\\DIFadd\{/\1\\DIFaddFL{/' "$diff_tex"
+
   # latexdiff's figure-markup helper uses blue by default. Keep all visible
   # revision marks in the requested yellow style.
   sed -i 's/\\color{blue}/\\color{yellow}/g' "$diff_tex"

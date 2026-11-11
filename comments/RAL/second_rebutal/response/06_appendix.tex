@@ -360,9 +360,32 @@ unseen objects in Table~\ref{tab:physical_baseline_comparison}.
 
 \input{../../../../table/appendix_physical_baseline_comparison.tex}
 
-The comparison supports our claim that the student trained with VLM-augmented intervention
-achieves a comparable real-world task-success rate while exhibiting a lower
-unsafe-event rate for both seen and unseen objects.
+The VLM-guided student had comparable lift success and lower observed
+unsafe-event rates in both object groups. We pooled the episodes within
+each group and used two-sided two-proportion $z$ tests and
+normal-approximation 95\% confidence intervals for the rate differences.
+This analysis treats episodes as independent. Both confidence intervals
+include zero.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\caption{Real-world comparison of unsafe-event rates. Counts are shown as
+unsafe episodes over total episodes, followed by the rate. Positive
+reductions favor ablation~(d). Differences use unrounded rates.
+The abbreviation pp denotes percentage points.}
+\label{tab:physical_baseline_confidence_intervals}
+\begin{tabular}{lccccc}
+\toprule
+Object group & \makecell{Ablation~(c)\\unsafe episodes} &
+\makecell{Ablation~(d)\\unsafe episodes} & \makecell{Observed\\reduction (pp)} &
+\makecell{95\% confidence\\interval (pp)} & $p$-value \\
+\midrule
+Seen & 68/420 (16.2\%) & 62/420 (14.8\%) & 1.43 & $[-3.46,\,6.32]$ & 0.567 \\
+Unseen & 100/240 (41.7\%) & 94/240 (39.2\%) & 2.50 & $[-6.28,\,11.28]$ & 0.577 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Implementation Details of Ablation~(f)}
 Ablation~(f) replaces the VLM tuner in ablation~(d) with a deterministic

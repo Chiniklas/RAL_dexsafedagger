@@ -8,15 +8,15 @@ issues are tracked separately in [`TODO.md`](TODO.md).
 
 | Task | Reviewer item | Action | Status |
 |---|---|---|---|
-| Small Task 1 | Reviewer 29, comment 1 | Audit empirical safety language | Open |
-| Small Task 2 | Reviewer 29, comment 2 | Emphasize the 39.2% unseen-object unsafe rate | Open |
+| Small Task 1 | Reviewer 29, comment 1 | Maintain empirical safety language | Complete: empirical scope and absence of formal guarantees reaffirmed in the response |
+| Small Task 2 | Reviewer 29, comment 2 | Emphasize the 39.2% unseen-object unsafe rate | Complete |
 | Small Task 3 | Reviewer 29, comment 3 | Add uncertainty/significance analysis for physical (e) versus (f) | Open |
 | Small Task 4 | Reviewer 29, comment 4 | Analyze the consequences of critic false negatives | Open |
 | Small Task 5 | Reviewer 29, comment 5 | Measure how early the Bellman critic warns before unsafe termination | Open |
 | Small Task 6 | Reviewer 29, comment 6 | Clarify teacher unsafe-rate aggregation | Mostly complete |
 | Small Task 7 | Reviewer 29, comment 7 | Complete the final VLM reproducibility specification | Open |
 | Small Task 8 | Reviewer 29, comment 9 | Separate hardware-observable and simulation-privileged unsafe signals | Open |
-| Small Task 9 | Reviewer 29, comment 10 | Add a compact limitations paragraph | Open |
+| Small Task 9 | Reviewer 29, comment 10 | Add a compact limitations paragraph | Paragraph and response added; highlighted screenshot pending |
 | Small Task 10 | Reviewer 31, m1 | Correct inconsistent line spacing and audit formatting | Complete |
 | Small Task 11 | Reviewer 31, m3 | Improve Figure 4 readability and justify the two displayed objects | Open |
 
@@ -29,17 +29,17 @@ issues are tracked separately in [`TODO.md`](TODO.md).
 > the method as empirical risk reduction under task-specific unsafe-event
 > definitions.
 
-- [ ] Search the title, abstract, introduction, contributions, method, results,
-      discussion, conclusion, captions, supplement, and response for
-      `safe`, `safety`, `guarantee`, `constraint`, `hazard`, and
-      `safety-critical`.
-- [ ] Replace language that implies formal guarantees with precise terms such
-      as `empirical reduction in task-specific unsafe-event rate`.
-- [ ] Define the four unsafe events as task-specific operational metrics, not a
-      general safety specification.
-- [ ] State explicitly that the method provides no formal safety guarantee.
-- [ ] Ensure `safety-aware` is not used as a synonym for certified or guaranteed
-      safety.
+**Status:** Complete. The response to Reviewer 29, Comment 1 reaffirms the
+empirical scope of the safety claims and points to the existing Methods
+statement about teacher takeover.
+
+- [x] Retain safety as empirical reduction in the four task-specific
+      unsafe-event categories.
+- [x] Point to the existing Methods statement that teacher takeover is
+      empirically safer rather than an absolute safety guarantee.
+- [x] State explicitly in the response that the framework provides no formal
+      safety or constraint-satisfaction guarantees.
+- [x] Replace the response drafting checklist with the finalized response.
 
 ## Small Task 2 — Prominently report the unseen-object limitation
 
@@ -50,14 +50,13 @@ issues are tracked separately in [`TODO.md`](TODO.md).
 > abstract, discussion, and conclusion to avoid implying deployment-ready
 > safety.
 
-- [ ] Verify the exact unseen-object value and denominator from the physical
-      trial records; the submitted manuscript reports `39.2%`.
-- [ ] State the value explicitly in the abstract, not only in a table.
-- [ ] Discuss it as a major remaining sim-to-real/generalization limitation.
-- [ ] Repeat the limitation in the conclusion.
-- [ ] Remove or qualify any wording that implies deployment-ready safety.
-- [ ] Keep the population explicit: eight unseen objects and the corresponding
-      number of physical evaluation episodes.
+**Status:** Complete.
+
+- [x] Add the reported 39.2% unsafe-event rate on unseen objects to the abstract.
+- [x] Retain the Results discussion of the unseen-object generalization gap.
+      The Limitations paragraph also reports the 39.2% rate.
+- [x] Identify contact-strategy mismatch as a future-work priority in the Conclusion.
+- [x] Quote the abstract, Results, and Conclusion in the Comment 2 response.
 
 ## Small Task 3 — Quantify the physical (e) versus (f) comparison
 
@@ -236,17 +235,20 @@ the Mean column is computed over all 40 objects.
 > definitions, and absence of formal constraint guarantees. No major
 > methodological restructuring appears necessary.
 
-- [ ] Cover the contact-rich sim-to-real mismatch, especially on unseen objects.
-- [ ] State the dependence on an external proprietary VLM, including possible
+- [x] Cover the contact-rich sim-to-real mismatch, especially on unseen objects.
+- [x] State the dependence on an external proprietary VLM, including possible
       model/version drift, latency, availability, and cost.
-- [ ] State that the unsafe-event definitions are task-specific and incomplete
+- [x] State that the unsafe-event definitions are task-specific and incomplete
       as a general robot-safety specification.
-- [ ] State that the method provides empirical intervention, not formal
+- [x] State that the method provides empirical intervention, not formal
       constraint satisfaction or safety guarantees.
-- [ ] Mention that the VLM, teacher, and critic are used during simulation
+- [x] Mention that the VLM, teacher, and critic are used during simulation
       distillation and are not runtime physical safety monitors.
-- [ ] Keep the paragraph visible in the main paper rather than placing all
+- [x] Keep the paragraph visible in the main paper rather than placing all
       limitations only in the supplement.
+
+- [ ] Attach a screenshot of the Limitations paragraph from the highlighted
+      manuscript to the response; a red TODO remains under Comment 10.
 
 ## Small Task 10 — Correct manuscript formatting
 

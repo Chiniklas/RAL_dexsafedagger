@@ -209,8 +209,8 @@ not fully eliminate the sim-to-real gap. Nevertheless, the physical experiments 
 that the policy can transfer successfully from simulation to the real robot.
 
 Unseen objects show a clear generalization gap: pooled lift success drops from
-83.6\% to 64.6\%, while the unsafe rate rises from 14.7\% to 39.2\%, mainly
-due to more harmful collisions (4.7\% to 18.8\%) and object escapes (8.1\% to
+83.6\% to 64.6\%, while the unsafe rate rises from 14.8\% to 39.2\%, mainly
+due to more harmful collisions (4.8\% to 18.8\%) and object escapes (8.1\% to
 15.8\%). Among
 the six representative objects shown, no palm-flip or hand-too-far events are
 observed, suggesting that their real-world failures are dominated by
@@ -219,16 +219,34 @@ results indicate that the remaining sim-to-real gap on unseen geometries is
 largely attributable to a contact-strategy mismatch, i.e., the policy fails to
 adapt its contact interactions to novel object shapes.
 
-The real-world comparison between ablations~(c) and~(d) further shows that our
-VLM-guided method lowers the unsafe-event rate on both seen (16.1\% to 14.8\%)
-and unseen objects (41.4\% to 39.2\%) while maintaining a comparable task
-success rate.
+In the real-world comparison, the VLM-guided student had lower observed
+unsafe-event rates on seen (16.2\% to 14.8\%) and unseen objects (41.7\% to
+39.2\%), with comparable lift success. The confidence intervals for both
+unsafe-event rate differences include zero.
 
 \input{table/real_world_results.tex}
 
-% \subsection{Discussion}
+\subsection{Discussion and Limitations}
+\label{subsec:discussion}
 
-% While effectively reducing unsafe exploration, the teacher-intervened online distillation process
+In passive evaluation, the Bellman critic achieves a 5.8\% false-negative rate
+on unsafe episodes, and during distillation the action disagreement branch
+can still trigger a teacher takeover on its own when the critic misses a warning.
+
+A higher threshold can reduce missed warnings. Extra takeovers can interrupt
+attempts that would have succeeded, and they can also rescue attempts that
+would have failed.
+
+Contact-strategy mismatch between simulation and
+hardware remains a limitation, particularly for unseen objects, whose
+real-world unsafe-event rate is 39.2\%. Distillation depends on an external
+proprietary VLM, introducing dependencies on model/version changes, latency,
+service availability, and API cost. The VLM, teacher, and critic operate
+during simulation distillation and do not serve as runtime safety monitors
+on the physical robot. Our four unsafe-event definitions are task-specific
+operational metrics rather than a complete robot-safety specification.
+The method provides empirical risk reduction under these definitions,
+without formal guarantees of safety or constraint satisfaction.
 % appears to reduce sample efficiency. In Fig.~\ref{fig:ablation}, we observe slower performance growth in
 % lift-success evaluation under higher intervention rates. The underlying cause remains unclear; we believe
 % there is room for improvement in both exploration safety and sample efficiency within the online

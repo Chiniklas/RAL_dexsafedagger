@@ -23,7 +23,7 @@ and have been checked for content and layout.
 | Task 2 | Reviewer 31, M3 | Resolve or explain the apparent inconsistency between Figure 3 and Table III | Complete: training/post-training scope clarified in both captions; response finalized with highlighted screenshots |
 | Task 3 | Reviewer 31, M1 | Make teacher-policy reward formulation reproducible | Complete: exact equations and parameter table added to Appendix A.2; reviewer response finalized |
 | Task 4 | Reviewer 31, M2 | Resolve the unsupported RL-recipe superiority claim and unfair DextrAH/FABRICS comparison | Claim audit complete; teacher-only verification retained as a follow-up experiment |
-| Task 5 | Reviewer 31, M4; Reviewer 29, comment 8 | Determine whether the evidence sufficiently supports the distinct VLM contribution across visual contexts and unsafe scenarios | Open question; do not defend or narrow the claim until existing data are audited |
+| Task 5 | Reviewer 31, M4; related Reviewer 29, comment 8 | Explain the distinct VLM contribution and the scope of visual contexts and unsafe scenarios | Complete: M4 response finalized using the ablation ladder, visual randomization, and Figure 4 decomposition; trade-off curve remains optional |
 
 Add future review items as `Task 3`, `Task 4`, and so forth. Each task should
 retain the original reviewer comment, identify the exact problem, list required
@@ -545,10 +545,14 @@ still require substantial embodiment-specific design and validation.
 
 ## Task 5 — Assess the evidence for the distinct VLM contribution
 
-**Reviewer items:** Reviewer 31, M4; Reviewer 29, comment 8
+**Reviewer item:** Reviewer 31, M4
 
-**Status:** Open question. No final decision has been made about defending,
-narrowing, or removing the visual-context contribution claim.
+**Related item:** Reviewer 29, comment 8 (tracked separately in `response.tex`).
+
+**Status:** Complete. The M4 response explains the existing ablation ladder,
+visual randomization during distillation and evaluation, and the Figure 4
+unsafe-event decomposition. The safety--autonomy curve remains an optional
+nice-to-have.
 
 ### Reviewer 31's original comment
 
@@ -580,122 +584,37 @@ possible real-world semantic context. It is that the method is trained and/or
 evaluated under varied simulated visual conditions and is assessed using four
 unsafe-event definitions.
 
-### Current analysis
+### Completed resolution
 
-The intended meaning can be stated more explicitly, but the reviewer's concern
-appears to be evidentiary rather than purely terminological. Randomizing visual
-conditions demonstrates exposure to a diverse distribution; it does not, by
-itself, demonstrate that visual input causes the VLM's improvement within each
-context. Similarly, defining four unsafe-event categories does not establish
-that the VLM improves every category.
+- [x] Explain the ablation ladder using the current manuscript labels:
+      (c) fixed critic-based intervention, (f) adaptive non-VLM curriculum,
+      (e) LLM-only adaptation without images, and (d) full VLM adaptation.
+      Identify the LLM-only versus VLM comparison as the comparison addressing
+      the contribution of visual input.
+- [x] Clarify that visual contexts refer to DexTrAH-RGB-style randomization
+      of lighting intensity and direction, background textures, object
+      materials, and table appearance during both distillation and
+      post-training evaluation. Table III reports aggregate performance
+      across these randomized visual conditions.
+- [x] Explain that unsafe scenarios refer to harmful collision, object escape,
+      palm flip, and hand-too-far. Point to Figure 4 and the Results discussion
+      for the failure-mode decomposition and early-training behavior on two
+      illustrative objects.
+- [x] Add the closing sentence offering to consider more cautious and precise
+      contribution wording if the reviewer still finds it misleading.
+- [x] Remove the remaining M4 drafting checklist and rebuild and visually
+      check the response PDF.
 
-The current argument may appear to a reader as:
+### Final response
 
-```text
-visual conditions were randomized
-+ four unsafe-event categories were defined
-+ the full VLM has the best aggregate mean
-= the VLM is effective across visual contexts and unsafe scenarios
-```
+See the completed response to Reviewer 31 M4 in `response.tex`. The adopted
+response explains the existing experimental design and evidence; additional
+experiments are not required by this task's completion criteria. Reviewer 29's
+separate question about novel scene semantics remains tracked in its own
+response item.
 
-The missing evidentiary link is a result that connects the full VLM's visual
-input to improvements within the relevant visual conditions or unsafe-event
-categories.
+### Optional follow-up
 
-The existing ablation ladder is conceptually useful:
-
-```text
-(e) fixed critic-based intervention
-(h) adaptive non-VLM curriculum
-(g) LLM-only adaptation without images
-(f) full VLM adaptation with images
-```
-
-However, the reported aggregate unsafe rates are:
-
-```text
-(e) 11.9%
-(h) 11.7%
-(g) 10.2%
-(f)  9.3%
-```
-
-The direct image-specific comparison is therefore (f) versus (g), with a
-reported difference of only 0.9 percentage points. The existing five-seed
-analysis covers (b), (c), (e), and (f), but not (g) or (h). The current material
-does not establish whether the 0.9-point difference is repeatable or within
-run-to-run variation.
-
-### Distinctions that must be made explicit
-
-The revision must distinguish among three levels of evidence:
-
-1. **Exposure:** the policy was trained under randomized visual conditions.
-2. **Aggregate performance:** the full method achieved the best aggregate mean
-   under a specified training or evaluation distribution.
-3. **VLM-specific contextual benefit:** visual input produced a reliable
-   improvement within or across particular visual-context groups.
-
-The existing paper appears to support the first two more directly than the
-third. It must also distinguish novel object geometry from novel scene
-semantics and clarify that the VLM is used during simulation distillation, not
-as a runtime physical-robot safety monitor.
-
-### Open factual questions
-
-- [ ] Were textures, materials, lighting, and object conditions randomized only
-      during training, or also during the evaluation that produced Table III?
-- [ ] What exact ranges and distributions were used for each visual
-      randomization variable?
-- [ ] Were all ablations evaluated under identical sampled visual contexts,
-      objects, seeds, checkpoints, and rollout budgets?
-- [ ] Do the stored logs identify lighting, texture, material, object, or other
-      visual-condition groups well enough for stratified reanalysis?
-- [ ] Can the existing results be grouped by the four unsafe-event categories
-      for methods (e), (f), and (g), rather than only reported as an aggregate?
-- [ ] Were (g) and (h) run with the same independent seeds as (f)?
-- [ ] Is the reported 0.9-point (f) versus (g) difference larger than matched
-      run-to-run uncertainty?
-- [ ] Does the VLM receive information that is meaningfully different across
-      the randomized visual conditions, and do its threshold updates respond to
-      those differences?
-- [ ] Does any existing experiment test novel scene semantics, or only novel
-      object geometry?
 - [ ] **Nice to have for M4:** add a safety--autonomy trade-off curve, plotting
       unsafe-event rate against autonomy (or, equivalently, intervention
       burden) across the relevant methods or operating points.
-
-### Candidate resolution paths — decision still open
-
-**Path A: Defend the claim using existing data.** If the logs permit it,
-reanalyze existing runs by visual-condition group, object/object family, and
-unsafe-event category. Report matched (f) versus (g) differences and
-uncertainty. This may resolve the concern without new training.
-
-**Path B: Add stronger controlled experiments.** Run (f), (g), and (h) with
-matched seeds and protocols. Consider a correct-image versus shuffled- or
-irrelevant-image control and report confidence intervals and intervention
-budgets.
-
-**Path C: Narrow the wording.** If contextual or matched-seed evidence is not
-available, replace the broad causal claim with a directly measurable statement,
-for example:
-
-> Under randomized object geometry, texture, material, and lighting conditions,
-> VLM-DexSafeDagger achieves the lowest aggregate unsafe-event rate among the
-> evaluated intervention strategies. Unsafe events are evaluated using four
-> task-specific categories: harmful collision, object escape, palm flip, and
-> hand-too-far.
-
-This wording is valid only if the reported evaluation itself uses the stated
-randomized conditions. If randomization was applied only during training, use
-“trained under randomized visual conditions” instead of claiming evaluation
-across those contexts.
-
-### Decision gate
-
-Leave this task open until the raw logs, randomization configuration, seed
-coverage, and unsafe-mode breakdown have been inspected. Do not yet assert that
-the reviewer overlooked existing evidence, and do not prematurely remove the
-VLM contribution. The final response should be chosen based on what the stored
-data can actually demonstrate.

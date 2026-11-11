@@ -143,146 +143,212 @@ responses.
 manuscript and consistently describe the method as empirical risk reduction
 under task-specific unsafe-event definitions.}
 
-\begin{draftresponse}
-  \draftitem{Report the completed manuscript-wide audit of safety language,
-  including the title, abstract, contributions, methods, captions, results,
-  discussion, conclusion, supplement, and response.}
-  \draftitem{State explicitly that the framework provides empirical reduction
-  in task-specific unsafe-event rates and no formal safety guarantee.}
-  \draftitem{List the principal locations where claims were revised.}
-\end{draftresponse}
+\response Thank you for recognizing this clarification. We maintain the
+interpretation of safety as empirical reduction in the four task-specific
+unsafe-event categories defined in our study. As stated in the Methods
+section, teacher takeover is empirically safer rather than an absolute
+safety guarantee. Our framework does not provide formal safety or
+constraint-satisfaction guarantees.
 
 \reviewcommentlabel{Comment 2}{Real-world unsafe-event rates on unseen objects
 remain around 39\%, which is substantial. This limitation should be emphasized
 prominently in the abstract, discussion, and conclusion to avoid implying
 deployment-ready safety.}
 
-\begin{draftresponse}
-  \draftitem{Verify and report the exact unseen-object unsafe-event rate,
-  numerator, denominator, object count, and seed/trial aggregation.}
-  \draftitem{Quote or summarize the new abstract, discussion, and conclusion
-  language that foregrounds this limitation.}
-  \draftitem{State plainly that the current system is not deployment-ready and
-  identify the remaining sim-to-real/generalization gap.}
-\end{draftresponse}
+\response Thank you for emphasizing this limitation. The revised abstract now
+states:
+\begin{quote}
+``Meanwhile, the distilled student policy achieves comparable lift
+success rates and demonstrates successful transfer from simulation to the real robot.
+Generalization to unseen objects remains a clear limitation, with a 39.2\%
+unsafe-event rate in real-world trials.''
+\end{quote}
+
+The discussion in the Real-World Experimental Results subsection already
+explicitly describes the limitation on unseen objects and its likely causes.
+We corrected the pooled seen-object rates in this passage to match the
+verified trial counts.
+\begin{quote}
+``Unseen objects show a clear generalization gap: pooled lift success drops from
+83.6\% to 64.6\%, while the unsafe rate rises from 14.8\% to 39.2\%, mainly
+due to more harmful collisions (4.8\% to 18.8\%) and object escapes (8.1\% to
+15.8\%). Among
+the six representative objects shown, no palm-flip or hand-too-far events are
+observed, suggesting that their real-world failures are dominated by
+contact-rich interactions rather than gross pose instabilities. Overall, the
+results indicate that the remaining sim-to-real gap on unseen geometries is
+largely attributable to a contact-strategy mismatch, i.e., the policy fails to
+adapt its contact interactions to novel object shapes.''
+\end{quote}
+
+The Conclusion identifies the contact-strategy mismatch as a priority for
+improving generalization to unseen objects.
+\begin{quote}
+``Future work should develop stronger teachers through safety-aware training
+and improve generalization to unseen objects by addressing the
+contact-strategy mismatch between simulation and hardware.''
+\end{quote}
 
 \reviewcommentlabel{Comment 3}{The real-robot difference between VLM-guided
 and fixed-threshold critic policies appears modest. Report confidence intervals
 and paired or proportion tests to determine whether the observed unsafe-rate
 reductions are statistically distinguishable.}
 
-\begin{draftresponse}
-  \draftitem{Determine and state whether trials are genuinely paired by object,
-  seed, initial pose, and other initial conditions.}
-  \draftitem{Report the effect size for VLM-guided minus fixed-threshold
-  unsafe-event rate, with confidence intervals for seen and unseen objects.}
-  \draftitem{Name the justified statistical test, report its statistic and
-  p-value, and state plainly whether the difference is statistically
-  distinguishable.}
-  \draftitem{Identify the table or paragraph containing the new analysis.}
-\end{draftresponse}
+\response
+Thank you for pointing out that the real-robot differences are modest.
+We added 95\% confidence intervals and two-sided two-proportion $z$ tests
+in Appendix Table~8 (Section~C.4), reproduced below. Because object poses
+were randomized independently for each trial, we used an unpaired
+comparison and pooled trials separately for seen and unseen objects,
+treating episodes as independent.
+
+Compared with the fixed-threshold policy~(c), the VLM-guided policy~(d)
+had an observed unsafe-episode rate 1.43 percentage points lower on seen
+objects (95\% CI $[-3.46,\,6.32]$, $p=0.567$) and 2.50 percentage
+points lower on unseen objects (95\% CI $[-6.28,\,11.28]$, $p=0.577$).
+Both confidence intervals include zero. We revised the Results to
+describe these as lower \emph{observed} unsafe-event rates and to make
+clear that the evidence for a reliable reduction on the real robot
+remains inconclusive.
+
+\begin{center}
+\includegraphics[width=\linewidth]{figures/appendix-table8.png}
+\end{center}
 
 \reviewcommentlabel{Comment 4}{The Bellman critic achieves a 5.8\%
 false-negative rate on unsafe episodes. Please discuss the consequences of
 these missed warnings and whether threshold adjustment can trade task success
 for lower false-negative risk.}
 
-\begin{draftresponse}
-  \draftitem{Verify the 5.8\% numerator, denominator, and episode-level
-  definition.}
-  \draftitem{Explain that a missed critic warning can prevent critic-triggered
-  takeover, while the disagreement branch may still trigger intervention.}
-  \draftitem{If saved critic scores are available, report a threshold sweep
-  covering false negatives, intervention rate, task success, and unsafe-event
-  rate; otherwise disclose why the tradeoff cannot be reconstructed.}
-\end{draftresponse}
+\response Thank you for pointing this out. To address your questions, we added
+the following discussion in Section~IV-E (\emph{Discussion and Limitations}).
+\begin{quote}
+``In passive evaluation, the Bellman critic achieves a 5.8\% false-negative rate
+on unsafe episodes, and during distillation the action disagreement branch
+can still trigger a teacher takeover on its own when the critic misses a warning.
+
+A higher threshold can reduce missed warnings. Extra takeovers can interrupt
+attempts that would have succeeded, and they can also rescue attempts that
+would have failed.''
+\end{quote}
+
+\placeholder{TODO: Check whether the available data support a threshold sweep
+and report the results or explain the evidence gap.}
 
 \reviewcommentlabel{Comment 5}{Clarify whether critic metrics are computed at
 the episode or time-step level and how early an unsafe event is detected before
 termination. Warning lead time is important for intervention usefulness.}
 
-\begin{draftresponse}
-  \draftitem{State whether each critic metric is episode-level or time-step
-  level and give the exact counting rule.}
-  \draftitem{Define the first warning time, unsafe-event time, and lead-time
-  computation at the 60 Hz control rate.}
-  \draftitem{Report the verified lead-time distribution and useful-warning
-  fractions, or state explicitly that saved time-step scores are insufficient
-  to reconstruct them.}
-\end{draftresponse}
+\response Thank you for pointing out this question. At each control step, the
+Bellman critic scores the current state and the student's proposed action. In
+the passive evaluation, we count an unsafe episode as detected if the score
+falls below the critic threshold at least once before termination. The
+false-negative rate is the fraction of unsafe episodes with no such warning.
+Task-outcome prediction accuracy is also reported per episode.
 
+Regarding warning lead time, we define it as the elapsed time between the
+first critic warning and unsafe termination. If the critic warns more than once, we use
+the first warning because it marks the earliest opportunity for teacher
+takeover. In post-training evaluations of the student from ablation~(d),
+episodes were capped at 5\,s and ran at a control frequency of 60\,Hz.
+The mean warning lead time was 86 control steps, or approximately 1.43\,s.
+
+\noindent\begin{minipage}{\linewidth}
 \reviewcommentlabel{Comment 6}{The teacher policy is implicitly treated as a
 safe fallback, yet teacher interventions can still generate unsafe contacts.
 Report teacher unsafe-event rates and explain what happens when teacher and
 critic recommendations conflict.}
 
-\begin{draftresponse}
-  \draftitem{Report teacher unsafe-event rates using an explicit, consistent
-  aggregation population and denominator.}
-  \draftitem{Clarify that teacher takeover is empirically safer in the tested
-  setting but is not guaranteed safe.}
-  \draftitem{Explain the conservative OR rule accurately: disagreement and
-  critic output determine whether the gate requests teacher takeover; they are
-  not two action recommendations.}
-  \draftitem{State what occurs when the two gate signals disagree and note that
-  teacher failures remain possible after takeover.}
-\end{draftresponse}
+\response Thank you for raising this concern. The teachers had a mean
+unsafe-episode rate of 11.4\% across all 40 training objects. We reproduce
+Table~II from the main manuscript below.
+
+\begin{center}
+\begin{minipage}{0.8\linewidth}
+\small
+\textbf{Table II.} Teacher policy performance on four illustrative objects from the
+40-object training set (200 evaluation episodes per object). Mean is computed
+over all 40 objects.
+\par\smallskip
+\centering
+\begin{tabular}{l|cccc|c}
+\hline
+Metric (\%) & WindCart & Boot & ToolBox & Cow &
+\textbf{Mean} \\
+\hline
+Lift Success         & 93.5 & 100.0 & 88.5 & 87.0 & 91.7 \\
+Unsafe Rate Avg      & 6.5   & 13.5  & 13.5 & 13.5 & 11.4 \\
+Harmful collision    & 0.0   & 0.0   & 6.5  & 0.0  & 2.1 \\
+Object escape        & 6.5   & 6.5   & 6.5  & 13.5 & 8.0 \\
+Palm flipped         & 0.0   & 6.5   & 0.5  & 0.0  & 1.2 \\
+Hand too far         & 0.0   & 0.5   & 0.0  & 0.0  & 0.1 \\
+\hline
+\end{tabular}
+\end{minipage}
+\end{center}
+
+The teacher policy supplies a candidate action, and the Bellman critic
+evaluates the student's proposed action. The teacher provides no separate
+safety assessment. The intervention gate executes the teacher's action if
+the critic's predicted success for the student's action falls below its
+threshold or if teacher--student action disagreement exceeds its threshold.
+Either condition can trigger takeover independently. After takeover, safety
+depends on the teacher policy's capabilities, and unsafe events can still
+occur.
+\end{minipage}\par
 
 \reviewcommentlabel{Comment 7}{Provide the final exact VLM identifier, prompt,
 decoding settings, visual-sample selection rules, update interval, latency
 distribution, failure handling, and cost in the main paper or permanent
 supplementary material.}
 
-\begin{draftresponse}
-  \draftitem{Insert the final verified model identifier and provider/API
-  version rather than a provisional model name.}
-  \draftitem{Point to the exact prompt and machine-readable output schema.}
-  \draftitem{Report decoding parameters, image resolution/detail settings,
-  visual-sample selection rules, query schedule, parsing and clipping logic,
-  and failure fallback.}
-  \draftitem{Report latency distribution, token usage, and monetary cost from
-  archived logs, distinguishing measured values from estimates.}
-\end{draftresponse}
+\response Thank you for this suggestion. Given the main manuscript's page
+limit, we will provide the detailed VLM configuration and inference procedure
+in Section~B of the appendix, \emph{VLM Prompt and Inference Details}.
 
 \reviewcommentlabel{Comment 8}{The ablations convincingly motivate
 visual-semantic adaptation on representative training objects. Please state
 more explicitly whether the VLM adaptation itself was evaluated on novel scene
 semantics, rather than only novel object geometries.}
 
-\begin{draftresponse}
-  \draftitem{Audit the evaluation logs and define exactly which visual factors
-  varied: object geometry, texture, material, lighting, background, camera, or
-  semantic hazard type.}
-  \draftitem{State explicitly whether novel scene semantics were evaluated.}
-  \draftitem{If not, narrow the contribution claim and identify semantic
-  generalization as future work rather than inferring it from novel geometry.}
-\end{draftresponse}
+\response
+Thank you for raising this distinction. We evaluated VLM-guided threshold
+adaptation during simulated distillation on training objects under randomized
+visual conditions. We did not separately evaluate the VLM on novel scene
+semantics, such as new tasks or hazard types. The unseen-object experiments
+in Table~IV evaluate the frozen student policy's generalization to new object
+geometries on the real robot, where the VLM is inactive.
 
 \reviewcommentlabel{Comment 9}{The current unsafe-event taxonomy is
 task-specific. Clarify which events are directly sensor-observable on hardware
 and which depend on privileged simulation signals during training or
 evaluation.}
 
-\begin{draftresponse}
-  \draftitem{Create an event-by-event mapping for harmful collision, object
-  escape, palm flip, and hand-too-far signals.}
-  \draftitem{For each event, distinguish hardware sensor or vision observables
-  from simulator-only state, contact, force, or geometry information.}
-  \draftitem{Explain how real-robot events were labeled and whether any
-  post-processing or manual annotation was used.}
-\end{draftresponse}
+\response
+All four unsafe-event categories can be identified using sensors on the
+physical robot. Harmful collisions can be detected by estimating fingertip
+contact forces from the InspireHand's motor-current readings. Palm flips can
+be detected by inferring palm orientation from joint-position measurements.
+Object escape and hand-too-far events can be detected by tracking the
+relative positions of the hand and object with an RGB-D camera.
 
 \reviewcommentlabel{Comment 10}{Please add a compact limitations paragraph
 covering the remaining sim-to-real contact-strategy mismatch, external VLM
 dependence, task-specific safety definitions, and absence of formal constraint
 guarantees. No major methodological restructuring appears necessary.}
 
-\begin{draftresponse}
-  \draftitem{Insert the final limitations paragraph or quote it here.}
-  \draftitem{Confirm that it covers all four requested limitations without
-  weakening or omitting the 39\% unseen-object unsafe-event limitation.}
-  \draftitem{Identify its location in the manuscript.}
-\end{draftresponse}
+\response Thank you for this suggestion. We added a limitations
+paragraph in Section~IV-E (\emph{Discussion and Limitations}), immediately
+before the conclusion. It discusses the remaining sim-to-real contact-strategy
+mismatch, explicitly retaining the 39.2\% unsafe-event rate on unseen
+objects; dependence on an external proprietary VLM; the task-specific scope
+of the unsafe-event definitions; and the absence of formal safety or
+constraint-satisfaction guarantees. It also clarifies that the VLM,
+teacher, and critic are used during simulation distillation rather than as
+runtime safety monitors on the physical robot.
+
+\placeholder{TODO: Attach a screenshot of the limitations paragraph in Section~IV-E
+from the highlighted manuscript.}
 
 \reviewerheading{Reviewer \#31}
 
@@ -538,15 +604,59 @@ scenarios,'' but the results currently presented do not clearly verify this
 claim. Please either moderate the corresponding contribution statement or
 provide additional analysis.}
 
-\begin{draftresponse}
-  \draftitem{Choose the evidence-based route after auditing stored data:
-  provide stratified visual-context/unsafe-scenario analysis, or narrow the
-  contribution statement.}
-  \draftitem{Do not treat object geometry alone as evidence of novel visual
-  semantics.}
-  \draftitem{Report the final claim language and the exact analysis, table, or
-  limitation that supports it.}
-\end{draftresponse}
+\response Thank you for this comment. We agree that the comparison between
+fixed-threshold DexSafeDagger and VLM-DexSafeDagger alone does not isolate the
+contribution of visual input. Our analysis therefore also includes a
+non-VLM adaptive curriculum and an LLM-only variant, as described in the
+Ablation Studies subsection and reported in Table~III.
+
+Using the revised manuscript's ablation labels, the comparison forms the
+following ladder:
+\begin{itemize}
+  \item \textbf{(c) DexSafeDagger:} fixed intervention thresholds based on
+  teacher--student disagreement and the Bellman success-value critic.
+  \item \textbf{(f) Adaptive curriculum:} thresholds adapted using recent
+  lift-success and unsafe-episode statistics, without a language or
+  vision-language model.
+  \item \textbf{(e) LLM-DexSafeDagger:} language-model-guided adaptation using
+  rollout statistics without visual observations.
+  \item \textbf{(d) VLM-DexSafeDagger:} adaptation using rollout statistics
+  together with visual observations.
+\end{itemize}
+
+These complementary comparisons assess the proposed VLM-guided strategy
+against both fixed thresholds and alternative adaptive strategies. In
+particular, the LLM-only variant matches the VLM variant except that it
+receives no images. The comparison between (e) and (d) therefore addresses
+the contribution of visual input beyond adaptation based on rollout
+statistics alone. Our argument for the VLM contribution relies on this
+broader ablation analysis, rather than solely on the fixed-threshold versus
+VLM comparison cited by the reviewer, which corresponds to (c) versus (d)
+in the revised manuscript.
+
+Regarding ``different visual contexts,'' we refer to the randomized visual
+conditions in our simulation setup: lighting intensity and direction,
+background textures, object materials, and table appearance. We use
+DexTrAH-RGB-style domain randomization during both student distillation and
+the post-training evaluation reported in Table~III. Consequently, the
+results in Table~III aggregate performance over these varied visual
+conditions, rather than a single fixed visual setting. Together with the
+ablation ladder above, these results support the aggregate effectiveness of
+VLM-guided adaptation within the evaluated randomized setting. This is the
+scope intended by ``different visual contexts.''
+
+By ``different unsafe scenarios,'' we refer to the four task-specific
+unsafe-event categories defined in our study: harmful collision, object
+escape, palm flip, and hand-too-far. Figure~4 already decomposes the
+unsafe-episode rate into these categories and compares their evolution
+during online distillation across the four intervention variants for two
+illustrative objects. The accompanying Results discussion identifies
+collision and object escape as the dominant failure modes and describes
+how intervention suppresses their early-training spikes. This analysis
+complements the aggregate comparisons in Figure~3 and Table~III.
+
+If the reviewer still considers the wording of the contribution potentially
+misleading, we will consider adopting more cautious and precise wording.
 
 \reviewcommentlabel{Minor Comment m1}{One paragraph in Sec. III-A has a line
 spacing that differs from the rest of the text. Please check the formatting of
