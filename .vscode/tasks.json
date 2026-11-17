@@ -1,0 +1,49 @@
+{
+  "version": "2.0.0",
+  "options": {
+    "cwd": "${workspaceFolder}",
+    "env": {
+      "PATH": "/home/chi/Documents/Codex/toolchains/texlive-2026/bin/x86_64-linux:${env:PATH}"
+    }
+  },
+  "tasks": [
+    {
+      "label": "Build manuscript",
+      "type": "process",
+      "command": "${workspaceFolder}/build-paper.sh",
+      "args": [],
+      "detail": "Publishes output/main.pdf",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build highlighted manuscript",
+      "type": "process",
+      "command": "${workspaceFolder}/build-paper.sh",
+      "args": [
+        "highlighted"
+      ],
+      "detail": "Publishes output/main_highlighted.pdf",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build reviewer response",
+      "type": "process",
+      "command": "${workspaceFolder}/build-response.sh",
+      "args": [],
+      "detail": "Publishes output/response.pdf",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build supplement",
+      "type": "process",
+      "command": "${workspaceFolder}/build-appendix.sh",
+      "args": [],
+      "detail": "Publishes output/appendix.pdf",
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

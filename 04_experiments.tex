@@ -229,14 +229,6 @@ unsafe-event rate differences include zero.
 \subsection{Discussion and Limitations}
 \label{subsec:discussion}
 
-In passive evaluation, the Bellman critic achieves a 5.8\% false-negative rate
-on unsafe episodes, and during distillation the action disagreement branch
-can still trigger a teacher takeover on its own when the critic misses a warning.
-
-A higher threshold can reduce missed warnings. Extra takeovers can interrupt
-attempts that would have succeeded, and they can also rescue attempts that
-would have failed.
-
 Contact-strategy mismatch between simulation and
 hardware remains a limitation, particularly for unseen objects, whose
 real-world unsafe-event rate is 39.2\%. Distillation depends on an external

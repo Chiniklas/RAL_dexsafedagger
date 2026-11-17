@@ -1,0 +1,33 @@
+{
+  "latex-workshop.latex.outDir": "%DIR%/.latex-build/vscode",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk (PDF)",
+      "tools": [
+        "latexmk"
+      ]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "/home/chi/Documents/Codex/toolchains/texlive-2026/bin/x86_64-linux/latexmk",
+      "args": [
+        "-pdf",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {
+        "PATH": "/home/chi/Documents/Codex/toolchains/texlive-2026/bin/x86_64-linux:/usr/local/bin:/usr/bin:/bin"
+      }
+    }
+  ],
+  "latex-workshop.view.pdf.viewer": "tab",
+  "workbench.editorAssociations": {
+    "*.pdf": "latex-workshop-pdf-hook",
+    "*.PDF": "latex-workshop-pdf-hook"
+  }
+}

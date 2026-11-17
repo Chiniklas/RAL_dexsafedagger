@@ -370,19 +370,18 @@ include zero.
 \begin{table}[H]
 \centering
 \footnotesize
-\caption{Real-world comparison of unsafe-event rates. Counts are shown as
-unsafe episodes over total episodes, followed by the rate. Positive
-reductions favor ablation~(d). Differences use unrounded rates.
+\caption{Real-world comparison of unsafe-event rates. Positive reductions
+favor ablation~(d). Differences use unrounded rates.
 The abbreviation pp denotes percentage points.}
 \label{tab:physical_baseline_confidence_intervals}
 \begin{tabular}{lccccc}
 \toprule
-Object group & \makecell{Ablation~(c)\\unsafe episodes} &
-\makecell{Ablation~(d)\\unsafe episodes} & \makecell{Observed\\reduction (pp)} &
+Object group & \makecell{Ablation~(c)\\unsafe rate} &
+\makecell{Ablation~(d)\\unsafe rate} & \makecell{Observed\\reduction (pp)} &
 \makecell{95\% confidence\\interval (pp)} & $p$-value \\
 \midrule
-Seen & 68/420 (16.2\%) & 62/420 (14.8\%) & 1.43 & $[-3.46,\,6.32]$ & 0.567 \\
-Unseen & 100/240 (41.7\%) & 94/240 (39.2\%) & 2.50 & $[-6.28,\,11.28]$ & 0.577 \\
+Seen & 16.2\% & 14.8\% & 1.43 & $[-3.46,\,6.32]$ & 0.567 \\
+Unseen & 41.7\% & 39.2\% & 2.50 & $[-6.28,\,11.28]$ & 0.577 \\
 \bottomrule
 \end{tabular}
 \end{table}

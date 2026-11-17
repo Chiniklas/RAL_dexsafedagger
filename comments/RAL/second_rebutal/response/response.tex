@@ -166,8 +166,6 @@ unsafe-event rate in real-world trials.''
 
 The discussion in the Real-World Experimental Results subsection already
 explicitly describes the limitation on unseen objects and its likely causes.
-We corrected the pooled seen-object rates in this passage to match the
-verified trial counts.
 \begin{quote}
 ``Unseen objects show a clear generalization gap: pooled lift success drops from
 83.6\% to 64.6\%, while the unsafe rate rises from 14.8\% to 39.2\%, mainly
@@ -202,38 +200,40 @@ were randomized independently for each trial, we used an unpaired
 comparison and pooled trials separately for seen and unseen objects,
 treating episodes as independent.
 
-Compared with the fixed-threshold policy~(c), the VLM-guided policy~(d)
-had an observed unsafe-episode rate 1.43 percentage points lower on seen
-objects (95\% CI $[-3.46,\,6.32]$, $p=0.567$) and 2.50 percentage
-points lower on unseen objects (95\% CI $[-6.28,\,11.28]$, $p=0.577$).
-Both confidence intervals include zero. We revised the Results to
-describe these as lower \emph{observed} unsafe-event rates and to make
-clear that the evidence for a reliable reduction on the real robot
-remains inconclusive.
-
 \begin{center}
 \includegraphics[width=\linewidth]{figures/appendix-table8.png}
 \end{center}
+
+We agree that the real-robot trials leave uncertainty about the safety
+benefit of VLM-guided threshold adaptation. The VLM-guided student had lower
+observed unsafe-episode rates than the fixed-threshold student on both seen
+and unseen objects, by 1.43 and 2.50 percentage points, respectively.
+Both 95\% confidence intervals include zero. We therefore report the
+hardware differences as observed reductions in unsafe-episode rates.
+The hardware experiments demonstrate that the distilled student can perform
+the lifting task on the real robot.
 
 \reviewcommentlabel{Comment 4}{The Bellman critic achieves a 5.8\%
 false-negative rate on unsafe episodes. Please discuss the consequences of
 these missed warnings and whether threshold adjustment can trade task success
 for lower false-negative risk.}
 
-\response Thank you for pointing this out. To address your questions, we added
-the following discussion in Section~IV-E (\emph{Discussion and Limitations}).
-\begin{quote}
-``In passive evaluation, the Bellman critic achieves a 5.8\% false-negative rate
-on unsafe episodes, and during distillation the action disagreement branch
-can still trigger a teacher takeover on its own when the critic misses a warning.
+\response Thank you for pointing this out. Regarding the consequences of
+missed warnings, 5.8\% of unsafe episodes in passive evaluation received no critic
+warning before termination. During distillation, the action-disagreement
+branch can still trigger teacher takeover when the critic misses a warning.
+If neither branch triggers, the student executes its proposed action, and
+the episode can proceed to an unsafe outcome.
 
-A higher threshold can reduce missed warnings. Extra takeovers can interrupt
-attempts that would have succeeded, and they can also rescue attempts that
-would have failed.''
-\end{quote}
-
-\placeholder{TODO: Check whether the available data support a threshold sweep
-and report the results or explain the evidence gap.}
+As to the second question, raising the critic threshold can reduce missed
+warnings. In passive evaluation, the student remains in control regardless of
+the critic's warnings, so the false-negative rate alone cannot tell us how the
+threshold would affect lift success. During distillation, the effect depends
+on whether additional teacher takeovers rescue attempts that would have failed
+or disrupt attempts that would have succeeded. The teacher can also fail after
+taking over, so the threshold change alone cannot tell us whether lift success
+will rise or fall. We leave a controlled study of how the critic
+threshold affects missed warnings and lift success to future work.
 
 \reviewcommentlabel{Comment 5}{Clarify whether critic metrics are computed at
 the episode or time-step level and how early an unsafe event is detected before
@@ -318,6 +318,13 @@ visual conditions. We did not separately evaluate the VLM on novel scene
 semantics, such as new tasks or hazard types. The unseen-object experiments
 in Table~IV evaluate the frozen student policy's generalization to new object
 geometries on the real robot, where the VLM is inactive.
+
+Section~IV-B (\emph{Simulation Experiment Setup}) describes the training
+objects and visual randomization used during simulated distillation.
+The relevant passage is reproduced below.
+
+{\centering
+\includegraphics[width=0.55\linewidth]{figures/iv-b-evaluation-scope.png}\par}
 
 \reviewcommentlabel{Comment 9}{The current unsafe-event taxonomy is
 task-specific. Clarify which events are directly sensor-observable on hardware
