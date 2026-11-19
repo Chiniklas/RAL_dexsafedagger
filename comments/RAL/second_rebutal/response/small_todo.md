@@ -18,7 +18,7 @@ issues are tracked separately in [`TODO.md`](TODO.md).
 | Small Task 8 | Reviewer 29, comment 9 | Separate hardware-observable and simulation-privileged unsafe signals | Open |
 | Small Task 9 | Reviewer 29, comment 10 | Add a compact limitations paragraph | Paragraph and response added; highlighted screenshot pending |
 | Small Task 10 | Reviewer 31, m1 | Correct inconsistent line spacing and audit formatting | Complete |
-| Small Task 11 | Reviewer 31, m3 | Improve Figure 4 readability and justify the two displayed objects | Open |
+| Small Task 11 | Reviewer 31, m3 | Improve Figure 4 readability and justify the two displayed objects | Complete: balanced font and stroke refinements installed at unchanged figure size |
 
 ## Small Task 1 — Maintain empirical safety language
 
@@ -276,14 +276,20 @@ submission check on both clean and highlighted PDFs after all remaining edits.
 > Fig. 4 is difficult to read at print quality. Please also explain why only two
 > objects (windcart and cow) are shown.
 
-- [ ] Improve Figure 4 quality from the original plotting source: enlarge the
-      legend and fonts, export at publication quality, and avoid
-      quality-reducing image compression.
-- [ ] Regenerate Figure 4 with print-readable fonts, line widths, markers,
-      colors, and panel labels at the final column/page size.
-- [ ] Prefer vector output where practical and verify readability in a printed or
-      100%-zoom PDF view.
-- [ ] Reduce visual density or move detailed panels to the supplement if needed.
+**Status:** Complete. The balanced refinement uses the existing lossless plot
+images, with larger embedded vector text and modestly strengthened curve ink.
+The original figure bounding box, screenshot strip, 2-by-5 panel arrangement,
+legend positions, axis ranges, and manuscript inclusion width are retained.
+
+- [x] Enlarge legend text, panel titles, axis labels, and tick labels.
+- [x] Modestly strengthen the existing curve strokes without inferring new
+      curve values from the raster images.
+- [x] Embed text as vector graphics and inspect the figure at final size,
+      including a 300-dpi compression comparison.
+- [x] Keep the original outer dimensions and arrangement; no layout expansion
+      or relocation of panels is needed.
+- [x] Replace the Figure 4 drafting checklist in `response.tex` with a
+      completed response.
 - [x] Document the selection rationale in the m3 response: WindCart and Cow are
       illustrative examples; more objects would make the plots too dense.
       Point to Table III for the aggregate comparison over all 40 objects.
