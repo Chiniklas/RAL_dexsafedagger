@@ -17,3 +17,8 @@ comments/RAL/second_rebutal/response/*.fls
 comments/RAL/second_rebutal/response/*.log
 comments/RAL/second_rebutal/response/*.out
 comments/RAL/second_rebutal/response/*.synctex.gz
+
+# Keep reference implementations local; publish only evaluation data.
+/comments/RAL/second_rebutal/reference/*
+!/comments/RAL/second_rebutal/reference/raw_data/
+/comments/RAL/second_rebutal/reference/raw_data/__pycache__/

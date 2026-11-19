@@ -1,0 +1,877 @@
+{
+  "provenance": "Evaluation counts checked and adjusted against real counts by the author; confirmation dated 2026-11-19.",
+  "rounding_rule": "Round percentages to one decimal place with ties rounded up.",
+  "source_files": {
+    "IV(a) and IV(b)": "table/real_world_results.tex",
+    "Appendix Table 5": "table/appendix_additional_experimental_results.tex",
+    "Appendix Table 6": "table/appendix_seen_unseen_summary.tex",
+    "Appendix Table 7": "table/appendix_physical_baseline_comparison.tex",
+    "Appendix Table 8": "comments/RAL/second_rebutal/response/06_appendix.tex"
+  },
+  "per_object": [
+    {
+      "object": "WindCart",
+      "group": "seen",
+      "source_table": "IV(a)",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 90.0,
+        "unsafe_event": 13.3,
+        "harmful_collision": 0.0,
+        "object_escape": 13.3,
+        "palm_flipped": 0.0,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 27,
+        "unsafe_event": 4,
+        "harmful_collision": 0,
+        "object_escape": 4,
+        "palm_flipped": 0,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Boot",
+      "group": "seen",
+      "source_table": "IV(a)",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 83.3,
+        "unsafe_event": 16.7,
+        "harmful_collision": 3.3,
+        "object_escape": 13.3,
+        "palm_flipped": 0.0,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 25,
+        "unsafe_event": 5,
+        "harmful_collision": 1,
+        "object_escape": 4,
+        "palm_flipped": 0,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "ToolBox",
+      "group": "seen",
+      "source_table": "IV(a)",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 80.0,
+        "unsafe_event": 20.0,
+        "harmful_collision": 13.3,
+        "object_escape": 6.7,
+        "palm_flipped": 0.0,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 24,
+        "unsafe_event": 6,
+        "harmful_collision": 4,
+        "object_escape": 2,
+        "palm_flipped": 0,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Cow",
+      "group": "seen",
+      "source_table": "IV(a)",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 86.7,
+        "unsafe_event": 23.3,
+        "harmful_collision": 13.3,
+        "object_escape": 10.0,
+        "palm_flipped": 0.0,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 26,
+        "unsafe_event": 7,
+        "harmful_collision": 4,
+        "object_escape": 3,
+        "palm_flipped": 0,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Plane",
+      "group": "unseen",
+      "source_table": "IV(a)",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 66.7,
+        "unsafe_event": 40.0,
+        "harmful_collision": 20.0,
+        "object_escape": 20.0,
+        "palm_flipped": 0.0,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 20,
+        "unsafe_event": 12,
+        "harmful_collision": 6,
+        "object_escape": 6,
+        "palm_flipped": 0,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Shoe",
+      "group": "unseen",
+      "source_table": "IV(a)",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 60.0,
+        "unsafe_event": 40.0,
+        "harmful_collision": 26.7,
+        "object_escape": 13.3,
+        "palm_flipped": 0.0,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 18,
+        "unsafe_event": 12,
+        "harmful_collision": 8,
+        "object_escape": 4,
+        "palm_flipped": 0,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Horse",
+      "group": "seen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 83.3,
+        "unsafe_event": 16.7,
+        "harmful_collision": 6.7,
+        "object_escape": 6.7,
+        "palm_flipped": 3.3,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 25,
+        "unsafe_event": 5,
+        "harmful_collision": 2,
+        "object_escape": 2,
+        "palm_flipped": 1,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Teapot",
+      "group": "seen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 90.0,
+        "unsafe_event": 6.7,
+        "harmful_collision": 3.3,
+        "object_escape": 3.3,
+        "palm_flipped": 0.0,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 27,
+        "unsafe_event": 2,
+        "harmful_collision": 1,
+        "object_escape": 1,
+        "palm_flipped": 0,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Sphinx",
+      "group": "seen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 80.0,
+        "unsafe_event": 13.3,
+        "harmful_collision": 3.3,
+        "object_escape": 6.7,
+        "palm_flipped": 3.3,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 24,
+        "unsafe_event": 4,
+        "harmful_collision": 1,
+        "object_escape": 2,
+        "palm_flipped": 1,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Dragon",
+      "group": "seen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 86.7,
+        "unsafe_event": 16.7,
+        "harmful_collision": 6.7,
+        "object_escape": 10.0,
+        "palm_flipped": 0.0,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 26,
+        "unsafe_event": 5,
+        "harmful_collision": 2,
+        "object_escape": 3,
+        "palm_flipped": 0,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Homer",
+      "group": "seen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 76.7,
+        "unsafe_event": 23.3,
+        "harmful_collision": 3.3,
+        "object_escape": 10.0,
+        "palm_flipped": 6.7,
+        "hand_too_far": 3.3
+      },
+      "counts": {
+        "lift_success": 23,
+        "unsafe_event": 7,
+        "harmful_collision": 1,
+        "object_escape": 3,
+        "palm_flipped": 2,
+        "hand_too_far": 1
+      }
+    },
+    {
+      "object": "Ogre",
+      "group": "seen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 83.3,
+        "unsafe_event": 10.0,
+        "harmful_collision": 3.3,
+        "object_escape": 6.7,
+        "palm_flipped": 0.0,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 25,
+        "unsafe_event": 3,
+        "harmful_collision": 1,
+        "object_escape": 2,
+        "palm_flipped": 0,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Cheburashka",
+      "group": "seen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 90.0,
+        "unsafe_event": 6.7,
+        "harmful_collision": 3.3,
+        "object_escape": 3.3,
+        "palm_flipped": 0.0,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 27,
+        "unsafe_event": 2,
+        "harmful_collision": 1,
+        "object_escape": 1,
+        "palm_flipped": 0,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Lucy",
+      "group": "seen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 80.0,
+        "unsafe_event": 16.7,
+        "harmful_collision": 3.3,
+        "object_escape": 10.0,
+        "palm_flipped": 3.3,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 24,
+        "unsafe_event": 5,
+        "harmful_collision": 1,
+        "object_escape": 3,
+        "palm_flipped": 1,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Beethoven",
+      "group": "seen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 86.7,
+        "unsafe_event": 6.7,
+        "harmful_collision": 0.0,
+        "object_escape": 6.7,
+        "palm_flipped": 0.0,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 26,
+        "unsafe_event": 2,
+        "harmful_collision": 0,
+        "object_escape": 2,
+        "palm_flipped": 0,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Igea",
+      "group": "seen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 73.3,
+        "unsafe_event": 16.7,
+        "harmful_collision": 3.3,
+        "object_escape": 6.7,
+        "palm_flipped": 3.3,
+        "hand_too_far": 3.3
+      },
+      "counts": {
+        "lift_success": 22,
+        "unsafe_event": 5,
+        "harmful_collision": 1,
+        "object_escape": 2,
+        "palm_flipped": 1,
+        "hand_too_far": 1
+      }
+    },
+    {
+      "object": "Dog Pair",
+      "group": "unseen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 70.0,
+        "unsafe_event": 33.3,
+        "harmful_collision": 13.3,
+        "object_escape": 13.3,
+        "palm_flipped": 3.3,
+        "hand_too_far": 3.3
+      },
+      "counts": {
+        "lift_success": 21,
+        "unsafe_event": 10,
+        "harmful_collision": 4,
+        "object_escape": 4,
+        "palm_flipped": 1,
+        "hand_too_far": 1
+      }
+    },
+    {
+      "object": "Cow statue",
+      "group": "unseen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 63.3,
+        "unsafe_event": 40.0,
+        "harmful_collision": 10.0,
+        "object_escape": 16.7,
+        "palm_flipped": 10.0,
+        "hand_too_far": 3.3
+      },
+      "counts": {
+        "lift_success": 19,
+        "unsafe_event": 12,
+        "harmful_collision": 3,
+        "object_escape": 5,
+        "palm_flipped": 3,
+        "hand_too_far": 1
+      }
+    },
+    {
+      "object": "Buddha statue",
+      "group": "unseen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 73.3,
+        "unsafe_event": 33.3,
+        "harmful_collision": 13.3,
+        "object_escape": 13.3,
+        "palm_flipped": 3.3,
+        "hand_too_far": 3.3
+      },
+      "counts": {
+        "lift_success": 22,
+        "unsafe_event": 10,
+        "harmful_collision": 4,
+        "object_escape": 4,
+        "palm_flipped": 1,
+        "hand_too_far": 1
+      }
+    },
+    {
+      "object": "Blub",
+      "group": "unseen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 60.0,
+        "unsafe_event": 43.3,
+        "harmful_collision": 23.3,
+        "object_escape": 16.7,
+        "palm_flipped": 3.3,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 18,
+        "unsafe_event": 13,
+        "harmful_collision": 7,
+        "object_escape": 5,
+        "palm_flipped": 1,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Monkey head",
+      "group": "unseen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 66.7,
+        "unsafe_event": 36.7,
+        "harmful_collision": 16.7,
+        "object_escape": 16.7,
+        "palm_flipped": 3.3,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 20,
+        "unsafe_event": 11,
+        "harmful_collision": 5,
+        "object_escape": 5,
+        "palm_flipped": 1,
+        "hand_too_far": 0
+      }
+    },
+    {
+      "object": "Dinosaur",
+      "group": "unseen",
+      "source_table": "Appendix Table 5",
+      "trials": 30,
+      "reported_percent": {
+        "lift_success": 56.7,
+        "unsafe_event": 46.7,
+        "harmful_collision": 26.7,
+        "object_escape": 16.7,
+        "palm_flipped": 3.3,
+        "hand_too_far": 0.0
+      },
+      "counts": {
+        "lift_success": 17,
+        "unsafe_event": 14,
+        "harmful_collision": 8,
+        "object_escape": 5,
+        "palm_flipped": 1,
+        "hand_too_far": 0
+      }
+    }
+  ],
+  "group_totals_from_per_object_rows": [
+    {
+      "group": "seen",
+      "objects": 14,
+      "trials": 420,
+      "counts": {
+        "lift_success": 351,
+        "unsafe_event": 62,
+        "harmful_collision": 20,
+        "object_escape": 34,
+        "palm_flipped": 6,
+        "hand_too_far": 2
+      },
+      "percent_rounded_1dp": {
+        "lift_success": 83.6,
+        "unsafe_event": 14.8,
+        "harmful_collision": 4.8,
+        "object_escape": 8.1,
+        "palm_flipped": 1.4,
+        "hand_too_far": 0.5
+      }
+    },
+    {
+      "group": "unseen",
+      "objects": 8,
+      "trials": 240,
+      "counts": {
+        "lift_success": 155,
+        "unsafe_event": 94,
+        "harmful_collision": 45,
+        "object_escape": 38,
+        "palm_flipped": 8,
+        "hand_too_far": 3
+      },
+      "percent_rounded_1dp": {
+        "lift_success": 64.6,
+        "unsafe_event": 39.2,
+        "harmful_collision": 18.8,
+        "object_escape": 15.8,
+        "palm_flipped": 3.3,
+        "hand_too_far": 1.3
+      }
+    }
+  ],
+  "reported_aggregates": [
+    {
+      "source_table": "IV(a)",
+      "policy": "deployed_student",
+      "group": "seen",
+      "trials": 420,
+      "denominator_basis": "30 trials per object as stated for IV(a) and Appendix Table 6",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 83.6,
+          "count": 351
+        },
+        "unsafe_event": {
+          "reported_percent": 14.8,
+          "count": 62
+        },
+        "harmful_collision": {
+          "reported_percent": 4.8,
+          "count": 20
+        },
+        "object_escape": {
+          "reported_percent": 8.1,
+          "count": 34
+        },
+        "palm_flipped": {
+          "reported_percent": 1.4,
+          "count": 6
+        },
+        "hand_too_far": {
+          "reported_percent": 0.5,
+          "count": 2
+        }
+      }
+    },
+    {
+      "source_table": "IV(a)",
+      "policy": "deployed_student",
+      "group": "unseen",
+      "trials": 240,
+      "denominator_basis": "30 trials per object as stated for IV(a) and Appendix Table 6",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 64.6,
+          "count": 155
+        },
+        "unsafe_event": {
+          "reported_percent": 39.2,
+          "count": 94
+        },
+        "harmful_collision": {
+          "reported_percent": 18.8,
+          "count": 45
+        },
+        "object_escape": {
+          "reported_percent": 15.8,
+          "count": 38
+        },
+        "palm_flipped": {
+          "reported_percent": 3.3,
+          "count": 8
+        },
+        "hand_too_far": {
+          "reported_percent": 1.3,
+          "count": 3
+        }
+      }
+    },
+    {
+      "source_table": "Appendix Table 6",
+      "policy": "deployed_student",
+      "group": "seen",
+      "trials": 420,
+      "denominator_basis": "30 trials per object as stated for IV(a) and Appendix Table 6",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 83.6,
+          "count": 351,
+          "reported_wilson_95_percent_interval": [
+            79.7,
+            86.8
+          ]
+        },
+        "unsafe_event": {
+          "reported_percent": 14.8,
+          "count": 62,
+          "reported_wilson_95_percent_interval": [
+            11.7,
+            18.5
+          ]
+        },
+        "harmful_collision": {
+          "reported_percent": 4.8,
+          "count": 20,
+          "reported_wilson_95_percent_interval": [
+            3.1,
+            7.2
+          ]
+        },
+        "object_escape": {
+          "reported_percent": 8.1,
+          "count": 34,
+          "reported_wilson_95_percent_interval": [
+            5.9,
+            11.1
+          ]
+        },
+        "palm_flipped": {
+          "reported_percent": 1.4,
+          "count": 6,
+          "reported_wilson_95_percent_interval": [
+            0.7,
+            3.1
+          ]
+        },
+        "hand_too_far": {
+          "reported_percent": 0.5,
+          "count": 2,
+          "reported_wilson_95_percent_interval": [
+            0.1,
+            1.7
+          ]
+        }
+      }
+    },
+    {
+      "source_table": "Appendix Table 6",
+      "policy": "deployed_student",
+      "group": "unseen",
+      "trials": 240,
+      "denominator_basis": "30 trials per object as stated for IV(a) and Appendix Table 6",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 64.6,
+          "count": 155,
+          "reported_wilson_95_percent_interval": [
+            58.3,
+            70.4
+          ]
+        },
+        "unsafe_event": {
+          "reported_percent": 39.2,
+          "count": 94,
+          "reported_wilson_95_percent_interval": [
+            33.2,
+            45.5
+          ]
+        },
+        "harmful_collision": {
+          "reported_percent": 18.8,
+          "count": 45,
+          "reported_wilson_95_percent_interval": [
+            14.3,
+            24.2
+          ]
+        },
+        "object_escape": {
+          "reported_percent": 15.8,
+          "count": 38,
+          "reported_wilson_95_percent_interval": [
+            11.8,
+            21.0
+          ]
+        },
+        "palm_flipped": {
+          "reported_percent": 3.3,
+          "count": 8,
+          "reported_wilson_95_percent_interval": [
+            1.7,
+            6.4
+          ]
+        },
+        "hand_too_far": {
+          "reported_percent": 1.3,
+          "count": 3,
+          "reported_wilson_95_percent_interval": [
+            0.4,
+            3.6
+          ]
+        }
+      }
+    },
+    {
+      "source_table": "IV(b) / Appendix Table 7",
+      "policy": "c",
+      "group": "seen",
+      "trials": 420,
+      "denominator_basis": "Author-supplied trial totals for the IV(b) comparison.",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 83.4
+        },
+        "unsafe_event": {
+          "reported_percent": 16.2,
+          "count": 68,
+          "count_source": "Author-supplied unsafe-episode count."
+        }
+      }
+    },
+    {
+      "source_table": "IV(b) / Appendix Table 7",
+      "policy": "c",
+      "group": "unseen",
+      "trials": 240,
+      "denominator_basis": "Author-supplied trial totals for the IV(b) comparison.",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 61.7,
+          "count": 148
+        },
+        "unsafe_event": {
+          "reported_percent": 41.7,
+          "count": 100,
+          "count_source": "Author-supplied unsafe-episode count."
+        }
+      }
+    },
+    {
+      "source_table": "IV(b) / Appendix Table 7",
+      "policy": "d",
+      "group": "seen",
+      "trials": 420,
+      "denominator_basis": "420 trials for ablation (d) on seen objects, confirmed by the author.",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 83.6,
+          "count": 351
+        },
+        "unsafe_event": {
+          "reported_percent": 14.8,
+          "count": 62,
+          "count_source": "Author-confirmed unsafe-episode count."
+        }
+      }
+    },
+    {
+      "source_table": "IV(b) / Appendix Table 7",
+      "policy": "d",
+      "group": "unseen",
+      "trials": 240,
+      "denominator_basis": "30 trials for each of 8 unseen objects.",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 64.6,
+          "count": 155
+        },
+        "unsafe_event": {
+          "reported_percent": 39.2,
+          "count": 94,
+          "count_source": "Sum of the author-checked per-object counts."
+        }
+      }
+    }
+  ],
+  "author_confirmed_counts": {
+    "source": "Author confirmed the seen-object total and the Dragon and Igea corrections during rebuttal review.",
+    "scope": "Table IV(a) and Appendix Table 6, seen objects",
+    "trials": 420,
+    "counts": {
+      "unsafe_event": 62,
+      "harmful_collision": 20,
+      "object_escape": 34
+    },
+    "unsafe_total_also_confirmed_for": "Table IV(b) and Appendix Table 7, ablation (d), seen objects"
+  },
+  "author_confirmed_object_corrections": [
+    {
+      "object": "Dragon",
+      "failure_mode": "harmful_collision",
+      "episodes_added": 1
+    },
+    {
+      "object": "Igea",
+      "failure_mode": "object_escape",
+      "episodes_added": 1
+    }
+  ],
+  "seen_object_reconciliation": {
+    "status": "Resolved. The per-object sums reproduce the pooled seen-object statistics."
+  },
+  "table_8_pooled_comparison": {
+    "test": "Two-sided two-proportion z test using pooled episode counts.",
+    "confidence_interval": "Unpooled normal approximation for the difference in proportions.",
+    "assumption": "Episodes are treated as independent within each object group.",
+    "rows": [
+      {
+        "group": "seen",
+        "c_unsafe_episodes": 68,
+        "d_unsafe_episodes": 62,
+        "trials_per_ablation": 420,
+        "c_percent": 16.2,
+        "d_percent": 14.8,
+        "reduction_percentage_points": 1.43,
+        "normal_approximation_95_percent_ci_pp": [
+          -3.46,
+          6.32
+        ],
+        "z_statistic": 0.5723873708208365,
+        "two_sided_p_value": 0.5670595698755562
+      },
+      {
+        "group": "unseen",
+        "c_unsafe_episodes": 100,
+        "d_unsafe_episodes": 94,
+        "trials_per_ablation": 240,
+        "c_percent": 41.7,
+        "d_percent": 39.2,
+        "reduction_percentage_points": 2.5,
+        "normal_approximation_95_percent_ci_pp": [
+          -6.28,
+          11.28
+        ],
+        "z_statistic": 0.5580691141636533,
+        "two_sided_p_value": 0.576797190156949
+      }
+    ]
+  },
+  "author_supplied_ivb_c_counts": {
+    "seen": {
+      "unsafe_episodes": 68,
+      "trials": 420
+    },
+    "unseen": {
+      "unsafe_episodes": 100,
+      "trials": 240
+    }
+  },
+  "data_level": "Per-object and pooled episode counts; individual trial records are not included.",
+  "reporting_issues": [
+    {
+      "location": "Main Table IV(b) and Appendix Table 7, ablation (c), seen objects, lift success",
+      "reported_percent": 83.4,
+      "stated_trials": 420,
+      "status": "Awaiting author confirmation of the success count or aggregation rule.",
+      "explanation": "No integer numerator out of 420 rounds to 83.4%. The reported percentage is retained unchanged; no success count has been assigned."
+    }
+  ]
+}

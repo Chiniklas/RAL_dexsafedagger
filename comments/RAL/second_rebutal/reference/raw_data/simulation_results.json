@@ -1,0 +1,722 @@
+{
+  "provenance": "Author-checked object-level evaluation counts and reported simulation summary statistics.",
+  "source_files": {
+    "II": "table/teacher_performance.tex",
+    "III": "table/ablation_studies.tex",
+    "Appendix Table 3": "table/appendix_bellman_critic_evaluation.tex",
+    "Appendix Table 4": "table/appendix_ablation_across_seeds.tex"
+  },
+  "table_II_teacher_policy": [
+    {
+      "scope": "WindCart",
+      "trials": 200,
+      "denominator_basis": "Documented episodes per object.",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 93.5,
+          "count": 187
+        },
+        "unsafe_event": {
+          "reported_percent": 6.5,
+          "count": 13
+        },
+        "harmful_collision": {
+          "reported_percent": 0.0,
+          "count": 0
+        },
+        "object_escape": {
+          "reported_percent": 6.5,
+          "count": 13
+        },
+        "palm_flipped": {
+          "reported_percent": 0.0,
+          "count": 0
+        },
+        "hand_too_far": {
+          "reported_percent": 0.0,
+          "count": 0
+        }
+      }
+    },
+    {
+      "scope": "Boot",
+      "trials": 200,
+      "denominator_basis": "Documented episodes per object.",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 100.0,
+          "count": 200
+        },
+        "unsafe_event": {
+          "reported_percent": 13.5,
+          "count": 27
+        },
+        "harmful_collision": {
+          "reported_percent": 0.0,
+          "count": 0
+        },
+        "object_escape": {
+          "reported_percent": 6.5,
+          "count": 13
+        },
+        "palm_flipped": {
+          "reported_percent": 6.5,
+          "count": 13
+        },
+        "hand_too_far": {
+          "reported_percent": 0.5,
+          "count": 1
+        }
+      }
+    },
+    {
+      "scope": "ToolBox",
+      "trials": 200,
+      "denominator_basis": "Documented episodes per object.",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 88.5,
+          "count": 177
+        },
+        "unsafe_event": {
+          "reported_percent": 13.5,
+          "count": 27
+        },
+        "harmful_collision": {
+          "reported_percent": 6.5,
+          "count": 13
+        },
+        "object_escape": {
+          "reported_percent": 6.5,
+          "count": 13
+        },
+        "palm_flipped": {
+          "reported_percent": 0.5,
+          "count": 1
+        },
+        "hand_too_far": {
+          "reported_percent": 0.0,
+          "count": 0
+        }
+      }
+    },
+    {
+      "scope": "Cow",
+      "trials": 200,
+      "denominator_basis": "Documented episodes per object.",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 87.0,
+          "count": 174
+        },
+        "unsafe_event": {
+          "reported_percent": 13.5,
+          "count": 27
+        },
+        "harmful_collision": {
+          "reported_percent": 0.0,
+          "count": 0
+        },
+        "object_escape": {
+          "reported_percent": 13.5,
+          "count": 27
+        },
+        "palm_flipped": {
+          "reported_percent": 0.0,
+          "count": 0
+        },
+        "hand_too_far": {
+          "reported_percent": 0.0,
+          "count": 0
+        }
+      }
+    },
+    {
+      "scope": "all 40 objects",
+      "trials": 8000,
+      "denominator_basis": "40 objects with 200 evaluation episodes each.",
+      "metrics": {
+        "lift_success": {
+          "reported_percent": 91.7,
+          "count": 7336
+        },
+        "unsafe_event": {
+          "reported_percent": 11.4,
+          "count": 912
+        },
+        "harmful_collision": {
+          "reported_percent": 2.1,
+          "count": 168
+        },
+        "object_escape": {
+          "reported_percent": 8.0,
+          "count": 640
+        },
+        "palm_flipped": {
+          "reported_percent": 1.2,
+          "count": 96
+        },
+        "hand_too_far": {
+          "reported_percent": 0.1,
+          "count": 8
+        }
+      }
+    }
+  ],
+  "table_III_student_ablations": [
+    {
+      "ablation": "a",
+      "evaluations": [
+        {
+          "scope": "WindCart",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 88.5,
+              "count": 177
+            },
+            "unsafe_event": {
+              "reported_percent": 13.5,
+              "count": 27
+            }
+          }
+        },
+        {
+          "scope": "Boot",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 89.0,
+              "count": 178
+            },
+            "unsafe_event": {
+              "reported_percent": 20.5,
+              "count": 41
+            }
+          }
+        },
+        {
+          "scope": "ToolBox",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 82.5,
+              "count": 165
+            },
+            "unsafe_event": {
+              "reported_percent": 19.0,
+              "count": 38
+            }
+          }
+        },
+        {
+          "scope": "Cow",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 88.0,
+              "count": 176
+            },
+            "unsafe_event": {
+              "reported_percent": 17.5,
+              "count": 35
+            }
+          }
+        },
+        {
+          "scope": "all 40 objects",
+          "trials": 8000,
+          "denominator_basis": "40 objects with 200 evaluation episodes each; exact aggregate counts are not recorded in this file.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 87.1
+            },
+            "unsafe_event": {
+              "reported_percent": 17.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ablation": "b",
+      "evaluations": [
+        {
+          "scope": "WindCart",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 88.0,
+              "count": 176
+            },
+            "unsafe_event": {
+              "reported_percent": 12.0,
+              "count": 24
+            }
+          }
+        },
+        {
+          "scope": "Boot",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 89.5,
+              "count": 179
+            },
+            "unsafe_event": {
+              "reported_percent": 19.5,
+              "count": 39
+            }
+          }
+        },
+        {
+          "scope": "ToolBox",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 81.5,
+              "count": 163
+            },
+            "unsafe_event": {
+              "reported_percent": 18.5,
+              "count": 37
+            }
+          }
+        },
+        {
+          "scope": "Cow",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 87.0,
+              "count": 174
+            },
+            "unsafe_event": {
+              "reported_percent": 16.0,
+              "count": 32
+            }
+          }
+        },
+        {
+          "scope": "all 40 objects",
+          "trials": 8000,
+          "denominator_basis": "40 objects with 200 evaluation episodes each; exact aggregate counts are not recorded in this file.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 86.3
+            },
+            "unsafe_event": {
+              "reported_percent": 16.7
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ablation": "c",
+      "evaluations": [
+        {
+          "scope": "WindCart",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 88.0,
+              "count": 176
+            },
+            "unsafe_event": {
+              "reported_percent": 7.5,
+              "count": 15
+            }
+          }
+        },
+        {
+          "scope": "Boot",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 90.0,
+              "count": 180
+            },
+            "unsafe_event": {
+              "reported_percent": 15.0,
+              "count": 30
+            }
+          }
+        },
+        {
+          "scope": "ToolBox",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 82.0,
+              "count": 164
+            },
+            "unsafe_event": {
+              "reported_percent": 15.5,
+              "count": 31
+            }
+          }
+        },
+        {
+          "scope": "Cow",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 88.0,
+              "count": 176
+            },
+            "unsafe_event": {
+              "reported_percent": 12.0,
+              "count": 24
+            }
+          }
+        },
+        {
+          "scope": "all 40 objects",
+          "trials": 8000,
+          "denominator_basis": "40 objects with 200 evaluation episodes each; exact aggregate counts are not recorded in this file.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 86.8
+            },
+            "unsafe_event": {
+              "reported_percent": 11.9
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ablation": "d",
+      "evaluations": [
+        {
+          "scope": "WindCart",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 88.5,
+              "count": 177
+            },
+            "unsafe_event": {
+              "reported_percent": 6.0,
+              "count": 12
+            }
+          }
+        },
+        {
+          "scope": "Boot",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 90.0,
+              "count": 180
+            },
+            "unsafe_event": {
+              "reported_percent": 10.5,
+              "count": 21
+            }
+          }
+        },
+        {
+          "scope": "ToolBox",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 82.5,
+              "count": 165
+            },
+            "unsafe_event": {
+              "reported_percent": 11.0,
+              "count": 22
+            }
+          }
+        },
+        {
+          "scope": "Cow",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 88.5,
+              "count": 177
+            },
+            "unsafe_event": {
+              "reported_percent": 8.5,
+              "count": 17
+            }
+          }
+        },
+        {
+          "scope": "all 40 objects",
+          "trials": 8000,
+          "denominator_basis": "40 objects with 200 evaluation episodes each; exact aggregate counts are not recorded in this file.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 87.5
+            },
+            "unsafe_event": {
+              "reported_percent": 9.3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ablation": "e",
+      "evaluations": [
+        {
+          "scope": "WindCart",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 88.0,
+              "count": 176
+            },
+            "unsafe_event": {
+              "reported_percent": 7.5,
+              "count": 15
+            }
+          }
+        },
+        {
+          "scope": "Boot",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 89.5,
+              "count": 179
+            },
+            "unsafe_event": {
+              "reported_percent": 12.5,
+              "count": 25
+            }
+          }
+        },
+        {
+          "scope": "ToolBox",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 82.0,
+              "count": 164
+            },
+            "unsafe_event": {
+              "reported_percent": 13.0,
+              "count": 26
+            }
+          }
+        },
+        {
+          "scope": "Cow",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 88.0,
+              "count": 176
+            },
+            "unsafe_event": {
+              "reported_percent": 10.5,
+              "count": 21
+            }
+          }
+        },
+        {
+          "scope": "all 40 objects",
+          "trials": 8000,
+          "denominator_basis": "40 objects with 200 evaluation episodes each; exact aggregate counts are not recorded in this file.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 86.9
+            },
+            "unsafe_event": {
+              "reported_percent": 10.2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ablation": "f",
+      "evaluations": [
+        {
+          "scope": "WindCart",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 86.5,
+              "count": 173
+            },
+            "unsafe_event": {
+              "reported_percent": 7.0,
+              "count": 14
+            }
+          }
+        },
+        {
+          "scope": "Boot",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 88.5,
+              "count": 177
+            },
+            "unsafe_event": {
+              "reported_percent": 14.0,
+              "count": 28
+            }
+          }
+        },
+        {
+          "scope": "ToolBox",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 81.0,
+              "count": 162
+            },
+            "unsafe_event": {
+              "reported_percent": 13.5,
+              "count": 27
+            }
+          }
+        },
+        {
+          "scope": "Cow",
+          "trials": 200,
+          "denominator_basis": "Documented episodes per object.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 87.0,
+              "count": 174
+            },
+            "unsafe_event": {
+              "reported_percent": 11.0,
+              "count": 22
+            }
+          }
+        },
+        {
+          "scope": "all 40 objects",
+          "trials": 8000,
+          "denominator_basis": "40 objects with 200 evaluation episodes each; exact aggregate counts are not recorded in this file.",
+          "metrics": {
+            "lift_success": {
+              "reported_percent": 85.7
+            },
+            "unsafe_event": {
+              "reported_percent": 11.7
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "appendix_table_3_critic": {
+    "scope": "all 40 objects",
+    "trials": 8000,
+    "denominator_basis": "40 objects with 200 episodes each.",
+    "metrics": {
+      "lift_success": {
+        "reported_percent": 86.8
+      },
+      "unsafe_event": {
+        "reported_percent": 11.9
+      },
+      "task_outcome_prediction_accuracy": {
+        "reported_percent": 90.3
+      }
+    },
+    "conditional_unsafe_episode_metrics": {
+      "reported_detection_percent": 94.2,
+      "reported_false_negative_percent": 5.8,
+      "data_level": "Reported episode-level detection and false-negative percentages; exact detected and missed counts are not recorded in this file."
+    }
+  },
+  "appendix_table_4_across_seeds": {
+    "seed_ids": [
+      40,
+      41,
+      42,
+      43,
+      44
+    ],
+    "trials_per_seed": 8000,
+    "reported_summaries": [
+      {
+        "ablation": "a",
+        "reported_seed_summary": {
+          "lift_success": {
+            "mean_percent": 87.1,
+            "sd_percentage_points": 0.99
+          },
+          "unsafe_event": {
+            "mean_percent": 17.4,
+            "sd_percentage_points": 0.52
+          }
+        }
+      },
+      {
+        "ablation": "b",
+        "reported_seed_summary": {
+          "lift_success": {
+            "mean_percent": 86.3,
+            "sd_percentage_points": 0.92
+          },
+          "unsafe_event": {
+            "mean_percent": 16.7,
+            "sd_percentage_points": 0.48
+          }
+        }
+      },
+      {
+        "ablation": "c",
+        "reported_seed_summary": {
+          "lift_success": {
+            "mean_percent": 86.8,
+            "sd_percentage_points": 0.74
+          },
+          "unsafe_event": {
+            "mean_percent": 11.9,
+            "sd_percentage_points": 0.58
+          }
+        }
+      },
+      {
+        "ablation": "d",
+        "reported_seed_summary": {
+          "lift_success": {
+            "mean_percent": 87.5,
+            "sd_percentage_points": 0.98
+          },
+          "unsafe_event": {
+            "mean_percent": 9.3,
+            "sd_percentage_points": 0.39
+          }
+        }
+      }
+    ]
+  },
+  "data_level": "Exact count fields are retained where supplied. Aggregate percentages and seed means/standard deviations are stored as summary statistics without assigning integer counts."
+}

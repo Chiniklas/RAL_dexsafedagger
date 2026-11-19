@@ -1,0 +1,40 @@
+{
+  "status": "author_checked_counts",
+  "source": "table/teacher_performance.tex, Table II Mean column",
+  "population": "all 40 teacher evaluation objects",
+  "object_count": 40,
+  "trials_per_object": 200,
+  "total_trials": 8000,
+  "denominator_basis": "One 200-episode evaluation per object across all 40 objects.",
+  "notes": [
+    "The four unsafe failure-mode counts sum to the unsafe episode total.",
+    "Lift success and unsafe termination can occur in the same episode."
+  ],
+  "metrics": {
+    "lift_success": {
+      "reported_percent": 91.7,
+      "count": 7336
+    },
+    "unsafe_event": {
+      "reported_percent": 11.4,
+      "count": 912
+    },
+    "harmful_collision": {
+      "reported_percent": 2.1,
+      "count": 168
+    },
+    "object_escape": {
+      "reported_percent": 8.0,
+      "count": 640
+    },
+    "palm_flipped": {
+      "reported_percent": 1.2,
+      "count": 96
+    },
+    "hand_too_far": {
+      "reported_percent": 0.1,
+      "count": 8
+    }
+  },
+  "provenance": "Counts checked and adjusted against real counts by the author; confirmation dated 2026-11-19."
+}

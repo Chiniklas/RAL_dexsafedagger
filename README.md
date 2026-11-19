@@ -93,3 +93,15 @@ The four final rebuttal deliverables are collected in `output/`:
 - `output/main_highlighted.pdf`
 - `output/response.pdf`
 - `output/appendix.pdf`
+
+## Evaluation data
+
+Author-checked counts and reported summary statistics are tracked in
+`comments/RAL/second_rebutal/reference/raw_data/`. Other files under
+`reference/` are local reference material and are ignored by Git.
+The data README documents the files, reporting conventions, and any open
+reporting issue. Validate them against the manuscript and appendix tables with:
+
+```bash
+python3 comments/RAL/second_rebutal/reference/raw_data/validate_counts.py .
+```
