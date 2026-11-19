@@ -727,7 +727,9 @@
       "denominator_basis": "Author-supplied trial totals for the IV(b) comparison.",
       "metrics": {
         "lift_success": {
-          "reported_percent": 83.4
+          "reported_percent": 83.3,
+          "count": 350,
+          "count_source": "Author confirmed 350 successful episodes out of 420 trials on 2026-11-19."
         },
         "unsafe_event": {
           "reported_percent": 16.2,
@@ -857,7 +859,8 @@
   "author_supplied_ivb_c_counts": {
     "seen": {
       "unsafe_episodes": 68,
-      "trials": 420
+      "trials": 420,
+      "lift_successful_episodes": 350
     },
     "unseen": {
       "unsafe_episodes": 100,
@@ -865,13 +868,14 @@
     }
   },
   "data_level": "Per-object and pooled episode counts; individual trial records are not included.",
-  "reporting_issues": [
+  "reporting_issues": [],
+  "reporting_resolutions": [
     {
       "location": "Main Table IV(b) and Appendix Table 7, ablation (c), seen objects, lift success",
-      "reported_percent": 83.4,
-      "stated_trials": 420,
-      "status": "Awaiting author confirmation of the success count or aggregation rule.",
-      "explanation": "No integer numerator out of 420 rounds to 83.4%. The reported percentage is retained unchanged; no success count has been assigned."
+      "count": 350,
+      "trials": 420,
+      "reported_percent": 83.3,
+      "status": "Resolved using the success count confirmed by the author on 2026-11-19."
     }
   ]
 }

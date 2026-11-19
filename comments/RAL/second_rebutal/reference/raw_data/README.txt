@@ -48,10 +48,9 @@ The full VLM student (ablation d) has 62 unsafe episodes in 420 seen trials
 
 Source paths in JSON refer to the parent RAL_dexsafedagger repository.
 
-Open reporting issue
---------------------
-Main Table IV(b) and Appendix Table 7 report 83.4% seen-object lift success
-for ablation (c). No integer count out of the stated 420 trials rounds to
-83.4%. The percentage is retained as reported, with no assigned success count,
-pending author confirmation of its numerator or aggregation rule. The audit
-currently reports this one unresolved issue and exits with a nonzero status.
+Confirmed lift-success count
+----------------------------
+The author confirmed 350 successful episodes out of 420 seen-object trials
+for ablation (c) on 2026-11-19. The pooled rate is 83.333...%, reported as
+83.3% in Main Table IV(b) and Appendix Table 7. The count and rate are stored
+in real_robot_counts.json; the previously open reporting issue is resolved.
