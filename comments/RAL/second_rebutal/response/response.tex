@@ -17,6 +17,7 @@
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage[normalem]{ulem}
 \usepackage[colorlinks=true,allcolors=blue!55!black]{hyperref}
 
 \definecolor{responseblue}{RGB}{0,70,140}
@@ -28,6 +29,18 @@
 \newcommand{\papertitle}{VLM-DexSafeDagger: VLM-Guided Intervention Policy Towards Safer Visuomotor Skill Distillation}
 \newcommand{\placeholder}[1]{\textcolor{placeholderred}{\textbf{[#1]}}}
 \newcommand{\response}{\par\smallskip\noindent\textcolor{responseblue}{\textbf{[Response:]}}\ }
+\newcommand{\revisionhighlight}[1]{%
+  \bgroup
+  \markoverwith{\textcolor{yellow}{\rule[-0.5ex]{2pt}{2.5ex}}}%
+  \ULon{#1}%
+}
+\newcommand{\revisedcontributionwording}{%
+  Ablation results further demonstrate the effectiveness of VLM-guided
+  adaptation \revisionhighlight{under randomized visual conditions, with
+  safety evaluated using four task-specific unsafe-event categories}:
+  VLM-DexSafeDagger consistently achieves lower unsafe-episode rates than
+  DexSafeDagger, with an average reduction of 4 percentage points.%
+}
 
 \newcounter{reviewer}
 \newcounter{reviewcomment}
@@ -325,6 +338,17 @@ The relevant passage is reproduced below.
 
 {\centering
 \includegraphics[width=0.55\linewidth]{figures/iv-b-evaluation-scope.png}\par}
+
+\begin{samepage}
+To reduce this ambiguity, we have revised the contribution statement to refer
+explicitly to randomized visual conditions and four task-specific unsafe-event
+categories, which we hope makes the evaluated scope clear. The revised
+contribution wording is reproduced below, with the change highlighted in
+yellow.
+\begin{quote}
+``\revisedcontributionwording''
+\end{quote}
+\end{samepage}
 
 \reviewcommentlabel{Comment 9}{The current unsafe-event taxonomy is
 task-specific. Clarify which events are directly sensor-observable on hardware
@@ -662,8 +686,21 @@ collision and object escape as the dominant failure modes and describes
 how intervention suppresses their early-training spikes. This analysis
 complements the aggregate comparisons in Figure~3 and Table~III.
 
-If the reviewer still considers the wording of the contribution potentially
-misleading, we will consider adopting more cautious and precise wording.
+We have also added Appendix~C.6, which pairs the intervention rate in
+Figure~3(b) with the unsafe-episode rate in Figure~3(c) at matched training
+checkpoints for the three intervention ablations shown in those panels. The resulting safety--autonomy
+trajectories make the joint evolution explicit: VLM-DexSafeDagger progressively
+increases student autonomy while maintaining a comparatively low unsafe-episode
+rate. We describe these as training-time trajectories rather than a controlled
+Pareto frontier, because policy competence and intervention settings change
+together over training; a causal frontier would require a threshold sweep with
+frozen policy checkpoints.
+
+To state the scope of this contribution more precisely, we have adopted the
+following more restrained wording, with the change highlighted in yellow:
+\begin{quote}
+``\revisedcontributionwording''
+\end{quote}
 
 \reviewcommentlabel{Minor Comment m1}{One paragraph in Sec. III-A has a line
 spacing that differs from the rest of the text. Please check the formatting of

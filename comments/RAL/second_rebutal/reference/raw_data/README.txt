@@ -8,6 +8,17 @@ appendix. Individual trial records, images, and training logs are not included.
 
 Files
 -----
+fig3_safety_autonomy_tradeoff.json
+  Plot-ready training-time safety-autonomy points digitized from Figure 3(b,c).
+  Each checkpoint is stored explicitly as an [x, y] pair, where x is student
+  autonomy (%) and y is the unsafe-episode rate (%). Ablations are separated
+  for direct comparison; unchecked values are retained as null placeholders.
+
+plot_fig3_safety_autonomy_tradeoff.py
+  Regenerates the appendix tradeoff figure directly from the JSON file. Curves
+  are drawn only for ablations whose points are complete; null-valued ablations
+  appear as pending legend entries rather than fabricated curves.
+
 real_robot_counts.json
   Covers manuscript Table IV(a-b) and Appendix Tables 5-8. The 22 per-object
   rows contain 30 trials each. Their pooled totals cover 14 seen objects

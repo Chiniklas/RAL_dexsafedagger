@@ -1,0 +1,59 @@
+{
+  "figure": "Figure 3(b,c) training-time safety-autonomy tradeoff curve",
+  "provenance": "Approximate values digitized from the rasterized Figure 3 panels at matched training checkpoints.",
+  "point_format": {
+    "xy": [
+      "student_autonomy_percent",
+      "unsafe_episode_rate_percent"
+    ],
+    "student_autonomy_definition": "100 * (1 - teacher_intervention_rate)"
+  },
+  "checkpoints_training_episodes": [
+    10000,
+    40000,
+    70000,
+    100000
+  ],
+  "ablations": {
+    "c": {
+      "label": "DexSafeDagger (fixed thresholds)",
+      "status": "digitized",
+      "points": [
+        { "training_episodes": 10000, "xy": [86.680, 23.526] },
+        { "training_episodes": 40000, "xy": [94.607, 13.380] },
+        { "training_episodes": 70000, "xy": [95.776, 14.014] },
+        { "training_episodes": 100000, "xy": [97.336, 12.746] }
+      ]
+    },
+    "f": {
+      "label": "Adaptive non-VLM curriculum",
+      "status": "digitized",
+      "points": [
+        { "training_episodes": 10000, "xy": [85.43, 21.40] },
+        { "training_episodes": 40000, "xy": [93.52, 14.97] },
+        { "training_episodes": 70000, "xy": [94.07, 13.87] },
+        { "training_episodes": 100000, "xy": [96.78, 11.33] }
+      ]
+    },
+    "e": {
+      "label": "LLM-DexSafeDagger",
+      "status": "digitized",
+      "points": [
+        { "training_episodes": 10000, "xy": [84.96, 19.97] },
+        { "training_episodes": 40000, "xy": [92.98, 13.77] },
+        { "training_episodes": 70000, "xy": [93.56, 12.67] },
+        { "training_episodes": 100000, "xy": [95.66, 11.02] }
+      ]
+    },
+    "d": {
+      "label": "VLM-DexSafeDagger",
+      "status": "digitized",
+      "points": [
+        { "training_episodes": 10000, "xy": [81.481, 22.511] },
+        { "training_episodes": 40000, "xy": [91.488, 8.23] },
+        { "training_episodes": 70000, "xy": [92.788, 9.44] },
+        { "training_episodes": 100000, "xy": [95.387, 9.22] }
+      ]
+    }
+  }
+}

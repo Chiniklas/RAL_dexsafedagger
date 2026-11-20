@@ -447,3 +447,39 @@ safety and task-performance criteria are required before increasing student
 autonomy. This asymmetric update prevents rapid oscillation. We apply the first
 curriculum update after 2{,}000 distillation episodes and subsequent updates
 every 10{,}000 episodes, matching the VLM update schedule in ablation~(d).
+
+\subsection{Training-Time Safety--Autonomy Tradeoff Curve}
+\label{app:safety_autonomy_trajectory}
+
+We present a training-time safety--autonomy tradeoff curve to characterize how
+unsafe exploration changes as student autonomy increases during distillation.
+For checkpoint~$k$, we define student autonomy as
+\begin{equation}
+\mathcal A_k = 100\,(1-\beta_k),
+\end{equation}
+where $\beta_k$ is the teacher-intervention rate. We organize the comparison
+around ablations~(c), (f), (e), and~(d) and select four training checkpoints:
+10{,}000, 40{,}000, 70{,}000, and 100{,}000 episodes. At each checkpoint, each
+point pairs student autonomy with the corresponding unsafe-episode rate,
+averaged over training data from the 40-object training set.
+
+All four ablations exhibit an overall lower-right trend as distillation
+progresses: student autonomy increases while the unsafe-episode rate decreases.
+This is consistent with the student progressively assuming greater control as
+its policy improves, without a corresponding increase in unsafe exploration.
+More importantly, at comparable levels of student autonomy,
+VLM-DexSafeDagger (ablation~(d)) generally achieves a lower unsafe-episode rate
+than the other three ablations. This result suggests that VLM-guided adaptation
+improves unsafe-event avoidance beyond merely restricting student control,
+enabling safer distillation while preserving a comparable level of student
+autonomy.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.94\linewidth]{figures/fig3_safety_autonomy_trajectory.png}
+\caption{\textbf{Training-time safety--autonomy tradeoff curve.} Each point pairs student autonomy
+$100(1-\beta)$ with the unsafe-episode rate at the same checkpoint. Points are
+extracted at 10{,}000, 40{,}000, 70{,}000, and 100{,}000 episodes and averaged
+over training data from the 40-object training set.}
+\label{fig:safety_autonomy_trajectory}
+\end{figure}
