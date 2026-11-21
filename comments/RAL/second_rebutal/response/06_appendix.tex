@@ -466,7 +466,7 @@ averaged over training data from the 40-object training set.
 All four ablations exhibit an overall lower-right trend as distillation
 progresses: student autonomy increases while the unsafe-episode rate decreases.
 This is consistent with the student progressively assuming greater control as
-its policy improves, without a corresponding increase in unsafe exploration.
+its policy improves.
 More importantly, at comparable levels of student autonomy,
 VLM-DexSafeDagger (ablation~(d)) generally achieves a lower unsafe-episode rate
 than the other three ablations. This result suggests that VLM-guided adaptation
@@ -480,6 +480,8 @@ autonomy.
 \caption{\textbf{Training-time safety--autonomy tradeoff curve.} Each point pairs student autonomy
 $100(1-\beta)$ with the unsafe-episode rate at the same checkpoint. Points are
 extracted at 10{,}000, 40{,}000, 70{,}000, and 100{,}000 episodes and averaged
-over training data from the 40-object training set.}
+over training data from the 40-object training set. Circles, squares, triangles,
+and diamonds denote 10k, 40k, 70k, and 100k checkpoints, respectively; colors
+identify the ablation methods.}
 \label{fig:safety_autonomy_trajectory}
 \end{figure}

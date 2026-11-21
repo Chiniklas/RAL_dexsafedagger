@@ -552,16 +552,6 @@ statement.}
   primary contribution argument and removed the corresponding research
   question.
 
-  \placeholder{Add the verified teacher-only evidence here and replace this
-  note with the final numerical statement: the supplementary teacher-only
-  figure should plot evaluation lift-success versus environment steps for the retuned
-  DexTrAH/FABRICS teacher and our direct-control teacher under the same objects,
-  initialization distribution, horizon, PPO budget, and matched random seeds.
-  Report the mean with a 95\% confidence interval, the final paired difference
-  across all 40 objects with a pre-specified equivalence margin, and the
-  corresponding unsafe-termination rates. Use ``comparable'' only if the
-  verified interval supports that conclusion.}
-
   \item The main implementation difference is the action-control interface.
   The submitted DexTrAH-inspired baseline retained the retuned FABRICS
   controller and its human-motion-derived PCA hand-action manifold between the
@@ -664,6 +654,29 @@ statistics alone. Our argument for the VLM contribution relies on this
 broader ablation analysis, rather than solely on the fixed-threshold versus
 VLM comparison cited by the reviewer, which corresponds to (c) versus (d)
 in the revised manuscript.
+
+To better analyze the contribution of VLM guidance, we compare training-time
+safety and autonomy for ablations~(c), (f), (e), and~(d), as shown below.
+At 10k, 40k, 70k, and 100k training episodes, each point pairs the unsafe-episode
+rate with student autonomy $\mathcal A_k=100(1-\beta_k)$, where $\beta_k$ is the
+teacher-intervention rate; both metrics are averaged over training data from
+the 40-object training set at the corresponding checkpoint. Further details
+can be found in Appendix~C.6.
+
+\begin{center}
+\includegraphics[width=0.94\linewidth]{figures/fig3_safety_autonomy_trajectory.png}
+\end{center}
+
+All four ablations exhibit an overall lower-right trend as distillation
+progresses: student autonomy increases while the unsafe-episode rate decreases.
+This is consistent with the student progressively assuming greater control as
+its policy improves.
+More importantly, at comparable levels of student autonomy,
+VLM-DexSafeDagger (ablation~(d)) generally achieves a lower unsafe-episode rate
+than the other three ablations. This result suggests that VLM-guided adaptation
+improves unsafe-event avoidance beyond merely restricting student control,
+enabling safer distillation while preserving a comparable level of student
+autonomy.
 
 Regarding ``different visual contexts,'' we refer to the randomized visual
 conditions in our simulation setup: lighting intensity and direction,

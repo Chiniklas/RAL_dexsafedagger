@@ -19,6 +19,12 @@ OUTPUT_PATH = (
 )
 
 ORDER = ["c", "f", "e", "d"]
+CHECKPOINT_MARKERS = {
+    10000: "circle",
+    40000: "square",
+    70000: "triangle",
+    100000: "diamond",
+}
 COLORS = {
     "c": "#2f9e44",
     "f": "#7b61a8",
@@ -55,6 +61,21 @@ def centered(draw: ImageDraw.ImageDraw, xy: tuple[float, float], text: str, text
 def draw_x(draw: ImageDraw.ImageDraw, x: float, y: float, color: str, size: int = 9) -> None:
     draw.line((x - size, y - size, x + size, y + size), fill=color, width=4)
     draw.line((x - size, y + size, x + size, y - size), fill=color, width=4)
+
+
+def draw_marker(draw: ImageDraw.ImageDraw, x: float, y: float, shape: str, color: str, size: int = 12) -> None:
+    style = {"fill": color, "outline": "white", "width": 2}
+    if shape == "circle":
+        draw.ellipse((x - size, y - size, x + size, y + size), **style)
+    elif shape == "square":
+        draw.rectangle((x - size, y - size, x + size, y + size), **style)
+    elif shape == "triangle":
+        draw.polygon(((x, y - size - 3), (x + size + 2, y + size), (x - size - 2, y + size)), **style)
+    elif shape == "diamond":
+        radius = size + 3
+        draw.polygon(((x, y - radius), (x + radius, y), (x, y + radius), (x - radius, y)), **style)
+    else:
+        raise ValueError(f"Unknown checkpoint marker: {shape}")
 
 
 def main() -> None:
@@ -102,10 +123,14 @@ def main() -> None:
 
     draw.text(
         (LEFT + 10, 243),
-        "Checkpoints: 10k, 40k, 70k, 100k",
+        "Checkpoints:",
         font=legend_small_font,
         fill="#555555",
     )
+    for index, (checkpoint, shape) in enumerate(CHECKPOINT_MARKERS.items()):
+        lx = LEFT + 185 + index * 190
+        draw_marker(draw, lx, 257, shape, "#444444")
+        draw.text((lx + 25, 243), f"{checkpoint // 1000}k", font=legend_small_font, fill="#555555")
     draw.text(
         (LEFT + 10, 277),
         "Averaged over training data from all 40 training objects",
@@ -131,8 +156,8 @@ def main() -> None:
         points = data["ablations"][key]["points"]
         coords = [(x_px(point["xy"][0]), y_px(point["xy"][1])) for point in points]
         draw.line(coords, fill=COLORS[key], width=7, joint="curve")
-        for px, py in coords:
-            draw.ellipse((px - 7, py - 7, px + 7, py + 7), fill=COLORS[key], outline="white", width=2)
+        for point, (px, py) in zip(points, coords):
+            draw_marker(draw, px, py, CHECKPOINT_MARKERS[point["training_episodes"]], COLORS[key])
 
     x_label = "Student autonomy = 100 - teacher-intervention rate (%)"
     centered(draw, (WIDTH / 2, HEIGHT - 90), x_label, label_font, "#222222")
