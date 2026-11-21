@@ -370,16 +370,24 @@ guarantees. No major methodological restructuring appears necessary.}
 
 \response Thank you for this suggestion. We added a limitations
 paragraph in Section~IV-E (\emph{Discussion and Limitations}), immediately
-before the conclusion. It discusses the remaining sim-to-real contact-strategy
-mismatch, explicitly retaining the 39.2\% unsafe-event rate on unseen
-objects; dependence on an external proprietary VLM; the task-specific scope
-of the unsafe-event definitions; and the absence of formal safety or
-constraint-satisfaction guarantees. It also clarifies that the VLM,
-teacher, and critic are used during simulation distillation rather than as
-runtime safety monitors on the physical robot.
+before the conclusion. The revised paragraph retains the 39.2\% unsafe-event
+rate on unseen objects and covers the remaining contact-strategy mismatch,
+external VLM dependence, task-specific unsafe-event definitions, and absence
+of formal runtime-safety or constraint-satisfaction guarantees:
+\begin{quote}
+``The high unsafe-event rate of 39.2\% on unseen objects highlights a clear
+generalization limitation, which we believe arises from contact-strategy
+mismatch between simulation and the real world. Reliance on an external VLM
+also introduces sensitivity to model and version changes. In addition, our
+unsafe-event definitions are task-specific, and the proposed framework provides
+empirical risk reduction without formal guarantees of runtime safety or
+constraint satisfaction in the real world.''
+\end{quote}
 
-\placeholder{TODO: Attach a screenshot of the limitations paragraph in Section~IV-E
-from the highlighted manuscript.}
+\begin{center}
+\includegraphics[width=0.65\linewidth]{figures/iv-e-limitations-part1.png}\\[-0.4em]
+\includegraphics[width=0.62\linewidth]{figures/iv-e-limitations-part2.png}
+\end{center}
 
 \reviewerheading{Reviewer \#31}
 

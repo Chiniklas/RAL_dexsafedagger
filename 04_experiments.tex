@@ -229,16 +229,13 @@ unsafe-event rate differences include zero.
 \subsection{Discussion and Limitations}
 \label{subsec:discussion}
 
-Contact-strategy mismatch between simulation and
-hardware remains a limitation, particularly for unseen objects, whose
-real-world unsafe-event rate is 39.2\%. Distillation depends on an external
-proprietary VLM, introducing dependencies on model/version changes, latency,
-service availability, and API cost. The VLM, teacher, and critic operate
-during simulation distillation and do not serve as runtime safety monitors
-on the physical robot. Our four unsafe-event definitions are task-specific
-operational metrics rather than a complete robot-safety specification.
-The method provides empirical risk reduction under these definitions,
-without formal guarantees of safety or constraint satisfaction.
+The high unsafe-event rate of 39.2\% on unseen objects highlights a clear
+generalization limitation, which we believe arises from contact-strategy
+mismatch between simulation and the real world. Reliance on an external VLM
+also introduces sensitivity to model and version changes. In addition, our
+unsafe-event definitions are task-specific, and the proposed framework provides
+empirical risk reduction without formal guarantees of runtime safety or
+constraint satisfaction in the real world.
 % appears to reduce sample efficiency. In Fig.~\ref{fig:ablation}, we observe slower performance growth in
 % lift-success evaluation under higher intervention rates. The underlying cause remains unclear; we believe
 % there is room for improvement in both exploration safety and sample efficiency within the online

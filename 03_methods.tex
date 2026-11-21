@@ -50,7 +50,8 @@ gate are
 &
 a_t=g_t a_t^T+(1-g_t)a_t^S,\\
 &
-g_t=\mathcal{G}(s_t,o_t;\boldsymbol{\tau}^{(k)})\in\{0,1\},\\
+g_t=\mathcal{G}_d(s_t,o_t;\tau_\delta^{(k)})
+\lor\mathcal{G}_b(s_t,o_t;\tau_Q^{(k)})\in\{0,1\},\\
 &
 s_{t+1}\sim P(\cdot\mid s_t,a_t),\qquad
 o_t\sim\Omega(\cdot\mid s_t).
@@ -58,9 +59,12 @@ o_t\sim\Omega(\cdot\mid s_t).
 \label{eq:vc_objective}
 \end{equation}
 \endgroup
-where $g_t=1$ indicates teacher takeover and $g_t=0$ denotes student control.
+where $\mathcal{G}_d$ and $\mathcal{G}_b$ denote the disagreement and Bellman
+gates, respectively; $g_t=1$ indicates teacher takeover and $g_t=0$ denotes
+student control.
 The intervention policy is parameterized by $\boldsymbol{\tau}^{(k)}=
-(\tau_\delta^{(k)},\tau_Q^{(k)})$, which governs teacher takeover decisions in $\mathcal{G}$. Periodically, a VLM proposes a displacement
+(\tau_\delta^{(k)},\tau_Q^{(k)})$, which governs teacher takeover decisions in
+the two gates. Periodically, a VLM proposes a displacement
 $\Delta\boldsymbol{\tau}^{(k)}$, from which the policy is updated to adjust to distributional shift.
 
 We formalize task success via a trajectory-level predicate
@@ -93,6 +97,8 @@ the intervention policy's operating point. The resulting candidate operating poi
 is clipped and smoothed before use. Pseudo-code is
 provided in Alg.~\ref{alg:safe_dagger}.
 
+\input{table/reward_shaping.tex}
+
 \input{alg/alg01_intervention_structure}
 
 \subsection{Privileged Teacher Policy Training}
@@ -122,12 +128,11 @@ DexTrAH-RGB~\cite{singh2024dextrah}, our 13 normalized outputs map directly to
 joint-position targets for seven arm and six hand DoFs.
 
 The teacher is trained in simulation using an asymmetric actor--critic setup.
-Details of the actor and critic observation spaces are provided in the Appendix.
+Details of the actor and critic observation spaces are provided in
+Supplementary Sec.~A.1 (\emph{Asymmetric Teacher Observations}).
 The actor receives noisy and partial proprioceptive observations that approximate
 realistic sensing, while the critic is provided with the privileged full state
 of both the robot and object, available only in simulation.
-
-\input{table/reward_shaping.tex}
 
 Episodes terminate at
 \begingroup
@@ -191,15 +196,16 @@ $\boldsymbol{\tau}^{(k)}=(\tau_\delta^{(k)},\tau_Q^{(k)})$, where
 $\tau_\delta^{(k)}$ is the maximum admissible disagreement and
 $\tau_Q^{(k)}$ is the minimum acceptable predicted success.
 
-These parameters define the deterministic intervention gate:
+These parameters define the disagreement gate
+$\mathcal{G}_d\coloneqq\mathbb{I}[\delta_t>\tau_\delta^{(k)}]$, the Bellman gate
+$\mathcal{G}_b\coloneqq\mathbb{I}[\hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q^{(k)}]$,
+and their combined intervention decision:
 \begingroup
 \small
 \begin{equation}
-g_t
-=\mathbb{I}\!\left[
-\hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q^{(k)}
-\;\lor\;\delta_t>\tau_\delta^{(k)}
-\right].
+g_t=\mathbb{I}\!\left[\mathcal{G}_d\lor\mathcal{G}_b\right]
+=\mathbb{I}\!\left[\delta_t>\tau_\delta^{(k)}\ \lor\
+\hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q^{(k)}\right].
 \label{eq:adaptive_gate}
 \end{equation}
 \endgroup

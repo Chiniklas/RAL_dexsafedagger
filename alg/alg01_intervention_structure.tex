@@ -16,8 +16,9 @@
     \STATE Compute the actions $a_t^T\sim\pi_T(\cdot|s_t)$ and $a_t^S\sim\pi_S(\cdot|o_t)$
     \STATE Compute the action disagreement $\delta_t=\|a_t^S-a_t^T\|_2$
     \STATE Predict the safe-lift-success value $\hat Q_{\mathrm{succ}}(s_t,a_t^S)$
-    \STATE Evaluate the intervention gate
-    \STATE \hspace{1em}$g_t\gets\mathbb{I}[\delta_t>\tau_\delta\ \lor\ \hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q]$
+    \STATE Evaluate $\mathcal{G}_d\gets\mathbb{I}[\delta_t>\tau_\delta]$
+    and $\mathcal{G}_b\gets\mathbb{I}[\hat Q_{\mathrm{succ}}(s_t,a_t^S)<\tau_Q]$
+    \STATE Combine the gates: $g_t\gets\mathcal{G}_d\lor\mathcal{G}_b$
     \STATE Execute the gated action $a_t=g_t a_t^T+(1-g_t)a_t^S$
     \STATE Store the transition in the critic replay buffer $\mathcal{D}$
     \STATE Update $\hat Q_{\mathrm{succ}}$; if $g_t=1$, update $\pi_S$

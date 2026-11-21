@@ -8,14 +8,22 @@
 % fragile components in robotic systems, particularly in highly dynamic
 % platforms such as humanoid robots. 
 
-Dexterous robotic hands typically possess a large number of degrees of freedom (DoFs) 
-and exhibit complex contact dynamics, enabling them to perform fine-grained and diverse 
-manipulation behaviors~\cite{brahmbhatt2019contactgrasp,chen2022system,andrychowicz2020learning,luo2025precise}. In recent years, reinforcement learning (RL)-based approaches~\cite{rajeswaran2017learning,andrychowicz2020learning,akkaya2019solving,petrenko2023dexpbt} have made significant progress in addressing the complex control problems posed by high-dimensional action spaces and intricate contact dynamics in dexterous manipulation tasks.
+Dexterous robotic hands possess many degrees of freedom, offering substantial
+potential for complex manipulation tasks while exhibiting a significant
+sim-to-real gap due to complex contact dynamics~\cite{brahmbhatt2019contactgrasp,chen2022system,andrychowicz2020learning,luo2025precise}.
+Reinforcement learning (RL)-based approaches~\cite{rajeswaran2017learning,andrychowicz2020learning,akkaya2019solving,petrenko2023dexpbt}
+have recently made significant progress in performing complex dexterous
+manipulation tasks in simulation, enabled by increasingly accurate contact-dynamics
+modeling and advances in high-dimensional control.
 
-Despite these advances, existing RL frameworks primarily optimize for task 
-success rates and rarely incorporate explicit modeling or constraints related to safety. During training, common failure modes, including severe collisions between the hand and the environment, unintended object ejection due to excessive contact forces, and loss of stable hand posture~\cite{liu2023safe,yu2022dexterous}, not only reduce training efficiency but also introduce potential risks during real-world deployment. Therefore, how to 
-reduce unsafe exploration while maintaining learning efficiency remains a critical challenge in 
-dexterous manipulation.
+Existing RL frameworks acquire complex skills primarily by optimizing task
+success rates. For sim-to-real transfer, visuomotor student-policy distillation
+is commonly employed to transfer simulated skills into real-world behaviors.
+However, without explicit modeling of safety-related constraints during
+distillation, failure modes such as severe collisions between the hand and the
+environment, unintended object ejection due to excessive contact forces, and
+loss of stable contact posture~\cite{liu2023safe,yu2022dexterous} can be passed
+from imperfect teachers to students.
 
 % Among the central challenges in dexterous manipulation research is how 
 % to acquire reliable skills for complex systems like dexterous hands and 
@@ -34,21 +42,22 @@ dexterous manipulation.
 % However, existing distillation methods~\cite{} typically rely on behavior cloning or the standard DAgger framework for data aggregation. Their primary objective is to mitigate performance degradation caused by distribution shift, rather than explicitly enforcing safety constraints during student policy learning. During distillation, the student policy may deviate from the teacher’s state–action distribution and enter regions that are either insufficiently covered by the teacher or inherently high-risk, leading to unsafe behaviors such as severe collisions or unstable hand configurations. 
 % Therefore, introducing explicit safety mechanisms into the distillation process—so that high-risk exploration can be avoided without sacrificing learning efficiency—remains an important and largely underexplored problem. Existing safety-aware distillation approaches~\cite{}, such as SafeDAgger~\cite{}, have primarily focused on autonomous driving scenarios and have not been systematically studied in the context of dexterous manipulation.
 
-To bridge the sim-to-real gap, skill distillation is widely used to transfer the behavior of expert policies trained with privileged information to student policies capable of operating on real robots.
-However, existing distillation methods~\cite{ross2011reduction,singh2024dextrah}
-typically rely on behavior cloning or the standard DAgger framework for data
-aggregation. Their primary objective is to mitigate performance degradation
-caused by distribution shift, rather than explicitly enforcing safety
-constraints during student policy learning. During distillation, the student
-policy may deviate from the teacher’s state--action distribution and enter
-regions that are either insufficiently covered by the teacher or inherently
-high-risk, leading to unsafe behaviors such as severe collisions or unstable
+During distillation training, student policies imitate teacher behavior through
+repeated demonstrations~\cite{singh2024dextrah}. In many
+cases, offline approaches are time-consuming and data-inefficient. By
+parallelizing data collection and policy training, interactive imitation
+learning, represented by DAgger-based algorithms~\cite{ross2011reduction},
+provides a natural backbone for online distillation pipelines. However, these
+approaches (e.g., SafeDAgger~\cite{zhang2016query}) primarily address
+performance degradation caused by distribution shift through expert
+intervention rather than explicitly modeling task-specific physical safety
+constraints during student-policy learning. More precisely, imitation errors
+can drive the student beyond the teacher's state--action distribution into
+underrepresented or high-risk states, causing severe collisions or unstable
 hand configurations.
 Therefore, introducing explicit safety mechanisms into the distillation
 process---so that high-risk exploration can be avoided without sacrificing
 learning efficiency---remains an important and largely underexplored problem.
-Typical safety-aware distillation approaches, such as SafeDAgger~\cite{zhang2016query}, have primarily focused on autonomous driving scenarios and have not been systematically studied in contact-rich tasks such as dexterous manipulation.
-
 %===================================================================================
 % To address the sim-to-real transfer problem, techniques such as domain
 % randomization and domain adaptation have been widely adopted. However,
