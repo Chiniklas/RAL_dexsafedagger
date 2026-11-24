@@ -37,6 +37,7 @@ episode's failure mode.
 
 \begin{figure*}[t]
     \centering
+    \captionsetup{skip=2pt}
     \includegraphics[width=\linewidth]{figures/ablation_comparison.png}
     \caption{\textbf{Ablation studies.}
     The first three panels compare four distillation variants in terms of student lift success, teacher intervention rate $\beta$, and unsafe-episode rate, respectively, as they evolve during online distillation.
@@ -45,6 +46,7 @@ episode's failure mode.
     Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange),
     \dexsafedagger (green), and \methodname (red).}
     \label{fig:ablation}
+    \vspace{-0.6em}
 \end{figure*}
 
 % The simulation experiments are based on single-arm control of a Tiangong~2 Pro
@@ -144,8 +146,20 @@ other components and the threshold-update schedule are held fixed.
 
 \input{table/ablation_studies.tex}
 
+\begin{figure}[!b]
+    \centering
+    \captionsetup{skip=2pt}
+    \includegraphics[width=0.72\linewidth]{figures/safety_autonomy_tradeoff_compact.pdf}
+    \caption{\textbf{Training-time safety--autonomy tradeoff.}
+    Unsafe-episode rate versus student autonomy at four checkpoints, averaged
+    over 40 training objects.}
+    \label{fig:safety_autonomy_trajectory}
+    \vspace{-1.2em}
+\end{figure}
+
 \begin{figure*}[!t]
     \centering
+    \captionsetup{skip=2pt}
     \includegraphics[width=0.82\linewidth]{figures/failure_mode.pdf}
     \caption{\textbf{Per-object failure-mode decomposition during online distillation ablations.}
     We illustrate four task-specific failure modes in simulation (harmful collision, object escape, palm flipped, and hand too far) and report the aggregate unsafe rate together with its per-mode breakdown over training iterations.
@@ -154,6 +168,7 @@ other components and the threshold-update schedule are held fixed.
     orange, Vanilla SafeDAgger\cite{zhang2016query}; green, \dexsafedagger;
     and red, \methodname.}
     \label{fig:failure_modes}
+    \vspace{-0.8em}
 \end{figure*}
 
 We first address question~(i) by examining the distillation behavior in
@@ -176,13 +191,15 @@ intervention variants suppress both failure modes, particularly their early
 spikes, demonstrating that teacher intervention limits unsafe exploration
 during the initial distillation phase.
 
-\begin{figure}[!t]
+\begin{figure}[!b]
     \centering
-    \includegraphics[width=0.85\linewidth]{figures/real_setup_1.png}
+    \captionsetup{skip=2pt}
+    \includegraphics[width=0.76\linewidth]{figures/real_setup_1.png}
     \caption{\textbf{Real-world experimental setup and test objects.}
     Left: the single-arm manipulation platform used for deployment and evaluation.
     Right: examples of the physical objects used in the real-world lift experiments.}
     \label{fig:realworld_exp_setup}
+    \vspace{-1.0em}
 \end{figure}
 
 Finally, we address question~(iii) by comparing ablations (c), (f), (e), and
@@ -191,6 +208,9 @@ performance-curriculum adaptation, to semantics-guided LLM adaptation, and
 finally to our VLM-guided recipe. This controlled ladder isolates the
 contributions of feedback-based threshold adaptation, semantic reasoning, and
 visual context.
+Fig.~\ref{fig:safety_autonomy_trajectory} further shows that \methodname
+generally maintains a lower unsafe-episode rate at comparable levels of student
+autonomy.
 As shown in Table~\ref{tab:ablation_studies}, VLM-guided adaptive intervention
 consistently achieves the highest lift success and the lowest
 unsafe rate across the evaluated objects. Both LLM-guided and curriculum-based
