@@ -707,16 +707,6 @@ collision and object escape as the dominant failure modes and describes
 how intervention suppresses their early-training spikes. This analysis
 complements the aggregate comparisons in Figure~3 and Table~III.
 
-We have also added Appendix~C.6, which pairs the intervention rate in
-Figure~3(b) with the unsafe-episode rate in Figure~3(c) at matched training
-checkpoints for the three intervention ablations shown in those panels. The resulting safety--autonomy
-trajectories make the joint evolution explicit: VLM-DexSafeDagger progressively
-increases student autonomy while maintaining a comparatively low unsafe-episode
-rate. We describe these as training-time trajectories rather than a controlled
-Pareto frontier, because policy competence and intervention settings change
-together over training; a causal frontier would require a threshold sweep with
-frozen policy checkpoints.
-
 To state the scope of this contribution more precisely, we have adopted the
 following more restrained wording, with the change highlighted in yellow:
 \begin{quote}
@@ -769,7 +759,6 @@ results over all 40 objects.
 
 \vspace{1em}
 We thank the Associate Editor and the reviewers again for their constructive
-feedback. \placeholder{Replace this closing with a concise statement of the
-verified revisions and their effect on the manuscript's claims.}
+feedback, which has been invaluable in improving our manuscript.
 
 \end{document}

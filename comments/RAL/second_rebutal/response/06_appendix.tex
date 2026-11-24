@@ -451,8 +451,10 @@ every 10{,}000 episodes, matching the VLM update schedule in ablation~(d).
 \subsection{Training-Time Safety--Autonomy Tradeoff Curve}
 \label{app:safety_autonomy_trajectory}
 
-We present a training-time safety--autonomy tradeoff curve to characterize how
-unsafe exploration changes as student autonomy increases during distillation.
+The curve is presented in Fig.~3(e) of the main manuscript; here, we provide
+its detailed definition and an enlarged version for clarity. It characterizes
+how unsafe exploration changes as student autonomy increases during
+distillation.
 For checkpoint~$k$, we define student autonomy as
 \begin{equation}
 \mathcal A_k = 100\,(1-\beta_k),
