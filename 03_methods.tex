@@ -99,8 +99,6 @@ the intervention policy's operating point. The resulting candidate operating poi
 is clipped and smoothed before use. Pseudo-code is
 provided in Alg.~\ref{alg:safe_dagger}.
 
-\input{table/reward_shaping.tex}
-
 \input{alg/alg01_intervention_structure}
 
 \subsection{Privileged Teacher Policy Training}
@@ -135,6 +133,8 @@ Supplementary Sec.~A.1 (\emph{Asymmetric Teacher Observations}).
 The actor receives noisy and partial proprioceptive observations that approximate
 realistic sensing, while the critic is provided with the privileged full state
 of both the robot and object, available only in simulation.
+
+\input{table/reward_shaping.tex}
 
 Episodes terminate at
 \begingroup

@@ -38,14 +38,19 @@ episode's failure mode.
 \begin{figure*}[t]
     \centering
     \captionsetup{skip=2pt}
-    \includegraphics[width=\linewidth]{figures/ablation_comparison.png}
+    \includegraphics[width=\linewidth]{figures/ablation_comparison_five_panel.pdf}
     \caption{\textbf{Ablation studies.}
-    The first three panels compare four distillation variants in terms of student lift success, teacher intervention rate $\beta$, and unsafe-episode rate, respectively, as they evolve during online distillation.
-    The rightmost panel shows the VLM-guided trajectory of the intervention operating point.
-    Shaded regions indicate variability across runs (mean $\pm$ std).
-    Curves correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange),
-    \dexsafedagger (green), and \methodname (red).}
+    Panels (a)--(c) compare four distillation variants in terms of student lift
+    success, teacher intervention rate $\beta$, and unsafe-episode rate,
+    respectively, as they evolve during online distillation. Curves in panels
+    (a)--(c) correspond to vanilla DAgger (blue), vanilla SafeDAgger (orange),
+    \dexsafedagger (green), and \methodname (red). Panel (d) shows the
+    VLM-guided trajectory of the intervention operating point. Panel (e)
+    reports the training-time safety--autonomy tradeoff for ablations
+    (c)--(f) at checkpoints $\bullet$\,10k, $\blacksquare$\,40k,
+    $\blacktriangle$\,70k, and $\blacklozenge$\,100k.}
     \label{fig:ablation}
+    \label{fig:safety_autonomy_trajectory}
     \vspace{-0.6em}
 \end{figure*}
 
@@ -146,17 +151,6 @@ other components and the threshold-update schedule are held fixed.
 
 \input{table/ablation_studies.tex}
 
-\begin{figure}[!b]
-    \centering
-    \captionsetup{skip=2pt}
-    \includegraphics[width=0.72\linewidth]{figures/safety_autonomy_tradeoff_compact.pdf}
-    \caption{\textbf{Training-time safety--autonomy tradeoff.}
-    Unsafe-episode rate versus student autonomy at four checkpoints, averaged
-    over 40 training objects.}
-    \label{fig:safety_autonomy_trajectory}
-    \vspace{-1.2em}
-\end{figure}
-
 \begin{figure*}[!t]
     \centering
     \captionsetup{skip=2pt}
@@ -217,6 +211,17 @@ unsafe rate across the evaluated objects. Both LLM-guided and curriculum-based
 adaptation improve overall safety, but neither matches the full VLM-guided
 recipe. The curriculum-based intervention also incurs a small reduction in
 lift success.
+
+In addition, Fig.~\ref{fig:safety_autonomy_trajectory}(e) shows that all four
+ablations exhibit an overall lower-right trend as distillation progresses:
+student autonomy increases while the unsafe-episode rate decreases. This trend
+is consistent with the student progressively assuming greater control as its
+policy improves. More importantly, at comparable levels of student autonomy,
+\methodname (ablation~(d)) generally achieves a lower unsafe-episode rate than
+the other three ablations. This result suggests that VLM-guided adaptation
+improves unsafe-event avoidance beyond merely restricting student control,
+enabling safer distillation while maintaining a comparable level of student
+autonomy.
 
 \subsection{Real-World Experimental Results}
 
