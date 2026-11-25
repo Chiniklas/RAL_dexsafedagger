@@ -243,9 +243,12 @@ visual-sample block is repeated once for each attached image.
 
 \subsection{Model and Input Configuration}
 We used OpenAI GPT-5.5 with the rollout statistics above and up to eight
-high-detail RGB images encoded as JPEG data URLs. We queried the model after
-2{,}000 episodes and every 10{,}000 episodes thereafter (10 calls over 100{,}000
-episodes). Across the 10 scheduled VLM calls, the mean API latency was
+high-detail RGB images encoded as JPEG data URLs. Decoding parameters such as
+temperature, top-$p$, and seed were not explicitly set, so the provider
+defaults were used. We queried the model after 2{,}000 episodes and every
+10{,}000 episodes thereafter (10 calls over 100{,}000 episodes), with
+approximately 70{,}000 tokens of total usage per distillation run. Across the
+10 scheduled VLM calls, the mean API latency was
 $8.93\pm1.89\,\mathrm{s}$ (mean~$\pm$~standard deviation). The estimated API
 cost was approximately US\$0.35 per 100{,}000-episode distillation run.
 

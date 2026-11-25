@@ -153,7 +153,7 @@ prospective safe-lift-success value of the current student state--action pair.
 A vision-language model periodically adjusts the intervention policy based on rollout
 statistics and representative visual
 observations to enable safer exploration. The resulting policy is
-a small, end-to-end model with real-time capabilities and implicit safety constraints. Experiments on
+a small, end-to-end model with real-time capabilities that implicitly encodes safety-aware supervision. Experiments on
 grasp-and-lift tasks show that our method significantly improves training safety, reducing
 unsafe episodes by up to 80\% during the early training period compared with vanilla
 DAgger-based distillation. Meanwhile, the distilled student policy achieves comparable lift
