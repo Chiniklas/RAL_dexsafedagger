@@ -90,33 +90,44 @@
 
 \begin{center}
   {\Large\bfseries Authors' Responses}\par
-  \vspace{0.35em}
-  {\large\bfseries\color{placeholderred} WORKING SKELETON: NOT FOR SUBMISSION}\par
 \end{center}
 
-\vspace{1.5em}
-\begin{tabularx}{\linewidth}{@{}p{0.28\linewidth}X@{}}
+\vspace{2em}
+\begin{tabular}{@{}p{0.34\linewidth}p{0.62\linewidth}@{}}
 \textbf{Journal Title:} & IEEE Robotics and Automation Letters \\
 \textbf{Reference Number:} & \manuscriptid \\
 \textbf{Title of Paper:} & \papertitle \\
 \textbf{Authors:} & Anonymous Authors
-\end{tabularx}
+\end{tabular}
 
-\vspace{1.5em}
-We sincerely thank the Associate Editor and the two anonymous reviewers for
-their careful assessment of the revised manuscript. We appreciate their
-recognition of the improvements made in the previous revision and their clear
-identification of the remaining issues.
+\vspace{2em}
+We would like to extend our heartfelt gratitude to the Editor-in-Chief and the
+Associate Editor for their time and effort in handling our paper. We also
+sincerely thank the two anonymous reviewers for their invaluable comments and
+suggestions, which have greatly helped us improve the quality of our work.
 
-\placeholder{Replace this paragraph with a concise summary of the completed
-revision after every response below has been factually verified. The summary
-should cover teacher-reward reproducibility, baseline fairness, result
-consistency, statistical analysis, the scope of the VLM contribution, and the
-strengthened limitations statement.}
+We have completed a major revision of the manuscript and expanded its technical
+explanations in the following four main areas:
+\begin{itemize}[leftmargin=2em,itemsep=6pt,topsep=4pt]
+  \item detailed the teacher-policy training pipeline by providing the exact
+  reward equations, parameter values, reward scaling, and termination and
+  timeout treatment;
+  \item clarified baseline fairness by documenting how the DexTrAH/FABRICS
+  controller was adapted and retuned for our hardware; separately, we decided
+  to remove the RL teacher-training contribution claim to ensure that the stated
+  contributions remain fully supported by the presented evidence;
+  \item resolved inconsistencies in the reported results and clarified
+  ambiguities in the evaluation scope to ensure consistent interpretation
+  across the manuscript;
+  \item provided stronger evidence for VLM-guided adaptation through additional
+  ablation and safety--autonomy analyses, while limiting our claims to the
+  randomized visual conditions and four task-specific unsafe-event categories
+  evaluated in this study.
+\end{itemize}
 
-The detailed point-by-point responses follow. Reviewer comments are reproduced
-in bold italic text. All red bracketed text is an internal drafting prompt and
-must be replaced before submission.
+The detailed responses to the Associate Editor's and reviewers' comments are
+attached. We would be happy to incorporate any further feedback or suggestions
+into the final version of the manuscript.
 
 \reviewerheading{the Associate Editor}
 
@@ -132,17 +143,14 @@ supporting the contribution of VLM-guided adaptation. These issues need to be
 addressed to properly support the claimed contributions. Please see the
 individual reviews for further details.}
 
-\begin{draftresponse}
-  \draftitem{Summarize the exact teacher-reward equations, weights, scales, and
-  truncation/bootstrap treatment added to the paper or supplement.}
-  \draftitem{State the verified resolution of the DexTrAH/FABRICS comparison:
-  either report a fair re-tuned baseline or withdraw the unsupported
-  superiority claim and relabel the transferred implementation accurately.}
-  \draftitem{Summarize the corrected Figure 3/Table III relationship and the
-  unified definition of the reported means.}
-  \draftitem{Summarize the final evidence and claim scope for VLM-guided
-  adaptation without exceeding what the audited experiments establish.}
-\end{draftresponse}
+\response We thank the Associate Editor for summarizing the remaining concerns.
+In the revised manuscript, we have fully specified the RL teacher-training
+procedure, clarified and corrected the baseline comparison, reconciled the
+results reported in Fig.~3 and Table~III using a consistent definition of the
+mean, and expanded the analysis of VLM-guided adaptation while narrowing the
+corresponding claims to the scope supported by our experiments. Detailed
+responses and the associated manuscript revisions are provided under the
+relevant reviewer comments.
 
 \reviewerheading{Reviewer \#29}
 
@@ -172,9 +180,9 @@ deployment-ready safety.}
 states:
 \begin{quote}
 ``Meanwhile, the distilled student policy achieves comparable lift
-success rates and demonstrates successful transfer from simulation to the real robot.
-Generalization to unseen objects remains a clear limitation, with a 39.2\%
-unsafe-event rate in real-world trials.''
+success rates and transfers successfully to the real robot. However,
+generalization to unseen objects remains a clear limitation, with a 39.2\%
+unsafe rate in the real world.''
 \end{quote}
 
 The discussion in the Real-World Experimental Results subsection already
@@ -316,8 +324,31 @@ distribution, failure handling, and cost in the main paper or permanent
 supplementary material.}
 
 \response Thank you for this suggestion. Given the main manuscript's page
-limit, we will provide the detailed VLM configuration and inference procedure
-in Section~B of the appendix, \emph{VLM Prompt and Inference Details}.
+limit, we provide the detailed VLM configuration and inference procedure in
+Section~B of the appendix, \emph{VLM Prompt and Inference Details}:
+\begin{itemize}[leftmargin=2em,itemsep=2pt,topsep=3pt]
+  \item \textbf{VLM identifier:} OpenAI GPT-5.5, used with high reasoning
+  effort.
+  \item \textbf{Decoding:} Parameters such as temperature, top-$p$, and seed
+  were not explicitly set, so the provider defaults were used.
+  \item \textbf{Visual-sample selection:} At each scheduled VLM query, we
+  sample up to eight representative images from the visual buffer,
+  prioritizing observations with high teacher--student disagreement or low
+  predicted task success.
+  \item \textbf{Update interval:} The first query occurs after 2{,}000
+  episodes, followed by one query every 10{,}000 episodes, for 10 calls over a
+  100{,}000-episode distillation run.
+  \item \textbf{Latency:} Across the 10 scheduled VLM calls, the mean API
+  latency was $8.93\pm1.89\,\mathrm{s}$ (mean~$\pm$~standard deviation).
+  \item \textbf{Cost:} The estimated API cost was approximately US\$0.35 per
+  100{,}000-episode distillation run.\par
+  \item \textbf{Prompt and output processing:} Appendix~B provides the complete
+  prompt, requested JSON output, and threshold clipping and smoothing.
+  \item \textbf{Failure handling:} Appendix~B states: ``If a VLM request fails
+  or its output cannot be parsed, the controller retains the previously
+  applied thresholds and tries again at the next scheduled update. None of the
+  reported trials encountered a condition that activated this fallback.''
+\end{itemize}
 
 \reviewcommentlabel{Comment 8}{The ablations convincingly motivate
 visual-semantic adaptation on representative training objects. Please state
@@ -543,22 +574,23 @@ statement.}
 
 \response
 \begin{enumerate}[label=(\arabic*),leftmargin=2em,itemsep=6pt,topsep=3pt]
-  \item We clarify that the submitted DexTrAH/FABRICS baseline was not an
-  untuned transfer. We adapted and retuned the controller for the Tiangong~2 Pro
-  and InspireHand, including the robot geometry, constraints, action interface,
-  and controller parameters. On our platform, our direct-control teacher recipe
-  achieved at least comparable task performance while avoiding the
+  \item At the beginning of this project, we adapted and retuned the
+  DexTrAH/FABRICS controller for the Tiangong~2 Pro and InspireHand, including
+  the robot geometry, constraints, action interface, and controller parameters.
+  On our platform, we found that our direct-control teacher recipe achieved
+  comparable task performance during RL training while avoiding the
   human-grasp-motion processing used to construct DexTrAH's hand action space:
   embodiment-specific motion retargeting, PCA action-manifold construction, and
-  the associated FABRICS tuning. The direct normalized motor-command design is
+  the associated FABRICS tuning. Our direct-control RL recipe is
   inspired by \href{https://openaccess.thecvf.com/content/ICCV2023/html/Wan_UniDexGrasp_Improving_Dexterous_Grasping_Policy_Learning_via_Geometry-Aware_Curriculum_and_ICCV_2023_paper.html}{UniDexGrasp++ (Wan et al., ICCV 2023)}.
-  We therefore make only the scoped implementation claim that comparable
+  We therefore make the claim that comparable
   teacher performance can be obtained with substantially less
   embodiment-specific data processing and controller engineering; we do not
-  claim intrinsic superiority of the underlying RL algorithm. Consistent with
-  that narrower claim, we removed the two FABRICS-based ablations from the
-  primary contribution argument and removed the corresponding research
-  question.
+  claim intrinsic superiority of the underlying RL algorithm.\par
+  \pagebreak\noindent Consistent with
+  this narrower claim and given the page limit, we consider this comparison
+  secondary to the paper's core idea. We therefore removed the two
+  FABRICS-based ablations and the corresponding research question.
 
   \item The main implementation difference is the action-control interface.
   The submitted DexTrAH-inspired baseline retained the retuned FABRICS
@@ -580,12 +612,14 @@ statement.}
   thereby encouraging safer exploration during teacher training.''
   \end{quote}
   Unsafe events are handled through early termination rather than through an
-  explicit negative reward term. The timeout horizon is
+  explicit negative reward term. Both unsafe events and timeouts are treated as
+  terminal states: after either type of termination, the future value is set to
+  zero, and no estimated remaining return is added. The timeout horizon is
   $T_{\max}=10\,\mathrm{s}$ and was rarely reached in our experiments.
-  Nevertheless, we agree that early termination should not be presented as an
-  explicit unsafe-event reward, and we have therefore removed the corresponding
-  contribution claim. The termination conditions and timeout treatment are
-  documented in Supplementary Section~A.3. We retain the exact reward
+  Accordingly, we do not present early termination as an explicit unsafe-event
+  reward and have removed the corresponding contribution claim. The termination
+  conditions and return treatment are documented in Supplementary
+  Section~A.3. We retain the exact reward
   equations, weights, and implementation details in Supplementary
   Section~A.2 solely to make the teacher-policy training procedure reproducible.
 \end{enumerate}

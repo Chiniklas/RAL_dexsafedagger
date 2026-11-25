@@ -152,7 +152,7 @@ sharpness according to
 where $m_t$ is the ADR increment at control step $t$.
 
 \subsection{Termination Conditions}
-We define four unsafe conditions that serve both as termination criteria during teacher-policy training and as unsafe-event signals during student-policy distillation. We additionally terminate an episode when it reaches the maximum time horizon. With $T_{\max}=10\,\mathrm{s}$, timeout termination was rarely observed in the reported experiments and was not classified as an unsafe event. All five termination conditions are checked at \(60\,\text{Hz}\) in the environment frame.
+We define four unsafe conditions that serve both as termination criteria during teacher-policy training and as unsafe-event signals during student-policy distillation. We additionally terminate an episode when it reaches the maximum time horizon. With $T_{\max}=10\,\mathrm{s}$, timeout termination was rarely observed in the reported experiments and was not classified as an unsafe event. Both unsafe events and timeouts are treated as terminal states: after either type of termination, the future value is set to zero, and no estimated remaining return is added. All five termination conditions are checked at \(60\,\text{Hz}\) in the environment frame.
 
 \begin{enumerate}[label=(\alph*),leftmargin=2em,itemsep=2pt,topsep=3pt]
   \item \emph{Harmful collision:} We monitor all arm--table contacts and
@@ -206,6 +206,9 @@ Here, we provide representative examples of the selected visual inputs in
 Fig.~\ref{fig:vlm-input-examples}. These images illustrate observations
 associated with the two intervention sources considered by our framework:
 high teacher--student disagreement and low predicted task success. The
+VLM is queried periodically, and at each scheduled query we sample up to eight
+representative images from the visual buffer, prioritizing observations with
+high teacher--student disagreement or low predicted task success. The
 algorithm block that follows presents the semantic prompt, which combines
 these visual samples with recent rollout statistics and instructs the VLM to
 recommend conservative updates to the corresponding intervention thresholds.
@@ -242,8 +245,9 @@ visual-sample block is repeated once for each attached image.
 We used OpenAI GPT-5.5 with the rollout statistics above and up to eight
 high-detail RGB images encoded as JPEG data URLs. We queried the model after
 2{,}000 episodes and every 10{,}000 episodes thereafter (10 calls over 100{,}000
-episodes). Archived reports from the earlier low-detail setting contain 30{,}641
-prompt and 4{,}841 completion tokens (35{,}482 total).
+episodes). Across the 10 scheduled VLM calls, the mean API latency was
+$8.93\pm1.89\,\mathrm{s}$ (mean~$\pm$~standard deviation). The estimated API
+cost was approximately US\$0.35 per 100{,}000-episode distillation run.
 
 \begin{samepage}
 \subsection{Output Processing and Threshold Updates}

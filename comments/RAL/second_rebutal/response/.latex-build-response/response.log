@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.11.16)  24 NOV 2026 14:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.11.16)  25 NOV 2026 14:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -617,93 +617,133 @@ Package hyperref Info: Link coloring ON on input line 88.
 \@outlinefile=\write3
 \openout3 = `response.out'.
 
+LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line
+ 96.
 
 (/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/psnfss/
-ot1ztmcm.fd)
-(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/psnfss/
-omlztmcm.fd)
-(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/psnfss/
-omsztmcm.fd)
-(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/psnfss/
-omxztmcm.fd)
-(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/psnfss/
-ot1ptm.fd)
-(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/microty
-pe/mt-msa.cfg)
-(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/microty
-pe/mt-msb.cfg) [1
+ot1ztmcm.fd
+File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `ztmcm' (encoding: OT1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line
+ 96.
 
-{/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-var/fonts/map/pdftex/u
-pdmap/pdftex.map}{/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/
-fonts/enc/dvips/base/8r.enc}]
+(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/psnfss/
+omlztmcm.fd
+File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
+)
+LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line
+ 96.
+
+(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/psnfss/
+omsztmcm.fd
+File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
+)
+LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line
+ 96.
+
+(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/psnfss/
+omxztmcm.fd
+File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
+)
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 9
+6.
+
+(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/psnfss/
+ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 96.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 96.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 96.
+
+(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/microty
+pe/mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+(/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/microty
+pe/mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+)
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-37.
+12.
 
 (/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/tex/latex/psnfss/
 ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [2
+) [1
+
+{/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-var/fonts/map/pdftex/u
+pdmap/pdftex.map}{/home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/
+fonts/enc/dvips/base/8r.enc}] [2
 
 ]
 <figures/appendix-table8.png, id=30, 516.2487pt x 78.0516pt>
 File: figures/appendix-table8.png Graphic file (type png)
 <use figures/appendix-table8.png>
-Package pdftex.def Info: figures/appendix-table8.png  used on input line 217.
+Package pdftex.def Info: figures/appendix-table8.png  used on input line 225.
 (pdftex.def)             Requested size: 513.11745pt x 77.58691pt.
  [3
 
 ]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 287.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 295.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 287.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 295.
  [4 <./figures/appendix-table8.png (PNG copy)>]
 <figures/iv-b-evaluation-scope.png, id=46, 257.763pt x 108.8868pt>
 File: figures/iv-b-evaluation-scope.png Graphic file (type png)
 <use figures/iv-b-evaluation-scope.png>
 Package pdftex.def Info: figures/iv-b-evaluation-scope.png  used on input line 
-340.
+348.
 (pdftex.def)             Requested size: 282.21616pt x 119.22089pt.
  [5 <./figures/iv-b-evaluation-scope.png (PNG copy)>]
 <figures/iv-e-limitations-part1.png, id=54, 284.262pt x 132.495pt>
 File: figures/iv-e-limitations-part1.png Graphic file (type png)
 <use figures/iv-e-limitations-part1.png>
 Package pdftex.def Info: figures/iv-e-limitations-part1.png  used on input line
- 388.
+ 396.
 (pdftex.def)             Requested size: 333.52321pt x 155.46126pt.
 <figures/iv-e-limitations-part2.png, id=55, 269.808pt x 45.771pt>
 File: figures/iv-e-limitations-part2.png Graphic file (type png)
 <use figures/iv-e-limitations-part2.png>
 Package pdftex.def Info: figures/iv-e-limitations-part2.png  used on input line
- 389.
+ 397.
 (pdftex.def)             Requested size: 318.13031pt x 53.97366pt.
- [6 <./figures/iv-e-limitations-part1.png (PNG copy)> <./figures/iv-e-limitatio
-ns-part2.png (PNG copy)>] [7
+
+[6 <./figures/iv-e-limitations-part1.png (PNG copy)> <./figures/iv-e-limitation
+s-part2.png (PNG copy)>] [7
 
 ] [8]
 <figures/figure3-highlighted-caption.png, id=84, 2162.0775pt x 297.11pt>
 File: figures/figure3-highlighted-caption.png Graphic file (type png)
 <use figures/figure3-highlighted-caption.png>
 Package pdftex.def Info: figures/figure3-highlighted-caption.png  used on input
- line 623.
+ line 631.
 (pdftex.def)             Requested size: 513.11745pt x 70.50995pt.
 <figures/table3-highlighted-caption.png, id=85, 1075.01625pt x 347.2975pt>
 File: figures/table3-highlighted-caption.png Graphic file (type png)
 <use figures/table3-highlighted-caption.png>
 Package pdftex.def Info: figures/table3-highlighted-caption.png  used on input 
-line 625.
+line 633.
 (pdftex.def)             Requested size: 282.21616pt x 91.1696pt.
-
-[9]
+ [9]
 <figures/fig3_safety_autonomy_trajectory.png, id=93, 2055.68pt x 1284.8pt>
 File: figures/fig3_safety_autonomy_trajectory.png Graphic file (type png)
 <use figures/fig3_safety_autonomy_trajectory.png>
 Package pdftex.def Info: figures/fig3_safety_autonomy_trajectory.png  used on i
-nput line 675.
+nput line 683.
 (pdftex.def)             Requested size: 482.33165pt x 301.45753pt.
  [10 <./figures/figure3-highlighted-caption.png (PNG copy)> <./figures/table3-h
-ighlighted-caption.png (PNG copy)>] [11 <./figures/fig3_safety_autonomy_traject
-ory.png (PNG copy)>] [12] (.latex-build-response/response.aux)
+ighlighted-caption.png (PNG copy)>]
+[11 <./figures/fig3_safety_autonomy_trajectory.png (PNG copy)>] [12]
+(.latex-build-response/response.aux)
  ***********
 LaTeX2e <2026-11-01>
 L3 programming layer <2026-09-09>
@@ -712,11 +752,11 @@ Package rerunfilecheck Info: File `response.out' has not changed.
 (rerunfilecheck)             Checksum: 4790624F55C3C4BD331C526F3523FB6F;601.
  ) 
 Here is how much of TeX's memory you used:
- 14285 strings out of 468449
- 226257 string characters out of 5434856
- 703779 words of memory out of 5000000
- 42912 multiletter control sequences out of 15000+600000
- 707907 words of font info for 359 fonts, out of 8000000 for 9000
+ 14263 strings out of 468449
+ 225976 string characters out of 5434856
+ 703812 words of memory out of 5000000
+ 42906 multiletter control sequences out of 15000+600000
+ 702951 words of font info for 348 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  74i,11n,83p,1005b,644s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </home/chi/Documents/Codex/toolchains/texlive-2026/texmf-dist/fonts/type1/pub
@@ -735,10 +775,10 @@ ive-2026/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></home/chi/Documents/Code
 x/toolchains/texlive-2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></home/ch
 i/Documents/Codex/toolchains/texlive-2026/texmf-dist/fonts/type1/urw/times/utmr
 i8a.pfb>
-Output written on .latex-build-response/response.pdf (12 pages, 599733 bytes).
+Output written on .latex-build-response/response.pdf (12 pages, 598148 bytes).
 PDF statistics:
  175 PDF objects out of 1000 (max. 8388607)
  128 compressed objects within 2 object streams
  40 named destinations out of 1000 (max. 500000)
- 72252 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 66108 words of extra memory for PDF output out of 74296 (max. 10000000)
 
